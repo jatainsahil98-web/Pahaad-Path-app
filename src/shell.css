@@ -12,7 +12,7 @@
 }
 html,body{height:100%}
 body{overflow:hidden;overscroll-behavior:none}
-body[data-view="ops"],body[data-view="proof"]{overflow:auto}
+body[data-pp-view="ops"],body[data-pp-view="proof"]{overflow:auto}
 .app.shell{max-width:none;min-height:100%;height:100%;display:block;position:relative;background:var(--bg)}
 .app.shell .mast{padding:0}
 .app.shell .mast.topbar{background:var(--topbar-bg);padding:calc(8px + env(safe-area-inset-top,0px)) 12px 8px}
@@ -79,6 +79,8 @@ body.searching .search{transform:none;pointer-events:auto}
 .fabs-top .fab{width:40px;height:40px}
 .fabs-top .fab svg{width:19px;height:19px}
 .fabs[hidden]{display:none}
+/* a full sheet covers the map: the map buttons step aside */
+body[data-snap="full"] .fabs{opacity:0;pointer-events:none}
 .fab{width:46px;height:46px;border-radius:50%;border:0;background:var(--surface);color:var(--ink);box-shadow:var(--elev-2);display:grid;place-items:center;cursor:pointer;
   transition:transform .18s var(--ease),background .2s}
 .fab svg{width:22px;height:22px}
@@ -115,8 +117,8 @@ body.searching .search{transform:none;pointer-events:auto}
 .bnav button[aria-pressed="true"]{color:var(--ink)}
 .bnav button[aria-pressed="true"] svg{background:color-mix(in srgb,var(--signal) 55%,transparent)}
 
-body[data-view="ops"] .qsum,body[data-view="proof"] .qsum{display:none}
-body[data-view="ops"] .topbar .brand,body[data-view="proof"] .topbar .brand{display:flex;flex:1}
+body[data-pp-view="ops"] .qsum,body[data-pp-view="proof"] .qsum{display:none}
+body[data-pp-view="ops"] .topbar .brand,body[data-pp-view="proof"] .topbar .brand{display:flex;flex:1}
 
 /* ---------- control room and proof: full pages between the bars ---------- */
 .app.shell .wide-view{padding:calc(96px + env(safe-area-inset-top,0px)) 0 calc(var(--bnav-h) + 24px);max-width:1180px;margin-inline:auto;animation:pp-in .25s var(--ease)}
@@ -149,8 +151,8 @@ body[data-view="ops"] .topbar .brand,body[data-view="proof"] .topbar .brand{disp
   .bgmap .leaflet-bottom.leaflet-right{bottom:0}
   .conds{left:16px;right:auto;width:calc(var(--panel-w) - 32px);top:88px}
   .app.shell .wide-view{padding-top:24px;margin-left:var(--panel-w);max-width:none;padding-inline:8px}
-  body[data-view="ops"] .search,body[data-view="proof"] .search{display:none}
-  body[data-view="ops"] .bgmap,body[data-view="proof"] .bgmap{display:none}
+  body[data-pp-view="ops"] .search,body[data-pp-view="proof"] .search{display:none}
+  body[data-pp-view="ops"] .bgmap,body[data-pp-view="proof"] .bgmap{display:none}
   .modal{align-items:center;padding:16px}
   .modal-in{border-radius:16px}
 }
@@ -158,4 +160,82 @@ body[data-view="ops"] .topbar .brand,body[data-view="proof"] .topbar .brand{disp
   .sheet,.fabs,.search,.qsum,.fab,.btn{transition:none!important}
   .scrim,.conds,.modal,.modal-in,.toast,.sheet .panel,.app.shell .wide-view{animation:none!important}
   .srcchip .dot.live{animation:none}
+}
+
+/* ================= v11: less scrolling (summary on top, one section at a time), tuned for a Galaxy Tab ================= */
+/* compact verdict: the road sign keeps its colour and word, loses the repeat of the trip line */
+.sheet #verdict .sign{margin:4px 16px 0;padding:4px;border-radius:12px}
+.sheet #verdict .sign-in{padding:10px 14px;border-radius:9px;gap:2px 12px}
+.sheet #verdict .sign .kick,.sheet #verdict .sign .meta{display:none}
+.sheet #verdict .sign .lvl{font-size:34px}
+.sheet #verdict .sign .score b{font-size:22px}
+.sheet #verdict .sign .hl{font-size:15px}
+.sheet #verdict .sign .why{font-size:12.5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* key figures */
+.kstats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:10px 16px 0}
+.kstats:empty{display:none}
+.kt{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:9px 10px 8px;display:grid;grid-template-columns:auto 1fr;column-gap:6px;align-items:center;min-width:0}
+.kt svg{width:16px;height:16px;color:var(--muted);grid-row:1}
+.kt small{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kt b{grid-column:1/-1;font-family:var(--display);font-stretch:75%;font-weight:800;font-size:16px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px}
+.kt em{grid-column:1/-1;font-style:normal;font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width: 420px){.kstats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* section switcher: a scrollable pill row that sticks under the summary */
+.sheet .tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;border-bottom:0;margin:12px 0 0;padding:6px 16px 8px}
+.sheet .tabs::-webkit-scrollbar{display:none}
+.sheet .tabs button{flex:none;border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:14px;background:var(--surface);color:var(--muted);
+  border-bottom:1px solid var(--line);margin:0;transition:background .2s var(--ease),color .2s,border-color .2s}
+.sheet .tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.sheet .tabs button[data-t="map"]{display:none}
+
+/* one section at a time */
+.sheet[data-sec]:not([data-sec="over"]) #over-wrap,.sheet[data-sec]:not([data-sec="over"]) #navbox{display:none}
+.sheet #acts{order:-1}.sheet .tabs{order:-1}
+.sheet[data-sec]:not([data-sec="when"]) #planner{display:none}
+.sheet[data-sec="over"] #panel,.sheet[data-sec="when"] #panel{display:none}
+.sheet[data-sec="over"] #over-wrap,.sheet[data-sec="when"] #planner{animation:pp-in .22s var(--ease)}
+.sheet #routes{order:0}
+.sheet .sheet-in{display:flex;flex-direction:column}
+.sheet .sheet-in>*{flex:none}
+.sheet #verdict{order:-3}.sheet #kstats{order:-2}.sheet .tabs{order:-1}
+.sheet .foot{order:9}
+
+/* cards inside the sheet: softer, rounder, one elevation */
+.sheet .card,.sheet .trip{border-radius:14px}
+.sheet .routes>*{border-radius:14px}
+
+/* ---------- search collapses on wide screens too ---------- */
+@media (min-width: 900px){
+  :root{--panel-w:460px}
+  .topbar .brand{display:none}
+  .qsum{display:grid}
+  .search{transform:translateY(-104%);pointer-events:none;padding-top:var(--topbar-h,96px);transition:transform .38s var(--spring);max-height:100%;overflow:auto;z-index:28}
+  body.searching .search{transform:none;pointer-events:auto}
+  .search .trip{border-radius:0 0 var(--sheet-r) var(--sheet-r);box-shadow:var(--elev-2)}
+  .search .go{display:block}
+  .sheet{top:var(--topbar-h,96px)}
+  /* side panel: key figures as a 2 x 2 grid, one line each */
+  .kstats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .kt{grid-template-columns:auto auto minmax(0,1fr);padding:9px 12px;column-gap:7px}
+  .kt b{grid-column:3;margin:0;text-align:right;font-size:16px}
+  .kt em{display:none}
+  .scrim{right:auto;width:var(--panel-w)}
+  body[data-pp-view="ops"] .qsum,body[data-pp-view="proof"] .qsum{display:none}
+  body[data-pp-view="ops"] .topbar .brand,body[data-pp-view="proof"] .topbar .brand{display:flex}
+}
+/* Galaxy Tab landscape and other large screens: a wider panel, bigger type for arm's-length reading */
+@media (min-width: 1200px){
+  :root{--panel-w:500px}
+  .sheet #verdict .sign .lvl{font-size:38px}
+  .fab{width:52px;height:52px}
+  .fabs-top .fab{width:46px;height:46px}
+}
+/* tablet portrait (and large phones sideways): the sheet stays, the overview uses two columns */
+@media (min-width: 700px) and (max-width: 899px){
+  .sheet{left:max(0px,calc(50% - 440px));right:max(0px,calc(50% - 440px))}
+  .over-wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start;padding-inline:16px;gap:12px;margin-top:4px}
+  .over-wrap #routes,.over-wrap #traffic{margin:0}
+  .fabs{right:max(12px,calc(50% - 428px))}
 }

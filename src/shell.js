@@ -28,14 +28,13 @@ renderViews=function(){
     +'<span>'+t('nav_'+v)+'</span></button>').join('');
   $('v-trip').hidden=st.view!=='trip';$('v-ops').hidden=st.view!=='ops';$('v-proof').hidden=st.view!=='proof';
   $('app').classList.toggle('wide',st.view!=='trip');
-  document.body.dataset.view=st.view;
+  document.body.dataset.ppView=st.view; // not data-view: the app's click handler treats any [data-view] as a view button
   if(st.view!=='ops')stopPlay();
 };
 
 /* ---------- search panel (the trip form) ---------- */
 function searchOpen(){return document.body.classList.contains('searching');}
 function openSearch(){
-  if(wideScreen())return;
   document.body.classList.add('searching');$('scrim').hidden=false;$('qsum').setAttribute('aria-expanded','true');
   setTimeout(()=>{const i=$('in-to');if(i&&!calm())i.focus({preventScroll:true});},calm()?0:280);
 }
@@ -68,7 +67,7 @@ function snapPx(s){
 }
 function setSnap(s,quiet){
   const sh=$('v-trip');if(wideScreen()){document.documentElement.style.removeProperty('--sheet-h');sh.dataset.snap='full';return;}
-  sh.dataset.snap=s;document.documentElement.style.setProperty('--sheet-h',snapPx(s)+'px');
+  sh.dataset.snap=s;document.body.dataset.snap=s;document.documentElement.style.setProperty('--sheet-h',snapPx(s)+'px');
   $('grab').setAttribute('aria-label',t('sh_sheet'));
   if(!quiet)setTimeout(()=>bgFit(true),calm()?0:420);
 }
@@ -171,7 +170,6 @@ render=function(){
   $('fab-layer').classList.toggle('on',st.layer==='traffic');
   const tripV=st.view==='trip';if(!tripV){closeSearch();if(condsOpen())toggleConds(false);}$('bgmap').hidden=!tripV;$('fabs').hidden=$('fabs-top').hidden=!tripV||!(st.M&&st.M.cur);
   document.documentElement.style.setProperty('--topbar-h',Math.round($('app').querySelector('.topbar').getBoundingClientRect().height)+'px');
-  if(wideScreen())$('v-trip').style.setProperty('--panel-top',Math.round($('search').getBoundingClientRect().bottom)+'px');
   if(tripV){const sh=$('v-trip');if(!document.documentElement.style.getPropertyValue('--sheet-h'))setSnap(sh.dataset.snap||'half',true);drawBg(st.M);}
 };
 document.addEventListener('click',e=>{
@@ -204,3 +202,62 @@ const applyAskBase=applyAsk;
 applyAsk=function(x){const r=applyAskBase(x);if(r&&searchOpen())setTimeout(()=>{closeSearch();setSnap('half');},150);return r;};
 /* the map tab is the background map now; a saved "map" tab opens the route tab instead (a link with tab=map still works) */
 if(st.tab==='map'&&q.get('tab')!=='map')st.tab='route';
+
+/* ================= v11: less scrolling. A short summary stays on top (verdict, key figures, section switcher) and one
+   section shows at a time: Overview (route choices, traffic, actions), Stretches, When to leave, Rules, Safety, Reports.
+   Built for the Galaxy Tab in landscape (side panel) and portrait (sheet), and the same on phones. ================= */
+Object.assign(T.en,{
+  sec_over:'Overview',sec_when:'When to leave',k_drive:'Driving',k_dist:'Distance',k_halt:'Night halt',k_leave:'Best start',k_none:'None needed',k_nowin:'No safe window'
+});
+Object.assign(T.hi,{
+  sec_over:'सार',sec_when:'कब निकलें',k_drive:'गाड़ी चलाने का समय',k_dist:'दूरी',k_halt:'रात का पड़ाव',k_leave:'निकलने का समय',k_none:'ज़रूरत नहीं',k_nowin:'कोई सुरक्षित समय नहीं'
+});
+T.en.tabs=Object.assign({},T.en.tabs,{route:'Stretches'});T.hi.tabs=Object.assign({},T.hi.tabs,{route:'हिस्से'});
+let SEC=['route','map','reports','rules','safety'].includes(q.get('tab'))?null:'over'; // a link that names a tab opens that tab
+const secNow=()=>st.tab!=='route'?st.tab:(SEC||'route');
+const K_IC={
+  drive:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  dist:'<path d="M4 19c4-1 3-6 8-7s5-6 8-7"/><circle cx="4" cy="19" r="1.6"/><circle cx="20" cy="5" r="1.6"/>',
+  halt:'<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>',
+  leave:'<path d="M3 12h13M12 7l5 5-5 5"/><path d="M20 5v14"/>'
+};
+function kstatsHtml(M){
+  if(!M||!M.cur)return '';
+  const cur=M.cur,bw=M.bw,sl=M.slots;
+  const tile=(k,v,sub)=>'<div class="kt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+K_IC[k]+'</svg>'
+    +'<small>'+esc(t('k_'+k))+'</small><b>'+esc(v)+'</b>'+(sub?'<em>'+esc(sub)+'</em>':'')+'</div>';
+  const leave=bw&&sl?clock(sl[bw.a].ms)+(bw.b>bw.a?t('rng')+clock(sl[bw.b].ms):''):t('k_nowin');
+  return tile('drive',fmtH(cur.totalH))+tile('dist','~'+Math.round(cur.totalKm)+' '+t('km'))
+    +tile('halt',cur.halts.length?pname(cur.halts[0].node):t('k_none'),cur.halts.length?when(msOf(cur.halts[0].arr)):'')+tile('leave',leave);
+}
+function secPaint(){
+  const tabs=$('tabs'),sh=$('v-trip');if(!tabs||!st.M||!st.M.cur){if(sh)sh.dataset.sec='none';return;}
+  const now=secNow();sh.dataset.sec=now;
+  if(!tabs.querySelector('[data-sec]')){
+    tabs.insertAdjacentHTML('afterbegin','<button type="button" role="tab" data-sec="over">'+esc(t('sec_over'))+'</button>');
+    const r=tabs.querySelector('[data-t="route"]');if(r)r.insertAdjacentHTML('afterend','<button type="button" role="tab" data-sec="when">'+esc(t('sec_when'))+'</button>');
+  }
+  tabs.querySelectorAll('button').forEach(b=>{const id=b.dataset.sec||b.dataset.t;b.setAttribute('aria-selected',String(id===now));});
+  const sel=tabs.querySelector('[aria-selected="true"]');if(sel&&sel.scrollIntoView&&tabs.scrollWidth>tabs.clientWidth)tabs.scrollLeft=sel.offsetLeft-tabs.clientWidth/2+sel.offsetWidth/2;
+  if(!$('over-wrap')){const w=document.createElement('div');w.id='over-wrap';w.className='over-wrap';$('routes').before(w);w.append($('routes'),$('traffic'));}
+  let k=$('kstats');if(!k){k=document.createElement('div');k.id='kstats';k.className='kstats';$('verdict').after(k);}
+  const kh=kstatsHtml(st.M);if(k.innerHTML!==kh)k.innerHTML=kh;
+}
+const renderBase11=render;
+render=function(){renderBase11();secPaint();};
+document.addEventListener('click',e=>{
+  const c=e.target.closest('#tabs [data-sec],#tabs [data-t]');if(!c)return;
+  if(c.dataset.sec){SEC=c.dataset.sec;st.tab='route';render();}
+  else SEC=null; // the app's own handler sets st.tab and redraws
+  const si=$('sheet-in');if(si){const top=$('tabs').offsetTop-8;if(si.scrollTop>top)si.scrollTo({top,behavior:calm()?'auto':'smooth'});}
+  if(!wideScreen()&&$('v-trip').dataset.snap==='peek')setSnap('half');
+},true); // capture: runs before the app's own tab handler redraws the tab row
+/* back steps out of a section to the overview before anything else of the trip */
+const goBackBase11=goBack;
+goBack=function(){
+  if(!$('modal').hidden||searchOpen()||condsOpen())return goBackBase11();
+  if(st.view==='trip'&&st.tab==='route'&&SEC!=='over'){SEC='over';render();return true;}
+  const fromTab=st.view==='trip'&&st.tab!=='route',r=goBackBase11();
+  if(r&&fromTab&&st.tab==='route'){SEC='over';render();} // stepping back out of a tab lands on the overview
+  return r;
+};

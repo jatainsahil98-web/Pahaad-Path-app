@@ -55,6 +55,16 @@ const fails=[];const ok=(c,m)=>{if(!c)fails.push(m);};
  await p.click('#views [data-view="ops"]');await p.waitForTimeout(300);
  ok(await p.isHidden('#bgmap')&&await p.isHidden('#fab-sos')&&await p.isVisible('#v-ops'),'control room hides the map');
  await p.click('#views [data-view="trip"]');await p.waitForTimeout(300);ok(await p.isVisible('#bgmap'),'map back on the trip view');
+ // 5b. one section at a time: overview first, then when to leave, then a tab; the key figures stay on top
+ await p.goto('file://'+F+'?scn=monsoon&tiles=0&from=delhi&to=kedarnath');await p.waitForFunction(()=>PP.last&&PP.last.cur);
+ const sec=async()=>p.evaluate(()=>({sec:document.getElementById('v-trip').dataset.sec,planner:getComputedStyle(document.getElementById('planner')).display,
+   routes:getComputedStyle(document.getElementById('over-wrap')).display,panel:getComputedStyle(document.getElementById('panel')).display,k:document.querySelectorAll('#kstats .kt').length}));
+ const s0=await sec();ok(s0.sec==='over'&&s0.planner==='none'&&s0.routes!=='none'&&s0.panel==='none'&&s0.k===4,'overview '+JSON.stringify(s0));
+ await p.click('#tabs [data-sec="when"]');const s1=await sec();ok(s1.sec==='when'&&s1.planner!=='none'&&s1.routes==='none','when to leave '+JSON.stringify(s1));
+ await p.click('#tabs [data-t="rules"]');const s2=await sec();ok(s2.sec==='rules'&&s2.panel!=='none'&&s2.planner==='none','rules '+JSON.stringify(s2));
+ ok(await p.evaluate(()=>PP.back()&&PP.st.tab==='route'&&document.getElementById('v-trip').dataset.sec==='over'),'back to overview');
+ ok(await p.evaluate(()=>document.body.getAttribute('data-view')===null),'no data-view on body (it would redraw on every tap)');
+
  ok(!errs.length,'phone page errors '+errs.join(' | '));
  await phone.close();
 
@@ -64,7 +74,7 @@ const fails=[];const ok=(c,m)=>{if(!c)fails.push(m);};
  await w.goto('file://'+F+'?scn=monsoon&tiles=0&from=delhi&to=nainital');await w.waitForFunction(()=>PP.last&&PP.last.cur);await w.waitForTimeout(500);
  const lay=await w.evaluate(()=>{const r=id=>document.getElementById(id).getBoundingClientRect();
    return {search:r('search').right,sheet:r('v-trip').right,sheetTop:r('v-trip').top,searchBottom:r('search').bottom,grab:getComputedStyle(document.getElementById('grab')).display,map:r('bgmap').width};});
- ok(lay.search<=460&&lay.sheet<=460&&lay.grab==='none'&&lay.map>1300&&Math.abs(lay.sheetTop-lay.searchBottom)<4,'side panel '+JSON.stringify(lay));
+ ok(lay.search<=520&&lay.sheet<=520&&lay.grab==='none'&&lay.map>1300&&lay.searchBottom<=lay.sheetTop,'side panel '+JSON.stringify(lay));
  ok(!e2.length,'wide page errors '+e2.join(' | '));
 
  // 7. dark phone setting gives the dark skin

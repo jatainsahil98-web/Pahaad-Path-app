@@ -31,12 +31,12 @@ const style=s=>[/—/,/–/,/\S - \S/,/, (and|or|और|या) /].filter(re=>re
  ok(href.length<400,'sms short enough '+href.length);
  await p.click('#modal-x');
  // 3. where am I: a point on the Rishikesh to Devprayag road, no network
- await p.click('#a-where');await p.waitForFunction(()=>!/Finding/.test(document.getElementById('modal-body').innerText),null,{timeout:8000});
+ await p.click('#fab-where');await p.waitForFunction(()=>!/Finding/.test(document.getElementById('modal-body').innerText),null,{timeout:8000});
  const wh=await p.innerText('#modal-body');
  ok(/On .+ → .+/.test(wh)&&/km left to Badrinath/.test(wh)&&/Landslide risk here now/.test(wh),'where am I: '+wh);
  await p.click('#modal-x');
  // 4. fuel from the user's numbers
- await p.fill('#fu-mil','10');await p.fill('#fu-pr','100');
+ await p.click('#tabs [data-t="route"]');await p.fill('#fu-mil','10');await p.fill('#fu-pr','100');
  const km=await p.evaluate(()=>Math.round(PP.st.M.cur.totalKm)),fu=await p.innerText('#fu-out');
  ok(fu.includes('about ₹'+(Math.round(km/10*100/50)*50).toLocaleString('en-IN')),'fuel '+fu+' for '+km+' km');
  // 4b. roadside stops, when the OpenStreetMap file is baked in: listed per town on the Safety tab
