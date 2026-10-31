@@ -1,0 +1,222 @@
+{
+ "intercept": -26.896447145174196,
+ "coef": [
+  0.2848118325855887,
+  0.35607046821908006,
+  0.7425055391404553,
+  3.1072980922396485,
+  -0.20473342815099846,
+  -0.1769337580390374,
+  2.6678784280383256
+ ],
+ "bands": {
+  "zc": -0.11615110249510607,
+  "za": 1.1345347697188402,
+  "z0": -5.129685444948333,
+  "zspan": 4.795755592638908
+ },
+ "version": 6,
+ "features": [
+  "log_p24",
+  "log_p72",
+  "log_a7",
+  "log_a30",
+  "slope",
+  "log_hist",
+  "log_closures"
+ ],
+ "groups": [
+  "rain",
+  "static",
+  "history"
+ ],
+ "closures": {
+  "almora-pithoragarh": 29,
+  "pithoragarh-munsiyari": 31,
+  "purola-barkot": 10,
+  "barkot-janki": 9,
+  "rishikesh-devprayag": 6,
+  "devprayag-srinagar": 11,
+  "guptkashi-sonprayag": 14,
+  "rudraprayag-guptkashi": 15,
+  "ranikhet-ramnagar": 18,
+  "almora-ranikhet": 4,
+  "vikasnagar-chakrata": 14,
+  "karnaprayag-gwaldam": 20,
+  "rudraprayag-karnaprayag": 13,
+  "karnaprayag-chamoli": 15,
+  "bhimtal-nainital": 8,
+  "kathgodam-bhimtal": 7,
+  "srinagar-pauri": 13,
+  "pauri-kotdwar": 14,
+  "chamba-tehri": 6,
+  "mussoorie-dhanaulti": 4,
+  "dehradun-mussoorie": 4,
+  "dehradun-purola": 4,
+  "kotdwar-lansdowne": 15,
+  "srinagar-rudraprayag": 6,
+  "mohand-dehradun": 2,
+  "chamoli-joshimath": 7,
+  "gwaldam-kausani": 5,
+  "chamba-uttarkashi": 4,
+  "dhanaulti-chamba": 4,
+  "rishikesh-chamba": 4,
+  "kathgodam-bhowali": 4,
+  "bhowali-kainchi": 1,
+  "bhowali-nainital": 2,
+  "kathgodam-nainital": 5,
+  "govindghat-badrinath": 1,
+  "kausani-bageshwar": 1
+ },
+ "trained_on": [
+  "2026-06-26",
+  "2026-09-03"
+ ],
+ "checks": [
+  {
+   "in": [
+    0.4055,
+    1.8083,
+    1.7047,
+    3.9,
+    -4.84,
+    1.0986,
+    1.0986
+   ],
+   "score": 0
+  },
+  {
+   "in": [
+    1.9315,
+    2.0541,
+    3.0057,
+    4.2341,
+    0.24,
+    2.1972,
+    3.4012
+   ],
+   "score": 24
+  },
+  {
+   "in": [
+    1.6864,
+    3.6889,
+    2.7081,
+    3.635,
+    -0.42,
+    1.6094,
+    1.6094
+   ],
+   "score": 0
+  },
+  {
+   "in": [
+    2.4596,
+    3.2619,
+    4.587,
+    4.2891,
+    0.2,
+    0.6931,
+    2.4849
+   ],
+   "score": 22
+  },
+  {
+   "in": [
+    4.1987,
+    4.5951,
+    4.3334,
+    4.8583,
+    -0.66,
+    0.0,
+    1.6094
+   ],
+   "score": 26
+  },
+  {
+   "in": [
+    1.7579,
+    3.6661,
+    4.445,
+    4.4613,
+    0.24,
+    2.1972,
+    3.4012
+   ],
+   "score": 54
+  },
+  {
+   "in": [
+    2.7473,
+    3.3322,
+    4.6719,
+    5.3346,
+    0.7,
+    2.7726,
+    0.0
+   ],
+   "score": 0
+  },
+  {
+   "in": [
+    2.2083,
+    3.8628,
+    4.7791,
+    5.6706,
+    0.7,
+    2.7726,
+    0.0
+   ],
+   "score": 5
+  },
+  {
+   "in": [
+    2.6741,
+    4.3228,
+    4.654,
+    5.8628,
+    0.7,
+    2.7726,
+    0.0
+   ],
+   "score": 11
+  },
+  {
+   "in": [
+    2.4932,
+    3.8089,
+    4.6549,
+    5.4963,
+    -1.24,
+    1.3863,
+    0.0
+   ],
+   "score": 6
+  },
+  {
+   "in": [
+    2.0149,
+    3.2149,
+    4.3969,
+    5.8015,
+    1.08,
+    1.0986,
+    3.0445
+   ],
+   "score": 85
+  },
+  {
+   "in": [
+    2.1282,
+    2.9285,
+    3.619,
+    4.8339,
+    -0.34,
+    1.0986,
+    0.0
+   ],
+   "score": 0
+  }
+ ],
+ "adopted": true
+}
