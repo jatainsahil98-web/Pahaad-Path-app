@@ -340,3 +340,28 @@ body[data-pp-view="ops"] .topbar .brand,body[data-pp-view="proof"] .topbar .bran
 /* four buttons at the top would run into the ones at the bottom on a phone: two rows, extra ones to the left */
 .fabs-top{grid-template-rows:repeat(2,40px);grid-auto-flow:column;direction:rtl}
 .fabs-top .fab{direction:ltr}
+
+/* ================= 2.0 Phase 5: motion ================= */
+/* buttons lift on hover, press in and arrive one after another (the sheet already settles with a spring) */
+@media (prefers-reduced-motion: no-preference){
+  .fab{transition:transform var(--dur-1,.12s) var(--ease-out,ease-out),box-shadow var(--dur-2,.2s) var(--ease-out,ease-out),background var(--dur-2,.2s)}
+  .fab:hover{box-shadow:var(--e4);transform:translateY(-1px)}
+  .fab:active{transform:scale(.9)}
+  .fab.on{animation:pp-pop var(--dur-2,.2s) var(--ease-spring,ease-out)}
+  .fabs:not([hidden]) .fab{animation:pp-in var(--dur-3,.36s) var(--ease-out,ease-out) both}
+  .fabs:not([hidden]) .fab:nth-child(2){animation-delay:40ms}
+  .fabs:not([hidden]) .fab:nth-child(3){animation-delay:80ms}
+  .fabs:not([hidden]) .fab:nth-child(4){animation-delay:120ms}
+  /* the map shimmers until its first frame is drawn */
+  .bgmap.gl:not(.pp-ready),.lmap.gl:not(.pp-ready){background:linear-gradient(100deg,var(--bg) 30%,var(--surface) 50%,var(--bg) 70%) 0 0/300% 100%;animation:pp-shimmer 1.3s linear infinite}
+  #v-trip .seg{transition:background var(--dur-2,.2s),box-shadow var(--dur-2,.2s)}
+}
+@keyframes pp-pop{0%{transform:scale(.86)}100%{transform:scale(1)}}
+@keyframes pp-in{0%{opacity:0;transform:translateY(6px) scale(.94)}100%{opacity:1;transform:none}}
+@keyframes pp-shimmer{0%{background-position:100% 0}100%{background-position:0 0}}
+/* a stretch in the list can be tapped to fly the map there */
+#v-trip .seg:not(.ft){cursor:pointer}
+#v-trip .seg.picked{box-shadow:0 0 0 2px var(--ink);background:color-mix(in srgb,var(--ink) 6%,transparent)}
+@media (prefers-reduced-motion: reduce){
+  .fab,.fabs .fab,.bgmap.gl,.lmap.gl{animation:none!important;transition:none!important}
+}

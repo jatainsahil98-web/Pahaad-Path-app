@@ -360,6 +360,7 @@ drawBg=function(M){
     b&&{lngLat:[b.lon,b.lat],className:'stone-ic',title:pname(M.trip.to),html:'<div class="stone end"><i></i><b>'+code(b)+'</b></div>',z:2}].filter(Boolean));
   [a,b].forEach(nd=>{if(nd){s=Math.min(s,nd.lat);n=Math.max(n,nd.lat);w=Math.min(w,nd.lon);e=Math.max(e,nd.lon);}});
   BG.gbounds=w<=e?[[w,s],[e,n]]:null;
+  gl.set('pillars',glPillars(M));
   if(fresh){gl.closePopup();bgFit(false);}
 };
 const bgFitLeaflet=bgFit;
@@ -473,3 +474,26 @@ async function saveTiles(){
   }catch(e){toast(fill(t('sv_err'),{e:String(e&&e.name==='QuotaExceededError'?t('sv_space'):(e.message||e))}));}
   saving=false;
 }
+
+/* ================= 2.0 Phase 5: motion. The map side (glow under the route, hazard tape on Avoid stretches, a ring on
+   the picked stretch, 3D pillars) is in src/map/ppmap.js; here: the pillars' data, tapping a stretch in the list flies
+   the map to it, and the sheet and buttons get their small movements (src/shell.css). Reduced motion turns all of it
+   into plain cuts. ================= */
+Object.assign(T.en,{pl_halt:'Night halt',pl_fuel:'Fuel, mapped within 3 km: {n}',pl_hosp:'Hospitals, mapped within 3 km: {n}'});
+Object.assign(T.hi,{pl_halt:'रात का पड़ाव',pl_fuel:'पेट्रोल पंप, 3 किमी के भीतर दर्ज: {n}',pl_hosp:'अस्पताल, 3 किमी के भीतर दर्ज: {n}'});
+function glPillars(M){
+  const out=[],sq=(lat,lon,dx,kind,h,pop)=>{const r=.0032,c=Math.cos(lat*Math.PI/180),x=lon+dx*r*2.6/c;
+    out.push({type:'Feature',properties:{kind,h,b:0,pop},geometry:{type:'Polygon',coordinates:[[[x-r/c,lat-r],[x+r/c,lat-r],[x+r/c,lat+r],[x-r/c,lat+r],[x-r/c,lat-r]]]}});};
+  if(!M||!M.cur)return out;
+  M.cur.halts.forEach(h=>{const n=NODE(h.node);if(n)sq(n.lat,n.lon,0,'halt',2600,esc(t('pl_halt')+': '+pname(h.node)));});
+  if(typeof tripTowns==='function'&&typeof stopsAt==='function')tripTowns(M.cur).forEach(x=>{const n=NODE(x.id),s=stopsAt(x.id);if(!n||!s)return;
+    [['fuel',-1],['hosp',1]].forEach(([k,dx])=>{const c=s[k]&&s[k][0];if(c)sq(n.lat,n.lon,dx,k,Math.min(2400,600+c*300),esc(pname(x.id)+': '+fill(t('pl_'+k),{n:c})));});});
+  return out;
+}
+document.addEventListener('click',e=>{
+  const sg=e.target.closest('#v-trip .seg:not(.ft)');if(!sg||!BG.gl||!st.M||!st.M.cur)return;
+  const all=[...document.querySelectorAll('#v-trip .seg:not(.ft)')],i=all.indexOf(sg),r=st.M.cur.rows[i];if(!r)return;
+  if(!wideScreen()&&$('v-trip').dataset.snap==='full')setSnap('half',true);
+  setTimeout(()=>{const p=bgPad();BG.gl.focus(r.seg.id,{left:p.tl[0]+20,top:p.tl[1]+40,right:p.br[0]+20,bottom:p.br[1]});},wideScreen()?0:320);
+  all.forEach(x=>x.classList.toggle('picked',x===sg));
+});

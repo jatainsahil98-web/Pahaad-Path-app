@@ -27,7 +27,7 @@ const fails=[];const ok=(c,m)=>{if(!c)fails.push(m);};
  ok(JSON.stringify(m.stones)==='["DEH","BAD"]','stones '+JSON.stringify(m.stones));
  ok(m.spots>0,'hazard spots drawn');
  ok(m.h>=m.vh-1,'map fills the screen behind everything '+JSON.stringify(m));
- ok(m.layers<=20,'layer budget '+m.layers);
+ ok(m.layers<=26,'layer budget '+m.layers); // built-in base map; Phase 3 added 3 card-map layers, Phase 5 the glow, ring, hazard tape and pillars
  // the route sits above the sheet: its bounds project into the visible map area
  const fit=await A.p.evaluate(()=>{const map=PP.glMap(),sh=document.getElementById('v-trip').getBoundingClientRect().top,top=document.querySelector('.topbar').getBoundingClientRect().bottom;
    const pts=PP.last.cur.rows.flatMap(r=>[r.seg]).length;const st=document.querySelectorAll('#bgmap .stone');
