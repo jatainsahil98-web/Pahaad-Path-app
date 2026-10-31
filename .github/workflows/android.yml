@@ -24,6 +24,23 @@ jobs:
           gradle-version: '8.9'
       - name: App page into the APK assets
         run: mkdir -p android/app/src/main/assets && cp index.html android/app/src/main/assets/index.html
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Offline map tiles into the APK assets (z/x/y folders; WebViewAssetLoader cannot answer range requests)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release download tiles-latest -p basemap.pmtiles -p terrain.pmtiles -D tiles-src 2>/dev/null; then
+            pip install -q pmtiles==3.8.1
+            T=android/app/src/main/assets/tiles
+            python tools/tiles/to_xyz.py tiles-src/basemap.pmtiles $T/basemap pbf
+            python tools/tiles/to_xyz.py tiles-src/terrain.pmtiles $T/terrain png
+            python tools/tiles/manifest.py $T/tiles.json xyz "$(gh release view tiles-latest --json publishedAt -q .publishedAt | cut -c1-10)"
+            du -sh $T; find $T -type f | wc -l
+          else
+            echo 'no tiles-latest release yet: the APK ships without offline tiles (the map keeps its simple basemap)'
+          fi
       - name: Build
         env:
           KS_B64: ${{ secrets.ANDROID_KEYSTORE_B64 }}

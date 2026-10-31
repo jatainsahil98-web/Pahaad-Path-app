@@ -30,6 +30,11 @@ android {
             signingConfig System.getenv('KEYSTORE_FILE') ? signingConfigs.release : signingConfigs.debug
         }
     }
+    // offline map tiles (assets/tiles): stored as they are; the PNGs are already compressed and the vector tiles are
+    // read whole by the map, so zip compression would only cost time
+    androidResources {
+        noCompress 'pbf', 'png', 'json'
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
