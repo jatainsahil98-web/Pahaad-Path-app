@@ -54,6 +54,17 @@ def season_rows(net_v6, net_engine, vars_, start, days, lab, skip):
     return X, y, e, keys
 
 
+STACK = ['log_a30', 'sm0', 'sm1', 'gsi_high100', 'log_gsi_ls1k']
+
+
+def design(kind, X, e):
+    """inputs per method: 'stack' starts from the engine score and adds a few slow-changing corrections"""
+    if kind == 'stack':
+        idx = [FEATURES.index(n) for n in STACK]
+        return [[s / 100.0] + [x[i] for i in idx] for x, s in zip(X, e)]
+    return X
+
+
 def make(kind):
     from sklearn.ensemble import HistGradientBoostingClassifier
     from sklearn.linear_model import LogisticRegression
@@ -61,9 +72,19 @@ def make(kind):
     from sklearn.preprocessing import StandardScaler
     if kind == 'logit':
         return make_pipeline(StandardScaler(), LogisticRegression(C=0.5, max_iter=2000))
+    if kind == 'stack':
+        return make_pipeline(StandardScaler(), LogisticRegression(C=0.05, max_iter=2000))
     return HistGradientBoostingClassifier(max_iter=250, learning_rate=0.05, max_leaf_nodes=15, min_samples_leaf=80,
                                           l2_regularization=1.0, monotonic_cst=[1 if n in RAIN else 0 for n in FEATURES],
                                           random_state=7)
+
+
+def fit(m, kind, X, y, sw):
+    import numpy as np
+    if kind in ('logit', 'stack'):
+        m.fit(np.array(X), np.array(y), logisticregression__sample_weight=np.array(sw))
+    else:
+        m.fit(np.array(X), np.array(y), sample_weight=np.array(sw))
 
 
 def weights(seasons, y):
@@ -123,19 +144,16 @@ def run(data, log=print):
     seasons = sorted(data)
     out = {'seasons': {str(s): {'source': data[s][4], 'days': len(data[s][1]), 'events': sum(data[s][1])} for s in seasons},
            'features': FEATURES, 'models': {}}
-    held = {k: {} for k in ('logit', 'hgb')}
+    held = {k: {} for k in ('logit', 'hgb', 'stack')}
     for kind in held:
         for s in seasons:
             tr = [t for t in seasons if t != s]
-            X = [x for t in tr for x in data[t][0]]
+            X = [x for t in tr for x in design(kind, data[t][0], data[t][2])]
             y = [v for t in tr for v in data[t][1]]
             sw = weights([t for t in tr for _ in data[t][1]], y)
             m = make(kind)
-            if kind == 'logit':
-                m.fit(np.array(X), np.array(y), logisticregression__sample_weight=np.array(sw))
-            else:
-                m.fit(np.array(X), np.array(y), sample_weight=np.array(sw))
-            held[kind][s] = list(m.predict_proba(np.array(data[s][0]))[:, 1])
+            fit(m, kind, X, y, sw)
+            held[kind][s] = list(m.predict_proba(np.array(design(kind, data[s][0], data[s][2])))[:, 1])
             log('v7 %s: season %s held out' % (kind, s))
 
     def pooled(src, scores_of):
@@ -148,6 +166,8 @@ def run(data, log=print):
             yy += data[s][1]
         return {('%d' % round(r * 100)): ranks(sc, yy, r) for r in RATES} if yy else None
 
+    # blend: average rank of the engine and the logistic model inside each season
+    held['blend'] = {s: [a + b for a, b in zip(qrank(data[s][2]), qrank(held['logit'][s]))] for s in seasons}
     res = {'engine': {src: pooled(src, lambda s: data[s][2]) for src in ('nasa', 'pwd')}}
     for kind in held:
         res[kind] = {src: pooled(src, lambda s, k=kind: held[k][s]) for src in ('nasa', 'pwd')}
@@ -170,14 +190,14 @@ def run(data, log=print):
     out['adopted'] = bool(ok)
     kind = max(ok or list(held), key=lambda k: sum((res[k][src] or {}).get('10', 0) or 0 for src in ('nasa', 'pwd')))
     # final model on every season
-    X = [x for s in seasons for x in data[s][0]]
+    if kind == 'blend':  # deployable form not built: blends are reported, the logistic model is kept
+        kind = 'logit'
+        out['adopted'] = False
+    X = [x for s in seasons for x in design(kind, data[s][0], data[s][2])]
     y = [v for s in seasons for v in data[s][1]]
     sw = weights([s for s in seasons for _ in data[s][1]], y)
     m = make(kind)
-    if kind == 'logit':
-        m.fit(np.array(X), np.array(y), logisticregression__sample_weight=np.array(sw))
-    else:
-        m.fit(np.array(X), np.array(y), sample_weight=np.array(sw))
+    fit(m, kind, X, y, sw)
     p = m.predict_proba(np.array(X))[:, 1]
     cuts = cuts_from([logodds(v) for v, t in zip(p, y) if not t])
     out['model'] = {'kind': kind, 'cuts': cuts}
@@ -213,6 +233,22 @@ def score_now(M, net, vars_, start, i0):
         f = v6.day_features(l, vars_, i0, 0, None, t0_utc)
         ids.append(l['id'])
         X.append([f[n] for n in M['features']])
+    if M['kind'] == 'stack':  # the engine's own score for the day (GSI class, as the app uses), then the corrections
+        from .engine import PAST, SERIES_LEN, seg_score
+        from .network import Network
+        from . import read_json
+        try:
+            susc = read_json('data', 'model', 'thresholds.json').get('susc') or 'slope'
+        except Exception:  # noqa: BLE001
+            susc = 'slope'
+        ne = Network(susc=susc)
+        e = []
+        for lid in ids:
+            l = ne.links[lid]
+            raw = vars_['precipitation'][l['key']]
+            ser = [(raw[j] or 0) if 0 <= j < len(raw) else 0 for j in range(i0 - PAST, i0 - PAST + SERIES_LEN)]
+            e.append(max(seg_score(l, ser, a)['score'] for a in range(24)))
+        X = design('stack', X, e)
     p = M['model'].predict_proba(np.array(X))[:, 1]
     out = {}
     for lid, v in zip(ids, p):
@@ -257,14 +293,16 @@ def report_md(o):
          'Seasons: ' + ', '.join('%s (%s, %d events)' % (s, v['source'].upper(), v['events']) for s, v in o['seasons'].items()) + '.',
          'Each season held out in turn. Share of reported landslides / closures caught when each method flags the same share of stretch-days:', '',
          '| Method | NASA years, 10% of days | NASA years, 25% | PWD 2026, 10% | PWD 2026, 25% |', '|---|---|---|---|---|']
-    names = {'engine': 'Rain threshold engine (Caine, GSI)', 'logit': 'v7 logistic regression', 'hgb': 'v7 gradient-boosted trees'}
-    for k in ('engine', 'logit', 'hgb'):
+    names = {'engine': 'Rain threshold engine (Caine, GSI)', 'logit': 'v7 logistic regression', 'hgb': 'v7 gradient-boosted trees',
+             'stack': 'Engine + small corrections (soil, 30-day rain, GSI)', 'blend': 'Average of engine and v7 logistic'}
+    for k in ('engine', 'logit', 'hgb', 'stack', 'blend'):
         c = o['check'][k]
         L.append('| %s | %s | %s | %s | %s |' % (names[k], p((c['nasa'] or {}).get('10')), p((c['nasa'] or {}).get('25')),
                                                 p((c['pwd'] or {}).get('10')), p((c['pwd'] or {}).get('25'))))
-    L += ['', 'Per season at 10% of days flagged:', '', '| Season | Engine | v7 logistic | v7 trees |', '|---|---|---|---|']
+    L += ['', 'Per season at 10% of days flagged:', '', '| Season | Engine | v7 logistic | v7 trees | Engine + corrections | Average |', '|---|---|---|---|---|---|']
     for s, v in o['seasons'].items():
-        L.append('| %s (%s) | %s | %s | %s |' % (s, v['source'].upper(), p(v.get('engine')), p(v.get('logit')), p(v.get('hgb'))))
+        L.append('| %s (%s) | %s | %s | %s | %s | %s |' % (s, v['source'].upper(), p(v.get('engine')), p(v.get('logit')), p(v.get('hgb')),
+                                                         p(v.get('stack')), p(v.get('blend'))))
     L += ['', 'v7 (%s) is %s.' % (o['model']['kind'], 'adopted: it catches at least as many as the engine on both kinds of ground truth'
                                     if o['adopted'] else 'not adopted: it does not beat the engine on both kinds of ground truth')]
     return '\n'.join(L) + '\n'
