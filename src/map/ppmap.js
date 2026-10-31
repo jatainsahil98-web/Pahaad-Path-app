@@ -72,6 +72,13 @@ function icon(kind, C) {
     g.beginPath(); g.arc(w / 2, h / 2, 9 * s, 0, Math.PI * 2); g.fillStyle = C.ink; g.fill(); g.lineWidth = 2 * s; g.strokeStyle = C.surface; g.stroke();
     g.strokeStyle = C.surface; g.lineWidth = 2.4 * s; g.lineCap = 'round';
     g.beginPath(); g.moveTo(w / 2 - 4 * s, h / 2 - 4 * s); g.lineTo(w / 2 + 4 * s, h / 2 + 4 * s); g.moveTo(w / 2 + 4 * s, h / 2 - 4 * s); g.lineTo(w / 2 - 4 * s, h / 2 + 4 * s); g.stroke();
+  } else if (kind === 'stripe') { // Avoid: hazard tape along the line (a line-pattern repeats along its length)
+    const w2 = 16 * s, h2 = 8 * s; cv.width = w2; cv.height = h2;
+    g.fillStyle = C.avd; g.fillRect(0, 0, w2, h2);
+    g.fillStyle = C.avdEdge; g.beginPath();
+    for (let x = -h2; x < w2 + h2; x += 8 * s) { g.moveTo(x, h2); g.lineTo(x + 4 * s, h2); g.lineTo(x + 4 * s + h2, 0); g.lineTo(x + h2, 0); g.closePath(); }
+    g.fill();
+    return { width: w2, height: h2, data: g.getImageData(0, 0, w2, h2).data };
   } else if (kind === 'halt') {
     g.beginPath(); g.arc(w / 2, h / 2, 9 * s, 0, Math.PI * 2); g.fillStyle = C.ink; g.fill(); g.lineWidth = 2 * s; g.strokeStyle = C.surface; g.stroke();
     g.beginPath(); g.arc(w / 2, h / 2, 5 * s, 0, Math.PI * 2); g.fillStyle = '#F2B705'; g.fill();
@@ -103,7 +110,7 @@ function style(C, B, T) {
   T = T || {};
   const src = {};
   Object.entries(baseSources(B)).forEach(([k, v]) => { src[k] = { type: 'geojson', data: v }; });
-  ['net', 'alts', 'route', 'gsi', 'spots', 'reports', 'halts', 'towns', 'events', 'cross'].forEach(k => { src[k] = { type: 'geojson', data: EMPTY }; });
+  ['net', 'alts', 'route', 'gsi', 'spots', 'reports', 'halts', 'towns', 'events', 'cross', 'sel', 'pillars'].forEach(k => { src[k] = { type: 'geojson', data: EMPTY }; });
   src['route-trf'] = { type: 'geojson', data: EMPTY, lineMetrics: true };
   const lvlColor = (a, b, c, plain) => ['case', ['get', 'plain'], plain, ['match', ['get', 'lvl'], 2, c, 1, b, a]];
   const osm = !!T.base, base = [];
@@ -128,11 +135,18 @@ function style(C, B, T) {
       { id: 'net', type: 'line', source: 'net', layout: { 'line-cap': 'round' }, paint: { 'line-color': C.muted, 'line-width': W(1.2, 2.4), 'line-opacity': .28 } },
       { id: 'events', type: 'circle', source: 'events', paint: { 'circle-radius': 2, 'circle-color': '#6B4C9A', 'circle-opacity': .55 } },
       { id: 'alts', type: 'line', source: 'alts', layout: { 'line-cap': 'round' }, paint: { 'line-color': C.ink, 'line-width': W(2.4, 4), 'line-opacity': .35, 'line-dasharray': [2, 2.4] } },
+      // a soft glow in the level's colour under the route, and a wider ring under the stretch picked in the list or tapped
+      { id: 'route-halo', type: 'line', source: 'route', filter: ['!=', ['get', 'plain'], true], layout: { 'line-cap': 'round', 'line-join': 'round' },
+        paint: { 'line-color': lvlColor(C.go, C.cau, C.avd, C.muted), 'line-width': W(14, 30), 'line-blur': W(8, 18), 'line-opacity': C.dark ? .32 : .24 } },
+      { id: 'sel-glow', type: 'line', source: 'sel', layout: { 'line-cap': 'round', 'line-join': 'round' },
+        paint: { 'line-color': C.dark ? '#FFFFFF' : C.ink, 'line-width': W(16, 30), 'line-opacity': .3, 'line-blur': 2 } },
       // the chosen route: an edge in a darker hue of each level (yellow alone is 1.6:1 on the light map), then the colour
       { id: 'route-edge', type: 'line', source: 'route', layout: { 'line-cap': 'round', 'line-join': 'round' },
         paint: { 'line-color': lvlColor(C.goEdge, C.cauEdge, C.avdEdge, C.surface), 'line-width': W(6, 12) } },
       { id: 'route-line', type: 'line', source: 'route', layout: { 'line-cap': 'round', 'line-join': 'round' },
         paint: { 'line-color': lvlColor(C.go, C.cau, C.avd, C.muted), 'line-width': W(3.4, 8) } },
+      { id: 'route-hazard', type: 'line', source: 'route', filter: ['all', ['==', ['get', 'lvl'], 2], ['!=', ['get', 'plain'], true]],
+        layout: { 'line-cap': 'butt', 'line-join': 'round' }, paint: { 'line-pattern': 'pp-stripe', 'line-width': W(3.4, 8) } },
       { id: 'route-blocked', type: 'line', source: 'route', filter: ['==', ['get', 'blocked'], true], layout: { 'line-cap': 'butt' },
         paint: { 'line-color': C.surface, 'line-width': W(2, 4), 'line-dasharray': [1.2, 1.6] } },
       // traffic view: one continuous gradient along the whole route
@@ -144,6 +158,10 @@ function style(C, B, T) {
       { id: 'halts', type: 'symbol', source: 'halts', layout: { 'icon-image': 'pp-halt', 'icon-size': 1, 'icon-allow-overlap': true } },
       { id: 'spots', type: 'symbol', source: 'spots', layout: { 'icon-image': 'pp-tri', 'icon-size': .85, 'icon-allow-overlap': false, 'icon-padding': 1 } },
       { id: 'reports', type: 'symbol', source: 'reports', layout: { 'icon-image': 'pp-rep', 'icon-size': .85, 'icon-allow-overlap': true } },
+      // 3D only: pillars at night halts and at towns with fuel or a hospital mapped within 3 km (height = how many)
+      { id: 'pillars', type: 'fill-extrusion', source: 'pillars', layout: { visibility: 'none' },
+        paint: { 'fill-extrusion-color': ['match', ['get', 'kind'], 'halt', C.ink, 'hosp', C.avd, C.go], 'fill-extrusion-height': ['get', 'h'],
+          'fill-extrusion-base': ['get', 'b'], 'fill-extrusion-opacity': .9 } },
       { id: 'cross', type: 'symbol', source: 'cross', layout: { 'icon-image': 'pp-x', 'icon-size': .9, 'icon-allow-overlap': true } },
     ],
   };
@@ -178,7 +196,7 @@ export function create(el, opts) {
   /* the credits start folded to the (i) button: opened, the longer OSM and terrain lines run across the route */
   const shut = () => { const a = el.querySelector('.maplibregl-ctrl-attrib'); if (a) { a.classList.remove('maplibregl-compact-show'); a.removeAttribute('open'); } };
   map.once('idle', shut);
-  const addIcons = () => { ['tri', 'rep', 'halt', 'x'].forEach(k => { const id = 'pp-' + k; if (map.hasImage(id)) map.removeImage(id); map.addImage(id, icon(k, C), { pixelRatio: 2 }); }); };
+  const addIcons = () => { ['tri', 'rep', 'halt', 'x', 'stripe'].forEach(k => { const id = 'pp-' + k; if (map.hasImage(id)) map.removeImage(id); map.addImage(id, icon(k, C), { pixelRatio: 2 }); }); };
   const flush = () => {
     Object.entries(state.data).forEach(([k, v]) => { const s = map.getSource(k); if (s) s.setData(v); });
     applyTrf();
@@ -188,10 +206,11 @@ export function create(el, opts) {
     const g = gradient(state.trf);
     if (g) map.setPaintProperty('route-trf', 'line-gradient', g);
   };
-  map.on('load', () => { state.loaded = true; addIcons(); flush(); if (o.onload) o.onload(); });
+  map.on('load', () => { el.classList.add('pp-ready'); state.loaded = true; addIcons(); flush(); if (o.onload) o.onload(); });
   const restyle = () => {
     state.loaded = false;
     map.setStyle(style(C, B, T), { diff: false });
+    pop.remove();
     map.once('style.load', () => { state.loaded = true; addIcons(); flush(); if (state.mode) api.mode(state.mode); if (state.d3) api.view3d(true); });
     map.once('idle', shut);
   };
@@ -199,11 +218,12 @@ export function create(el, opts) {
 
   /* popups: tapping a route stretch or a pin opens its HTML (built by the app, so it is in the right language) */
   const pop = new maplibregl.Popup({ closeButton: true, maxWidth: '300px', focusAfterOpen: false });
-  const tapLayers = ['route-line', 'spots', 'reports', 'halts', 'cross', 'towns'];
+  const tapLayers = ['route-line', 'spots', 'reports', 'halts', 'cross', 'towns', 'pillars'];
   map.on('click', e => {
     const f = map.queryRenderedFeatures(e.point, { layers: tapLayers.filter(l => map.getLayer(l)) })[0];
     if (!f || !f.properties.pop) return;
     pop.setLngLat(e.lngLat).setHTML(f.properties.pop).addTo(map);
+    if (f.layer.id === 'route-line' && f.properties.id != null) api.highlight(f.properties.id);
     if (o.onpopup) o.onpopup();
   });
   tapLayers.forEach(l => {
@@ -272,7 +292,21 @@ export function create(el, opts) {
       return true;
     },
     resize() { map.resize(); },
-    closePopup() { pop.remove(); },
+    closePopup() { pop.remove(); api.highlight(null); },
+    /* ring one route stretch (by its id), or none */
+    highlight(id) {
+      const d = state.data.route, f = id == null || !d ? [] : d.features.filter(x => x.properties.id === id);
+      api.set('sel', f);
+    },
+    /* fly to one route stretch and ring it; padding as for fit */
+    focus(id, padding) {
+      const d = state.data.route, f = d && d.features.find(x => x.properties.id === id);
+      if (!f) return false;
+      let w = 180, s = 90, e = -180, n = -90;
+      f.geometry.coordinates.forEach(([x, y]) => { w = Math.min(w, x); e = Math.max(e, x); s = Math.min(s, y); n = Math.max(n, y); });
+      api.highlight(id);
+      return api.fit([[w, s], [e, n]], padding, true);
+    },
     /* open a popup from the app (a tap on a row in the control room grid) */
     popup(lngLat, html) { pop.setLngLat(lngLat).setHTML(html).addTo(map); },
     /* new theme colours (light or dark): rebuild the style once, the data goes back in on load */
@@ -295,6 +329,7 @@ export function create(el, opts) {
         if (on) { map.dragRotate.enable(); map.touchZoomRotate.enableRotation(); map.touchPitch.enable(); }
         else { map.dragRotate.disable(); map.touchZoomRotate.disableRotation(); }
         map.setTerrain(on ? { source: 'dem', exaggeration: 1.5 } : null);
+        if (map.getLayer('pillars')) map.setLayoutProperty('pillars', 'visibility', on ? 'visible' : 'none');
         if (map.setSky) map.setSky(on ? { 'sky-color': C.dark ? '#0d1a2b' : '#9cc6ec', 'horizon-color': C.dark ? '#1d2c3c' : '#e6eef2', 'fog-color': C.land, 'sky-horizon-blend': .6, 'horizon-fog-blend': .5, 'fog-ground-blend': .7 } : {});
         map.easeTo({ pitch: on ? 55 : 0, bearing: on ? map.getBearing() : 0, duration: calm() ? 0 : 900 });
       };
