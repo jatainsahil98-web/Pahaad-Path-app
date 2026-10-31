@@ -1,0 +1,25 @@
+name: report api
+# Tests the report API (server/) and checks its container image builds and answers. Deployment is separate (server/README.md).
+on:
+  push:
+    paths: ['server/**', 'python/pahaadpath/network.py', '.github/workflows/server.yml']
+  pull_request:
+    paths: ['server/**']
+  workflow_dispatch:
+jobs:
+  api:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -q -r server/requirements-dev.txt
+      - run: PYTHONPATH=python:server python -m pytest server/tests -q
+      - name: Container builds and answers /health
+        run: |
+          docker build -f server/Dockerfile -t pahaadpath-api .
+          docker run -d --rm -p 8080:8080 --name api pahaadpath-api
+          for i in $(seq 1 20); do curl -fs localhost:8080/health && exit 0; sleep 1; done
+          docker logs api; exit 1

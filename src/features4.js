@@ -112,13 +112,14 @@ document.addEventListener('click',e=>{
 });
 
 /* ---------- where am I: GPS works with no mobile data, so the trip screen can say what lies ahead ---------- */
+let LASTPOS=null; // last fix, attached to a road report made within 15 minutes
 /* GPS first; if it gives nothing (approximate location only, or no sky), the coarse network fix; a hard stop so the screen never hangs */
 function locate(ok,fail){
   if(!navigator.geolocation){fail('none');return;}
   if(window.PPAndroid&&window.PPAndroid.locationEnabled&&!window.PPAndroid.locationEnabled()){fail('off');return;}
   let done=false;
   const fin=(f,x)=>{if(done)return;done=true;clearTimeout(guard);f(x);};
-  const got=p=>{const pos={lat:p.coords.latitude,lon:p.coords.longitude,acc:p.coords.accuracy};pos.near=tripNearTown(pos);fin(ok,pos);};
+  const got=p=>{const pos={lat:p.coords.latitude,lon:p.coords.longitude,acc:p.coords.accuracy};pos.near=tripNearTown(pos);LASTPOS=Object.assign({at:Date.now()},pos);fin(ok,pos);};
   const guard=setTimeout(()=>fin(fail,'timeout'),locGuard());
   navigator.geolocation.getCurrentPosition(got,e=>{
     if(done)return;

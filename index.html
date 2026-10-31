@@ -5264,7 +5264,7 @@ if(/^https?:/.test(location.protocol)){
 /* ================= v4.1: shared road reports, NASA landslide history, threshold sensitivity, road profile ================= */
 Object.assign(T.en,{
   sh_t:'Share reports with other phones',sh_s:'Reports go to a public test channel (ntfy.sh) so every phone running PahaadPath and the control room see them within seconds. Only the stretch, the type of problem and a random device code are sent. A production version would use an authenticated server.',
-  sh_on:'Shared channel connected · {n} reports from other phones in the last 48 hours',sh_off:'Sharing is off. Reports stay on this phone.',sh_wait:'Connecting to the shared channel…',sh_err:'Shared channel not reachable. Reports stay on this phone for now.',sh_from:'other phone',
+  sh_on:'Shared channel connected · {n} reports from other phones in the last 48 hours',sh_on2:'Report server connected · {n} signed reports from other phones in the last 48 hours',sh_s2:'Reports go to the PahaadPath report server, signed with a key made on this phone. Only the stretch, the type of problem, the time and a position to about 100 m (if GPS was used in the last 15 minutes) are sent. Officials can confirm or clear reports.',sh_off:'Sharing is off. Reports stay on this phone.',sh_wait:'Connecting to the shared channel…',sh_err:'Shared channel not reachable. Reports stay on this phone for now.',sh_from:'other phone',
   rep_none:'No reports.',
   od_st_h:'Incident history: {hi} of {h} hill stretches from the NASA catalog.',
   ft_hist_o:'{n} incident counts from the NASA landslide catalog',
@@ -5274,7 +5274,7 @@ Object.assign(T.en,{
 });
 Object.assign(T.hi,{
   sh_t:'दूसरे फ़ोनों के साथ रिपोर्ट साझा करें',sh_s:'रिपोर्ट एक सार्वजनिक परीक्षण चैनल (ntfy.sh) पर जाती हैं, ताकि पहाड़ पथ चलाने वाला हर फ़ोन और कंट्रोल रूम उन्हें कुछ सेकंड में देख सके। सिर्फ़ सड़क का हिस्सा, समस्या का प्रकार और एक बेतरतीब डिवाइस कोड भेजा जाता है। असली संस्करण में प्रमाणित सर्वर होगा।',
-  sh_on:'साझा चैनल जुड़ा है · पिछले 48 घंटे में दूसरे फ़ोनों से {n} रिपोर्ट',sh_off:'साझा करना बंद है। रिपोर्ट इसी फ़ोन में रहती हैं।',sh_wait:'साझा चैनल से जुड़ रहे हैं…',sh_err:'साझा चैनल नहीं मिला। अभी रिपोर्ट इसी फ़ोन में रहेंगी।',sh_from:'दूसरा फ़ोन',
+  sh_on:'साझा चैनल जुड़ा है · पिछले 48 घंटे में दूसरे फ़ोनों से {n} रिपोर्ट',sh_on2:'रिपोर्ट सर्वर जुड़ा है · पिछले 48 घंटे में दूसरे फ़ोनों से {n} हस्ताक्षरित रिपोर्ट',sh_s2:'रिपोर्ट पहाड़ पथ के रिपोर्ट सर्वर पर जाती हैं, इस फ़ोन पर बनी कुंजी से हस्ताक्षरित। सिर्फ़ हिस्सा, समस्या का प्रकार, समय और लगभग 100 मीटर तक की जगह (अगर पिछले 15 मिनट में GPS चला हो) भेजी जाती है। अधिकारी रिपोर्ट की पुष्टि कर सकते हैं या उसे हटा सकते हैं।',sh_off:'साझा करना बंद है। रिपोर्ट इसी फ़ोन में रहती हैं।',sh_wait:'साझा चैनल से जुड़ रहे हैं…',sh_err:'साझा चैनल नहीं मिला। अभी रिपोर्ट इसी फ़ोन में रहेंगी।',sh_from:'दूसरा फ़ोन',
   rep_none:'कोई रिपोर्ट नहीं।',
   od_st_h:'पुरानी घटनाएँ: {h} में से {hi} पहाड़ी हिस्से NASA सूची से।',
   ft_hist_o:'{n} हिस्सों की घटनाएँ NASA भूस्खलन सूची से',
@@ -5283,47 +5283,113 @@ Object.assign(T.hi,{
   pf_t:'सड़क की ऊँचाई',pf_s:'Copernicus 90 मीटर ऊँचाई मॉडल से रास्ते की ऊँचाई, भूस्खलन जोखिम के रंग में।',pf_load:'सड़क की ऊँचाई देखें',pf_busy:'ऊँचाई ला रहे हैं…',pf_off:'पहली बार नेटवर्क चाहिए।',pf_max:'सबसे ऊँची जगह {m} मीटर, {p} के पास',pf_climb:'कुल चढ़ाई लगभग {m} मीटर'
 });
 
-/* ---------- shared road reports over a public ntfy.sh topic (no account, works from any browser) ---------- */
+/* ---------- shared road reports ----------
+   Three ways, in order of preference:
+   1. the PahaadPath report API (v2): every report is signed on the phone with a key that never leaves it (ECDSA P-256),
+      so the server can refuse forged or flooded reports and officials can verify or clear them (server/ in the repository);
+   2. an older v1 sync server (python -m pahaadpath serve), unsigned;
+   3. a public ntfy.sh topic, unsigned: anyone can post, so it is kept only until the report API is hosted. */
 const SH_URL='https://ntfy.sh/pahaadpath-uk-road-reports-v1';
+const API_DEFAULT=''; // set to the hosted report API (https://...) to retire the public channel for everyone
+const API_URL=(new URLSearchParams(location.search).get('api')||lsGet('pp_api','')||API_DEFAULT).replace(/\/$/,'');
+if(API_URL&&API_URL!==API_DEFAULT)lsSet('pp_api',API_URL);
 const DEV=lsGet('pp_dev',null)||(()=>{const d=Math.random().toString(36).slice(2,10);lsSet('pp_dev',d);return d;})();
 st.share=lsGet('pp_share',true);
-const SHR={reps:{},conf:{},status:'off',es:null,poll:null,dirty:false};
+const SHR={reps:{},conf:{},ver:{},status:'off',es:null,poll:null,dirty:false};
 const SH_TYPES=['landslide','debris','washed','bridge','clear'];
 /* a report can matter for up to 48 h (a bridge, see TYPEH), so shared reports are kept that long; the engine decays each by its type */
 const SH_KEEP=48*3600e3;
+
+/* ---------- device key for the report API: made once, private part non-extractable, kept in IndexedDB ---------- */
+let KEY=null;            // {priv, jwk, id}
+const isMe=d=>d===DEV||(KEY&&d===KEY.id);
+const b64u=buf=>btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+function idb(){return new Promise((res,rej)=>{const r=indexedDB.open('pahaadpath',1);r.onupgradeneeded=()=>r.result.createObjectStore('kv');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);});}
+async function idbGet(k){const d=await idb();return new Promise((res,rej)=>{const r=d.transaction('kv').objectStore('kv').get(k);r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);});}
+async function idbSet(k,v){const d=await idb();return new Promise((res,rej)=>{const tx=d.transaction('kv','readwrite');tx.objectStore('kv').put(v,k);tx.oncomplete=()=>res();tx.onerror=()=>rej(tx.error);});}
+/* RFC 7638 thumbprint of the public key = the device id; the server computes the same */
+async function thumb(j){return b64u(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(JSON.stringify({crv:j.crv,kty:j.kty,x:j.x,y:j.y}))));}
+let keyP=null;
+function deviceKey(){
+  if(!keyP)keyP=(async()=>{
+    if(!window.crypto||!crypto.subtle)throw new Error('no WebCrypto');
+    let k=null;try{k=await idbGet('devkey');}catch(e){}
+    if(!k||!k.priv){
+      const p=await crypto.subtle.generateKey({name:'ECDSA',namedCurve:'P-256'},false,['sign','verify']);
+      const j=await crypto.subtle.exportKey('jwk',p.publicKey);
+      k={priv:p.privateKey,jwk:{kty:'EC',crv:'P-256',x:j.x,y:j.y}};k.id=await thumb(k.jwk);
+      try{await idbSet('devkey',k);}catch(e){} // no IndexedDB: the key lasts this session only
+    }
+    KEY=k;return k;
+  })();
+  return keyP;
+}
+/* the signed bytes: the message without its signature, keys sorted, no spaces (server/pahaadpath_api/main.py canonical) */
+const canon=m=>JSON.stringify(Object.keys(m).filter(k=>k!=='sig').sort().reduce((o,k)=>{o[k]=m[k];return o;},{}));
+async function signMsg(m){
+  const k=await deviceKey();const out=Object.assign({},m,{v:2,dev:k.id});
+  out.sig=b64u(await crypto.subtle.sign({name:'ECDSA',hash:'SHA-256'},k.priv,new TextEncoder().encode(canon(out))));
+  return out;
+}
+
 function shIngest(txt){
   let m;try{m=JSON.parse(txt);}catch(e){return false;}
   const now=Date.now();
-  if(!m||m.v!==1||typeof m.rid!=='string'||m.rid.length>40||typeof m.dev!=='string'||m.dev.length>20||typeof m.rt!=='number'||m.rt<now-SH_KEEP||m.rt>now+3e5)return false;
+  if(!m||(m.v!==1&&m.v!==2)||typeof m.rid!=='string'||m.rid.length>40||typeof m.dev!=='string'||m.dev.length>(m.v===2?80:20)||typeof m.rt!=='number'||m.rt<now-SH_KEEP||m.rt>now+3e5)return false;
   if(m.k==='report'){if(!S[m.seg]||S[m.seg].virtual||SH_TYPES.indexOf(m.type)<0)return false;
-    const sp=S[m.seg].spots[m.spot]?+m.spot:-1;if(SHR.reps[m.rid])return false;SHR.reps[m.rid]={rid:m.rid,seg:m.seg,spot:sp,type:m.type,dev:m.dev,rt:m.rt};return true;}
+    const sp=S[m.seg].spots[m.spot]?+m.spot:-1;if(SHR.reps[m.rid])return false;SHR.reps[m.rid]={rid:m.rid,seg:m.seg,spot:sp,type:m.type,dev:m.dev,rt:m.rt,far:m.w!=null&&m.w<1};return true;}
   if(m.k==='confirm'){const c=SHR.conf[m.rid]=SHR.conf[m.rid]||{};if(c[m.dev])return false;c[m.dev]=1;return true;}
+  if(m.k==='verify'&&m.v===2){const o=SHR.ver[m.rid];if(o&&o.rt>=m.rt)return false;SHR.ver[m.rid]={ok:!!m.ok,rt:m.rt};return true;} // an official's latest word
   return false;
 }
-/* other phones' reports in the engine's format; time is kept as real age so the simulated clock does not distort it */
+/* other phones' reports in the engine's format; time is kept as real age so the simulated clock does not distort it.
+   An official "cleared" removes a report; "verified" counts as two confirmations; a report sent from far away needs a confirmation */
 function sharedReports(){
   if(!st.share)return[];
-  const now=Date.now(),out=[],remote=rid=>Object.keys(SHR.conf[rid]||{}).filter(d=>d!==DEV&&(!SHR.reps[rid]||d!==SHR.reps[rid].dev)).length;
-  (st.user||[]).forEach(r=>{const n=remote(r.id);if(n>(r.rconf||0)){r.conf+=n-(r.rconf||0);r.rconf=n;}});
-  Object.values(SHR.reps).forEach(r=>{if(r.dev===DEV||now-r.rt>SH_KEEP||!S[r.seg])return;
-    out.push({id:'sh_'+r.rid,rid:r.rid,seg:r.seg,spot:r.spot,type:r.type,ts:st.nowMs-(now-r.rt),conf:remote(r.rid),shared:true,mine:!!(SHR.conf[r.rid]||{})[DEV]});});
+  const now=Date.now(),out=[],remote=rid=>Object.keys(SHR.conf[rid]||{}).filter(d=>!isMe(d)&&(!SHR.reps[rid]||d!==SHR.reps[rid].dev)).length;
+  const ver=rid=>SHR.ver[rid]?SHR.ver[rid].ok:null;
+  (st.user||[]).forEach(r=>{const n=remote(r.id)+(ver(r.id)?2:0);if(n>(r.rconf||0)){r.conf+=n-(r.rconf||0);r.rconf=n;}});
+  Object.values(SHR.reps).forEach(r=>{if(isMe(r.dev)||now-r.rt>SH_KEEP||!S[r.seg]||ver(r.rid)===false)return;
+    const conf=remote(r.rid)+(ver(r.rid)?2:0);if(r.far&&!conf)return;
+    out.push({id:'sh_'+r.rid,rid:r.rid,seg:r.seg,spot:r.spot,type:r.type,ts:st.nowMs-(now-r.rt),conf,shared:true,verified:!!ver(r.rid),mine:Object.keys(SHR.conf[r.rid]||{}).some(isMe)});});
   return out;
 }
-/* reports wait in an outbox on the phone until there is signal, then go out in order (or in one request to a sync server) */
+/* reports wait in an outbox on the phone until there is signal, then go out in order (or in one request to a server) */
 const SYNC_URL=(new URLSearchParams(location.search).get('sync')||lsGet('pp_sync','')).replace(/\/$/,'');
 if(SYNC_URL)lsSet('pp_sync',SYNC_URL);
 let OUTBOX=lsGet('pp_outbox',[]);if(!Array.isArray(OUTBOX))OUTBOX=[];
-/* nothing in the outbox is dropped for age: a report made deep in a valley goes out whenever signal returns, with the time it was made */
+/* nothing in the outbox is dropped for age: a report made deep in a valley goes out whenever signal returns, with the time it was made
+   (the report API takes signed reports up to 48 h old, the time a report can still matter) */
 function saveOutbox(){if(OUTBOX.length>200)OUTBOX=OUTBOX.slice(-200);lsSet('pp_outbox',OUTBOX);}
 async function shPost(m){
   if(!st.share)return;
-  OUTBOX.push(Object.assign({v:1,dev:DEV,rt:Date.now()},m));saveOutbox();shFlush();
+  if(API_URL){
+    const pos=typeof LASTPOS!=='undefined'&&LASTPOS&&Date.now()-LASTPOS.at<15*60e3&&m.k==='report'?LASTPOS:null;
+    const body=Object.assign({rt:Date.now()},m);if(pos)body.loc=[Math.round(pos.lat*1e5),Math.round(pos.lon*1e5),Math.round(pos.acc)];
+    try{OUTBOX.push(await signMsg(body));}catch(e){SHR.status='err';return;} // no WebCrypto: the report stays on this phone only
+  }else OUTBOX.push(Object.assign({v:1,dev:DEV,rt:Date.now()},m));
+  saveOutbox();shFlush();
+}
+async function apiRegister(){
+  const k=await deviceKey(),tag=API_URL+'|'+k.id;if(lsGet('pp_api_reg','')===tag)return;
+  const res=await fetch(API_URL+'/v1/devices',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jwk:k.jwk,platform:window.PPAndroid?'android':'web'})});
+  if(!res.ok)throw new Error('register '+res.status);lsSet('pp_api_reg',tag);
+}
+function apiTake(js){
+  let ch=false;(js.msgs||[]).forEach(m=>{if(shIngest(JSON.stringify(m)))ch=true;});SHR.status='on';SHR.cursor=js.cursor;SHR.server=js.status||null;if(ch)shChanged();
 }
 let flushing=false;
 async function shFlush(){
   if(flushing||!OUTBOX.length||navigator.onLine===false)return;flushing=true;
   try{
-    if(SYNC_URL){
+    if(API_URL){
+      await apiRegister();const sent=OUTBOX.slice();
+      const res=await fetch(API_URL+'/v1/sync',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({msgs:sent})});
+      if(!res.ok)throw new Error(res.status);const js=await res.json();
+      OUTBOX=OUTBOX.filter(m=>sent.indexOf(m)<0);saveOutbox(); // refused messages (rate, signature) are not retried: they would be refused again
+      if(js.rejected&&Object.keys(js.rejected).length)console.warn('reports refused',js.rejected);
+      apiTake(js);
+    }else if(SYNC_URL){
       const res=await fetch(SYNC_URL+'/sync',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({msgs:OUTBOX})});
       if(!res.ok)throw new Error(res.status);const js=await res.json();OUTBOX=[];saveOutbox();
       let ch=false;(js.msgs||[]).forEach(m=>{if(shIngest(JSON.stringify(m)))ch=true;});SHR.status='on';if(ch)shChanged();
@@ -5333,7 +5399,7 @@ async function shFlush(){
   }catch(e){SHR.status='err';}finally{flushing=false;}
 }
 function shareReport(r,kind){if(kind==='report')shPost({k:'report',rid:r.id,seg:r.seg,spot:r.spot,type:r.type});else shPost({k:'confirm',rid:r.id});}
-function confirmShared(r){const c=SHR.conf[r.rid]=SHR.conf[r.rid]||{};if(c[DEV])return;c[DEV]=1;shPost({k:'confirm',rid:r.rid});}
+function confirmShared(r){const c=SHR.conf[r.rid]=SHR.conf[r.rid]||{};if(Object.keys(c).some(isMe))return;c[KEY?KEY.id:DEV]=1;shPost({k:'confirm',rid:r.rid});}
 function shChanged(){
   if(SHR.t)return;
   SHR.t=setTimeout(()=>{SHR.t=null;opsCache=null;
@@ -5341,7 +5407,10 @@ function shChanged(){
     if(st.view!=='proof')render();},600);
 }
 async function shPoll(){
-  try{shFlush();const res=await fetch(SYNC_URL?SYNC_URL+'/reports':SH_URL+'/json?poll=1&since=48h');if(!res.ok)throw new Error(res.status);
+  try{
+    shFlush();
+    if(API_URL){const res=await fetch(API_URL+'/v1/reports');if(!res.ok)throw new Error(res.status);apiTake(await res.json());return;}
+    const res=await fetch(SYNC_URL?SYNC_URL+'/reports':SH_URL+'/json?poll=1&since=48h');if(!res.ok)throw new Error(res.status);
     const txt=await res.text();let ch=false;
     if(SYNC_URL)(JSON.parse(txt).msgs||[]).forEach(m=>{if(shIngest(JSON.stringify(m)))ch=true;});
     else txt.split('\n').forEach(l=>{if(!l.trim())return;try{const o=JSON.parse(l);if(o.event==='message'&&shIngest(o.message))ch=true;}catch(e){}});
@@ -5350,20 +5419,20 @@ async function shPoll(){
 }
 function shStart(){
   shStop();if(!st.share||navigator.onLine===false)return;
-  SHR.status='wait';shPoll();
-  if(!SYNC_URL)try{SHR.es=new EventSource(SH_URL+'/sse');SHR.es.onmessage=e=>{try{const o=JSON.parse(e.data);if(o.event==='message'&&shIngest(o.message)){SHR.status='on';shChanged();}}catch(_){}};
+  SHR.status='wait';if(API_URL)deviceKey().catch(()=>{});shPoll();
+  if(!SYNC_URL&&!API_URL)try{SHR.es=new EventSource(SH_URL+'/sse');SHR.es.onmessage=e=>{try{const o=JSON.parse(e.data);if(o.event==='message'&&shIngest(o.message)){SHR.status='on';shChanged();}}catch(_){}};
     SHR.es.onerror=()=>{};}catch(e){}
-  SHR.poll=setInterval(()=>{if(!document.hidden)shPoll();},45000);
+  SHR.poll=setInterval(()=>{if(!document.hidden)shPoll();},API_URL?30000:45000);
 }
 function shStop(){if(SHR.es){try{SHR.es.close();}catch(e){}SHR.es=null;}if(SHR.poll){clearInterval(SHR.poll);SHR.poll=null;}}
 function shStatusText(){
   if(!st.share)return t('sh_off');
-  const n=Object.values(SHR.reps).filter(r=>r.dev!==DEV&&Date.now()-r.rt<SH_KEEP).length;
-  return (SHR.status==='on'?fill(t('sh_on'),{n}):SHR.status==='err'?t('sh_err'):t('sh_wait'))+(OUTBOX.length?' · '+(OUTBOX.length===1?t('ob_1'):fill(t('ob_n'),{n:OUTBOX.length})):'');
+  const n=Object.values(SHR.reps).filter(r=>!isMe(r.dev)&&Date.now()-r.rt<SH_KEEP).length;
+  return (SHR.status==='on'?fill(t(API_URL?'sh_on2':'sh_on'),{n}):SHR.status==='err'?t('sh_err'):t('sh_wait'))+(OUTBOX.length?' · '+(OUTBOX.length===1?t('ob_1'):fill(t('ob_n'),{n:OUTBOX.length})):'');
 }
 function shareBox(){
   return '<div class="card shbox"><label class="chk"><input type="checkbox" id="sh-use"'+(st.share?' checked':'')+'> '+t('sh_t')+'</label>'
-    +'<p class="note" id="sh-st">'+esc(shStatusText())+'</p><p class="note">'+t('sh_s')+'</p></div>';
+    +'<p class="note" id="sh-st">'+esc(shStatusText())+'</p><p class="note">'+t(API_URL?'sh_s2':'sh_s')+'</p></div>';
 }
 document.addEventListener('change',e=>{if(e.target.id==='sh-use'){st.share=e.target.checked;lsSet('pp_share',st.share);if(st.share)shStart();else shStop();render();}});
 window.addEventListener('online',()=>{if(st.share)shStart();});
@@ -5723,13 +5792,14 @@ document.addEventListener('click',e=>{
 });
 
 /* ---------- where am I: GPS works with no mobile data, so the trip screen can say what lies ahead ---------- */
+let LASTPOS=null; // last fix, attached to a road report made within 15 minutes
 /* GPS first; if it gives nothing (approximate location only, or no sky), the coarse network fix; a hard stop so the screen never hangs */
 function locate(ok,fail){
   if(!navigator.geolocation){fail('none');return;}
   if(window.PPAndroid&&window.PPAndroid.locationEnabled&&!window.PPAndroid.locationEnabled()){fail('off');return;}
   let done=false;
   const fin=(f,x)=>{if(done)return;done=true;clearTimeout(guard);f(x);};
-  const got=p=>{const pos={lat:p.coords.latitude,lon:p.coords.longitude,acc:p.coords.accuracy};pos.near=tripNearTown(pos);fin(ok,pos);};
+  const got=p=>{const pos={lat:p.coords.latitude,lon:p.coords.longitude,acc:p.coords.accuracy};pos.near=tripNearTown(pos);LASTPOS=Object.assign({at:Date.now()},pos);fin(ok,pos);};
   const guard=setTimeout(()=>fin(fail,'timeout'),locGuard());
   navigator.geolocation.getCurrentPosition(got,e=>{
     if(done)return;

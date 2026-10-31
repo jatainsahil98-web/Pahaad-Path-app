@@ -17,6 +17,10 @@ jobs:
           python-version: '3.12'
       - name: Python pipeline tests (engine parity with the app, sync server)
         run: npm run test:py
+      - name: Report API tests
+        run: |
+          pip install -q -r server/requirements-dev.txt
+          PYTHONPATH=python:server python -m pytest server/tests -q
       - run: npm install
       - run: npx playwright install --with-deps chromium
       - run: npm run vendor
