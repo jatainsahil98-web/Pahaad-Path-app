@@ -25,5 +25,7 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npm run build
       - name: Built app matches the published copy
+        # only on main: the bots commit the built files there; a pull request changes src/ without them (and must still run npm test)
+        if: github.event_name == 'push'
         run: cmp dist/PahaadPath.html index.html && cmp dist/PahaadPath.html PahaadPath.html && cmp dist/site/sw.js sw.js && cmp dist/site/manifest.webmanifest manifest.webmanifest
       - run: npm test
