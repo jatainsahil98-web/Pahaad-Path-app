@@ -1,42 +1,42 @@
 {
  "seasons": [
-  2014,
-  2015,
-  2016,
-  2017,
-  2018
+  2010,
+  2011,
+  2012,
+  2013,
+  2015
  ],
- "events": 68,
+ "events": 126,
  "per_season": [
   {
-   "year": 2014,
-   "events": 7,
-   "engine_pod_caution": 0.42857142857142855,
-   "v6_pod_caution": 0.42857142857142855
+   "year": 2010,
+   "events": 42,
+   "engine_pod_caution": 0.6904761904761905,
+   "v6_pod_caution": 0.7380952380952381
+  },
+  {
+   "year": 2011,
+   "events": 10,
+   "engine_pod_caution": 0.0,
+   "v6_pod_caution": 0.0
+  },
+  {
+   "year": 2012,
+   "events": 11,
+   "engine_pod_caution": 0.09090909090909091,
+   "v6_pod_caution": 0.45454545454545453
+  },
+  {
+   "year": 2013,
+   "events": 45,
+   "engine_pod_caution": 0.26666666666666666,
+   "v6_pod_caution": 0.5333333333333333
   },
   {
    "year": 2015,
    "events": 18,
    "engine_pod_caution": 0.1111111111111111,
-   "v6_pod_caution": 0.4444444444444444
-  },
-  {
-   "year": 2016,
-   "events": 21,
-   "engine_pod_caution": 0.3333333333333333,
-   "v6_pod_caution": 0.47619047619047616
-  },
-  {
-   "year": 2017,
-   "events": 7,
-   "engine_pod_caution": 0.14285714285714285,
-   "v6_pod_caution": 0.0
-  },
-  {
-   "year": 2018,
-   "events": 15,
-   "engine_pod_caution": 0.13333333333333333,
-   "v6_pod_caution": 0.8
+   "v6_pod_caution": 0.5555555555555556
   }
  ],
  "sources": {
@@ -45,26 +45,42 @@
  },
  "engine": {
   "caution": {
-   "pod": 0.22058823529411764,
-   "alarm_rate": 0.07245288685336737
+   "pod": 0.3492063492063492,
+   "alarm_rate": 0.08962157262633129
   },
   "avoid": {
-   "pod": 0.029411764705882353,
-   "alarm_rate": 0.011900292814775884
+   "pod": 0.16666666666666666,
+   "alarm_rate": 0.019487876727849535
   },
-  "pod_at_10pct": 0.25,
-  "pod_at_25pct": 0.5
+  "pod_at_10pct": 0.36507936507936506,
+  "pod_at_25pct": 0.6904761904761905
  },
  "v6": {
   "caution": {
-   "pod": 0.4852941176470588,
-   "alarm_rate": 0.327990089346047
+   "pod": 0.5555555555555556,
+   "alarm_rate": 0.3521791676108467
   },
   "avoid": {
-   "pod": 0.3382352941176471,
-   "alarm_rate": 0.19614835948644793
+   "pod": 0.10317460317460317,
+   "alarm_rate": 0.07708286124329632
   },
-  "pod_at_10pct": 0.17647058823529413,
-  "pod_at_25pct": 0.36764705882352944
- }
+  "pod_at_10pct": 0.12698412698412698,
+  "pod_at_25pct": 0.35714285714285715
+ },
+ "v6_ok": false,
+ "v6_features": [
+  "log_p24",
+  "log_p72",
+  "log_a7",
+  "log_a30",
+  "slope",
+  "log_hist",
+  "gsi_mean",
+  "gsi_high100",
+  "log_gsi_ls1k",
+  "sm0",
+  "sm1",
+  "sm2",
+  "log_r92"
+ ]
 }
