@@ -87,8 +87,12 @@ def build_pack(net, log=print):
             pk['risk24_model'] = 'v6: ' + ' + '.join(m6['groups'])
             # v6 day score for each hill stretch, today and the next days: the trip screen plans with these
             days = [v6.score_now(m6, net, vars_, start, i0 + 24 * k, quakes) for k in range(V6_DAYS)]
+            # a day counts only when the forecast has soil moisture and rain for all of it (the last days can come back empty)
+            sm = vars_['soil_moisture_0_to_7cm']
+            ok = [all(all(x is not None for x in vars_['precipitation'][k][i0 + 24 * d:i0 + 24 * d + 24]) and sm[k][i0 + 24 * d] is not None
+                      if len(sm[k]) > i0 + 24 * d else False for k in sm) for d in range(V6_DAYS)]
             pk['v6'] = {'day0': (dt.date.fromisoformat(start) + dt.timedelta(days=92)).isoformat(),
-                        'model': pk['risk24_model'], 'by': {lid: [d[lid][0] for d in days] for lid in days[0]}}
+                        'model': pk['risk24_model'], 'by': {lid: [d[lid][0] if ok[k] else None for k, d in enumerate(days)] for lid in days[0]}}
         except Exception as e:  # noqa: BLE001 - keep the v4 risk rather than no pack
             log('v6 not scored (%s); risk24 stays on the rain threshold' % e)  # link id -> [score 0-100, band 0-2, hours from hour0 of the peak]
     pk['risk24_source'] = 'PahaadPath engine, rain only (no road reports), next 24 h; thresholds: %s' % (

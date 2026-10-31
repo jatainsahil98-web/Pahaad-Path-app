@@ -145,12 +145,13 @@ def main(argv=None):
             f.write(md)
         print(md)
     elif a.cmd == 'independent':
+        import os.path as osp
         from . import independent
         from .openmeteo import archive_hourly_vars
-        th = read_json('data', 'model', 'thresholds.json') if os.path.exists(path('data', 'model', 'thresholds.json')) else {}
+        th = read_json('data', 'model', 'thresholds.json') if osp.exists(path('data', 'model', 'thresholds.json')) else {}
         m6p = path('data', 'model', 'model_v6.json')
         m6 = None
-        if os.path.exists(m6p):
+        if osp.exists(m6p):
             with open(m6p, encoding='utf-8') as f:
                 m6 = json.load(f)
         coolr = independent.fetch_coolr()
