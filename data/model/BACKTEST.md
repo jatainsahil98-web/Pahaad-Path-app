@@ -25,19 +25,18 @@ Stretch-days 2026-06-26 to 2026-09-30, 450 PWD closures (relaxed match). Cut-off
 | | Closures warned (Caution) | Precision (Caution) | TSS (Caution) | Closures warned (Avoid) | Precision (Avoid) |
 |---|---|---|---|---|---|
 | Current engine (Caine) | 10% | 32% | 0.04 | 1% | 30% |
-| v6: rain + static + history + soil | 81% | 70% | 0.71 | 57% | 91% |
+| v6: rain + static + gsi + soil + season | 69% | 65% | 0.58 | 16% | 72% |
 
 Parameter groups, added one at a time on held-out folds (kept when TSS rises by 0.01 or more):
 
 | Groups | TSS (Caution) | Precision (Caution) | Kept |
 |---|---|---|---|
 | rain + static | 0.26 | 58% | yes |
-| rain + static + history | 0.69 | 70% | yes |
-| rain + static + history + soil | 0.71 | 70% | yes |
-| rain + static + history + soil + gsi | 0.72 | 68% | no |
-| rain + static + history + soil + peak | 0.70 | 69% | no |
-| rain + static + history + soil + season | 0.65 | 58% | no |
-| rain + static + history + soil + cold | 0.71 | 70% | no |
-| rain + static + history + soil + quake | 0.70 | 67% | no |
+| rain + static + gsi | 0.53 | 71% | yes |
+| rain + static + gsi + soil | 0.56 | 70% | yes |
+| rain + static + gsi + soil + season | 0.58 | 65% | yes |
+| rain + static + gsi + soil + season + peak | 0.59 | 66% | no |
+| rain + static + gsi + soil + season + cold | 0.58 | 65% | no |
+| rain + static + gsi + soil + season + quake | 0.57 | 63% | no |
 
-v6 is in use for the data pack and phone alerts: its TSS 0.71 is above the top of the current engine's 95% range (-0.00 to 0.09).
+v6 is in use for the data pack and phone alerts: its TSS 0.58 is above the top of the current engine's 95% range (-0.00 to 0.09).

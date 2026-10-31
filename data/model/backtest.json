@@ -63,24 +63,25 @@
   "chosen": [
    "rain",
    "static",
-   "history",
-   "soil"
+   "gsi",
+   "soil",
+   "season"
   ],
   "note": null,
   "v6": {
    "caution": {
-    "pod": 0.8088888888888889,
-    "far": 0.29593810444874274,
-    "tss": 0.7124197842230628
+    "pod": 0.6888888888888889,
+    "far": 0.3487394957983193,
+    "tss": 0.5842230629115875
    },
    "avoid": {
-    "pod": 0.5733333333333334,
-    "far": 0.09154929577464789,
-    "tss": 0.5569398907103825
+    "pod": 0.15555555555555556,
+    "far": 0.27835051546391754,
+    "tss": 0.13853159590864508
    },
    "ci_tss_caution": [
-    0.6554101236034133,
-    0.763639007649129
+    0.5244763928364469,
+    0.6406426843942481
    ]
   },
   "steps": [
@@ -96,74 +97,66 @@
     "groups": [
      "rain",
      "static",
-     "history"
-    ],
-    "tss": 0.6946420064452852,
-    "kept": true
-   },
-   {
-    "groups": [
-     "rain",
-     "static",
-     "history",
-     "soil"
-    ],
-    "tss": 0.7124197842230628,
-    "kept": true
-   },
-   {
-    "groups": [
-     "rain",
-     "static",
-     "history",
-     "soil",
      "gsi"
     ],
-    "tss": 0.7163261874737284,
-    "kept": false
+    "tss": 0.5347877259352669,
+    "kept": true
    },
    {
     "groups": [
      "rain",
      "static",
-     "history",
-     "soil",
-     "peak"
+     "gsi",
+     "soil"
     ],
-    "tss": 0.7000784643407594,
-    "kept": false
+    "tss": 0.5598935126803979,
+    "kept": true
    },
    {
     "groups": [
      "rain",
      "static",
-     "history",
+     "gsi",
      "soil",
      "season"
     ],
-    "tss": 0.6500602494045118,
+    "tss": 0.5842230629115875,
+    "kept": true
+   },
+   {
+    "groups": [
+     "rain",
+     "static",
+     "gsi",
+     "soil",
+     "season",
+     "peak"
+    ],
+    "tss": 0.5905590584279109,
     "kept": false
    },
    {
     "groups": [
      "rain",
      "static",
-     "history",
+     "gsi",
      "soil",
+     "season",
      "cold"
     ],
-    "tss": 0.7117892671991033,
+    "tss": 0.5826313577133249,
     "kept": false
    },
    {
     "groups": [
      "rain",
      "static",
-     "history",
+     "gsi",
      "soil",
+     "season",
      "quake"
     ],
-    "tss": 0.6988790808462939,
+    "tss": 0.5741347905282331,
     "kept": false
    }
   ]
