@@ -1,0 +1,47 @@
+stretch-days 58766, landslide days 147; GSI data for 44 of 44 stretches
+holding out 2009
+holding out 2010
+holding out 2011
+holding out 2012
+holding out 2013
+holding out 2014
+holding out 2015
+holding out 2016
+
+held-out years with landslides: 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016 (147 landslide days)
+
+                                             AUC   | caught at Avoid (2.5%) | caught at Caution (10%) | caught at 25% of days
+Old engine: Caine + GSI class (app today)    0.816 |           13.6% |           37.4% |           64.6%
+Old engine: Caine + slope class              0.818 |           15.0% |           38.1% |           63.3%
+Retrained LR: rain + static                  0.808 |           12.9% |           40.8% |           66.0%
+Retrained LR: rain + static + GSI            0.809 |           12.2% |           36.7% |           68.0%
+
+Gate: difference vs Old engine: Caine + GSI class (app today), 95% interval from resampling years
+  Retrained LR: rain + static:
+    AUC -0.00769 [-0.035, +0.0212] tie
+    Avoid (2.5%) -0.68 [-8.09, +7.95] tie
+    Caution (10%) +3.4 [-4.35, +12] tie
+    25% of days +1.36 [-6.59, +15.4] tie
+  Retrained LR: rain + static + GSI:
+    AUC -0.00705 [-0.0357, +0.0239] tie
+    Avoid (2.5%) -1.36 [-8.15, +7.46] tie
+    Caution (10%) -0.68 [-10.3, +7.38] tie
+    25% of days +3.4 [-3.76, +16.1] tie
+  Old engine: Caine + slope class:
+    AUC +0.00189 [-0.00323, +0.0081] tie
+    Avoid (2.5%) +1.36 [-3.66, +6.58] tie
+    Caution (10%) +0.68 [-2.5, +2.9] tie
+    25% of days -1.36 [-5.06, +7.3] tie
+
+AUC by held-out year:
+year  Caine + GS  Caine + sl  rain + sta  rain + sta  landslide days
+2009       0.951       0.970       0.988       0.984  2
+2010       0.861       0.858       0.832       0.837  42
+2011       0.719       0.728       0.687       0.702  10
+2012       0.739       0.731       0.677       0.679  11
+2013       0.743       0.742       0.769       0.779  46
+2014       0.843       0.841       0.820       0.806  7
+2015       0.811       0.816       0.872       0.876  18
+2016       0.862       0.859       0.823       0.810  11
+
+[exited with code 0]

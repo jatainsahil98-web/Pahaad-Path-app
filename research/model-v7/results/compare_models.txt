@@ -1,0 +1,35 @@
+stretch-days 58766, landslide days 147, years [2007, 2017]
+training without 2007
+training without 2008
+training without 2009
+training without 2010
+training without 2011
+training without 2012
+training without 2013
+training without 2014
+training without 2015
+training without 2016
+training without 2017
+held-out years with landslides: 8 (2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016)
+Formula (Caine 1980, old engine)         AUC 0.818 | caught at Avoid burden 15.0% | at Caution burden 38.1%
+Logistic regression (current method)     AUC 0.808 | caught at Avoid burden 12.9% | at Caution burden 40.8%
+Gradient boosting, shallow (depth 2)     AUC 0.809 | caught at Avoid burden 15.6% | at Caution burden 38.8%
+Gradient boosting, default               AUC 0.692 | caught at Avoid burden  9.5% | at Caution burden 26.5%
+Random forest                            AUC 0.789 | caught at Avoid burden 14.3% | at Caution burden 38.1%
+
+95% interval of the difference vs logistic regression (resampling years):
+Formula (Caine 1980, old engine)         AUC +0.010 [-0.017, +0.034] | Avoid catch  +2.0 pts [ -4.5, +11.3] | Caution catch  -2.7 pts [-13.1,  +4.4]
+Gradient boosting, shallow (depth 2)     AUC +0.001 [-0.014, +0.017] | Avoid catch  +2.7 pts [ -4.0,  +6.0] | Caution catch  -2.0 pts [ -6.2,  +1.8]
+Gradient boosting, default               AUC -0.116 [-0.197, -0.031] | Avoid catch  -3.4 pts [-12.1,  +3.8] | Caution catch -14.3 pts [-21.0,  +1.1]
+Random forest                            AUC -0.019 [-0.066, +0.025] | Avoid catch  +1.4 pts [ -8.9,  +6.5] | Caution catch  -2.7 pts [-12.0,  +6.3]
+
+AUC by held-out year:
+year   Formula  Logistic  Gradient  Gradient    Random  landslide days
+2009     0.970     0.988     0.965     0.883     0.936  2
+2010     0.858     0.832     0.818     0.527     0.842  42
+2011     0.728     0.687     0.693     0.521     0.573  10
+2012     0.731     0.677     0.708     0.800     0.740  11
+2013     0.742     0.769     0.758     0.562     0.756  46
+2014     0.841     0.820     0.864     0.786     0.871  7
+2015     0.816     0.872     0.859     0.813     0.754  18
+2016     0.859     0.823     0.809     0.646     0.842  11
