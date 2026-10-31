@@ -334,3 +334,9 @@ body[data-pp-view="ops"] .topbar .brand,body[data-pp-view="proof"] .topbar .bran
 .lmap.gl .maplibregl-ctrl-group button+button{border-top-color:var(--line)}
 :root[data-theme="dark"] .lmap.gl .maplibregl-ctrl-icon{filter:invert(1)}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .lmap.gl .maplibregl-ctrl-icon{filter:invert(1)}}
+/* 2.0 Phase 4: 3D terrain and save-for-offline buttons */
+.fab-txt{font:700 13px/1 var(--display);letter-spacing:.02em}
+.fab[hidden]{display:none}
+/* four buttons at the top would run into the ones at the bottom on a phone: two rows, extra ones to the left */
+.fabs-top{grid-template-rows:repeat(2,40px);grid-auto-flow:column;direction:rtl}
+.fabs-top .fab{direction:ltr}

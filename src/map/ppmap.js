@@ -5,6 +5,20 @@
 import * as maplibregl from 'maplibre-gl';
 import workerSrc from 'maplibre-gl/dist/maplibre-gl-worker.mjs?raw';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import { Protocol } from 'pmtiles';
+import { layers as pmLayers, namedFlavor } from '@protomaps/basemaps';
+
+/* 2.0 Phase 4: offline map files. The tile build (tools/tiles, release tiles-latest) puts them next to the app with a
+   tiles/tiles.json manifest: PMTiles archives read with Range requests on the web site, plain z/x/y folders inside the
+   APK. src/map/tiles.js turns the manifest into the two MapLibre sources used here (T.base: OpenStreetMap vector tiles,
+   Protomaps schema; T.dem: Terrarium terrain). Without them the built-in simple base map stays. */
+let protoOn = false;
+function protocol() {
+  if (protoOn) return;
+  protoOn = true;
+  maplibregl.addProtocol('pmtiles', new Protocol({ metadata: true }).tile);
+}
+const usesPm = T => [T.base, T.dem].some(x => x && /^pmtiles:/.test(x.url || ''));
 
 /* The worker ships as its own module file; the single shared file has nowhere to load it from, so it starts from a Blob.
    A module worker from a Blob fails on a page opened from a file (file:// has no origin to match), a classic one works,
@@ -77,19 +91,39 @@ function baseSources(B) {
 
 const W = (a, b) => ['interpolate', ['linear'], ['zoom'], 6, a, 12, b]; // line width that grows with zoom
 
-function style(C, B) {
+/* OpenStreetMap layers from the Protomaps basemap, recoloured to the app's land colour. Labels (symbol layers) are left
+   out: they need glyph files from a font server, and MapLibre cannot shape Devanagari; the app draws its own place
+   names as HTML. Country lines are left out too: the app draws its own borders. */
+function osmLayers(C) {
+  const f = Object.assign({}, namedFlavor(C.dark ? 'dark' : 'light'), { background: C.land, earth: C.land });
+  return pmLayers('pm', f, { lang: 'en' }).filter(l => l.type !== 'symbol' && l.type !== 'background' && !/^boundaries/.test(l.id));
+}
+
+function style(C, B, T) {
+  T = T || {};
   const src = {};
   Object.entries(baseSources(B)).forEach(([k, v]) => { src[k] = { type: 'geojson', data: v }; });
   ['net', 'alts', 'route', 'gsi', 'spots', 'reports', 'halts', 'towns', 'events', 'cross'].forEach(k => { src[k] = { type: 'geojson', data: EMPTY }; });
   src['route-trf'] = { type: 'geojson', data: EMPTY, lineMetrics: true };
   const lvlColor = (a, b, c, plain) => ['case', ['get', 'plain'], plain, ['match', ['get', 'lvl'], 2, c, 1, b, a]];
+  const osm = !!T.base, base = [];
+  if (osm) { src.pm = Object.assign({ type: 'vector' }, T.base); base.push(...osmLayers(C)); }
+  if (T.dem) {
+    src.dem = Object.assign({ type: 'raster-dem', encoding: 'terrarium', tileSize: 256 }, T.dem);
+    src.hs = Object.assign({}, src.dem); delete src.hs.attribution; // its own copy: hillshade and 3D terrain on one source draw badly
+    base.splice(osm ? 2 : 0, 0, { id: 'hillshade', type: 'hillshade', source: 'hs', paint: {
+      'hillshade-shadow-color': C.dark ? '#000000' : '#47584f', 'hillshade-highlight-color': C.dark ? '#5d6b63' : '#ffffff',
+      'hillshade-accent-color': C.dark ? '#0b1410' : '#5f6f66', 'hillshade-exaggeration': C.dark ? .45 : .38 } });
+  }
+  const hide = osm ? { visibility: 'none' } : {}; // the simple lakes, rivers and roads under the OSM ones would double up
   return {
     version: 8, sources: src,
     layers: [
       { id: 'land', type: 'background', paint: { 'background-color': C.land } },
-      { id: 'b-lakes', type: 'fill', source: 'b-lakes', paint: { 'fill-color': C.water, 'fill-opacity': .35 } },
-      { id: 'b-rivers', type: 'line', source: 'b-rivers', paint: { 'line-color': C.water, 'line-width': W(1, 2), 'line-opacity': .8 } },
-      { id: 'b-roads', type: 'line', source: 'b-roads', paint: { 'line-color': C.muted, 'line-width': W(.6, 1.4), 'line-opacity': .35 } },
+      ...base,
+      { id: 'b-lakes', type: 'fill', source: 'b-lakes', layout: hide, paint: { 'fill-color': C.water, 'fill-opacity': .35 } },
+      { id: 'b-rivers', type: 'line', source: 'b-rivers', layout: hide, paint: { 'line-color': C.water, 'line-width': W(1, 2), 'line-opacity': .8 } },
+      { id: 'b-roads', type: 'line', source: 'b-roads', layout: hide, paint: { 'line-color': C.muted, 'line-width': W(.6, 1.4), 'line-opacity': .35 } },
       { id: 'b-borders', type: 'line', source: 'b-borders', paint: { 'line-color': C.muted, 'line-width': 1, 'line-opacity': .6, 'line-dasharray': [5, 4] } },
       { id: 'net', type: 'line', source: 'net', layout: { 'line-cap': 'round' }, paint: { 'line-color': C.muted, 'line-width': W(1.2, 2.4), 'line-opacity': .28 } },
       { id: 'events', type: 'circle', source: 'events', paint: { 'circle-radius': 2, 'circle-color': '#6B4C9A', 'circle-opacity': .55 } },
@@ -129,17 +163,21 @@ function gradient(stops) {
 export function create(el, opts) {
   setWorker();
   const o = opts || {};
-  let C = o.colors, B = o.basemap || {};
+  let C = o.colors, B = o.basemap || {}, T = o.tiles || {};
+  if (usesPm(T)) protocol();
   const map = new maplibregl.Map({
-    container: el, style: style(C, B), bounds: o.bounds || [[77.5, 28.6], [81.1, 31.3]], fitBoundsOptions: { padding: 24 },
+    container: el, style: style(C, B, T), bounds: o.bounds || [[77.5, 28.6], [81.1, 31.3]], fitBoundsOptions: { padding: 24 },
     attributionControl: false, pixelRatio: Math.min(window.devicePixelRatio || 1, 2), fadeDuration: calm() ? 0 : 200,
-    dragRotate: false, pitchWithRotate: false, maxPitch: 0, renderWorldCopies: false, cancelPendingTileRequestsWhileZooming: true,
+    dragRotate: false, pitchWithRotate: false, maxPitch: 0, maxZoom: 16, renderWorldCopies: false, cancelPendingTileRequestsWhileZooming: true,
   });
   map.touchZoomRotate.disableRotation();
   if (o.scrollZoom === false) map.scrollZoom.disable(); // a map inside a scrolling page: the wheel scrolls the page
   if (o.zoomControl) map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
   map.addControl(new maplibregl.AttributionControl({ compact: true, customAttribution: o.attribution || '' }), 'bottom-left');
   const state = { data: {}, markers: {}, loaded: false, anim: 0, trf: null };
+  /* the credits start folded to the (i) button: opened, the longer OSM and terrain lines run across the route */
+  const shut = () => { const a = el.querySelector('.maplibregl-ctrl-attrib'); if (a) { a.classList.remove('maplibregl-compact-show'); a.removeAttribute('open'); } };
+  map.once('idle', shut);
   const addIcons = () => { ['tri', 'rep', 'halt', 'x'].forEach(k => { const id = 'pp-' + k; if (map.hasImage(id)) map.removeImage(id); map.addImage(id, icon(k, C), { pixelRatio: 2 }); }); };
   const flush = () => {
     Object.entries(state.data).forEach(([k, v]) => { const s = map.getSource(k); if (s) s.setData(v); });
@@ -151,6 +189,12 @@ export function create(el, opts) {
     if (g) map.setPaintProperty('route-trf', 'line-gradient', g);
   };
   map.on('load', () => { state.loaded = true; addIcons(); flush(); if (o.onload) o.onload(); });
+  const restyle = () => {
+    state.loaded = false;
+    map.setStyle(style(C, B, T), { diff: false });
+    map.once('style.load', () => { state.loaded = true; addIcons(); flush(); if (state.mode) api.mode(state.mode); if (state.d3) api.view3d(true); });
+    map.once('idle', shut);
+  };
   map.on('styleimagemissing', e => { if (/^pp-/.test(e.id)) addIcons(); });
 
   /* popups: tapping a route stretch or a pin opens its HTML (built by the app, so it is in the right language) */
@@ -232,11 +276,32 @@ export function create(el, opts) {
     /* open a popup from the app (a tap on a row in the control room grid) */
     popup(lngLat, html) { pop.setLngLat(lngLat).setHTML(html).addTo(map); },
     /* new theme colours (light or dark): rebuild the style once, the data goes back in on load */
-    theme(colors) {
-      C = colors; state.loaded = false;
-      map.setStyle(style(C, B), { diff: false });
-      map.once('style.load', () => { state.loaded = true; addIcons(); flush(); if (state.mode) api.mode(state.mode); });
+    theme(colors) { C = colors; restyle(); },
+    /* the offline map files turned up (or went): rebuild the style with them */
+    tiles(t) {
+      t = t || {};
+      if (JSON.stringify([t.base, t.dem]) === JSON.stringify([T.base, T.dem])) return;
+      T = t; if (usesPm(T)) protocol();
+      if (!T.dem && state.d3) api.view3d(false);
+      restyle();
     },
+    has(k) { return !!T[k]; },
+    /* 3D: tilt the map and raise the hills from the terrain file (only with dem.pmtiles); false lays it flat again */
+    view3d(on) {
+      on = !!on && !!T.dem;
+      state.d3 = on;
+      const go = () => {
+        map.setMaxPitch(on ? 72 : 0);
+        if (on) { map.dragRotate.enable(); map.touchZoomRotate.enableRotation(); map.touchPitch.enable(); }
+        else { map.dragRotate.disable(); map.touchZoomRotate.disableRotation(); }
+        map.setTerrain(on ? { source: 'dem', exaggeration: 1.5 } : null);
+        if (map.setSky) map.setSky(on ? { 'sky-color': C.dark ? '#0d1a2b' : '#9cc6ec', 'horizon-color': C.dark ? '#1d2c3c' : '#e6eef2', 'fog-color': C.land, 'sky-horizon-blend': .6, 'horizon-fog-blend': .5, 'fog-ground-blend': .7 } : {});
+        map.easeTo({ pitch: on ? 55 : 0, bearing: on ? map.getBearing() : 0, duration: calm() ? 0 : 900 });
+      };
+      if (state.loaded) go(); else map.once('load', go);
+      return on;
+    },
+    is3d() { return !!state.d3; },
     /* how many stretches the map draws (the tests count them) */
     count(name) { const d = state.data[name || 'route']; return d ? d.features.length : 0; },
     remove() { cancelAnimationFrame(state.anim); Object.values(state.markers).flat().forEach(m => m.remove()); map.remove(); },

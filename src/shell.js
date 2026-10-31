@@ -182,12 +182,16 @@ render=function(){
   $('srcchip').setAttribute('aria-label',t('sh_conds'));$('bgmap').setAttribute('aria-label',t('sh_map'));
   [['fab-layer','sh_layer'],['fab-fit','sh_fit'],['fab-where','sh_where'],['fab-sos','sh_sos']].forEach(([id,k])=>{$(id).setAttribute('aria-label',t(k));$(id).title=t(k);});
   $('fab-layer').classList.toggle('on',st.layer==='traffic');
+  if($('fab-3d')){$('fab-3d').setAttribute('aria-label',t('sh_3d'));$('fab-3d').title=t('sh_3d');$('fab-3d').hidden=!(TL&&TL.dem&&BG.gl);$('fab-3d').classList.toggle('on',!!(BG.gl&&BG.gl.is3d()));}
+  if($('fab-save')){$('fab-save').setAttribute('aria-label',t('sh_save'));$('fab-save').title=t('sh_save');$('fab-save').hidden=!(TL&&TL.web&&!TL.saved);}
   const tripV=st.view==='trip';if(!tripV){closeSearch();if(condsOpen())toggleConds(false);}$('bgmap').hidden=!tripV;$('fabs').hidden=$('fabs-top').hidden=!tripV||!(st.M&&st.M.cur);
   document.documentElement.style.setProperty('--topbar-h',Math.round($('app').querySelector('.topbar').getBoundingClientRect().height)+'px');
   if(tripV){const sh=$('v-trip');if(!document.documentElement.style.getPropertyValue('--sheet-h'))setSnap(sh.dataset.snap||'half',true);drawBg(st.M);}
 };
 document.addEventListener('click',e=>{
-  const c=e.target.closest('#qsum,#search-go,#scrim,#srcchip,#fab-layer,#fab-fit,#fab-where,#fab-sos,[data-pre]');if(!c)return;
+  const c=e.target.closest('#qsum,#search-go,#scrim,#srcchip,#fab-layer,#fab-fit,#fab-where,#fab-sos,#fab-3d,#fab-save,[data-pre]');if(!c)return;
+  if(c.id==='fab-3d'){if(BG.gl){BG.gl.view3d(!BG.gl.is3d());c.classList.toggle('on',BG.gl.is3d());}return;}
+  if(c.id==='fab-save'){saveTiles();return;}
   if(c.id==='qsum')openSearch();
   else if(c.id==='search-go'){closeSearch();setSnap('half');}
   else if(c.id==='scrim'){closeSearch();toggleConds(false);}
@@ -297,6 +301,7 @@ function glColors(){ // read once per theme change, not on every render
   if(!glDirty&&glC)return glC;glDirty=false;
   glC={land:cssd('--map-land',cssd('--bg','#EDEFE8')),water:cssd('--map-water','#5B8DB8'),muted:cssv('--muted'),ink:cssv('--ink'),surface:cssv('--surface'),
     go:cssv('--go'),cau:cssv('--cau'),avd:cssv('--avd'),goEdge:cssd('--go-edge','#0F4D2F'),cauEdge:cssd('--cau-edge','#8A6400'),avdEdge:cssd('--avd-edge','#7D1F14')};
+  glC.dark=(h=>{const m=/^#?([0-9a-f]{6})$/i.exec(h);if(!m)return false;const n=parseInt(m[1],16);return ((n>>16)*.299+((n>>8)&255)*.587+(n&255)*.114)<110;})(glC.surface);
   return glC;
 }
 if(GL){
@@ -311,7 +316,7 @@ function glEnsure(){
   if(BG.gl)return true;
   const el=$('bgmap');if(!el)return false;
   try{
-    BG.gl=window.PPMap.create(el,{colors:glColors(),basemap:BASEMAP,attribution:'Natural Earth',onload:()=>bgFit(false),onpopup:()=>{if(!wideScreen()&&$('v-trip').dataset.snap==='full')setSnap('half',true);}});
+    BG.gl=window.PPMap.create(el,{colors:glColors(),basemap:BASEMAP,attribution:'Natural Earth',tiles:TL||{},onload:()=>bgFit(false),onpopup:()=>{if(!wideScreen()&&$('v-trip').dataset.snap==='full')setSnap('half',true);}});
   }catch(e){BG.gl=null;BG.glFail=true;return false;}
   LM.bgmap={gl:BG.gl}; // PP.mapLines counts its stretches
   if(window.PP)window.PP.glMap=()=>BG.gl&&BG.gl.map; // for the tests
@@ -373,7 +378,7 @@ function glCard(id,bounds){
   const el=$(id);if(!el)return null;
   killMap(id);
   let gl;
-  try{gl=window.PPMap.create(el,{colors:glColors(),basemap:BASEMAP,attribution:'Natural Earth',scrollZoom:false,zoomControl:true,bounds:bounds||undefined,
+  try{gl=window.PPMap.create(el,{colors:glColors(),basemap:BASEMAP,attribution:'Natural Earth',tiles:TL||{},scrollZoom:false,zoomControl:true,bounds:bounds||undefined,
     onload:()=>{if(bounds)gl.fit(bounds,{top:16,bottom:16,left:16,right:16});}});}catch(e){return null;}
   el.classList.add('gl');
   LM[id]={gl,map:gl.map};
@@ -416,4 +421,55 @@ if(GL){ // a theme change repaints the card maps too
   const re=()=>{['omap','pmap'].forEach(id=>{const o=LM[id];if(o&&o.gl&&o.gl.map.getContainer().isConnected)o.gl.theme(glColors());});};
   try{window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>setTimeout(re));}catch(e){}
   new MutationObserver(()=>setTimeout(re)).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+}
+
+/* ================= 2.0 Phase 4: offline map files (src/map/ppmap.js reads them). On the web site they sit in tiles/
+   next to the page and "Save map for offline" keeps whole copies in the browser (the service worker answers the map's
+   Range requests from that copy); in the Android app they ship inside the APK. A copy opened from a file has no tiles/
+   folder, so it keeps the built-in simple base map. ================= */
+Object.assign(T.en,{sh_3d:'3D terrain',sh_save:'Save map for offline',sv_busy:'Saving the map: {p}%',sv_done:'Map saved. It now works with no signal.',sv_err:'Could not save the map ({e})',sv_space:'Not enough space on this phone for the map'});
+Object.assign(T.hi,{sh_3d:'3D पहाड़',sh_save:'नक्शा ऑफ़लाइन के लिए सहेजें',sv_busy:'नक्शा सहेजा जा रहा है: {p}%',sv_done:'नक्शा सहेज लिया। अब बिना सिग्नल भी चलेगा।',sv_err:'नक्शा सहेजा नहीं जा सका ({e})',sv_space:'इस फ़ोन में नक्शे के लिए जगह कम है'});
+let TL=null; // {base, dem, files, manifest, web, saved} once the manifest is read
+const TILE_ROOT=/^https?:$/.test(location.protocol)?location.href.replace(/[?#].*$/,'').replace(/[^/]*$/,''):null;
+const TILE_CACHE='pp-tiles';
+function tilesFound(t){
+  TL=t;
+  if(BG.gl)BG.gl.tiles(t);
+  ['omap','pmap'].forEach(id=>{const o=LM[id];if(o&&o.gl)o.gl.tiles(t);});
+  if(st.M)render();
+}
+async function tilesSaved(){
+  try{if(!window.caches||!TL||!TL.files.length)return false;const c=await caches.open(TILE_CACHE);for(const u of TL.files)if(!await c.match(u))return false;return true;}catch(e){return false;}
+}
+if(GL&&TILE_ROOT){
+  window.PPMap.loadTiles(TILE_ROOT).then(async t=>{
+    if(!t)return;
+    t.web=!window.PPAndroid&&t.files.length>0; // the APK carries its tiles; only the web site offers to save them
+    TL=t;t.saved=await tilesSaved();tilesFound(t);
+  });
+}
+let saving=false;
+async function saveTiles(){
+  if(saving||!TL||!window.caches)return;
+  saving=true;
+  const files=TL.files.slice();
+  try{
+    if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(()=>{});
+    const c=await caches.open(TILE_CACHE);
+    const sizes=[],bodies=[];let got=0,total=0;
+    const rs=await Promise.all(files.map(u=>fetch(u,{cache:'no-store'})));
+    rs.forEach(r=>{if(!r.ok)throw new Error('HTTP '+r.status);const n=+r.headers.get('content-length')||0;sizes.push(n);total+=n;});
+    if(navigator.storage&&navigator.storage.estimate){const e=await navigator.storage.estimate();if(e.quota&&e.usage!=null&&e.quota-e.usage<total*1.1){toast(t('sv_space'));saving=false;return;}}
+    let last=-1;
+    for(let i=0;i<rs.length;i++){
+      const rd=rs[i].body.getReader(),parts=[];
+      for(;;){const {done,value}=await rd.read();if(done)break;parts.push(value);got+=value.length;
+        const p=total?Math.floor(got*100/total):0;if(p!==last&&p%5===0){last=p;toast(fill(t('sv_busy'),{p}));}}
+      bodies.push(new Blob(parts));
+    }
+    await c.add(new Request(TL.manifest,{cache:'no-cache'})); // the manifest too, so a reload with no signal finds the files
+    for(let i=0;i<files.length;i++)await c.put(files[i],new Response(bodies[i],{headers:{'Content-Type':'application/octet-stream','Content-Length':String(bodies[i].size)}}));
+    TL.saved=true;toast(t('sv_done'));render();
+  }catch(e){toast(fill(t('sv_err'),{e:String(e&&e.name==='QuotaExceededError'?t('sv_space'):(e.message||e))}));}
+  saving=false;
 }
