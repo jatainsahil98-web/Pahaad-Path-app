@@ -520,7 +520,7 @@ function ppStatus(){
   c.dataset.age=a;
   $('dot').className='dot '+a+(a==='live'?' live':'');
   const d=$('demob');d.hidden=a!=='demo';d.textContent=t('demo_b');
-  c.setAttribute('aria-label',t('sh_conds')+' · '+t('fr_'+a));
+  c.dataset.ageText=t('fr_'+a);
   const ob=$('obchip');
   if(OB.sending&&OB.total){ob.hidden=false;ob.className='obchip busy';ob.textContent=fill(t('ob_send'),{i:Math.min(OB.total,OB.sent+1),n:OB.total});}
   else if(OB.waiting){ob.hidden=false;ob.className='obchip';ob.innerHTML='<b>'+OB.waiting+'</b>'+esc(OB.waiting===1?t('ob_wait1'):fill(t('ob_waitn'),{n:OB.waiting}));}
@@ -540,3 +540,102 @@ window.addEventListener('pp:outbox',e=>{const d=e.detail||{},was=OB.sending;
   if(was&&!OB.sending&&OB.sent>0&&OB.shown!==OB.sent+'/'+OB.total){OB.shown=OB.sent+'/'+OB.total;toast(OB.sent===1?t('ob_sent1'):fill(t('ob_sentn'),{n:OB.sent}));}
   ppStatus();});
 document.addEventListener('click',e=>{if(e.target.closest('#obchip')){st.view='trip';st.tab='reports';SEC=null;render();}});
+
+/* ================= 2.0 Phase 7: the voice loop. A bar shows the words as they are heard (the browser's interim
+   results, or the Android app's partial results through PP.onSpeechPartial), the trip they parse to as chips (From,
+   To, Date, Time; tap one to change it), and when no destination is found, the nearest place names to pick from.
+   A spoken trip is still planned as soon as the final words arrive, as before; the bar says what was understood. ========== */
+Object.assign(T.en,{vb_listen:'Listening…',vb_heard:'Understood',vb_none:'No destination heard. Did you mean:',vb_again:'Speak again',vb_done:'Done',vb_close:'Close',
+  vb_from:'From',vb_to:'To',vb_date:'Date',vb_time:'Time',vb_edit:'Tap to change',vb_tryp:'Try saying: Delhi to Kedarnath tomorrow 6 am',vb_err:'Could not hear that. Check the microphone and try again.'});
+Object.assign(T.hi,{vb_listen:'सुन रहे हैं…',vb_heard:'समझा',vb_none:'मंज़िल सुनाई नहीं दी। क्या आपका मतलब था:',vb_again:'फिर से बोलें',vb_done:'ठीक है',vb_close:'बंद करें',
+  vb_from:'कहाँ से',vb_to:'कहाँ तक',vb_date:'तारीख़',vb_time:'समय',vb_edit:'बदलने के लिए छुएँ',vb_tryp:'ऐसे बोलें: दिल्ली से केदारनाथ कल सुबह 6 बजे',vb_err:'सुनाई नहीं दिया। माइक जाँचें और फिर कोशिश करें।'});
+const VB={on:false,said:'',final:false,timer:0,rec:null};
+function lev(a,b){if(a===b)return 0;const m=a.length,n=b.length;if(!m||!n)return m||n;let p=Array.from({length:n+1},(_,j)=>j);
+  for(let i=1;i<=m;i++){const c=[i];for(let j=1;j<=n;j++)c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));p=c;}return p[n];}
+/* places whose name is closest to any word (or word pair) heard: for "kedarnat" or "badrinat" or a half-heard name */
+function nearPlaces(text,k){
+  const words=String(text||'').toLowerCase().replace(/[.,!?।]/g,' ').split(/\s+/).filter(w=>w.length>=3);
+  const grams=words.concat(words.slice(1).map((w,i)=>words[i]+' '+w));
+  const best={};
+  Object.keys(N).forEach(id=>{const n=N[id];if(n.virtual||n.foot)return;
+    [n.en.split(' (')[0].toLowerCase(),n.hi].filter(Boolean).forEach(name=>{grams.forEach(g=>{const d=lev(g,name)/Math.max(name.length,g.length);if(d<=.42&&(best[id]==null||d<best[id]))best[id]=d;});});});
+  return Object.keys(best).sort((a,b)=>best[a]-best[b]).slice(0,k||3);
+}
+function vbChip(kind,label,val){return '<button type="button" class="vb-chip" data-vbe="'+kind+'" aria-label="'+esc(label+': '+val+'. '+t('vb_edit'))+'"><small>'+esc(label)+'</small><b>'+esc(val)+'</b></button>';}
+function vbDraw(){
+  const said=VB.said,a=said?parseAsk(said):{};
+  $('vb-h').textContent=VB.final?t('vb_heard'):t('vb_listen');
+  $('vbar').classList.toggle('live',!VB.final);
+  $('vb-said').textContent=said?'“'+said+'”':t('vb_tryp');
+  let ch='';
+  if(a.from||(VB.final&&a.to))ch+=vbChip('from',t('vb_from'),pname(a.from||st.from));
+  if(a.to)ch+=vbChip('to',t('vb_to'),pname(a.to));
+  if(a.date!=null||(VB.final&&a.to))ch+=vbChip('date',t('vb_date'),fmtDate(a.date!=null?a.date:st.dateIdx));
+  if(a.dep!=null)ch+=vbChip('time',t('vb_time'),String(a.dep).padStart(2,'0')+':00');
+  if(VB.final&&!a.to){const near=nearPlaces(said);ch='<p class="vb-none">'+esc(t('vb_none'))+'</p>'+near.map(id=>'<button type="button" class="vb-chip near" data-vbto="'+id+'"><b>'+esc(pname(id))+'</b></button>').join('');}
+  $('vb-chips').innerHTML=ch;
+  $('vb-acts').innerHTML=VB.final?'<button class="btn" type="button" id="vb-again">'+esc(t('vb_again'))+'</button><button class="btn pri" type="button" id="vb-ok">'+esc(t('vb_done'))+'</button>':'';
+  $('vb-x').setAttribute('aria-label',t('vb_close'));$('vb-x').title=t('vb_close');
+}
+function vbOpen(){clearTimeout(VB.timer);VB.on=true;VB.final=false;VB.said='';$('vbar').hidden=false;vbDraw();}
+function vbClose(){clearTimeout(VB.timer);VB.on=false;$('vbar').hidden=true;if(VB.rec){try{VB.rec.abort();}catch(e){}VB.rec=null;}$('b-mic').classList.remove('on');}
+function vbPartial(text){if(!VB.on)vbOpen();VB.said=String(text||'');VB.final=false;vbDraw();}
+function vbFinal(text){if(!VB.on)vbOpen();VB.said=String(text||'');VB.final=true;vbDraw();
+  $('toast').hidden=true; // the bar already says what was understood
+  const ok=$('vb-ok')||$('vb-again');if(ok&&!('ontouchstart' in window))ok.focus();}
+/* the browser's own recogniser, with interim results */
+function vlisten(){
+  if(!SR)return;
+  if(VB.rec){vbClose();return;}
+  const r=new SR();r.lang=st.lang==='hi'?'hi-IN':'en-IN';r.interimResults=true;r.maxAlternatives=3;r.continuous=false;VB.rec=r;
+  $('b-mic').classList.add('on');vbOpen();
+  let done=false;
+  r.onresult=e=>{let txt='',fin=false;for(let i=0;i<e.results.length;i++){txt+=e.results[i][0].transcript;if(e.results[i].isFinal)fin=true;}
+    if(!fin){vbPartial(txt);return;}
+    done=true;const alts=[...e.results[e.results.length-1]].map(x=>x.transcript);
+    const best=alts.find(x=>{const a=parseAsk(x);return a.to;})||txt;
+    $('in-ask').value=best;if(parseAsk(best).to)applyAsk(best);vbFinal(best);};
+  r.onerror=e=>{done=true;if(e&&e.error!=='aborted'){VB.final=true;VB.said='';vbDraw();$('vb-said').textContent=t('vb_err');}};
+  r.onend=()=>{VB.rec=null;$('b-mic').classList.remove('on');if(!done&&VB.on){VB.final=true;vbDraw();}};
+  try{r.start();}catch(e){VB.rec=null;$('b-mic').classList.remove('on');}
+}
+if(!nativeListen&&SR){$('b-mic').removeEventListener('click',listen);$('b-mic').addEventListener('click',vlisten);}
+if(nativeListen)$('b-mic').addEventListener('click',()=>vbOpen()); // features6 starts the phone's recogniser
+/* Android: the final words come through PP.onSpeech (features6 plans the trip); show them in the bar too */
+const onSpeechBase=onSpeech;
+onSpeech=function(alts,err){
+  onSpeechBase(alts,err);
+  if(!alts||!alts.length){if(VB.on){VB.final=true;VB.said='';vbDraw();$('vb-said').textContent=t('vb_err');}return;}
+  vbFinal($('in-ask').value||alts[0]);
+};
+document.addEventListener('click',e=>{
+  const c=e.target.closest('#vb-x,#vb-ok,#vb-again,[data-vbe],[data-vbto]');if(!c)return;
+  if(c.id==='vb-x'||c.id==='vb-ok'){vbClose();return;}
+  if(c.id==='vb-again'){vbClose();$('b-mic').click();return;}
+  if(c.dataset.vbto){vbClose();const said=VB.said;st.to=c.dataset.vbto;const a=parseAsk(said);if(a.from&&a.from!==st.to)st.from=a.from;st.pmsg=null;st.pick=null;render();toast(fill(t('ask_ok'),{x:pname(st.from)+' → '+pname(st.to)}));return;}
+  const k=c.dataset.vbe,f={from:'in-from',to:'in-to',date:'in-date',time:'in-dep'}[k];
+  vbClose();openSearch();setTimeout(()=>{const el=$(f);if(el){el.focus();if(el.select&&el.type==='text')el.select();}},260);
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&VB.on)vbClose();});
+queueMicrotask(()=>{if(window.PP)window.PP.onSpeechPartial=vbPartial;});
+
+/* ================= 2.0 Phase 7: accessibility. Every view passes axe (WCAG 2.1 A and AA): the search fields keep their
+   labels when the search was never opened, the status line's name starts with what it shows, and wide tables or the
+   advisory text that scroll sideways can be reached and scrolled with the keyboard. ================= */
+function a11yPass(){
+  if(!$('l-from').textContent){$('l-from').textContent=t('f_from');$('l-to').textContent=t('f_to');$('l-date').textContent=t('f_date');$('l-dep').textContent=t('f_dep');}
+  [['b-mic','ask_mic'],['swap','swap']].forEach(([id,k])=>{const b=$(id);if(b&&!b.getAttribute('aria-label')){b.setAttribute('aria-label',t(k));b.title=t(k);}});
+  const ask=$('in-ask');if(ask)ask.setAttribute('aria-label',t('ask_mic'));
+  const c=$('srcchip');if(c){c.removeAttribute('aria-label'); // its name is what it shows, then (for screen readers only) how fresh and what it opens
+    let v=$('srcvh');if(!v){v=document.createElement('span');v.id='srcvh';v.className='vh';c.appendChild(v);}
+    v.textContent=' · '+(c.dataset.ageText||'')+' · '+t('sh_conds');}
+  document.querySelectorAll('#v-ops .wrap,#v-proof .wrap,#v-trip .wrap,#adv').forEach(el=>{
+    if(el.tabIndex>=0)return;
+    el.tabIndex=0;el.setAttribute('role','region');
+    const h=el.closest('.card')&&el.closest('.card').querySelector('h3');el.setAttribute('aria-label',h?h.textContent:t('sh_conds'));
+  });
+}
+const renderBaseP7=render;
+render=function(){renderBaseP7();a11yPass();};
+if(window.MutationObserver){let q=0;const mo=new MutationObserver(()=>{if(q)return;q=requestAnimationFrame(()=>{q=0;a11yPass();});});
+  ['v-ops','v-proof','v-trip'].forEach(id=>{const el=$(id);if(el)mo.observe(el,{childList:true,subtree:false});});}
