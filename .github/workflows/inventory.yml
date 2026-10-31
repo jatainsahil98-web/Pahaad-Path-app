@@ -15,6 +15,10 @@ on:
       max:
         description: 'reports to read in this run'
         default: '60'
+      rebuild:
+        description: 'start again from the oldest report listed'
+        type: boolean
+        default: false
 permissions:
   contents: write
 concurrency:
@@ -38,9 +42,10 @@ jobs:
         env:
           YEARS: ${{ inputs.years }}
           MAX: ${{ inputs.max || '60' }}
+          REBUILD: ${{ inputs.rebuild && '--rebuild' || '' }}
         run: |
           cd python
-          python -u -m pahaadpath inventory --state ../truth/inventory.json --csv ../truth/closures.csv --max "$MAX" ${YEARS:+--years $YEARS} | tee -a "$GITHUB_STEP_SUMMARY"
+          python -u -m pahaadpath inventory --state ../truth/inventory.json --csv ../truth/closures.csv --max "$MAX" $REBUILD ${YEARS:+--years $YEARS} | tee -a "$GITHUB_STEP_SUMMARY"
       - name: Publish on the truth branch
         run: |
           cd truth

@@ -2,7 +2,7 @@ import os
 import unittest
 
 from pahaadpath.closures import listing, parse
-from pahaadpath.inventory import add_report, empty, pending, to_csv
+from pahaadpath.inventory import add_report, empty, pending, to_csv, year_entries
 from pahaadpath.network import Network
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -57,6 +57,17 @@ class InventoryTest(unittest.TestCase):
         st = empty()
         add_report(st, {'date': '2026-09-29', 'slot': 'evening', 'roads': []}, 'https://x.invalid/b.pdf', self.links)
         self.assertEqual([u for d, s, u in pending(st, listing(LISTING))], ['https://x.invalid/c.pdf', 'https://x.invalid/d.pdf'])
+
+    def test_listing_pages_until_no_new_reports(self):
+        page = lambda d, u: ('<tr><td>SRMD %s Morning Report</td><td><a href="https://x.invalid/%s.pdf">View</a></td></tr>' % (d, u)).encode()
+        pages = {'': page('30/09/2026', 'c') + page('29/09/2026', 'b'), 'page/2/': page('28/09/2026', 'a'), 'page/3/': page('28/09/2026', 'a')}
+        def fetch(url):
+            key = url.split('srmd-daily-reports-2026/')[1]
+            if key not in pages:
+                raise OSError('404')
+            return pages[key]
+        got = year_entries(2026, fetch=fetch, log=lambda *a: None)
+        self.assertEqual(sorted(u for d, s, u in got), ['https://x.invalid/a.pdf', 'https://x.invalid/b.pdf', 'https://x.invalid/c.pdf'])
 
     def test_real_report_and_csv(self):
         rep = parse(REPORT, self.places)

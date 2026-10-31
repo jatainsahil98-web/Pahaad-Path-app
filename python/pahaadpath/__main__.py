@@ -39,6 +39,7 @@ def main(argv=None):
     i.add_argument('--csv', default='data/truth/closures.csv')
     i.add_argument('--years', type=int, nargs='*')
     i.add_argument('--max', type=int, default=60, help='reports to read in this run')
+    i.add_argument('--rebuild', action='store_true', help='start again from the oldest report listed (after adding listing pages or years)')
     a = ap.parse_args(argv)
 
     from .network import Network
@@ -87,7 +88,7 @@ def main(argv=None):
         net = Network()
         try:
             with open(a.state, encoding='utf-8') as f:
-                state = json.load(f)
+                state = empty() if a.rebuild else json.load(f)
         except FileNotFoundError:
             state = empty()
         update(state, net.places, net.links, years=a.years, max_reports=a.max)

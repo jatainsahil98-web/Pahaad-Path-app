@@ -59,15 +59,31 @@ def pending(state, entries):
     return [e for e in entries if e[2] not in seen and (e[0], e[1] == 'evening') > last]
 
 
+def year_entries(year, fetch=get, max_pages=60, log=print):
+    """every report listed for a year: PWD's listing shows the newest few per page, older ones on /page/2/, /page/3/..."""
+    out, seen = [], set()
+    for n in range(1, max_pages + 1):
+        url = LIST % year + ('' if n == 1 else 'page/%d/' % n)
+        try:
+            rows = listing(fetch(url).decode('utf-8', 'replace'))
+        except Exception as e:  # past the last page (404), or no page for that year yet
+            if n == 1:
+                log('inventory: listing %d not read: %s' % (year, e))
+            break
+        new = [r for r in rows if r[2] not in seen]
+        if not new:
+            break
+        seen.update(r[2] for r in new)
+        out += new
+    return out
+
+
 def update(state, places, links, years=None, max_reports=60, log=print):
     """read the reports not yet in the state, oldest first, up to max_reports per run"""
     years = years or [dt.datetime.now(IST).year]
     entries = []
     for y in years:
-        try:
-            entries += listing(get(LIST % y).decode('utf-8', 'replace'))
-        except Exception as e:  # a year with no page yet
-            log('inventory: listing %d not read: %s' % (y, e))
+        entries += year_entries(y, log=log)
     todo = pending(state, sorted(entries, key=lambda e: (e[0], e[1] == 'evening')))
     log('inventory: %d reports listed, %d new, reading up to %d' % (len(entries), len(todo), max_reports))
     for date, slot, url in todo[:max_reports]:
