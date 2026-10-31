@@ -350,9 +350,9 @@ function renderOps(){
   const v6c=D.rows.some(r=>v6Today(r.e.id)),v6u=v6c&&!!st.v6; // model v6 today, in use or on trial
   let grid='<div class="grid'+(v6c?' v6c':'')+'" role="table"><div class="gr gh" role="row"><span class="gn" role="columnheader"></span>'+blocks.map(b=>'<span role="columnheader">'+esc(hourLabel(b*6))+'</span>').join('')
     +(v6c?'<span role="columnheader" class="v6h" title="'+esc(t(v6u?'v6_col_u':'v6_col_t'))+'">v6</span>':'')+'</div>';
-  D.rows.forEach(r=>{grid+='<div class="gr" role="row"><button class="gn" type="button" data-oz="'+r.e.id+'" role="rowheader">'+esc(segName(r.e))+'</button>'
-    +blocks.map(b=>{const m=Math.max(...r.sc.slice(b*6,b*6+6));return '<button type="button" class="gc l'+lvl(m)+(h>=b*6&&h<b*6+6?' on':'')+'" data-oh="'+(b*6)+'" title="'+esc(segName(r.e)+' · '+hourLabel(b*6)+' · '+m)+'">'+m+'</button>';}).join('')
-    +(v6c?(x=>'<span class="gc v6 l'+(x?lvl(x.v):0)+'" title="'+esc(segName(r.e)+' · '+t(v6u?'v6_col_u':'v6_col_t'))+'">'+(x?x.v:'')+'</span>')(v6Today(r.e.id)):'')+'</div>';});
+  D.rows.forEach(r=>{grid+='<div class="gr" role="row"><span class="gcw" role="rowheader"><button class="gn" type="button" data-oz="'+r.e.id+'">'+esc(segName(r.e))+'</button></span>'
+    +blocks.map(b=>{const m=Math.max(...r.sc.slice(b*6,b*6+6));return '<span class="gcw" role="cell"><button type="button" class="gc l'+lvl(m)+(h>=b*6&&h<b*6+6?' on':'')+'" data-oh="'+(b*6)+'" title="'+esc(segName(r.e)+' · '+hourLabel(b*6)+' · '+m)+'">'+m+'</button></span>';}).join('')
+    +(v6c?(x=>'<span role="cell" class="gc v6 l'+(x?lvl(x.v):0)+'" title="'+esc(segName(r.e)+' · '+t(v6u?'v6_col_u':'v6_col_t'))+'">'+(x?x.v:'')+'</span>')(v6Today(r.e.id)):'')+'</div>';});
   grid+='</div>';
   const reps=ctx().reports.slice().sort((a,b)=>b.ts-a.ts);
   $('v-ops').innerHTML='<div class="ops-h"><h2>'+t('ops_t')+'</h2><p class="sub">'+t('ops_s')+'</p></div>'
