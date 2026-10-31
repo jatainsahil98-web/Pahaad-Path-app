@@ -4,8 +4,8 @@
 :root{
   --topbar-bg:color-mix(in srgb,var(--head) 94%,transparent);
   --sheet-r:20px;
-  --elev-1:0 1px 2px rgba(10,22,16,.12),0 2px 8px rgba(10,22,16,.10);
-  --elev-2:0 8px 28px rgba(10,22,16,.22),0 2px 6px rgba(10,22,16,.12);
+  --elev-1:var(--e2); /* 2.0: elevation comes from src/ui/tokens.css (lighter surfaces instead of shadows in dark) */
+  --elev-2:var(--e4);
   --spring:cubic-bezier(.22,1.18,.36,1);
   --ease:cubic-bezier(.2,.7,.2,1);
   --bnav-h:64px;
@@ -286,3 +286,28 @@ body[data-pp-view="ops"] .topbar .brand,body[data-pp-view="proof"] .topbar .bran
 .sheet #acts{display:grid;grid-template-columns:repeat(auto-fit,minmax(64px,1fr));gap:6px;margin:10px 16px 0}
 .sheet #acts .btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:58px;padding:8px 6px;font-size:12.5px;line-height:1.2;text-align:center;border-radius:12px;white-space:normal}
 .sheet #acts .btn svg{width:18px;height:18px;margin:0}
+
+/* ================= 2.0 Phase 1: one side rail on every view of a wide screen (Galaxy Tab landscape), the trip panel
+   beside it; the rail's top joins the forest-green masthead. Phones and tablet portrait keep the bottom bar. ================= */
+.bnav button{min-height:var(--tap)}
+.sheet{box-shadow:var(--e3)}
+/* SOS: white on the dark-mode red is 4.1:1, so the button keeps the deeper red in both themes (5.3:1) */
+.app.shell .sosfab{background:#C23B2B;color:#fff}
+@media (min-width: 900px){
+  :root{--rail-w:80px;--panel-w:400px}
+  .app.shell .bnav{top:0;bottom:0;left:0;right:auto;height:auto;width:var(--rail-w);flex-direction:column;justify-content:flex-start;gap:6px;
+    padding:calc(var(--topbar-h,72px) + 14px) 0 env(safe-area-inset-bottom,0px);border-top:0;border-right:1px solid var(--line);box-shadow:none;z-index:31;
+    background:linear-gradient(var(--head) 0 var(--topbar-h,72px),var(--surface) var(--topbar-h,72px))}
+  .app.shell .bnav button{flex:none;padding:10px 4px}
+  .topbar{left:var(--rail-w)}
+  .search,.scrim{left:var(--rail-w)}
+  .sheet{left:var(--rail-w);bottom:0;border-right:1px solid var(--line)}
+  .conds{left:calc(var(--rail-w) + 16px)}
+  .toast{bottom:24px}
+  /* key figures: label above the value, so long Hindi labels and values are never cut */
+  .kt{grid-template-columns:auto minmax(0,1fr);padding:9px 12px 8px}
+  .kt b{grid-column:1/-1;text-align:left;margin-top:3px;font-size:17px}
+}
+@media (min-width: 1200px){
+  :root{--panel-w:436px}
+}
