@@ -730,12 +730,15 @@ function attachVirtualSeries(){
   Object.keys(VN).forEach(id=>{const e=VN[id].edge,ref=(ADJ[e.a]||[]).find(x=>!x.virtual);st.series[e.id]=(ref&&st.series[ref.id])||new Array(SERIES_LEN).fill(0);
     if(st.daily)st.daily[e.id]=(ref&&st.daily[ref.id])||null;});
 }
+/* window event 'pp:sync' for the UI: {phase: start | pack | live | done | error, made: ms of the forecast or null, source: pack | live | saved} */
+function syncEvent(phase,made,source){try{window.dispatchEvent(new CustomEvent('pp:sync',{detail:{phase,made:made||null,source}}));}catch(e){}}
 async function load(pre){
   st.err='';
   if(st.scn==='live'){
     setClock(false);
+    syncEvent('start',null,st.via==='pack'?'pack':st.src==='cache'?'saved':'live');
     try{
-      const w=pre||await fetchWeather();st.series=seriesFromKeys(w.by);st.src='live';st.via=w.via;st.dataTs=w.ts;st.made=w.made||null;setDaily(w.daily,w.day0);if(w.alerts)st.alerts=w.alerts;if(w.closures)st.closures=w.closures;st.r24=w.r24||null;st.v6=w.v6||null;st.v6t=w.v6t||null;
+      const w=pre||await fetchWeather();syncEvent(w.via==='pack'?'pack':'live',w.made||w.ts,w.via==='pack'?'pack':'live');st.series=seriesFromKeys(w.by);st.src='live';st.via=w.via;st.dataTs=w.ts;st.made=w.made||null;setDaily(w.daily,w.day0);if(w.alerts)st.alerts=w.alerts;if(w.closures)st.closures=w.closures;st.r24=w.r24||null;st.v6=w.v6||null;st.v6t=w.v6t||null;
       try{localStorage.setItem('pp_cache2',JSON.stringify({ts:w.ts,made:w.made,by:w.by,daily:w.daily,day0:w.day0,alerts:st.alerts||null,closures:st.closures||null,v6:st.v6||null,v6t:st.v6t||null}));}catch(e){}
     }catch(e){
       let c=null;try{c=JSON.parse(localStorage.getItem('pp_cache2')||'null');}catch(_){}
@@ -744,12 +747,15 @@ async function load(pre){
         const shift=Math.round((st.hour0-c.ts)/3600e3),by={};
         Object.keys(c.by).forEach(k=>{by[k]=shift>0?c.by[k].slice(shift).concat(new Array(shift).fill(0)):c.by[k];});
         st.series=seriesFromKeys(by);st.src='cache';st.cacheTs=c.ts;st.cacheMade=c.made||null;st.alerts=c.alerts||null;st.closures=c.closures||null;st.v6=c.v6||null;st.v6t=c.v6t||null;setDaily(c.daily,c.day0);
+        syncEvent('done',c.made||c.ts,'saved');
       }else{
         /* nothing usable saved: say so, and plan roads, time and halts without a landslide score (never demo rain on a real trip) */
         st.src='none';st.err=c&&c.ts?'old':'none';st.cacheTs=c&&c.ts||null;st.cacheMade=c&&c.made||null;
         st.series={};EDGES.forEach(e=>{st.series[e.id]=new Array(SERIES_LEN).fill(0);});setDaily(null);
+        syncEvent('error',null,'saved');
       }
     }
+    if(st.src==='live')syncEvent('done',st.made||st.dataTs,st.via==='pack'?'pack':'live');
   }else if(st.scn.startsWith('rp:')){
     const ok=await loadReplayWeather(st.scn.slice(3));if(ok)setReplayDaily(st.scn.slice(3));
     if(!ok){st.scn='monsoon';st.src='sim';st.err='rpfail';setClock(true);st.series=simSeries('monsoon');}
