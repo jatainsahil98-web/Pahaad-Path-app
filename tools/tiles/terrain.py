@@ -61,7 +61,9 @@ def mosaic(paths, work):
 
 
 def terrarium(h):
-    h = np.nan_to_num(h, nan=0.0)
+    # whole metres: GLO-90 is not more precise than that, and sub-metre noise in the blue channel makes the PNGs
+    # three times larger (361 MB against about 120 MB for the area)
+    h = np.round(np.nan_to_num(h, nan=0.0))
     v = h + 32768.0
     r = np.floor(v / 256.0)
     g = np.floor(v) % 256
