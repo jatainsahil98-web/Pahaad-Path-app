@@ -3,13 +3,20 @@
   "private": true,
   "description": "Hill-road landslide, traffic and entry-rule advisory for Uttarakhand",
   "scripts": {
-    "vendor": "mkdir -p vendor && cd vendor && npm pack leaflet@1.9.4 qrcode-generator@1.4.4 && for f in *.tgz; do mkdir -p ${f%.tgz} && tar xzf $f -C ${f%.tgz}; done",
-    "build": "python3 tools/build.py data/open_data.json data/replay_results.json",
-    "build:demo": "python3 tools/build.py",
+    "build": "vite build",
+    "build:demo": "vite build --mode demo",
     "test": "node tests/matrix.js $PWD/dist/PahaadPath.html && node tests/textaudit.js $PWD/dist/PahaadPath.html && node tests/features.js $PWD/dist/PahaadPath.html && node tests/features2.js $PWD/dist/PahaadPath.html && node tests/features3.js $PWD/dist/PahaadPath.html && node tests/features4.js $PWD/dist/PahaadPath.html && node tests/features5.js $PWD/dist/PahaadPath.html && node tests/features6.js $PWD/dist/PahaadPath.html && node tests/features7.js $PWD/dist/PahaadPath.html",
-    "test:py": "cd python && python3 -m unittest discover -s tests"
+    "test:py": "cd python && python3 -m unittest discover -s tests",
+    "dev": "vite",
+    "site": "cp dist/PahaadPath.html index.html && cp dist/PahaadPath.html PahaadPath.html && cp dist/site/sw.js dist/site/manifest.webmanifest dist/site/icon.svg ."
   },
   "devDependencies": {
-    "playwright": "1.63.0"
+    "playwright": "1.63.0",
+    "vite": "5.4.21",
+    "vite-plugin-singlefile": "2.0.3"
+  },
+  "dependencies": {
+    "leaflet": "1.9.4",
+    "qrcode-generator": "1.4.4"
   }
 }

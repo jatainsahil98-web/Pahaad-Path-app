@@ -4,7 +4,7 @@ WORKDIR /app
 COPY server/requirements.txt server/requirements.txt
 RUN pip install --no-cache-dir -r server/requirements.txt
 COPY python/pahaadpath python/pahaadpath
-COPY src/app.html src/app.html
+COPY src/app/core.js src/app/core.js
 COPY data/open_data.json data/nasa_glc_uttarakhand_bbox.json data/
 COPY server/pahaadpath_api server/pahaadpath_api
 RUN mkdir /data && chown nobody /data

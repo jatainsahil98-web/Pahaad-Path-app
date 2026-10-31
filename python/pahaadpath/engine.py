@@ -1,4 +1,4 @@
-"""Port of the app's v4 rain-threshold engine (segScore in src/app.html), used to check the trained model against it.
+"""Port of the app's v4 rain-threshold engine (segScore in src/app/core.js), used to check the trained model against it.
 Road reports are left out: the pipeline scores weather, the app adds reports on the phone."""
 import datetime as dt
 

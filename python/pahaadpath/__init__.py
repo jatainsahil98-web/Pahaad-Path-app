@@ -1,6 +1,6 @@
 """PahaadPath data and model pipeline.
 
-Reads the road network straight from the app source (src/app.html), so the app and the pipeline never disagree about
+Reads the road network straight from the app source (src/app/core.js), so the app and the pipeline never disagree about
 which stretches exist. Standard library only, Python 3.9 or newer, so it also runs on a laptop or a phone with Termux."""
 import os
 

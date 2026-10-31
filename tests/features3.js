@@ -1,6 +1,6 @@
 // v5 checks: data pack, offline use of an old forecast, report outbox, share the app, and the trained model matching Python.
 const {chromium}=require('playwright');
-const fs=require('fs'),path=require('path');
+const fs=require('fs'),os=require('os'),path=require('path');
 const F=process.argv[2];
 const fails=[];const ok=(c,m)=>{if(!c)fails.push(m);};
 const istHour=ms=>new Date(Math.floor((ms+5.5*3600e3)/3600e3)*3600e3).toISOString().slice(0,13)+':00';
@@ -67,7 +67,13 @@ const istHour=ms=>new Date(Math.floor((ms+5.5*3600e3)/3600e3)*3600e3).toISOStrin
   // 4. share the app: the file handed on is the whole app as delivered
   const [dl]=await Promise.all([p.waitForEvent('download',{timeout:8000}),p.click('#a-app')]);
   const fp=await dl.path(),html=fs.readFileSync(fp,'utf8'),orig=fs.readFileSync(F,'utf8');
-  ok(html.startsWith('<!DOCTYPE html>')&&html.length>orig.length*.95&&html.includes('const PRISTINE'),'shared app file '+html.length+' vs '+orig.length);
+  ok(html.startsWith('<!DOCTYPE html>')&&html.length>orig.length*.95&&html.includes('<div class="app" id="app">'),'shared app file '+html.length+' vs '+orig.length);
+  // the file handed on runs as the app by itself (opened from disk, no network)
+  const cp=path.join(os.tmpdir(),'pp-shared-'+Date.now()+'.html');fs.writeFileSync(cp,html);
+  const p2=await ctx.newPage();const e2=[];p2.on('pageerror',e=>e2.push(String(e)));
+  await p2.goto('file://'+cp+'?scn=monsoon&tiles=0&from=delhi&to=nainital');
+  const runs=await p2.waitForFunction(()=>window.PP&&PP.last&&PP.last.cur,null,{timeout:15000}).then(()=>true,()=>false);
+  ok(runs&&!e2.length,'shared file runs '+e2.join('|'));await p2.close();fs.rmSync(cp);
   console.log('outbox and share: ok');
   await ctx.close();
  }

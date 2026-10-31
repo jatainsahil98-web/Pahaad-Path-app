@@ -22,7 +22,7 @@ Object.assign(T.hi,{
   app_t:'बिना इंटरनेट ऐप साझा करें',app_s:'पूरा ऐप एक फ़ाइल में सहेजता है। WhatsApp, ब्लूटूथ या मेमोरी कार्ड से भेजें; यह किसी भी फ़ोन ब्राउज़र में खुलता है और ऑफ़लाइन चलता है।',app_b:'ऐप फ़ाइल सहेजें या भेजें',app_done:'ऐप फ़ाइल तैयार'
 });
 
-/* ---------- trained model (python/pahaadpath/model.py writes data/model/model_v5.json; tools/build.py bakes it in) ---------- */
+/* ---------- trained model (python/pahaadpath/model.py writes data/model/model_v5.json; the build bakes it in) ---------- */
 const MODEL=/*__MODEL__*/null;
 /* daily rain for the 30 days before each replayed closure day (ERA5), so the Proof tab can use the model's rain memory */
 const RP_DAILY=/*__RP_DAILY__*/null;

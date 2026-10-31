@@ -185,7 +185,7 @@ document.addEventListener('input',e=>{
   lsSet('pp_mil',mil);lsSet('pp_fuel',pr);$('fu-out').innerHTML='<b>'+esc(fuelText(Math.round(st.M.cur.totalKm),mil,pr))+'</b>';
 });
 
-/* ---------- roadside stops from OpenStreetMap (python -m pahaadpath stops; tools/build.py bakes data/osm_stops.json in) ---------- */
+/* ---------- roadside stops from OpenStreetMap (python -m pahaadpath stops; the build bakes data/osm_stops.json in) ---------- */
 const STOPS=/*__STOPS__*/null;
 const ST_KINDS=['fuel','hosp','atm','mech'];
 function stopsAt(id){return STOPS&&STOPS.towns[id]||null;}

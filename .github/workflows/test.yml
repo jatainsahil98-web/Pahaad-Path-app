@@ -23,8 +23,7 @@ jobs:
           PYTHONPATH=python:server python -m pytest server/tests -q
       - run: npm install
       - run: npx playwright install --with-deps chromium
-      - run: npm run vendor
       - run: npm run build
       - name: Built app matches the published copy
-        run: cmp dist/PahaadPath.html index.html && cmp dist/PahaadPath.html PahaadPath.html
+        run: cmp dist/PahaadPath.html index.html && cmp dist/PahaadPath.html PahaadPath.html && cmp dist/site/sw.js sw.js && cmp dist/site/manifest.webmanifest manifest.webmanifest
       - run: npm test

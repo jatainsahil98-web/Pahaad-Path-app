@@ -1,0 +1,52 @@
+name: closure inventory
+# Twice a day, after PWD posts its morning and evening SRMD reports: read every report not yet read and add its closed
+# roads to the closure inventory (python/pahaadpath/inventory.py). Results go to the `truth` branch, with history:
+#   inventory.json  state (every report read, closures still open, closures that ended)
+#   closures.csv    one row per closure, for the threshold calibration and the backtest
+# Run by hand with years "2025 2026" and a larger max to backfill earlier seasons.
+on:
+  schedule:
+    - cron: '43 5,12 * * *'
+  workflow_dispatch:
+    inputs:
+      years:
+        description: 'PWD listing years, space separated (empty = this year)'
+        default: ''
+      max:
+        description: 'reports to read in this run'
+        default: '60'
+permissions:
+  contents: write
+concurrency:
+  group: inventory
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: pdftotext, to read the report PDFs
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
+      - name: Inventory so far, from the truth branch
+        run: |
+          git clone -q --depth 1 --branch truth "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" truth \
+            || { mkdir truth && git -C truth init -q -b truth && git -C truth remote add origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"; }
+      - name: Read new reports
+        env:
+          YEARS: ${{ inputs.years }}
+          MAX: ${{ inputs.max || '60' }}
+        run: |
+          cd python
+          python -u -m pahaadpath inventory --state ../truth/inventory.json --csv ../truth/closures.csv --max "$MAX" ${YEARS:+--years $YEARS} | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Publish on the truth branch
+        run: |
+          cd truth
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898299+github-actions[bot]@users.noreply.github.com'
+          git add inventory.json closures.csv
+          git diff --cached --quiet && { echo 'no new reports'; exit 0; }
+          git commit -qm "Closure inventory $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push -q origin HEAD:truth

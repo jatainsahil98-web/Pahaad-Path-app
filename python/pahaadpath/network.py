@@ -1,4 +1,4 @@
-"""Road network parsed from src/app.html, with open data (OSRM shape, DEM slope) and NASA catalog incident history."""
+"""Road network parsed from src/app/core.js, with open data (OSRM shape, DEM slope) and NASA catalog incident history."""
 import math
 from decimal import ROUND_HALF_UP, Decimal
 import re
@@ -56,7 +56,7 @@ def loc_key(lat, lon):
 
 class Network:
     def __init__(self, app_html=None, open_data=None, catalog=None):
-        with open(app_html or path('src', 'app.html'), encoding='utf-8') as f:
+        with open(app_html or path('src', 'app', 'core.js'), encoding='utf-8') as f:
             src = f.read()
         self.places = {}
         block = src[src.index('const PLACES={'):src.index('};', src.index('const PLACES={'))]

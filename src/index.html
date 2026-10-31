@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PahaadPath</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="theme-color" content="#1D3F31">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+</head><body>
+
+<div class="app" id="app">
+  <header class="mast">
+    <div class="mast-row">
+      <svg class="logo" viewBox="0 0 40 40" aria-hidden="true">
+        <rect width="40" height="40" rx="8" fill="#F2B705"/>
+        <path d="M3 33 L15 12 L21 22 L26 15 L37 33 Z" fill="#14221C"/>
+        <path d="M15 12 L18 17.2 L15 15.4 L12.4 17.2 Z" fill="#F2B705"/>
+        <path d="M8 36 Q20 28 32 36" fill="none" stroke="#F2B705" stroke-width="2.4" stroke-dasharray="4 3"/>
+      </svg>
+      <div class="brand"><b>PahaadPath</b><span id="tag"></span></div>
+      <div class="spacer"></div>
+      <div class="lang" role="group" aria-label="Language">
+        <button id="b-en" aria-pressed="true" type="button">EN</button>
+        <button id="b-hi" aria-pressed="false" type="button" lang="hi">हिं</button>
+      </div>
+    </div>
+    <nav class="views" id="views" aria-label="Views"></nav>
+  </header>
+  <div class="stripe"></div>
+  <div class="src">
+    <div class="msg"><span class="dot" id="dot"></span><span id="srcmsg"></span></div>
+    <label class="sel"><span id="lw"></span>
+      <select id="scn"><option value="monsoon"></option><option value="clear"></option><option value="live"></option></select></label>
+    <label class="sel"><span id="lt"></span>
+      <select id="tday"><option value="cal"></option><option value="normal"></option><option value="weekend"></option><option value="leve"></option><option value="lstart"></option><option value="lend"></option></select></label>
+  </div>
+
+  <div id="v-trip">
+  <section class="trip" id="trip" aria-label="Trip">
+    <div class="ask" id="ask">
+      <input id="in-ask" type="text" autocomplete="off" spellcheck="false" enterkeyhint="go">
+      <button class="mic" id="b-mic" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button>
+    </div>
+    <div class="rin">
+      <label class="fld"><span id="l-from"></span><input id="in-from" type="text" list="places" autocomplete="off" autocapitalize="words" spellcheck="false" enterkeyhint="go"></label>
+      <label class="fld"><span id="l-to"></span><input id="in-to" type="text" list="places" autocomplete="off" autocapitalize="words" spellcheck="false" enterkeyhint="go"></label>
+      <button class="swap" id="swap" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4v16M7 20l-3-3M7 20l3-3"/><path d="M17 20V4M17 4l-3 3M17 4l3 3"/></svg></button>
+    </div>
+    <div class="when">
+      <label class="fld"><span id="l-date"></span><input id="in-date" type="date"></label>
+      <label class="fld"><span id="l-dep"></span><select id="in-dep"></select></label>
+    </div>
+    <p class="dline" id="dline"></p>
+    <p class="pmsg" id="pmsg" hidden></p>
+    <div class="presets" id="presets"></div>
+    <datalist id="places"></datalist>
+  </section>
+
+  <section class="routes" id="routes"></section>
+  <section id="verdict"></section>
+  <section class="trf" id="traffic"></section>
+  <div class="acts" id="acts"></div>
+  <section class="card" id="planner"></section>
+
+  <div class="tabs" role="tablist" id="tabs"></div>
+  <section class="panel" id="panel"></section>
+  </div>
+  <section id="v-ops" class="wide-view" hidden></section>
+  <section id="v-proof" class="wide-view" hidden></section>
+
+  <footer class="foot" id="foot"></footer>
+</div>
+<div class="modal" id="modal" hidden><div class="modal-in" role="dialog" aria-modal="true"><button class="x" id="modal-x" type="button" aria-label="Close">×</button><div id="modal-body"></div></div></div>
+<div class="toast" id="toast" hidden></div>
+
+<script type="module" src="./main.js"></script>
+
+</body></html>

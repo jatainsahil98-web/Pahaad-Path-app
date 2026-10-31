@@ -32,16 +32,19 @@ PahaadPath is meant for people who are out of network most of the time.
 
 ## Build
 
-1. `npm install && npm run vendor` gets Playwright for the tests and the two libraries that are inlined so the app works offline.
-2. `npm run build` (or `python3 tools/build.py`) writes `dist/PahaadPath.html` (one file) and `dist/site/` (installable web app for GitHub Pages).
-3. `npm run build` bakes in the real data run from `data/`; `npm run build:demo` builds without it. To bake in a newer run fetched in a browser: `python3 tools/build.py pahaadpath_open_data.json pahaadpath_replay_results.json` (use `-` for the first file if you only have replay results).
+1. `npm install` gets Vite, Leaflet, the QR library and Playwright for the tests.
+2. `npm run build` writes `dist/PahaadPath.html` (one self-contained file) and `dist/site/` (installable web app for GitHub Pages); `npm run site` copies them to the repository root. `npm run dev` serves the app with live reload while you work.
+3. `npm run build` bakes in the real data run from `data/`; `npm run build:demo` builds without it. To bake in a newer run saved from the Proof tab in a browser: `PP_OPEN_DATA=pahaadpath_open_data.json PP_REPLAY=pahaadpath_replay_results.json npm run build`.
 
 ## Files
 
-- `src/app.html`: the Stage 1 prototype (road graph, risk engine, traffic model, planner, trip screens) with hooks for v4.
+- `src/index.html`, `src/main.js`, `src/app.css`: page markup, entry point and main styles; `vite.config.mjs` builds them.
+- `src/app/core.js`: the Stage 1 prototype (road graph, risk engine, traffic model, planner, trip screens). The feature files below are spliced into it at build time and share its scope.
 - `src/features.js`, `src/features2.js`, `src/features.css`: v4 views (control room, proof), Leaflet map, open data builder, safety tab, sentence and voice entry, QR.
 - `src/features3.js`: v5 data pack loader, offline forecast age, rain memory note, experimental trained model, share the app.
 - `src/features4.js`: v6 my trips watch list, family SMS, where am I (GPS), fuel cost, official warning links.
+- `src/features5.js`: v7 PWD road closures. `src/features6.js`: v8 SOS by SMS and 112, back button, trip restore, Android bridge, navigation hand-off.
+- `server/`: the signed road report API (see `server/README.md`).
 - `android/`: Android wrapper (WebView, assets/index.html copied in by CI).
 - `replay_source/gt.json`: closures named in news reports for 20 Aug 2025 and 9 Jul 2026, mapped to road links, plus two dry control days.
 - `tools/basemap.json`: Natural Earth rivers, roads and Indian state lines clipped to the map area (made by `tools/clip_ne.py`).

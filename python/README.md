@@ -10,6 +10,7 @@ Run every command from this folder: `python -m pahaadpath <command>`.
 | `pack` | Downloads today's forecast for every stretch and writes the data pack (about 6 KB compressed) that phones fetch in a moment of signal. | yes |
 | `advisory` | Prints every hill stretch at Caution or Avoid in the next 72 hours from the pack. `--pack pack.json` uses a saved copy with no signal. | only without `--pack` |
 | `closures` | Roads closed in Uttarakhand PWD's latest road closure report (SRMD, morning and evening in the monsoon), as the data pack carries them. `--at 2026-09-30T20:00+05:30` reads an older report. Needs `pdftotext` (poppler-utils). | yes |
+| `inventory` | Adds every PWD report not yet read to the closure inventory (`data/truth/inventory.json` and `closures.csv`): each closed road from the first report that lists it to the first that does not. The ground truth for calibration and the backtest; the `closure inventory` workflow runs it twice a day and keeps the result on the `truth` branch. Needs `pdftotext`. | yes |
 | `serve` | Road report sync server (sqlite). Phones queue reports offline and send the whole queue in one request when signal returns. Open the app with `?sync=https://your.server` to use it. | serves it |
 
 `python -m unittest discover -s tests` checks that the Python engine reproduces the app's own scores on all 176 replay rows and that the sync server handles an offline queue.
@@ -18,7 +19,7 @@ Run every command from this folder: `python -m pahaadpath <command>`.
 
 - **GitHub Actions** `model.yml`: fetch and train on every change to `python/pahaadpath/` (this is where Open-Meteo is reachable), and commit the results.
 - **GitHub Actions** `pack.yml`: the data pack every 3 hours, published at `https://raw.githubusercontent.com/jatainsahil98-web/Pahaad-Path-app/datapack/pack.json`.
-- **The app** never needs Python. `tools/build.py` bakes the trained model into the single HTML file.
+- **The app** never needs Python. The build (`npm run build`) bakes the trained model into the single HTML file.
 
 ## Model v5 in one paragraph
 

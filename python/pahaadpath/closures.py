@@ -129,18 +129,31 @@ def parse(text, places):
     return out
 
 
-def latest(listing_html):
-    """(date, slot, pdf url) of the newest report on the listing page"""
-    best = None
+def listing(listing_html):
+    """every report on the listing page as (date, slot, pdf url), oldest first"""
+    out = {}
     for row in re.split(r'<tr\b', listing_html):
         t, u = TITLE.search(html.unescape(re.sub(r'<[^>]+>', ' ', row))), re.search(r'https://[^"\']+\.pdf', row)
         if not (t and u):
             continue
         dd, mm, yy, slot = t.groups()
-        k = ('%s-%s-%s' % (yy, mm, dd), 1 if slot.lower() == 'evening' else 0)
-        if best is None or k > best[0]:
-            best = (k, slot.lower(), u.group(0))
-    return (best[0][0], best[1], best[2]) if best else None
+        out[('%s-%s-%s' % (yy, mm, dd), slot.lower())] = u.group(0)
+    return [(d, s, u) for (d, s), u in sorted(out.items(), key=lambda kv: (kv[0][0], kv[0][1] == 'evening'))]
+
+
+def latest(listing_html):
+    """(date, slot, pdf url) of the newest report on the listing page"""
+    rows = listing(listing_html)
+    return rows[-1] if rows else None
+
+
+def read_report(url, places):
+    """download one report PDF and parse it (needs pdftotext)"""
+    with tempfile.NamedTemporaryFile(suffix='.pdf') as f:
+        f.write(get(url, timeout=180))
+        f.flush()
+        text = subprocess.run(['pdftotext', '-raw', f.name, '-'], capture_output=True, check=True, timeout=120).stdout.decode('utf-8', 'replace')
+    return parse(text, places)
 
 
 def age_h(date, slot, now):
@@ -176,11 +189,7 @@ def fetch_closures(places, now=None, log=print):
         if a > KEEP_H:
             log('closures: latest PWD report is %s %s, %.0f h old, not carried' % (date, slot, a))
             return None
-        with tempfile.NamedTemporaryFile(suffix='.pdf') as f:
-            f.write(get(url, timeout=180))
-            f.flush()
-            text = subprocess.run(['pdftotext', '-raw', f.name, '-'], capture_output=True, check=True, timeout=120).stdout.decode('utf-8', 'replace')
-        rep = parse(text, places)
+        rep = read_report(url, places)
         rep.setdefault('date', date)
         rep.setdefault('slot', slot)
         rep['url'] = url

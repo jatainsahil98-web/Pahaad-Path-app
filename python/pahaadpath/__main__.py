@@ -7,6 +7,7 @@
   serve         run the road report sync server (see pahaadpath/server.py)
   stops         fuel, hospitals, ATMs and mechanics near each town from OpenStreetMap (needs internet)
   closures      roads closed in the latest PWD road closure report, as the data pack carries them (needs internet, pdftotext)
+  inventory     add every PWD report not yet read to the closure inventory (needs internet, pdftotext)
 """
 import argparse
 import json
@@ -33,6 +34,11 @@ def main(argv=None):
     o.add_argument('--out', default='data/osm_stops.json')
     c = sub.add_parser('closures')
     c.add_argument('--at', help='pretend it is this time (ISO, e.g. 2026-09-30T20:00+05:30) to read an older report')
+    i = sub.add_parser('inventory')
+    i.add_argument('--state', default='data/truth/inventory.json')
+    i.add_argument('--csv', default='data/truth/closures.csv')
+    i.add_argument('--years', type=int, nargs='*')
+    i.add_argument('--max', type=int, default=60, help='reports to read in this run')
     a = ap.parse_args(argv)
 
     from .network import Network
@@ -75,6 +81,22 @@ def main(argv=None):
             json.dump(st, f, ensure_ascii=False, separators=(',', ':'))
             f.write('\n')
         print('stops', a.out, len(st['towns']), 'towns')
+    elif a.cmd == 'inventory':
+        import os
+        from .inventory import empty, to_csv, update
+        net = Network()
+        try:
+            with open(a.state, encoding='utf-8') as f:
+                state = json.load(f)
+        except FileNotFoundError:
+            state = empty()
+        update(state, net.places, net.links, years=a.years, max_reports=a.max)
+        os.makedirs(os.path.dirname(os.path.abspath(a.state)) or '.', exist_ok=True)
+        with open(a.state, 'w', encoding='utf-8') as f:
+            json.dump(state, f, ensure_ascii=False, indent=0)
+        with open(a.csv, 'w', encoding='utf-8', newline='') as f:
+            f.write(to_csv(state))
+        print('inventory: %d reports, %d closures ended, %d still open' % (len(state['reports']), len(state['done']), len(state['open'])))
     elif a.cmd == 'closures':
         import datetime as dt
         from .closures import fetch_closures, pack_closures
