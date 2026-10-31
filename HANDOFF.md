@@ -86,16 +86,30 @@ Phone alerts (WatchWorker) use `risk24` from the pack.
 - ERA5 rain, soil moisture, temperature (Open-Meteo archive); forecasts (Open-Meteo); NDMA Sachet alerts; USGS quakes.
 - Open-Meteo free tier: about 5,000 weighted calls per hour; the pipeline paces and caches (`data/cache`, Actions cache).
 
-## 6. Open items
+## 6. Left to implement (in priority order)
 
-1. Decision on v6 (see section 4). Blocks: any change to what the trip screen shows.
-2. Background trip alerts not yet tested on a real device.
-3. Reports API not hosted (needs an India-region host); Firebase `google-services.json` not provided; IMD API needs
-   IP whitelisting; SEOC / BRO data not obtained.
-4. Frontend 2.0 (MapLibre GL vector maps, 3D terrain, design system): planned in the existing app, phased PRs.
-   Rules for UI work: edit only `src/` UI files, keep element ids, `data-*` attributes and `window.PP` functions,
-   never use a body attribute `data-view` (use `data-pp-view`), English + Hindi for every string, no en dashes or
-   Oxford commas in UI text (textaudit), test phone 412×915 and Galaxy Tab S10+ landscape 1280×800.
+The frontend is done; all further work goes into this same app (no rewrite, no second app).
+
+1. **Model v6 credibility (decision pending with the owner).** v6 wins on the 2026 PWD season but loses to the old
+   engine at equal alarm rate on 2014 to 2018. Proposed: retrain v6 without 2026-only inputs (the "past PWD closures"
+   group), test on both the 2026 season and 2014 to 2018 (`python -m pahaadpath backtest`, `independent`), keep it only
+   if it wins both; otherwise the trip screen returns to Caine + GSI. Do not change what the trip screen shows until
+   the owner decides.
+2. **Wider check on other years:** run the independent check on 2007 to 2013 as well
+   (`python -m pahaadpath independent --first 2007 --until 2018`), for more events than 68.
+3. **Background trip alerts on a real device:** save a trip on Android, allow notifications, confirm the WorkManager
+   check (every 3 h) fires and the notification opens the app. Fix anything found in `android/.../WatchWorker.java`.
+4. **Road reports API hosting:** deploy `server/` (Dockerfile ready) on an India-region host, set the app's API
+   address (`API_DEFAULT` in `src/features2.js`), create officer tokens (`python -m pahaadpath_api add-officer`).
+5. **Control room uses v6:** show the v6 day score next to the rain-threshold score per stretch (data is in the pack).
+6. **PWD alternative routes:** PWD publishes "alternative routes in case of frequent road closures"
+   (PDF on pwd.uk.gov.in/srmd-reports/); parse it and suggest the alternative when a stretch is closed.
+7. **More ground truth:** SEOC / USDMA daily disaster reports and BRO road status (not obtained yet); keep the
+   closure collector running so the 2027 monsoon becomes a true held-out season.
+8. **Blocked on external access:** Firebase push (`google-services.json` not provided), IMD API (needs IP
+   whitelisting).
+9. **CI upkeep:** GitHub warns that actions on Node 20 are deprecated and `ubuntu-latest` moves to Ubuntu 26;
+   bump action versions (checkout, setup-node, setup-python, cache) and confirm all workflows still pass.
 
 ## 7. Working conventions
 
