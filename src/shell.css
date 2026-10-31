@@ -283,6 +283,6 @@ body[data-pp-view="ops"] .topbar .brand,body[data-pp-view="proof"] .topbar .bran
 .v6 span{color:var(--muted);min-width:0}
 .v6.l0{border-left-color:var(--go)}.v6.l1{border-left-color:var(--cau)}.v6.l2{border-left-color:var(--avd)}
 /* trip actions: one row of equal buttons, icon over a short label (no three-line buttons on the tablet panel) */
-.sheet #acts{display:grid;grid-template-columns:repeat(auto-fit,minmax(78px,1fr));gap:6px;margin:10px 16px 0}
+.sheet #acts{display:grid;grid-template-columns:repeat(auto-fit,minmax(64px,1fr));gap:6px;margin:10px 16px 0}
 .sheet #acts .btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:58px;padding:8px 6px;font-size:12.5px;line-height:1.2;text-align:center;border-radius:12px;white-space:normal}
 .sheet #acts .btn svg{width:18px;height:18px;margin:0}
