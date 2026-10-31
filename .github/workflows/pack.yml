@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]  # only main publishes the pack phones use
-    paths: ['python/pahaadpath/pack.py', 'python/pahaadpath/alerts.py', 'python/pahaadpath/closures.py', 'python/pahaadpath/openmeteo.py', 'python/pahaadpath/network.py', '.github/workflows/pack.yml']
+    paths: ['python/pahaadpath/pack.py', 'python/pahaadpath/alerts.py', 'python/pahaadpath/closures.py', 'python/pahaadpath/openmeteo.py', 'python/pahaadpath/network.py', 'python/pahaadpath/v7.py', 'data/model/model_v7.pkl', '.github/workflows/pack.yml']
 permissions:
   contents: write
 concurrency:
@@ -23,6 +23,8 @@ jobs:
           python-version: '3.12'
       - name: pdftotext, to read the PWD road closure report
         run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils || echo 'no pdftotext, so the pack goes out without closures'
+      - name: scikit-learn, for model v7
+        run: pip install -q scikit-learn==1.9.1 || echo 'no scikit-learn, so v7 is not scored'
       - run: cd python && python -u -m pahaadpath pack --out ../dist/pack/pack.json
       - name: Publish on the datapack branch (one commit, replaced each time)
         run: |

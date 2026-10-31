@@ -85,7 +85,29 @@ def build_pack(net, log=print):
     }
     th = adopted_thresholds()
     pk['risk24'] = risk24(net, hourly, th)
+    from . import v7 as _v7
+    M7 = _v7.load()
     m6, used = load_v6()
+    if M7 and M7.get('adopted'):  # v7 (learned from several monsoons) passed its check: it leads, v6 is not scored
+        try:
+            from .openmeteo import forecast_vars
+            vars_, start = forecast_vars(net.keys(hill_only=True), forecast_days=V6_DAYS, log=log)
+            i0 = 92 * 24
+            days = [_v7.score_now(M7, net, vars_, start, i0 + 24 * k) for k in range(V6_DAYS)]
+            sm = vars_['soil_moisture_0_to_7cm']
+            ok = [all(all(x is not None for x in vars_['precipitation'][k][i0 + 24 * d:i0 + 24 * d + 24]) and sm[k][i0 + 24 * d] is not None
+                      if len(sm[k]) > i0 + 24 * d else False for k in sm) for d in range(V6_DAYS)]
+            name = 'v7: ' + M7['kind']
+            for lid in pk['risk24']:
+                if lid in days[0]:
+                    best = max((days[0][lid], 0), (days[1][lid], 24), key=lambda x: x[0][0])
+                    pk['risk24'][lid] = [best[0][0], best[0][1], best[1]]
+            pk['risk24_model'] = name
+            pk['v6'] = {'day0': (dt.date.fromisoformat(start) + dt.timedelta(days=92)).isoformat(), 'model': name,
+                        'by': {lid: [d[lid][0] if ok[k] else None for k, d in enumerate(days)] for lid in days[0]}}
+            m6 = None
+        except Exception as e:  # noqa: BLE001
+            log('v7 not scored (%s)' % e)
     if m6:  # v6 scored every run; it leads risk24 and the trip screen only when it passed both checks (`used`)
         try:
             from . import v6

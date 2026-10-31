@@ -47,6 +47,7 @@ def main(argv=None):
     k = sub.add_parser('backtest')
     k.add_argument('--inventory', default='data/truth/inventory.json')
     k.add_argument('--mode', choices=['relaxed', 'strict'], default='relaxed')
+    sub.add_parser('v7')
     ind = sub.add_parser('independent')
     ind.add_argument('--years', default='2007 2008 2009 2010 2011 2012 2013 2015',
                      help='monsoons to score (already-downloaded 2007 to 2012, plus the two richest later ones)')
@@ -146,6 +147,22 @@ def main(argv=None):
         md = report_md(r) + '\nSusceptibility class: TSS at Caution %s with the DEM slope class, %s with the GSI NLSM class; the engine uses the %s class.\n\n' % (
             ts, tg, 'GSI' if susc == 'gsi' else 'slope') + v6.report_md(r6)
         with open(path('data', 'model', 'BACKTEST.md'), 'w', encoding='utf-8') as f:
+            f.write(md)
+        print(md)
+    elif a.cmd == 'v7':
+        import os.path as osp
+        from . import v7
+        from .inventory import merge_files
+        from .openmeteo import archive_hourly_vars
+        th = read_json('data', 'model', 'thresholds.json') if osp.exists(path('data', 'model', 'thresholds.json')) else {}
+        inv = merge_files(path('data', 'truth'), path('data', 'truth', 'merged.json')) if osp.isdir(path('data', 'truth')) else None
+        coolr = read_json('data', 'coolr_uttarakhand.json')['events'] if osp.exists(path('data', 'coolr_uttarakhand.json')) else []
+        data = v7.build(Network(), Network(susc=th.get('susc') or 'slope'), archive_hourly_vars, inv, coolr)
+        o, m = v7.run(data)
+        v7.save(o, m)
+        write_json(o, 'data', 'model', 'v7.json', indent=1)
+        md = v7.report_md(o)
+        with open(path('data', 'model', 'V7.md'), 'w', encoding='utf-8') as f:
             f.write(md)
         print(md)
     elif a.cmd == 'independent':

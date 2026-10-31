@@ -1,0 +1,54 @@
+name: model v7
+# Learns risk model v7 from every monsoon with ground truth (NASA catalogued landslides 2010 to 2015, PWD closures
+# 2026), checks it one season at a time against the rain-threshold engine, and saves it (data/model/model_v7.pkl,
+# v7.json, V7.md). The data pack uses v7 only when it beats the engine on both kinds of ground truth.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '41 22 * * 0'
+permissions:
+  contents: write
+concurrency:
+  group: independent
+jobs:
+  v7:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - uses: actions/cache/restore@v6
+        with:
+          path: data/cache
+          key: openmeteo-ind-${{ github.run_id }}
+          restore-keys: |
+            openmeteo-ind-
+            openmeteo-
+      - name: Closure inventory from the truth branch
+        run: |
+          mkdir -p data/truth
+          git fetch -q origin truth
+          for f in $(git ls-tree --name-only FETCH_HEAD | grep -E '^inventory(_[0-9]{4})?\.json$'); do git show FETCH_HEAD:$f > data/truth/$f; done
+      - run: pip install -q scikit-learn==1.9.1
+      - name: Learn and check v7
+        run: cd python && python -u -m pahaadpath v7 | tee -a "$GITHUB_STEP_SUMMARY"
+      - uses: actions/cache/save@v6
+        if: always()
+        with:
+          path: data/cache
+          key: openmeteo-ind-${{ github.run_id }}
+      - name: Commit to main
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898299+github-actions[bot]@users.noreply.github.com'
+          git add data/model/model_v7.pkl data/model/v7.json data/model/V7.md
+          git diff --cached --quiet && { echo 'no change'; exit 0; }
+          git commit -qm "Model v7 ($(date -u +%Y-%m-%d))"
+          for i in 1 2 3 4; do git pull -q --rebase origin main && git push -q origin HEAD:main && exit 0; sleep $((i*5)); done; exit 1
