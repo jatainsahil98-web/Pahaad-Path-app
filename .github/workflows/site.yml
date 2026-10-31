@@ -1,0 +1,66 @@
+name: site
+# Publishes the website (GitHub Pages) from main together with the offline map tiles from release tiles-latest:
+#   tiles/basemap.pmtiles, tiles/terrain.pmtiles (served with HTTP range requests) and tiles/tiles.json.
+# The tiles are about 80 to 150 MB, above GitHub's per-file limit for the repo, so they only travel in the Pages
+# artifact. The single shared file (PahaadPath.html) never includes them: it keeps the simple baked basemap.
+# One-time setting: Settings > Pages > Build and deployment > Source = "GitHub Actions".
+on:
+  push:
+    branches: [main]
+  workflow_run:
+    workflows: ['offline tiles']
+    types: [completed]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  site:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Site files (everything the branch-built site served)
+        run: |
+          mkdir -p _site
+          git ls-files -z | grep -zv -E '^(\.github|android|python|server|tests|tools|replay_source)/' | xargs -0 -I{} cp --parents {} _site/
+          touch _site/.nojekyll
+      - name: Offline map tiles from release tiles-latest
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release download tiles-latest -R ${{ github.repository }} -p basemap.pmtiles -p terrain.pmtiles -D _site/tiles 2>/dev/null; then
+            python tools/tiles/manifest.py _site/tiles/tiles.json pmtiles "$(gh release view tiles-latest -R ${{ github.repository }} --json publishedAt -q .publishedAt | cut -c1-10)"
+            ls -l _site/tiles
+          else
+            echo 'no tiles-latest release yet: the site goes out without tiles (no tiles.json, so no new map layers)'
+          fi
+          du -sh _site
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+      - id: deploy
+        uses: actions/deploy-pages@v5
+        continue-on-error: true  # fails until the Pages source is set to GitHub Actions; the branch-built site keeps running
+      - name: Pages source not switched yet
+        if: steps.deploy.outcome != 'success'
+        run: echo 'Deploy refused. Set Settings > Pages > Source = GitHub Actions, then rerun this workflow.' | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Range requests on the tiles (PMTiles needs 206)
+        if: steps.deploy.outcome == 'success' && hashFiles('_site/tiles/basemap.pmtiles') != ''
+        run: |
+          U="${{ steps.deploy.outputs.page_url }}tiles/basemap.pmtiles"
+          for i in 1 2 3 4 5 6; do c=$(curl -s -o /dev/null -w '%{http_code}' -r 0-511 "$U"); [ "$c" = 206 ] && break; sleep 20; done
+          echo "Range request on $U returned $c" | tee -a "$GITHUB_STEP_SUMMARY"
+          test "$c" = 206

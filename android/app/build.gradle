@@ -30,6 +30,11 @@ android {
             signingConfig System.getenv('KEYSTORE_FILE') ? signingConfigs.release : signingConfigs.debug
         }
     }
+    // offline map tiles (assets/tiles): terrain PNGs are already compressed, so they are stored as they are; the vector
+    // tiles (.pbf) are left to zip compression (about 3x smaller APK), which AssetManager undoes transparently
+    androidResources {
+        noCompress 'png'
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
