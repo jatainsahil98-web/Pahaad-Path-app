@@ -49,6 +49,7 @@ jobs:
       - name: Sizes
         run: |
           ls -l out/*.pmtiles
+          python tools/tiles/sizes.py out/basemap.pmtiles out/terrain.pmtiles
           { echo '| File | Size |'; echo '|---|---|'; for f in out/*.pmtiles; do echo "| $(basename $f) | $(du -h $f | cut -f1) ($(stat -c %s $f) bytes) |"; done; } | tee -a "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v7
         if: github.event_name == 'pull_request'
