@@ -78,8 +78,13 @@ def year_entries(year, fetch=get, max_pages=60, log=print):
     return out
 
 
-def update(state, places, links, years=None, max_reports=60, log=print):
-    """read the reports not yet in the state, oldest first, up to max_reports per run"""
+def update(state, places, links, years=None, max_reports=60, log=print, save=None, budget_s=None, read=None):
+    """read the reports not yet in the state, oldest first, up to max_reports per run.
+    save(state) runs after every report, so a run cut short keeps what it read; budget_s stops reading in good time
+    (a slow PWD server once held a run until GitHub's limit and nothing was kept)."""
+    import time
+    t0 = time.monotonic()
+    read = read or read_report
     years = years or [dt.datetime.now(IST).year]
     entries = []
     for y in years:
@@ -87,13 +92,23 @@ def update(state, places, links, years=None, max_reports=60, log=print):
     todo = pending(state, sorted(entries, key=lambda e: (e[0], e[1] == 'evening')))
     log('inventory: %d reports listed, %d new, reading up to %d' % (len(entries), len(todo), max_reports))
     for date, slot, url in todo[:max_reports]:
-        try:
-            rep = read_report(url, places)
-        except Exception as e:
-            log('inventory: %s %s not read (%s); stopping so the order stays right' % (date, slot, e))
+        if budget_s and time.monotonic() - t0 > budget_s:
+            log('inventory: time budget used, stopping; the next run carries on')
+            break
+        rep = None
+        for attempt in (1, 2):
+            try:
+                rep = read(url, places)
+                break
+            except Exception as e:
+                log('inventory: %s %s not read, attempt %d (%s)' % (date, slot, attempt, e))
+        if rep is None:
+            log('inventory: stopping so the order stays right; the next run tries again')
             break
         rep['date'], rep['slot'] = rep.get('date') or date, rep.get('slot') or slot
         add_report(state, rep, url, links)
+        if save:
+            save(state)
         log('inventory: %s %s, %d closed, %d open episodes, %d ended' % (date, slot, len(rep['roads']), len(state['open']), len(state['done'])))
     return state
 

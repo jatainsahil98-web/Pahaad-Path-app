@@ -2,7 +2,7 @@ import os
 import unittest
 
 from pahaadpath.closures import listing, parse
-from pahaadpath.inventory import add_report, empty, pending, to_csv, year_entries
+from pahaadpath.inventory import add_report, empty, pending, to_csv, update, year_entries
 from pahaadpath.network import Network
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -68,6 +68,26 @@ class InventoryTest(unittest.TestCase):
             return pages[key]
         got = year_entries(2026, fetch=fetch, log=lambda *a: None)
         self.assertEqual(sorted(u for d, s, u in got), ['https://x.invalid/a.pdf', 'https://x.invalid/b.pdf', 'https://x.invalid/c.pdf'])
+
+    def test_saves_after_each_report_and_stops_on_failure(self):
+        import pahaadpath.inventory as inv
+        reports = {'https://x.invalid/a.pdf': {'date': '2026-09-28', 'slot': 'morning', 'roads': [road(1, 'r')]},
+                   'https://x.invalid/b.pdf': {'date': '2026-09-29', 'slot': 'morning', 'roads': []}}
+        def read(url, places):
+            if url not in reports:
+                raise OSError('timed out')
+            return dict(reports[url])
+        saved = []
+        real = inv.year_entries
+        inv.year_entries = lambda y, log=None: [('2026-09-28', 'morning', 'https://x.invalid/a.pdf'), ('2026-09-29', 'morning', 'https://x.invalid/b.pdf'),
+                                                ('2026-09-30', 'morning', 'https://x.invalid/c.pdf'), ('2026-10-01', 'morning', 'https://x.invalid/a.pdf')]
+        try:
+            st = update(empty(), self.places, self.links, years=[2026], read=read, save=lambda s: saved.append(len(s['reports'])), log=lambda *a: None)
+        finally:
+            inv.year_entries = real
+        self.assertEqual(saved, [1, 2])           # saved after each report read
+        self.assertEqual(len(st['reports']), 2)  # stopped at the one that failed, so the order stays right
+        self.assertEqual(st['done'][0]['opened'], '2026-09-29 morning')
 
     def test_real_report_and_csv(self):
         rep = parse(REPORT, self.places)

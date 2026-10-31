@@ -39,6 +39,7 @@ def main(argv=None):
     i.add_argument('--csv', default='data/truth/closures.csv')
     i.add_argument('--years', type=int, nargs='*')
     i.add_argument('--max', type=int, default=60, help='reports to read in this run')
+    i.add_argument('--budget-min', type=float, default=None, help='stop reading after this many minutes (state is saved after every report)')
     i.add_argument('--rebuild', action='store_true', help='start again from the oldest report listed (after adding listing pages or years)')
     a = ap.parse_args(argv)
 
@@ -91,12 +92,17 @@ def main(argv=None):
                 state = empty() if a.rebuild else json.load(f)
         except FileNotFoundError:
             state = empty()
-        update(state, net.places, net.links, years=a.years, max_reports=a.max)
         os.makedirs(os.path.dirname(os.path.abspath(a.state)) or '.', exist_ok=True)
-        with open(a.state, 'w', encoding='utf-8') as f:
-            json.dump(state, f, ensure_ascii=False, indent=0)
-        with open(a.csv, 'w', encoding='utf-8', newline='') as f:
-            f.write(to_csv(state))
+
+        def save(s):
+            with open(a.state + '.tmp', 'w', encoding='utf-8') as f:
+                json.dump(s, f, ensure_ascii=False, indent=0)
+            os.replace(a.state + '.tmp', a.state)
+            with open(a.csv, 'w', encoding='utf-8', newline='') as f:
+                f.write(to_csv(s))
+        update(state, net.places, net.links, years=a.years, max_reports=a.max, save=save,
+               budget_s=a.budget_min * 60 if a.budget_min else None)
+        save(state)
         print('inventory: %d reports, %d closures ended, %d still open' % (len(state['reports']), len(state['done']), len(state['open'])))
     elif a.cmd == 'closures':
         import datetime as dt

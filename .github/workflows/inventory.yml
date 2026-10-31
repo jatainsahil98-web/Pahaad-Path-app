@@ -45,8 +45,9 @@ jobs:
           REBUILD: ${{ inputs.rebuild && '--rebuild' || '' }}
         run: |
           cd python
-          python -u -m pahaadpath inventory --state ../truth/inventory.json --csv ../truth/closures.csv --max "$MAX" $REBUILD ${YEARS:+--years $YEARS} | tee -a "$GITHUB_STEP_SUMMARY"
+          python -u -m pahaadpath inventory --state ../truth/inventory.json --csv ../truth/closures.csv --max "$MAX" --budget-min 50 $REBUILD ${YEARS:+--years $YEARS} | tee -a "$GITHUB_STEP_SUMMARY"
       - name: Publish on the truth branch
+        if: always()
         run: |
           cd truth
           git config user.name 'github-actions[bot]'

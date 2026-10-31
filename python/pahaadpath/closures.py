@@ -150,7 +150,7 @@ def latest(listing_html):
 def read_report(url, places):
     """download one report PDF and parse it (needs pdftotext)"""
     with tempfile.NamedTemporaryFile(suffix='.pdf') as f:
-        f.write(get(url, timeout=180))
+        f.write(get(url, timeout=75))
         f.flush()
         text = subprocess.run(['pdftotext', '-raw', f.name, '-'], capture_output=True, check=True, timeout=120).stdout.decode('utf-8', 'replace')
     return parse(text, places)
