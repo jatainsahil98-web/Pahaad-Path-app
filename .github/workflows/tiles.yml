@@ -1,0 +1,67 @@
+name: offline tiles
+# Builds the offline map tiles for PahaadPath 2.0 (bbox 76.6,28.3,81.2,31.5: Uttarakhand plus the approach roads
+# from Delhi and Chandigarh) and publishes them on the release `tiles-latest` (too big for the repo):
+#   basemap.pmtiles  OpenStreetMap vector tiles, zoom 0 to 14, Protomaps basemap schema (planetiler-built daily
+#                    planet from build.protomaps.com, clipped to the bbox with go-pmtiles)
+#   terrain.pmtiles  Copernicus DEM GLO-90 as Terrarium RGB PNG, zoom 0 to 12 (tools/tiles/terrain.py)
+# The site workflow and the Android workflow take them from there. Credits: OpenStreetMap contributors;
+# Copernicus DEM GLO-90 (c) ESA/DLR.
+on:
+  pull_request:
+    paths: ['tools/tiles/**', '.github/workflows/tiles.yml']
+  workflow_dispatch:
+  schedule:
+    - cron: '7 19 2 * *'
+permissions:
+  contents: write
+concurrency:
+  group: tiles
+env:
+  BBOX: 76.6,28.3,81.2,31.5
+  PMTILES_VERSION: 1.31.2
+jobs:
+  tiles:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Tools
+        run: |
+          pip install -q rasterio==1.5.2 mercantile==1.2.1 pmtiles==3.8.1 pillow numpy
+          curl -sSL -o pm.tgz "https://github.com/protomaps/go-pmtiles/releases/download/v${PMTILES_VERSION}/go-pmtiles_${PMTILES_VERSION}_Linux_x86_64.tar.gz"
+          tar xzf pm.tgz pmtiles && sudo mv pmtiles /usr/local/bin/ && pmtiles version
+      - name: Basemap (OpenStreetMap, Protomaps schema, zoom 0 to 14)
+        run: |
+          mkdir -p out
+          for i in $(seq 1 10); do d=$(date -u -d "-$i day" +%Y%m%d); if curl -sfI "https://build.protomaps.com/$d.pmtiles" >/dev/null; then SRC="https://build.protomaps.com/$d.pmtiles"; break; fi; done
+          echo "planet build: $SRC"; test -n "$SRC"
+          pmtiles extract "$SRC" out/basemap.pmtiles --bbox=$BBOX --maxzoom=14 --download-threads=8
+          pmtiles show out/basemap.pmtiles | head -20
+      - name: Terrain (Copernicus GLO-90, Terrarium, zoom 0 to 12)
+        run: |
+          IFS=, read W S E N <<< "$BBOX"
+          python tools/tiles/terrain.py work out/terrain.mbtiles $W $S $E $N 12
+          pmtiles convert out/terrain.mbtiles out/terrain.pmtiles
+          pmtiles show out/terrain.pmtiles | head -20
+      - name: Sizes
+        run: |
+          ls -l out/*.pmtiles
+          { echo '| File | Size |'; echo '|---|---|'; for f in out/*.pmtiles; do echo "| $(basename $f) | $(du -h $f | cut -f1) ($(stat -c %s $f) bytes) |"; done; } | tee -a "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v7
+        if: github.event_name == 'pull_request'
+        with:
+          name: tiles
+          path: out/*.pmtiles
+          retention-days: 3
+      - name: Publish on release tiles-latest (not marked latest, so the APK link keeps pointing at the app)
+        if: github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python tools/tiles/manifest.py out/tiles.json pmtiles
+          gh release view tiles-latest >/dev/null 2>&1 || gh release create tiles-latest --title 'Offline map tiles' --latest=false --notes 'Offline map tiles for PahaadPath 2.0, rebuilt monthly by the offline tiles workflow. Map data (c) OpenStreetMap contributors (ODbL); terrain Copernicus DEM GLO-90 (c) ESA/DLR.'
+          gh release upload tiles-latest out/basemap.pmtiles out/terrain.pmtiles out/tiles.json --clobber
+          { echo; echo "Published to release tiles-latest."; } >> "$GITHUB_STEP_SUMMARY"
