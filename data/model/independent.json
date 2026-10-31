@@ -1,0 +1,70 @@
+{
+ "seasons": [
+  2014,
+  2015,
+  2016,
+  2017,
+  2018
+ ],
+ "events": 68,
+ "per_season": [
+  {
+   "year": 2014,
+   "events": 7,
+   "engine_pod_caution": 0.42857142857142855,
+   "v6_pod_caution": 0.42857142857142855
+  },
+  {
+   "year": 2015,
+   "events": 18,
+   "engine_pod_caution": 0.1111111111111111,
+   "v6_pod_caution": 0.4444444444444444
+  },
+  {
+   "year": 2016,
+   "events": 21,
+   "engine_pod_caution": 0.3333333333333333,
+   "v6_pod_caution": 0.47619047619047616
+  },
+  {
+   "year": 2017,
+   "events": 7,
+   "engine_pod_caution": 0.14285714285714285,
+   "v6_pod_caution": 0.0
+  },
+  {
+   "year": 2018,
+   "events": 15,
+   "engine_pod_caution": 0.13333333333333333,
+   "v6_pod_caution": 0.8
+  }
+ ],
+ "sources": {
+  "GLC": 94,
+  "COOLR": 156
+ },
+ "engine": {
+  "caution": {
+   "pod": 0.22058823529411764,
+   "alarm_rate": 0.07245288685336737
+  },
+  "avoid": {
+   "pod": 0.029411764705882353,
+   "alarm_rate": 0.011900292814775884
+  },
+  "pod_at_10pct": 0.25,
+  "pod_at_25pct": 0.5
+ },
+ "v6": {
+  "caution": {
+   "pod": 0.4852941176470588,
+   "alarm_rate": 0.327990089346047
+  },
+  "avoid": {
+   "pod": 0.3382352941176471,
+   "alarm_rate": 0.19614835948644793
+  },
+  "pod_at_10pct": 0.17647058823529413,
+  "pod_at_25pct": 0.36764705882352944
+ }
+}

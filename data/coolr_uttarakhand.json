@@ -1,0 +1,2781 @@
+{
+"source": "NASA COOLR (Cooperative Open Online Landslide Repository), https://gis.earthdata.nasa.gov/portal/rest/services/Landslides/COOLR_Reports_Points/FeatureServer/0",
+"box": [
+77.5,
+28.7,
+81.1,
+31.5
+],
+"events": [
+{
+"date": "1990-01-29",
+"lat": 29.99311111,
+"lon": 78.33044444,
+"cat": "complex",
+"trig": "other",
+"title": "Tal Valley Landslide",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2007-07-30",
+"lat": 30.4,
+"lon": 79.349,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Chamoli",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2007-07-30",
+"lat": 30.557,
+"lon": 79.56,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Joshimath",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2007-07-30",
+"lat": 30.733,
+"lon": 78.439,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Uttarkashi district",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2007-08-11",
+"lat": 30.0702,
+"lon": 78.3027,
+"cat": "landslide",
+"trig": "rain",
+"title": "Rishikesh",
+"src": "GLC",
+"acc": "unknown"
+},
+{
+"date": "2007-08-12",
+"lat": 29.57990613,
+"lon": 80.50476155,
+"cat": "landslide",
+"trig": "rain",
+"title": "Shreekot, 600 km west of Kathmandu",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2007-09-06",
+"lat": 29.5833,
+"lon": 80.2167,
+"cat": "landslide",
+"trig": "rain",
+"title": "Pithoragarh",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2007-09-11",
+"lat": 29.8496,
+"lon": 80.5544,
+"cat": "landslide",
+"trig": "rain",
+"title": "Bitthard Chaur of Sharmili VDC in Darchula",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2007-09-15",
+"lat": 29.5333,
+"lon": 80.4333,
+"cat": "landslide",
+"trig": "rain",
+"title": "Baitadi",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2008-07-18",
+"lat": 28.9,
+"lon": 80.87,
+"cat": "landslide",
+"trig": "monsoon",
+"title": "Katunje VDC in Dhading district ",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2008-07-18",
+"lat": 29.33,
+"lon": 80.1,
+"cat": "landslide",
+"trig": "rain",
+"title": "Sukhidhang area of Champawat district in Uttarakhand ",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2008-09-20",
+"lat": 29.11803174,
+"lon": 80.67774011,
+"cat": "landslide",
+"trig": "downpour",
+"title": "5 dead in Jorayal",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2008-09-21",
+"lat": 29.11916258,
+"lon": 81.06654395,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Floods and landslides in Western Nepal",
+"src": "GLC",
+"acc": "250km"
+},
+{
+"date": "2008-09-21",
+"lat": 28.833,
+"lon": 80.9,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Kailali",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2009-08-08",
+"lat": 29.5885,
+"lon": 80.2098,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Bala, Pithoragarh, Uttarakhand (450Km from Deheradun)",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2009-08-17",
+"lat": 29.4085,
+"lon": 80.1327,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Pithoragarh district",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2009-08-18",
+"lat": 29.3083,
+"lon": 80.5792,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Amargadhi-5, Dadeldhura",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2009-08-18",
+"lat": 29.1917,
+"lon": 80.8708,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Asigram-9 Bhetagaun, Dadeldhura",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2009-08-20",
+"lat": 29.0958,
+"lon": 80.3125,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Jogbuda-4, Malas",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2009-09-01",
+"lat": 29.7036,
+"lon": 78.5658,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Chinona area in Almora district",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2009-09-12",
+"lat": 29.3083,
+"lon": 81.057,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Devala village of Gaira VDC-1 in Doti district",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2009-10-06",
+"lat": 29.2833,
+"lon": 80.675,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Mastamandu village, Dadeldhura district",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2009-12-23",
+"lat": 29.48,
+"lon": 80.94,
+"cat": "landslide",
+"trig": "rain",
+"title": "Rayal VDC-1. Jethara, Bajhang district",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2010-02-23",
+"lat": 30.38069426,
+"lon": 78.47049965,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Two children killed",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2010-07-06",
+"lat": 30.2485,
+"lon": 78.8847,
+"cat": "landslide",
+"trig": "downpour",
+"title": "highway to Rudraprayag district, Uttarakhand",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2010-07-06",
+"lat": 30.638,
+"lon": 78.3297,
+"cat": "landslide",
+"trig": "downpour",
+"title": "highway to Uttarkashi district, Uttarakhand",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2010-07-17",
+"lat": 30.6358,
+"lon": 77.5435,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Lana Mashoor(?) and Lana Polar(?) and Sewn(?) villages, Sirmaur district",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2010-07-17",
+"lat": 29.2675,
+"lon": 80.9499,
+"cat": "landslide",
+"trig": "downpour",
+"title": "water pipeline to Dipayal, Pipalla bazaar(?), and Rajpur(?) in Doti, from Salenigad(?), Seti",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2010-07-20",
+"lat": 29.9862,
+"lon": 78.6115,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Badrinath and Yamunotri shrines(?), Garhwal region, Uttarakhand",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2010-07-20",
+"lat": 29.36,
+"lon": 80.126,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Tanakupur-Pitoragarh highway, Kumaon(Kumaun) region, Uttarakhand",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2010-07-20",
+"lat": 29.3576,
+"lon": 79.5519,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Bhimtal area, Naintal district, Uttarakhand",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2010-07-22",
+"lat": 29.6095,
+"lon": 79.6628,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Patlot-Aghora road, Almora District ",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2010-07-29",
+"lat": 30.7467,
+"lon": 78.4517,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Uttarkāshi : Landslips, triggered by heavy rain, blocked two key highways connecting Rishikesh, Gangotri and Badrinath i",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2010-07-29",
+"lat": 30.4054,
+"lon": 79.3426,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Pīpalkoti : Landslips, triggered by heavy rain, blocked two key highways connecting Rishikesh, Gangotri and Badrinath in",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2010-08-05",
+"lat": 30.4068,
+"lon": 79.3351,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Basantpur or Gouchar village (two conflicting sources), Chamoli district",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2010-08-09",
+"lat": 30.6463,
+"lon": 79.5306,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Nirgaddu about 4 km from Tapovan on Rishikesh - Badrinath route, Uttarakhand ",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2010-08-09",
+"lat": 30.6785,
+"lon": 78.3475,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Dharasu and Nalupani near Uttarkashi on Rishikesh – Gangotri highway, Uttarakhand ",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2010-08-09",
+"lat": 30.5151,
+"lon": 78.3684,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Menagarh near Sukki on Rishikesh – Gangotri highway, Uttarakhand ",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2010-08-13",
+"lat": 30.80200029,
+"lon": 78.61786282,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Gangotree national highway near Bhatvaree, Uttarkashi district",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2010-08-16",
+"lat": 30.7284,
+"lon": 79.4971,
+"cat": "landslide",
+"trig": "downpour",
+"title": "badrinath route, Lambagarh(?), Uttarakhand",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2010-08-18",
+"lat": 30.0134,
+"lon": 79.9261,
+"cat": "complex",
+"trig": "downpour",
+"title": "Saraswati Shishu Mandir school(?), Sumgarh(Sumgad) village(?), Bageshwar-Pindari glacier rd 45 km from Bageshwar, Kapkot",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2010-08-20",
+"lat": 30.6509,
+"lon": 79.0264,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Gaurikund, road to Kedarnath, Garwhal division, Uttarakhand",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2010-08-20",
+"lat": 30.3846,
+"lon": 78.8371,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Lambagad(?), Rishikesh-Badrinath highway, Uttarakhand",
+"src": "GLC",
+"acc": "unknown"
+},
+{
+"date": "2010-08-20",
+"lat": 30.966,
+"lon": 78.4151,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Ranachatti(?), route to Yamunotri, Garwhal division, Uttarakhand",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2010-08-20",
+"lat": 30.7221,
+"lon": 78.6437,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Nalupani(?), Rishikesh-Gangotri highway, Uttarkhand",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2010-08-20",
+"lat": 30.8183,
+"lon": 78.6186,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Bhatwari, Rishikesh-Gangotri highway, Uttarkhand",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2010-08-22",
+"lat": 30.4238,
+"lon": 79.6724,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Chandoli(?) and Karchuna(?) vilalges, Pokkhri, Chamoli, Uttarakhand, Uttranchal",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2010-08-26",
+"lat": 30.365,
+"lon": 78.0641,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Matak Mahari(?), near Dehradun, Uttarakhand",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2010-09-03",
+"lat": 30.4008,
+"lon": 79.0278,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Bhatwari, Rishikesh-Gangotri hwy",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2010-09-03",
+"lat": 30.2851,
+"lon": 78.9829,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Rudraprayag, Rishikesh-Badrinath hwy",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2010-09-03",
+"lat": 30.135,
+"lon": 78.3896,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Shivpuri, Rishikesh-Badrinath hwy",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2010-09-04",
+"lat": 30.5004,
+"lon": 79.3888,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Chhinka area(?), on Rishikesh-Badrinath hwy",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2010-09-04",
+"lat": 30.796,
+"lon": 78.623,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Karmkund(?), on Rishikesh-Gangotri hwy",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2010-09-04",
+"lat": 30.8987,
+"lon": 78.3399,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Ranachatti(?), on road to Yamunotri",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2010-09-12",
+"lat": 30.7333,
+"lon": 78.4403,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Uttarkashi town, Uttarakhand",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2010-09-14",
+"lat": 29.477,
+"lon": 80.3491,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Bijul, Rodidewal-9(Raudidewal VDC), Baitadi district",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2010-09-15",
+"lat": 31.4135,
+"lon": 77.895,
+"cat": "landslide",
+"trig": "downpour",
+"title": "road to Sangla and Bhaba and Sorang(?) valleys, Kinnaur, Himachal Pradesh",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2010-09-17",
+"lat": 30.75402442,
+"lon": 79.49970189,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Maletha village, near Badrinath",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2010-09-18",
+"lat": 29.6042,
+"lon": 79.5343,
+"cat": "landslide",
+"trig": "downpour",
+"title": "villages Pilkha(?), Devali(?), and Balta(?), Avalbagh block(?), Almora(Almorah) district, Uttarakhand",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2010-09-18",
+"lat": 30.1454,
+"lon": 78.6007,
+"cat": "landslide",
+"trig": "downpour",
+"title": "near Devprayag, Rishikesh-Badrinath hwy, ",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2010-09-18",
+"lat": 29.29558605,
+"lon": 79.54043078,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Nainital district, Uttarakhand",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2010-09-19",
+"lat": 30.1035,
+"lon": 78.4265,
+"cat": "landslide",
+"trig": "downpour",
+"title": "road to Shivpur(Shivpuri), Pauri Garhwal district, Uttarakhand",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2010-09-19",
+"lat": 30.9015,
+"lon": 78.7756,
+"cat": "landslide",
+"trig": "downpour",
+"title": "roads to Gangotri, Uttarakhand",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2010-09-19",
+"lat": 31.4582,
+"lon": 78.2114,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Karcham-Sangla rd, Himachal Pradesh",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2010-09-19",
+"lat": 30.4326,
+"lon": 78.0767,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Dehradun-Mussoorie rd, Himachal Pradesh",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2010-09-19",
+"lat": 31.1191,
+"lon": 77.5092,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Theog-Kotkhai-Jubbal road, Himachal Pradesh",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2010-09-19",
+"lat": 29.7911,
+"lon": 80.058,
+"cat": "landslide",
+"trig": "downpour",
+"title": "roads above Pithoragarh, Uttranchal",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2010-09-19",
+"lat": 29.6131,
+"lon": 79.494,
+"cat": "landslide",
+"trig": "downpour",
+"title": "near Chausali village(?), Almora district, Uttarakhand",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2010-09-19",
+"lat": 30.9544,
+"lon": 77.5063,
+"cat": "landslide",
+"trig": "downpour",
+"title": "road to Chopal, Himachal Pradesh",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2010-09-19",
+"lat": 30.9013,
+"lon": 79.5322,
+"cat": "landslide",
+"trig": "downpour",
+"title": "near Mt. Kamet and Ghastoli village, near Mana pass, Chamoli district, Uttarakhand",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2010-09-19",
+"lat": 29.5477,
+"lon": 79.3211,
+"cat": "landslide",
+"trig": "downpour",
+"title": "roads to Rani Khet(Ranikhet) and Jolle Kote(?), Uttarakhand",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2010-09-19",
+"lat": 30.7991,
+"lon": 79.4356,
+"cat": "landslide",
+"trig": "downpour",
+"title": "near Bagri Glacier(?), Gopeswar(Gopeshwar), Chamoli district, Uttarakhand",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2010-09-19",
+"lat": 30.1977,
+"lon": 77.9137,
+"cat": "landslide",
+"trig": "downpour",
+"title": "near Mohand, Dehradun-Delhi hwy, Uttar Pradesh",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2010-09-20",
+"lat": 30.7332,
+"lon": 78.4401,
+"cat": "landslide",
+"trig": "downpour",
+"title": "roads around Uttarkashi, Uttarakhand",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2010-09-20",
+"lat": 31.1581,
+"lon": 77.7155,
+"cat": "landslide",
+"trig": "downpour",
+"title": "roads between Jubbal and Rohru, Shimla, Himachal Pradesh",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2010-09-20",
+"lat": 29.3376357,
+"lon": 79.48354487,
+"cat": "landslide",
+"trig": "downpour",
+"title": "NH-87 near Naintital, Uttarakhand",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2010-10-08",
+"lat": 28.7038,
+"lon": 80.9787,
+"cat": "landslide",
+"trig": "unknown",
+"title": "2 teens killed",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2010-10-15",
+"lat": 31.43714183,
+"lon": 78.23568806,
+"cat": "landslide",
+"trig": "rain",
+"title": "road cleared after 2 days",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2011-02-23",
+"lat": 30.4749,
+"lon": 79.2293,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Rishikesh-Badrinath national highway to Rudraprayag, Chamoli, and Badrinath, Uttarakhand",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2011-05-31",
+"lat": 30.4783,
+"lon": 78.2741,
+"cat": "landslide",
+"trig": "rain",
+"title": "Chhatanga(?) village on Rishikesh-Yamunotri highway, Uttarkashi ",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2011-05-31",
+"lat": 30.9206,
+"lon": 78.3276,
+"cat": "landslide",
+"trig": "rain",
+"title": "road to Yamunotri shrine, Uttarakashi",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2011-06-07",
+"lat": 30.5319,
+"lon": 79.3541,
+"cat": "landslide",
+"trig": "downpour",
+"title": "road to Badrinath shrine, Uttarakhand",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2011-06-07",
+"lat": 30.2414,
+"lon": 78.908,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Rishikesh-Badrinath hwy., near Sirobgarh(Sirobagad), Rudraprayag district, Uttarakhand",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2011-06-29",
+"lat": 30.81507336,
+"lon": 78.2242533,
+"cat": "landslide",
+"trig": "downpour",
+"title": "National Highway leading to Yamunotri from Dehradun",
+"src": "GLC",
+"acc": "unknown"
+},
+{
+"date": "2011-06-29",
+"lat": 30.2416,
+"lon": 78.8996,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Rishikesh-Kedarnath national highway, Sirobagad",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2011-06-29",
+"lat": 30.0667,
+"lon": 79.0193,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Several roads in Uttarakhand",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2011-06-29",
+"lat": 30.7666,
+"lon": 78.7963,
+"cat": "landslide",
+"trig": "downpour",
+"title": "National Highway leading to Gangotri, from Dehradun",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2011-06-29",
+"lat": 30.67629482,
+"lon": 79.04191791,
+"cat": "landslide",
+"trig": "downpour",
+"title": "National highway leading to Kedarnath",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2011-06-29",
+"lat": 29.607,
+"lon": 79.9298,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Almora-Pithoragarh road, between Makrau and Thiari",
+"src": "GLC",
+"acc": "unknown"
+},
+{
+"date": "2011-06-30",
+"lat": 30.15,
+"lon": 78.7753,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Pauri-Safdarkhal road, blocked at Khundadhar",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2011-07-06",
+"lat": 30.3214,
+"lon": 78.0319,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Gangortri-Rishikesh highway, at Narendranagar in Tehri district of Uttarakhand",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2011-07-08",
+"lat": 30.6509,
+"lon": 79.5192,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Lambagad",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2011-07-09",
+"lat": 30.7331,
+"lon": 79.0685,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Kedarnath",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2011-07-09",
+"lat": 31.0188,
+"lon": 78.4129,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Yamunotri",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2011-07-09",
+"lat": 30.7652,
+"lon": 78.5925,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Gangotri",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2011-07-09",
+"lat": 30.7412,
+"lon": 79.4929,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Badrinath",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2011-07-10",
+"lat": 30.7333,
+"lon": 78.4399,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Nalupani area in Uttarkashi district",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2011-07-11",
+"lat": 30.506,
+"lon": 79.1127,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Highways leading to Badrinath and Gangotri",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2011-07-21",
+"lat": 30.1665,
+"lon": 78.1123,
+"cat": "landslide",
+"trig": "rain",
+"title": "Garhwal, Uttarakhand",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2011-07-21",
+"lat": 29.7334,
+"lon": 79.6367,
+"cat": "landslide",
+"trig": "rain",
+"title": "Kumaon, Uttarakhand",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2011-07-21",
+"lat": 29.5194,
+"lon": 80.469,
+"cat": "landslide",
+"trig": "rain",
+"title": "north of Pattal Bhumeshwor, situated at Basulinga VDC of Baidati district",
+"src": "GLC",
+"acc": "unknown"
+},
+{
+"date": "2011-07-21",
+"lat": 30.4043,
+"lon": 79.3318,
+"cat": "landslide",
+"trig": "rain",
+"title": "Chamoli , Uttarakhand",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2011-07-29",
+"lat": 30.012,
+"lon": 78.197,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Kedarnath yatra",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2011-08-07",
+"lat": 31.2403,
+"lon": 77.9258,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Gumma on Pathankot-Mandi national highway",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2011-08-08",
+"lat": 30.6521,
+"lon": 79.5566,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Govindghat, on the Rishikesh-Badrinath highway",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2011-08-08",
+"lat": 30.2258,
+"lon": 78.3755,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Chhatanga area; Helkugad; and Netala, all on the Rishikesh-Yamunotri National Highway",
+"src": "GLC",
+"acc": "unknown"
+},
+{
+"date": "2011-08-10",
+"lat": 30.2828,
+"lon": 78.3041,
+"cat": "landslide",
+"trig": "rain",
+"title": "Chardham yatra",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2011-08-12",
+"lat": 29.9121,
+"lon": 78.1723,
+"cat": "landslide",
+"trig": "rain",
+"title": "The Chardham yatra, shrines of Badrinath, Kedarnath, Gangotri, and Yamunotri",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2011-08-12",
+"lat": 28.8665,
+"lon": 79.5682,
+"cat": "landslide",
+"trig": "rain",
+"title": "Uttarakhand and the Uttar Pradesh",
+"src": "GLC",
+"acc": "unknown"
+},
+{
+"date": "2011-08-16",
+"lat": 29.2027,
+"lon": 80.5307,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Dadeldhura and Baitadi, Kailali",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2011-12-10",
+"lat": 29.913,
+"lon": 79.3532,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Uttarakhand ",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2012-03-04",
+"lat": 29.5798,
+"lon": 80.2123,
+"cat": "landslide",
+"trig": "unknown",
+"title": "Pithoragarh district, Uttarakhand",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2012-07-05",
+"lat": 30.1281,
+"lon": 78.3221,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Badrinath Rd,  Rishikesh, Uttarakhand",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2012-08-06",
+"lat": 30.4876,
+"lon": 78.0366,
+"cat": "rock_fall",
+"trig": "unknown",
+"title": "Kempty falls",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2012-08-14",
+"lat": 30.7362,
+"lon": 78.44,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Uttarkashi, Uttarakhand,",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2012-08-17",
+"lat": 30.6179,
+"lon": 78.3233,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Gangotri-Rishikesh hwy, Uttarakhand (mid-point of road -exact location unknown)",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2012-08-17",
+"lat": 30.6594,
+"lon": 79.5605,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Chamoli, Uttarakhand",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2012-09-14",
+"lat": 29.841,
+"lon": 79.7758,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Bageshwar, Uttarakhand",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2012-09-14",
+"lat": 30.2853,
+"lon": 78.9829,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Rudraprayag, Uttarakhand",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2013-06-13",
+"lat": 30.7394,
+"lon": 78.5306,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Rishikesh-Gangotri National Highway Near Mari Sainji Village, Uttarkashi, Uttarakhand",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2013-06-16",
+"lat": 30.5728,
+"lon": 77.6521,
+"cat": "landslide",
+"trig": "rain",
+"title": "National Highway 72-B, Between Paonta Sahib And Sillai, Sirmaur District, Himachal Pradesh",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2013-06-16",
+"lat": 30.885,
+"lon": 78.6695,
+"cat": "landslide",
+"trig": "rain",
+"title": "Dharasu-Gangotri Road, Uttarakhand",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2013-06-16",
+"lat": 31.4551,
+"lon": 78.1996,
+"cat": "landslide",
+"trig": "rain",
+"title": "Road To Sangla Valley, Near Kupa Village, Kinnaur District, Himachal Pradesh",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2013-06-16",
+"lat": 29.7986,
+"lon": 80.417,
+"cat": "landslide",
+"trig": "rain",
+"title": "Pithoragarh-Ghatiabgarh Road, Uttarakhand",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2013-06-16",
+"lat": 30.4954,
+"lon": 78.3881,
+"cat": "landslide",
+"trig": "rain",
+"title": "Rishikesh-Joshimath-Mana Road, Uttarakhand",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2013-06-16",
+"lat": 30.4619,
+"lon": 79.0765,
+"cat": "landslide",
+"trig": "rain",
+"title": "Rudraprayag-Gaurikund Road, Uttarakhand",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2013-06-17",
+"lat": 30.7351,
+"lon": 79.0666,
+"cat": "debris_flow",
+"trig": "downpour",
+"title": "Kedarnath (Hindu Shrine), Near Kedarnath Dome (Mountain), Uttarakhand",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2013-06-17",
+"lat": 30.6945,
+"lon": 79.0544,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Rambara District, Uttarakhand",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2013-06-17",
+"lat": 29.722,
+"lon": 80.5118,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Baitadi-Darchula Road ",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2013-06-17",
+"lat": 29.5987,
+"lon": 79.6592,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Almora, Uttarakhand",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2013-06-17",
+"lat": 30.3069,
+"lon": 78.0169,
+"cat": "landslide",
+"trig": "rain",
+"title": "Dehradun, Uttarakhand",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2013-06-17",
+"lat": 29.5193,
+"lon": 80.4687,
+"cat": "landslide",
+"trig": "rain",
+"title": "Siddheshwor-9, Baitadi, Western Region",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2013-06-18",
+"lat": 30.3797,
+"lon": 78.5017,
+"cat": "landslide",
+"trig": "rain",
+"title": "Road Near Tipri To Kedarnath",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2013-06-18",
+"lat": 29.5388,
+"lon": 80.9963,
+"cat": "landslide",
+"trig": "monsoon",
+"title": "Sainpasela, Malumela Vdc",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2013-06-19",
+"lat": 29.5935,
+"lon": 79.6805,
+"cat": "landslide",
+"trig": "rain",
+"title": "Almora, Uttarakhand",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2013-06-24",
+"lat": 30.4542,
+"lon": 78.3911,
+"cat": "debris_flow",
+"trig": "downpour",
+"title": "Rishikesh-Uttarkashi Route, Uttarakhand",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2013-06-24",
+"lat": 30.4091,
+"lon": 79.0579,
+"cat": "landslide",
+"trig": "rain",
+"title": "Between Rudaprayag And Guptkashi, Uttarakhand (2 Landslides)",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2013-06-25",
+"lat": 30.2524,
+"lon": 78.9228,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Sirobhgarh Bend, Srinagar-Rudraprayag Highway, Uttarakhand, Northern India",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2013-07-04",
+"lat": 30.1719,
+"lon": 80.8576,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Gunji, Uttarakhand",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2013-07-04",
+"lat": 29.58,
+"lon": 80.2214,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Pithoragarh Tehsil, Uttarakhand",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2013-07-04",
+"lat": 30.0712,
+"lon": 80.2386,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Munsari Tehsil, Uttarakhand",
+"src": "GLC",
+"acc": "unknown"
+},
+{
+"date": "2013-07-06",
+"lat": 31.1628,
+"lon": 77.7241,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Rohru-Shimla Road At Dochi, Himachal Pradesh",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2013-07-10",
+"lat": 30.3629,
+"lon": 79.2143,
+"cat": "landslide",
+"trig": "rain",
+"title": "Bhikona Village, Pokhri Block, Chamoli Village, Uttarakhand",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2013-07-12",
+"lat": 29.3802,
+"lon": 79.4633,
+"cat": "landslide",
+"trig": "rain",
+"title": "Nainital District, Uttarakhand",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2013-07-12",
+"lat": 29.3802,
+"lon": 79.4633,
+"cat": "mudslide",
+"trig": "downpour",
+"title": "Lohardobha Billage, Dhari, Nainital",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2013-07-14",
+"lat": 31.4711,
+"lon": 77.6746,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Near Rampur, Himachal Pradesh",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2013-07-18",
+"lat": 30.7314,
+"lon": 78.4347,
+"cat": "debris_flow",
+"trig": "downpour",
+"title": "Netali Maneri Marg, Uttarkashi District, Uttarakhand",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2013-07-18",
+"lat": 30.4043,
+"lon": 79.3308,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Chamoli District, Uttarakhand",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2013-07-19",
+"lat": 30.0718,
+"lon": 80.2369,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Munsyari Area, Pithoragarh, Uttarakhand",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2013-07-23",
+"lat": 30.1944,
+"lon": 79.1939,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Deval, Chamoli District, Uttarakhand",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2013-07-23",
+"lat": 30.2902,
+"lon": 79.151,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Gauchar, Chamoli District, Uttarakhand",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2013-07-24",
+"lat": 30.262,
+"lon": 79.2191,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Karnaprayag, Uttarakhand",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2013-07-24",
+"lat": 30.2733,
+"lon": 79.233,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Rishikesh-Badrinath Highway, Uttarakhand",
+"src": "GLC",
+"acc": "unknown"
+},
+{
+"date": "2013-07-24",
+"lat": 30.4605,
+"lon": 79.4774,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Chamoli, Uttarakhand",
+"src": "GLC",
+"acc": "unknown"
+},
+{
+"date": "2013-07-24",
+"lat": 30.301,
+"lon": 79.3628,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Thirpak, Uttarakhand",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2013-07-24",
+"lat": 30.9058,
+"lon": 78.0906,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Sunali, Uttarakhand",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2013-07-24",
+"lat": 30.3056,
+"lon": 79.3286,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Tefana, Uttarakhand",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2013-07-25",
+"lat": 30.7866,
+"lon": 78.6171,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Malla, Uttarkashi, Uttarakhand",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2013-07-25",
+"lat": 30.8928,
+"lon": 78.48,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Quaritok, Uttarkashi, Uttarakhand",
+"src": "GLC",
+"acc": "unknown"
+},
+{
+"date": "2013-07-25",
+"lat": 30.4041,
+"lon": 79.3276,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Alaknanda Valley Of Chamoli District, Uttarakhand",
+"src": "GLC",
+"acc": "unknown"
+},
+{
+"date": "2013-07-25",
+"lat": 30.8203,
+"lon": 78.6185,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Ganga Vihar Colony In Bhatwadi Area, Uttarkashi, Uttarakhand",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2013-07-25",
+"lat": 30.8928,
+"lon": 78.48,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Uttarkashi, Uttarakhand",
+"src": "GLC",
+"acc": "unknown"
+},
+{
+"date": "2013-07-26",
+"lat": 30.2835,
+"lon": 79.2498,
+"cat": "landslide",
+"trig": "rain",
+"title": "Rishikesh-Badrinath Highway Near Kaleshwar",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2013-07-26",
+"lat": 30.6539,
+"lon": 78.3366,
+"cat": "landslide",
+"trig": "rain",
+"title": "Rishikesh-Gangotri Highway Near Dharasu-Nalupani",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2013-07-27",
+"lat": 30.4521,
+"lon": 78.754,
+"cat": "landslide",
+"trig": "rain",
+"title": "Balsori Villages In The Akhrori Area",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2013-07-28",
+"lat": 29.9964,
+"lon": 80.201,
+"cat": "mudslide",
+"trig": "downpour",
+"title": "Samkot Village Of Pithoragarhi, Uttarakhand",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2013-07-28",
+"lat": 30.819,
+"lon": 78.6149,
+"cat": "mudslide",
+"trig": "downpour",
+"title": "Bhatwari Area Of Uttarkashi Districti, Uttarakhand",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2013-07-31",
+"lat": 30.3822,
+"lon": 78.0949,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Dehradun, Uttarakhand",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2013-07-31",
+"lat": 29.5952,
+"lon": 79.6625,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Salut, Almora, Uttarakhand",
+"src": "GLC",
+"acc": "unknown"
+},
+{
+"date": "2013-08-05",
+"lat": 29.5659,
+"lon": 80.3657,
+"cat": "landslide",
+"trig": "monsoon",
+"title": "Jhulaghat Area Of Pithoragarh District, Uttarakhand",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2013-08-13",
+"lat": 30.6014,
+"lon": 78.3449,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Kot Village Of Tehri District, Uttarakhand",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2013-08-17",
+"lat": 31.0343,
+"lon": 78.7248,
+"cat": "landslide",
+"trig": "rain",
+"title": "Harsil, Uttarakhand",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2013-08-17",
+"lat": 30.7292,
+"lon": 78.4396,
+"cat": "landslide",
+"trig": "rain",
+"title": "Uttarkashi, Uttarakhand",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2013-08-18",
+"lat": 30.742,
+"lon": 78.4543,
+"cat": "landslide",
+"trig": "rain",
+"title": "Rishikesh-Gangotri Highway",
+"src": "GLC",
+"acc": "unknown"
+},
+{
+"date": "2013-08-18",
+"lat": 30.6639,
+"lon": 78.0574,
+"cat": "landslide",
+"trig": "rain",
+"title": "Rishkesh-Yamunotri Highway",
+"src": "GLC",
+"acc": "unknown"
+},
+{
+"date": "2013-08-18",
+"lat": 30.3642,
+"lon": 79.3158,
+"cat": "landslide",
+"trig": "rain",
+"title": "Chamoli District, Uttarakhand",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2013-08-18",
+"lat": 31.0826,
+"lon": 78.066,
+"cat": "landslide",
+"trig": "unknown",
+"title": "Nuranoo, Uttarkashi, Uttarakhand",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2013-08-20",
+"lat": 30.6293,
+"lon": 78.3303,
+"cat": "debris_flow",
+"trig": "downpour",
+"title": "Nalupani Area Of Uttarkashi District, Uttarakhand",
+"src": "GLC",
+"acc": "unknown"
+},
+{
+"date": "2013-08-28",
+"lat": 29.9531,
+"lon": 78.1514,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Haridwar In Uttarakhand Province",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2013-09-30",
+"lat": 30.6004,
+"lon": 78.3154,
+"cat": "landslide",
+"trig": "unknown",
+"title": "Dharasu, Uttarkashi, Uttarakhand",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2013-10-16",
+"lat": 30.5345,
+"lon": 79.0853,
+"cat": "landslide",
+"trig": "unknown",
+"title": "National Highway 109, Uttarakhand",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2013-10-18",
+"lat": 30.5345,
+"lon": 79.0853,
+"cat": "landslide",
+"trig": "rain",
+"title": "National Highway 109, Uttarakhand",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2013-12-23",
+"lat": 29.3577,
+"lon": 80.3109,
+"cat": "mudslide",
+"trig": "mining",
+"title": "Sarmoli Vdc",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2014-02-28",
+"lat": 29.58,
+"lon": 80.67,
+"cat": "landslide",
+"trig": "unknown",
+"title": "Mahakali Hwy 10200",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2014-06-18",
+"lat": 29.2983,
+"lon": 80.7651,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Dadeldhura",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2014-07-19",
+"lat": 30.4305,
+"lon": 78.0803,
+"cat": "landslide",
+"trig": "rain",
+"title": "Mussoorie, Uttarakhand",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2014-07-20",
+"lat": 29.2777,
+"lon": 80.9871,
+"cat": "landslide",
+"trig": "rain",
+"title": "Far-Western Development Region",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2014-07-20",
+"lat": 30.6326,
+"lon": 78.9953,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Sonprayag, Uttarakhand",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2014-07-24",
+"lat": 29.1585,
+"lon": 79.1464,
+"cat": "rock_fall",
+"trig": "downpour",
+"title": "Boulder hit bus",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2014-07-28",
+"lat": 29.5829,
+"lon": 80.2182,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Pithauragadh, Uttarakhand",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2014-08-15",
+"lat": 30.1176,
+"lon": 78.7472,
+"cat": "debris_flow",
+"trig": "rain",
+"title": "Pauri district of Uttarakhand",
+"src": "GLC",
+"acc": "unknown"
+},
+{
+"date": "2014-08-18",
+"lat": 30.9936,
+"lon": 78.4594,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Yamunotri route",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2014-09-11",
+"lat": 30.688,
+"lon": 79.0478,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Gaurikund-Kedarnath pedestrian trek",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2015-03-31",
+"lat": 30.6145,
+"lon": 79.8102,
+"cat": "landslide",
+"trig": "construction",
+"title": "Joshimath-Mallari road",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2015-04-16",
+"lat": 31.49911602,
+"lon": 78.22419099,
+"cat": "landslide",
+"trig": "construction",
+"title": "Mebar Landslide",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2015-04-28",
+"lat": 30.5631,
+"lon": 79.5765,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Vishnuprayag, Joshimath",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2015-04-30",
+"lat": 30.5568,
+"lon": 79.5541,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Rishikesh-Badrinath National Highway near Joshimath",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2015-06-21",
+"lat": 30.0261,
+"lon": 78.6278,
+"cat": "landslide",
+"trig": "rain",
+"title": "Satpuli-Kanskhet Road in Pauri Garhwal district",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2015-06-25",
+"lat": 30.6838,
+"lon": 79.0479,
+"cat": "landslide",
+"trig": "downpour",
+"title": "5 km from Kedarnath Temple",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2015-07-06",
+"lat": 29.393,
+"lon": 79.4525,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Mall Rd, Nainital",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2015-07-10",
+"lat": 29.3908,
+"lon": 79.4552,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Baliyanala, Nainithal",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2015-07-11",
+"lat": 30.3799,
+"lon": 78.4862,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Badrinath Highway near Mulygoan in Tihri",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2015-07-11",
+"lat": 30.241,
+"lon": 78.9,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Sirobagad area of Rudraprayag",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2015-07-19",
+"lat": 30.73,
+"lon": 78.4378,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Varunavat Mountain, Uttarkashi",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2015-07-19",
+"lat": 30.0705,
+"lon": 80.2364,
+"cat": "rock_fall",
+"trig": "monsoon",
+"title": "Sandrathi village of Munsiyari block of Pithoragarh district",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2015-07-24",
+"lat": 30.416,
+"lon": 78.3415,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Kempty Road near Kandikhal",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2015-07-24",
+"lat": 29.5863,
+"lon": 80.2186,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Pithoragarh",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2015-07-24",
+"lat": 30.4517,
+"lon": 78.1443,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Kempty Road near Sia village",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2015-07-24",
+"lat": 30.4528,
+"lon": 78.1045,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Kempty Road near Kempty Falls",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2015-07-26",
+"lat": 30.2411,
+"lon": 78.9014,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Sirobagad, Rishikesh-Badrinath highway",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2015-07-28",
+"lat": 30.7204,
+"lon": 79.0758,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Kedarnath Yatra",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2015-08-01",
+"lat": 31.0358,
+"lon": 78.8578,
+"cat": "rock_fall",
+"trig": "continuous_rain",
+"title": "Gangotri highway",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2015-08-07",
+"lat": 29.8587,
+"lon": 80.5547,
+"cat": "rock_fall",
+"trig": "unknown",
+"title": "Kalon cliff in Api Municipality-6",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2015-08-11",
+"lat": 29.346,
+"lon": 81.0083,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Daud VDC-3",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2015-08-11",
+"lat": 29.3064,
+"lon": 81.0561,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Daud VDC-1",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2015-08-15",
+"lat": 30.6494,
+"lon": 79.5269,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Lambagadh",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2015-08-15",
+"lat": 30.9111,
+"lon": 78.6814,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Gagnani",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2015-08-15",
+"lat": 30.9085,
+"lon": 78.3299,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Yamnotri highway",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2015-08-15",
+"lat": 30.7864,
+"lon": 78.616,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Malla",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2016-05-22",
+"lat": 30.306,
+"lon": 78.0648,
+"cat": "rock_fall",
+"trig": "rain",
+"title": "Chetra Village, Dehradun, India",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2016-05-23",
+"lat": 30.7007,
+"lon": 77.8644,
+"cat": "rock_fall",
+"trig": "rain",
+"title": "Chakrata, Uttarakhand, India",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2016-06-04",
+"lat": 29.3038,
+"lon": 80.6581,
+"cat": "landslide",
+"trig": "downpour",
+"title": "KI Singh Highway",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2016-06-29",
+"lat": 30.3299,
+"lon": 79.3206,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Nandprayag, Uttarakhand, India",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2016-07-01",
+"lat": 29.7535,
+"lon": 80.4934,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Malikarjun, Darchula, Nepal",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2016-07-01",
+"lat": 29.6394,
+"lon": 80.7179,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Sarmoli, Darchula, Nepal",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2016-07-01",
+"lat": 29.8002,
+"lon": 80.2565,
+"cat": "mudslide",
+"trig": "monsoon",
+"title": "Didihat, Uttarakhand, India",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2016-07-16",
+"lat": 30.3351,
+"lon": 78.5113,
+"cat": "rock_fall",
+"trig": "rain",
+"title": "Mathyali village, Jakhnidhar, Uttarakhand, India",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2016-07-16",
+"lat": 30.4554,
+"lon": 78.0973,
+"cat": "debris_flow",
+"trig": "downpour",
+"title": "Mussoorie-Tehri bypass, near Landour, Uttarakhand, India",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2016-07-17",
+"lat": 30.1642,
+"lon": 78.2936,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Narendranagar bypass on the Rishikesh-Gangotri national highway,Tehri Garhwal district, Uttarakhand, India",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2016-07-17",
+"lat": 29.9551,
+"lon": 78.1677,
+"cat": "mudslide",
+"trig": "downpour",
+"title": "Railway tunnel a few kilometres from the Haridwar railway station, between Haridwar and Dehradun, Uttarakhand, India",
+"src": "GLC",
+"acc": "exact"
+},
+{
+"date": "2016-07-18",
+"lat": 30.7313,
+"lon": 78.4358,
+"cat": "rock_fall",
+"trig": "rain",
+"title": "Gangotri Highway near Helgugad, Uttarkashi, Uttarakhand, India",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2016-07-31",
+"lat": 30.9753,
+"lon": 78.4375,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Janki Chatti, Uttarakhand, India",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2016-08-04",
+"lat": 30.7386,
+"lon": 79.4954,
+"cat": "debris_flow",
+"trig": "continuous_rain",
+"title": "Valley of Flowers near Badrinath",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2016-08-06",
+"lat": 29.5866,
+"lon": 80.2154,
+"cat": "rock_fall",
+"trig": "downpour",
+"title": "Bangapani area of Pithoragarh",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2016-08-11",
+"lat": 30.070512,
+"lon": 80.237218,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Landslide in Munsyari",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2016-08-16",
+"lat": 29.350849,
+"lon": 79.451264,
+"cat": "landslide",
+"trig": "rain",
+"title": "Landslide on Highway 87",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2016-08-21",
+"lat": 31.45206,
+"lon": 78.401303,
+"cat": "landslide",
+"trig": "rain",
+"title": "Landslide in Kinner Kailash",
+"src": "GLC",
+"acc": "exact"
+},
+{
+"date": "2016-08-28",
+"lat": 30.922325,
+"lon": 78.681379,
+"cat": "landslide",
+"trig": "rain",
+"title": "Landslide at Gangnani",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2016-08-29",
+"lat": 30.995694,
+"lon": 78.936314,
+"cat": "landslide",
+"trig": "rain",
+"title": "Landslide on Gangotri Highway",
+"src": "GLC",
+"acc": "exact"
+},
+{
+"date": "2016-09-11",
+"lat": 30.59661,
+"lon": 79.569767,
+"cat": "unknown",
+"trig": "unknown",
+"title": "Landslide kills Army colonel, wife on Badrinath highway",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2016-10-04",
+"lat": 29.8521,
+"lon": 80.553,
+"cat": "rock_fall",
+"trig": "unknown",
+"title": "Mahakali river at Bangabagad",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2017-04-06",
+"lat": 30.61461423,
+"lon": 78.3157525,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Landslide on NH-34 at Dharashu",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2017-04-06",
+"lat": 31.01260519,
+"lon": 78.88449525,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Landslide blocks NH-34 at Bharoghati",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2017-04-06",
+"lat": 30.81350174,
+"lon": 78.6179215,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Landslide blocks NH-34",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2017-04-06",
+"lat": 30.50415824,
+"lon": 79.48751264,
+"cat": "rock_fall",
+"trig": "continuous_rain",
+"title": "Rockfall on NH-7 in Gulabkoti",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2017-05-20",
+"lat": 30.56504675,
+"lon": 79.56163208,
+"cat": "landslide",
+"trig": "unknown",
+"title": "Landslide in Chanoli district",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2017-05-20",
+"lat": 30.73315585,
+"lon": 79.49231617,
+"cat": "landslide",
+"trig": "rain",
+"title": "Badrinath highway landslide",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2017-06-06",
+"lat": 30.33597362,
+"lon": 79.31958144,
+"cat": "landslide",
+"trig": "rain",
+"title": "Landslide near Nandprayag",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2017-06-29",
+"lat": 29.60012,
+"lon": 80.630002,
+"cat": "landslide",
+"trig": "rain",
+"title": "Landslide in Talladehi, Nepal",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2017-07-05",
+"lat": 29.88884727,
+"lon": 80.56522226,
+"cat": "landslide",
+"trig": "rain",
+"title": "Fatal landslide crushes car",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2017-07-07",
+"lat": 30.24147729,
+"lon": 78.89773782,
+"cat": "landslide",
+"trig": "rain",
+"title": "Landslide hits car near Sirobagad",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2017-07-09",
+"lat": 29.48397512,
+"lon": 81.03043256,
+"cat": "landslide",
+"trig": "rain",
+"title": "Large landslide on Prithvi Highway",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2017-07-11",
+"lat": 29.83416882,
+"lon": 80.26894533,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Fatal landslide in Bangpani",
+"src": "GLC",
+"acc": "50km"
+},
+{
+"date": "2017-07-11",
+"lat": 30.41288197,
+"lon": 78.08379453,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Fatal landslide on Mussoorie-Dehradun road",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2017-07-13",
+"lat": 30.23936058,
+"lon": 77.9558167,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Landslide blocks Delhi-Dehradun Highway",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2017-09-03",
+"lat": 30.739231,
+"lon": 78.373963,
+"cat": "landslide",
+"trig": "unknown",
+"title": "Gangotri Highway Landslide near Matli",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2017-12-10",
+"lat": 31.410667,
+"lon": 77.602553,
+"cat": "landslide",
+"trig": "unknown",
+"title": "Rampur-Nirmand Road Landslide",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2017-12-14",
+"lat": 29.420147,
+"lon": 80.244129,
+"cat": "landslide",
+"trig": "mining",
+"title": "Pancheshwar Dam Landslide",
+"src": "GLC",
+"acc": "exact"
+},
+{
+"date": "2018-04-27",
+"lat": 30.74148939,
+"lon": 78.52656314,
+"cat": "landslide",
+"trig": "unknown",
+"title": "Naitala and Maneri Regions Landslides Strand Pilgrims",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2018-05-07",
+"lat": 29.27910301,
+"lon": 80.86335953,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Ruwatola-Dhuli Road Construction Site Camp Landslide",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2018-05-08",
+"lat": 30.65160517,
+"lon": 79.52008976,
+"cat": "rock_fall",
+"trig": "rain",
+"title": "Lambagad Rubble Disrupts Pilgrimage",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2018-06-01",
+"lat": 30.72203108,
+"lon": 78.44517325,
+"cat": "landslide",
+"trig": "downpour",
+"title": "Uttarkashi-Lambgaun-Kedarnath Route Landslide near Kuteti Devi",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2018-08-09",
+"lat": 30.82129895,
+"lon": 78.23265711,
+"cat": "landslide",
+"trig": "rain",
+"title": "Dharali Landslide",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2018-08-10",
+"lat": 29.85124503,
+"lon": 80.55415467,
+"cat": "landslide",
+"trig": "rain",
+"title": "Porter drowned",
+"src": "GLC",
+"acc": "100km"
+},
+{
+"date": "2018-08-10",
+"lat": 30.04014521,
+"lon": 80.31354955,
+"cat": "landslide",
+"trig": "rain",
+"title": "Pithoragarh Landslide",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2018-08-11",
+"lat": 30.91714399,
+"lon": 78.68361831,
+"cat": "landslide",
+"trig": "rain",
+"title": "Uttarakashi-Gangotri Hwy Landslide",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2018-08-13",
+"lat": 31.42500223,
+"lon": 78.26035019,
+"cat": "landslide",
+"trig": "rain",
+"title": "Sangla Valley Landslide",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2018-08-18",
+"lat": 29.3841749,
+"lon": 79.46310566,
+"cat": "landslide",
+"trig": "unknown",
+"title": "Lower Mall Road Landslip",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2018-08-25",
+"lat": 29.38720379,
+"lon": 79.46145342,
+"cat": "landslide",
+"trig": "unknown",
+"title": "Naini Lake Landslip",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2018-08-29",
+"lat": 30.35948514,
+"lon": 78.37742809,
+"cat": "debris_flow",
+"trig": "downpour",
+"title": "Kot Village Landslide in Tehri District",
+"src": "GLC",
+"acc": "1km"
+},
+{
+"date": "2018-08-30",
+"lat": 30.27158781,
+"lon": 79.44950952,
+"cat": "landslide",
+"trig": "unknown",
+"title": "Farkhet Village Landslide",
+"src": "GLC",
+"acc": "unknown"
+},
+{
+"date": "2018-09-02",
+"lat": 31.11294766,
+"lon": 77.61442829,
+"cat": "landslide",
+"trig": "rain",
+"title": "Landslip on Theog-Hatkoti-Rohru Highway",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2018-09-03",
+"lat": 30.29068049,
+"lon": 78.48725977,
+"cat": "landslide",
+"trig": "unknown",
+"title": "River Bhagirathi Landslide",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2018-09-13",
+"lat": 31.01884813,
+"lon": 78.04493479,
+"cat": "rock_fall",
+"trig": "rain",
+"title": "Driver dies in Mori area Landslide",
+"src": "GLC",
+"acc": "10km"
+},
+{
+"date": "2018-09-27",
+"lat": 31.11743075,
+"lon": 77.5745521,
+"cat": "landslide",
+"trig": "continuous_rain",
+"title": "Spe 26, 2018 Rohru-Theog Landslide",
+"src": "GLC",
+"acc": "25km"
+},
+{
+"date": "2018-09-28",
+"lat": 31.11122752,
+"lon": 77.60624692,
+"cat": "landslide",
+"trig": "monsoon",
+"title": "Patti Dhank Landslide",
+"src": "GLC",
+"acc": "5km"
+},
+{
+"date": "2018-12-21",
+"lat": 30.51701952,
+"lon": 79.09243031,
+"cat": "translational_slide",
+"trig": "construction",
+"title": "Landslide near construction site of the Char Dham National Highway, Ukhimath",
+"src": "GLC",
+"acc": "10km"
+}
+]
+}
