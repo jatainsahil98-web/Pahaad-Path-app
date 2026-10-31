@@ -74,10 +74,16 @@ function ppApp(demo) {
   };
 }
 
+/* icons published beside the page (PNG ones made from icon.svg by tools/make_icons.js) */
+const ICONS = ['icon.svg', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png'];
+/* links to the manifest and icons, added after Vite has processed the page so it leaves them as plain relative links */
+const HEAD_LINKS = '<link rel="manifest" href="manifest.webmanifest">\n<link rel="icon" href="icon.svg" type="image/svg+xml">\n<link rel="apple-touch-icon" href="apple-touch-icon.png">\n';
+
 /* after the single file is written: name it PahaadPath.html and lay out the site folder beside it */
 function ppSite() {
   return {
     name: 'pp-site',
+    transformIndexHtml: { order: 'post', handler: html => html.replace('<meta name="theme-color"', () => HEAD_LINKS + '<meta name="theme-color"') },
     closeBundle() {
       const dist = path.join(R, 'dist'), site = path.join(dist, 'site');
       const app = fs.readFileSync(path.join(dist, 'index.html'), 'utf8');
@@ -85,11 +91,12 @@ function ppSite() {
       fs.mkdirSync(site, { recursive: true });
       fs.writeFileSync(path.join(dist, 'PahaadPath.html'), app);
       fs.writeFileSync(path.join(site, 'index.html'), app);
-      fs.copyFileSync(path.join(R, 'src/icon.svg'), path.join(site, 'icon.svg'));
+      for (const f of ICONS) fs.copyFileSync(path.join(R, 'src', f), path.join(site, f));
       const ver = crypto.createHash('sha1').update(app).digest('hex').slice(0, 10);
       fs.writeFileSync(path.join(site, 'manifest.webmanifest'), JSON.stringify({ name: 'PahaadPath', short_name: 'PahaadPath',
         description: 'Hill-road landslide, traffic and entry-rule advisory for Uttarakhand', start_url: './', display: 'standalone',
-        background_color: '#EDEFE8', theme_color: '#1D3F31', icons: [{ src: 'icon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any maskable' }] }, null, 1));
+        background_color: '#EDEFE8', theme_color: '#1D3F31', icons: [{ src: 'icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' }, { src: 'icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
+          { src: 'icon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any maskable' }] }, null, 1));
       fs.writeFileSync(path.join(site, 'sw.js'), rd('src/sw.js').replace('__VERSION__', ver));
       fs.writeFileSync(path.join(site, '.nojekyll'), '');
       console.log('built ' + Buffer.byteLength(app) + ' bytes; dist/PahaadPath.html and dist/site/ (sw ' + ver + ')');
