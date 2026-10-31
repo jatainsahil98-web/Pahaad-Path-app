@@ -363,3 +363,56 @@ bgFit=function(soft){
   const p=bgPad(); // extra room for the stones (34 by 42 px, drawn above their point)
   BG.needFit=BG.gl.fit(BG.gbounds,{left:p.tl[0]+20,top:p.tl[1]+40,right:p.br[0]+20,bottom:p.br[1]},soft)===false;
 };
+
+/* ================= 2.0 Phase 3: the control room and proof maps on MapLibre too. Same adapter as the trip map; each
+   card map is made once per render of its view and the hour slider only swaps the line data (no rebuild per hour).
+   Without WebGL the Leaflet code in features.js draws them as before. ================= */
+function boundsOf(lls){let w=180,s=90,e=-180,n=-90;lls.forEach(ll=>ll.forEach(p=>{s=Math.min(s,p[0]);n=Math.max(n,p[0]);w=Math.min(w,p[1]);e=Math.max(e,p[1]);}));return w<=e?[[w,s],[e,n]]:null;}
+function glCard(id,bounds){
+  const el=$(id);if(!el)return null;
+  killMap(id);
+  let gl;
+  try{gl=window.PPMap.create(el,{colors:glColors(),basemap:BASEMAP,attribution:'Natural Earth',scrollZoom:false,zoomControl:true,bounds:bounds||undefined,
+    onload:()=>{if(bounds)gl.fit(bounds,{top:16,bottom:16,left:16,right:16});}});}catch(e){return null;}
+  el.classList.add('gl');
+  LM[id]={gl,map:gl.map};
+  if(window.PP&&!window.PP.glMaps)window.PP.glMaps=k=>LM[k]&&LM[k].gl; // for the tests
+  if(window.ResizeObserver){let w0=0;new ResizeObserver(()=>{const w=el.clientWidth;if(w===w0||!el.isConnected)return;w0=w;gl.resize();if(bounds)gl.fit(bounds,{top:16,bottom:16,left:16,right:16});}).observe(el);}
+  return gl;
+}
+function glOps(D){
+  const b=boundsOf(D.rows.map(r=>geomOf(r.e)));
+  const gl=glCard('omap',b);if(!gl)return false;
+  gl.set('net',EDGES.filter(e=>!e.virtual&&e.plain).map(e=>line(geomOf(e))));
+  gl.set('reports',ctx().reports.filter(x=>x.type!=='clear'&&S[x.seg]).map(x=>{const sg=S[x.seg],f=sg.spots[x.spot]?sg.spots[x.spot].f:.5,p=along(geomOf(sg),f);return pt(p.lat,p.lon,{pop:esc(t('t_'+x.type))});}));
+  gl.set('events',OD.events&&OD.events.length&&st.useOD?OD.events.map(p=>pt(p[0],p[1])):[]);
+  gl.set('towns',Object.keys(N).filter(id=>{const n=N[id];return n.k==='h'&&!n.foot&&n.stay;}).map(id=>pt(N[id].lat,N[id].lon,{pop:'<b>'+esc(nm(N[id]))+'</b>'})));
+  LM.omap.rows=D.rows;
+  return true;
+}
+function opsPop(r,h){const s=r.sc[h],l=lvl(s),x=r.rr[h];
+  return '<b>'+esc(segName(r.e))+'</b><br>'+esc(hourLabel(h)+' · '+t(LV[l])+' '+s+'/100 · '+t('rain')+' '+Math.round(x.P24)+'/'+Math.round(edThr(r.e)(24))+' mm'+(x.rw?' · '+t('rep'):''));}
+function glOpsHour(D,h){
+  const o=LM.omap;if(!o||!o.gl)return;
+  o.gl.set('route',D.rows.map(r=>line(geomOf(r.e),{id:r.e.id,lvl:lvl(r.sc[h]),plain:false,pop:opsPop(r,h)})));
+}
+function glOpsZoom(id){
+  const o=LM.omap,e=S[id];if(!o||!o.gl||!e)return;
+  const g=geomOf(e),b=boundsOf([g]),r=(o.rows||[]).find(x=>x.e.id===id);
+  o.gl.fit(b,{top:40,bottom:40,left:40,right:40},true);
+  if(r){const m=along(g,.5);o.gl.popup([m.lon,m.lat],opsPop(r,st.opsH|0));}
+}
+function glProof(R,ev){
+  const closed={};ev.closures.forEach(c=>{(closed[c.link]=closed[c.link]||[]).push(c.place);});
+  const rows=R.rows.filter(r=>S[r.id]),b=boundsOf(rows.map(r=>geomOf(S[r.id])));
+  const gl=glCard('pmap',b);if(!gl)return false;
+  gl.set('route',rows.map(r=>{const e=S[r.id];return line(geomOf(e),{id:r.id,lvl:r.band,plain:false,
+    pop:'<b>'+esc(segName(e))+'</b><br>'+esc(t(LV[r.band])+' '+r.score+' · '+String(r.hour).padStart(2,'0')+':00 · 24 h '+r.P24+' mm')});}));
+  gl.set('cross',rows.filter(r=>closed[r.id]).map(r=>{const p=along(geomOf(S[r.id]),.5);return pt(p.lat,p.lon,{pop:esc(closed[r.id].join('; '))});}));
+  return true;
+}
+if(GL){ // a theme change repaints the card maps too
+  const re=()=>{['omap','pmap'].forEach(id=>{const o=LM[id];if(o&&o.gl&&o.gl.map.getContainer().isConnected)o.gl.theme(glColors());});};
+  try{window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>setTimeout(re));}catch(e){}
+  new MutationObserver(()=>setTimeout(re)).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+}

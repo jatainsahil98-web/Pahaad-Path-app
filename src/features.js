@@ -252,8 +252,9 @@ function footHtml(){
 /* ---------- Leaflet helpers ---------- */
 let LM={};
 function killMap(id){if(LM[id]){try{LM[id].map.remove();}catch(e){}delete LM[id];}}
-/* OpenStreetMap tiles need a web address (their policy asks for a Referer), so a copy opened from a file starts on the offline map */
-function tilesOn(){return st.tiles==null?navigator.onLine!==false&&/^https?:/.test(location.protocol):st.tiles;}
+/* 2.0 (decision D3): the online OpenStreetMap raster tiles are gone; every map draws from data inside the app (and, from
+   Phase 4, the offline map files), so no map ever asks a tile server and a copy opened from a file looks the same */
+function tilesOn(){return false;}
 function makeMap(id,opts){
   killMap(id);
   const el=$(id);if(!el||!HAS_L)return null;
@@ -290,7 +291,7 @@ renderMap=function(M){
   if(!HAS_L)return renderMapSvg(M);
   const tl=st.layer==='traffic',on=tilesOn();
   $('panel').innerHTML='<div class="maprow"><div class="tog sm" role="group" aria-label="Map layer"><button type="button" data-ly="risk" aria-pressed="'+!tl+'">'+t('lay_risk')+'</button><button type="button" data-ly="traffic" aria-pressed="'+tl+'">'+t('lay_trf')+'</button></div>'
-    +'<div class="tog sm" role="group" aria-label="Base map"><button type="button" data-tiles="1" aria-pressed="'+on+'">'+t('map_tiles')+'</button><button type="button" data-tiles="0" aria-pressed="'+!on+'">'+t('map_off')+'</button></div></div>'
+    +'<div class="tog sm" role="group" aria-label="Base map" hidden><button type="button" data-tiles="1" aria-pressed="'+on+'">'+t('map_tiles')+'</button><button type="button" data-tiles="0" aria-pressed="'+!on+'">'+t('map_off')+'</button></div></div>'
     +'<div id="lmap" class="lmap" role="region" aria-label="'+esc(titleOf(M))+'"></div><div class="legend" id="lmap-leg"></div><p class="mapnote">'+t(odCounts().kmUsed?'map_note_od':'map_note')+'</p>';
   const o=makeMap('lmap');if(!o)return;
   const map=o.map,g=L.layerGroup().addTo(map),sel=M.sel,cur=M.cur,bounds=[];
@@ -364,7 +365,7 @@ function renderOps(){
       +'<div class="acts in"><button class="btn" type="button" id="adv-copy">'+t('adv_copy')+'</button><button class="btn pri" type="button" id="adv-wa">'+t('adv_wa')+'</button></div></div>'
     +'<div class="card"><h3>'+t('jam_t')+'</h3><p class="sub">'+t('jam_s')+'</p>'+D.jams.map(j=>'<div class="rep"><div class="t">'+esc(segName(j.e))+'</div><span class="pill l'+tlvl(j.ci)+'">×'+j.dm.toFixed(1)+'</span><div class="m">'+esc(hourLabel(j.a)+' · '+t('trf'+tlvl(j.ci)))+'</div></div>').join('')+'</div>'
     +'<div class="card"><h3>'+t('rep_t')+'</h3>'+(reps.length?reps.map(r=>'<div class="rep"><div class="t">'+esc(t('t_'+r.type))+'</div><span class="pill pl">'+r.conf+'</span><div class="m">'+esc(repLabel(r)+' · '+ago(r.ts)+' '+t('ago')+' · '+(r.sample?t('sample'):t('you')))+'</div></div>').join(''):'<p class="note">'+t('rep_none')+'</p>')+'</div></div>';
-  const o=makeMap('omap');
+  const o=GL&&glOps(D)?null:makeMap('omap'); // 2.0: MapLibre when WebGL is there (src/shell.js), Leaflet otherwise
   if(o){
     const g=L.layerGroup().addTo(o.map),bounds=[];o.lines={};
     EDGES.forEach(e=>{if(e.virtual||!e.plain)return;L.polyline(geomOf(e),{color:cssv('--muted'),weight:2,opacity:.35,interactive:false}).addTo(g);});
@@ -380,8 +381,9 @@ function opsHour(h){
   st.opsH=h;const D=opsData(),o=LM.omap;
   let n=[0,0,0],worst=null;
   D.rows.forEach(r=>{const s=r.sc[h],l=lvl(s);n[l]++;if(!worst||s>worst.s)worst={r,s};
-    if(o&&o.lines[r.e.id]){o.lines[r.e.id].setStyle({color:cssv('--'+LV[l])});const x=r.rr[h];
+    if(o&&o.lines&&o.lines[r.e.id]){o.lines[r.e.id].setStyle({color:cssv('--'+LV[l])});const x=r.rr[h];
       o.lines[r.e.id].setPopupContent('<b>'+esc(segName(r.e))+'</b><br>'+esc(hourLabel(h)+' · '+t(LV[l])+' '+s+'/100 · '+t('rain')+' '+Math.round(x.P24)+'/'+Math.round(edThr(r.e)(24))+' mm'+(x.rw?' · '+t('rep'):'')));}});
+  if(o&&o.gl)glOpsHour(D,h);
   const reps=ctx().reports.filter(r=>r.type!=='clear').length,k=$('ops-k');
   if(k)k.innerHTML='<div class="kp l2"><small>'+t('k_avd')+'</small><b>'+n[2]+'</b><em>'+fill(t('k_of'),{n:D.rows.length})+'</em></div><div class="kp l1"><small>'+t('k_cau')+'</small><b>'+n[1]+'</b><em>'+fill(t('k_of'),{n:D.rows.length})+'</em></div><div class="kp l0"><small>'+t('k_go')+'</small><b>'+n[0]+'</b><em>'+fill(t('k_of'),{n:D.rows.length})+'</em></div>'
     +'<div class="kp"><small>'+t('k_rep')+'</small><b>'+reps+'</b><em>&nbsp;</em></div><div class="kp wide"><small>'+t('k_worst')+'</small><b class="sm">'+esc(worst?segName(worst.r.e):'')+'</b><em>'+(worst?esc(t(LV[lvl(worst.s)])+' '+worst.s):'')+'</em></div>';
@@ -497,7 +499,7 @@ function renderProof(){
   h+=odCard()+'</div>';
   $('v-proof').innerHTML=h;
   if(R&&ev&&(psec==='replay'||psec==='all')){
-    const o=makeMap('pmap');
+    const o=GL&&glProof(R,ev)?null:makeMap('pmap'); // 2.0: MapLibre first, Leaflet otherwise
     if(o){const g=L.layerGroup().addTo(o.map),bounds=[];const closed={};ev.closures.forEach(c=>{(closed[c.link]=closed[c.link]||[]).push(c.place);});
       R.rows.forEach(r=>{const e=S[r.id];if(!e)return;const ll=geomOf(e);ll.forEach(p=>bounds.push(p));
         casedLine(g,ll,cssv('--'+LV[r.band]),5).bindPopup('<b>'+esc(segName(e))+'</b><br>'+esc(t(LV[r.band])+' '+r.score+' · '+String(r.hour).padStart(2,'0')+':00 · 24 h '+r.P24+' mm'));
@@ -638,7 +640,8 @@ document.addEventListener('click',e=>{
   if(c.dataset.view){st.view=c.dataset.view;render();window.scrollTo(0,0);}
   else if(c.dataset.tiles){st.tiles=c.dataset.tiles==='1';render();}
   else if(c.dataset.oh!=null){stopPlay();opsHour(+c.dataset.oh);}
-  else if(c.dataset.oz){const o=LM.omap;if(o&&S[c.dataset.oz]){o.map.fitBounds(geomOf(S[c.dataset.oz]),{padding:[40,40],maxZoom:11});const ln=o.lines[c.dataset.oz];if(ln)ln.openPopup();$('omap').scrollIntoView({block:'center',behavior:'smooth'});}}
+  else if(c.dataset.oz){const o=LM.omap;if(o&&o.gl&&S[c.dataset.oz]){glOpsZoom(c.dataset.oz);$('omap').scrollIntoView({block:'center',behavior:'smooth'});}
+    else if(o&&S[c.dataset.oz]){o.map.fitBounds(geomOf(S[c.dataset.oz]),{padding:[40,40],maxZoom:11});const ln=o.lines[c.dataset.oz];if(ln)ln.openPopup();$('omap').scrollIntoView({block:'center',behavior:'smooth'});}}
   else if(c.dataset.rp){rpSel=c.dataset.rp;renderProof();}
   else if(c.dataset.rpplan){st.scn='rp:'+c.dataset.rpplan;st.view='trip';st.err='';
     st.from='delhi';st.to='gangotri';
