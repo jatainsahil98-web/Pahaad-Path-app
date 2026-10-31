@@ -48,7 +48,9 @@ def main(argv=None):
     k.add_argument('--inventory', default='data/truth/inventory.json')
     k.add_argument('--mode', choices=['relaxed', 'strict'], default='relaxed')
     ind = sub.add_parser('independent')
-    ind.add_argument('--first', type=int, default=2011, help='first monsoon to score')
+    ind.add_argument('--years', default='2007 2008 2009 2010 2011 2012 2013 2015',
+                     help='monsoons to score (already-downloaded 2007 to 2012, plus the two richest later ones)')
+    ind.add_argument('--first', type=int, default=2007, help='first monsoon to score')
     ind.add_argument('--until', type=int, default=2018, help='last monsoon to score (NASA has no Uttarakhand events after 2018)')
     a = ap.parse_args(argv)
 
@@ -157,7 +159,8 @@ def main(argv=None):
             with open(m6p, encoding='utf-8') as f:
                 m6 = json.load(f)
         coolr = independent.fetch_coolr()
-        r = independent.run(Network(susc=th.get('susc') or 'slope'), Network(), m6, archive_hourly_vars, coolr, first_year=a.first, last_year=a.until)
+        r = independent.run(Network(susc=th.get('susc') or 'slope'), Network(), m6, archive_hourly_vars, coolr, first_year=a.first, last_year=a.until,
+                            only=[int(y) for y in a.years.split()] if a.years else None)
         write_json(independent.summary(r), 'data', 'model', 'independent.json', indent=1)
         md = independent.report_md(r)
         with open(path('data', 'model', 'INDEPENDENT.md'), 'w', encoding='utf-8') as f:

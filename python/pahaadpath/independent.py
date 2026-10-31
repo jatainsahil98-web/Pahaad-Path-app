@@ -107,13 +107,13 @@ def at_rate(rows, lab, skip, rate):
     return sum(1 for s in pos if s > cut) / len(pos)
 
 
-def run(net_engine, net_v6, m6, fetch_vars, coolr, log=print, first_year=None, last_year=None):
+def run(net_engine, net_v6, m6, fetch_vars, coolr, log=print, first_year=None, last_year=None, only=None):
     """fetch_vars(keys, start, end) -> hourly variables (openmeteo.archive_hourly_vars)"""
     from . import v6
     events = catalog_events(net_v6, coolr)
     labs = season_labels(net_v6, events)
     years = sorted((y for y, s in labs.items() if len(s) >= MIN_EVENTS and (first_year is None or y >= first_year)
-                    and (last_year is None or y <= last_year)), key=lambda y: -len(labs[y]))[:MAX_SEASONS]
+                    and (last_year is None or y <= last_year) and (only is None or y in only)), key=lambda y: -len(labs[y]))[:MAX_SEASONS]
     log('seasons with events near the roads: %s' % {y: len(s) for y, s in sorted(labs.items())})
     years.sort()
     log('independent check: seasons %s' % ', '.join('%d (%d)' % (y, len(labs[y])) for y in years))
