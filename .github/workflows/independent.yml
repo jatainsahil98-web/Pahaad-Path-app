@@ -52,7 +52,8 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898299+github-actions[bot]@users.noreply.github.com'
-          git add data/model/independent.json data/model/INDEPENDENT.md data/coolr_uttarakhand.json index.html PahaadPath.html sw.js manifest.webmanifest
+          for f in data/model/independent.json data/model/INDEPENDENT.md data/coolr_uttarakhand.json; do [ -f $f ] && git add $f; done
+          git add index.html PahaadPath.html sw.js manifest.webmanifest
           git diff --cached --quiet && { echo 'no change'; exit 0; }
           git commit -qm "Check on other years ($(date -u +%Y-%m-%d))"
           for i in 1 2 3 4; do git pull -q --rebase origin main && git push -q origin HEAD:main && exit 0; sleep $((i*5)); done; exit 1

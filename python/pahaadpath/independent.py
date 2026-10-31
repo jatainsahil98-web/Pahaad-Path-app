@@ -22,7 +22,9 @@ from . import path
 from .backtest import CUT, metrics, score_rows
 from .network import dist_to_line
 
-COOLR = 'https://gis.earthdata.nasa.gov/gis05/rest/services/Landslides/COOLR_Events_Points/FeatureServer/0/query'
+# NASA COOLR report inventory (Landslide Reporter and the Global Landslide Catalog); the service moved under /portal/ in 2026
+COOLR = 'https://gis.earthdata.nasa.gov/portal/rest/services/Landslides/COOLR_Reports_Points/FeatureServer/0/query'
+ACC_KM = {'exact': 0, '1km': 1, '5km': 5, '10km': 10}  # coarser locations are left out
 BBOX = (77.5, 28.7, 81.1, 31.5)
 NEAR_KM = 2.0
 MIN_EVENTS = 3       # seasons with fewer events near hill roads are not scored
@@ -37,7 +39,7 @@ def fetch_coolr(log=print):
         while True:
             q = urllib.parse.urlencode({'where': '1=1', 'geometry': ','.join(map(str, BBOX)), 'geometryType': 'esriGeometryEnvelope',
                                         'inSR': 4326, 'spatialRel': 'esriSpatialRelIntersects', 'outSR': 4326, 'f': 'json',
-                                        'outFields': 'event_date,event_title,landslide_category,landslide_trigger,latitude,longitude,source_name',
+                                        'outFields': 'event_date,event_title,landslide_category,landslide_trigger,latitude,longitude,source_name,location_accuracy,event_import_source',
                                         'resultOffset': off, 'resultRecordCount': 1000, 'orderByFields': 'objectid'})
             with urllib.request.urlopen(urllib.request.Request(COOLR + '?' + q, headers={'User-Agent': 'pahaadpath-pipeline'}), timeout=90) as r:
                 js = json.loads(r.read().decode())
@@ -49,7 +51,7 @@ def fetch_coolr(log=print):
                 d = dt.datetime.fromtimestamp(a['event_date'] / 1000, dt.timezone(dt.timedelta(hours=5, minutes=30))).date().isoformat()
                 out.append({'date': d, 'lat': a.get('latitude') or f['geometry']['y'], 'lon': a.get('longitude') or f['geometry']['x'],
                             'cat': a.get('landslide_category'), 'trig': a.get('landslide_trigger'), 'title': (a.get('event_title') or '')[:120],
-                            'src': a.get('source_name')})
+                            'src': a.get('event_import_source') or a.get('source_name'), 'acc': a.get('location_accuracy')})
             if len(feats) < 1000 or not js.get('exceededTransferLimit', len(feats) == 1000):
                 break
             off += 1000
@@ -70,7 +72,8 @@ def fetch_coolr(log=print):
 def catalog_events(net, coolr):
     """[(date, lat, lon, accuracy km, source)] from both catalogues"""
     ev = [(e['date'], e['lat'], e['lon'], e['acc'], 'GLC') for e in net.catalog if e['date'] and e['acc'] <= 5]
-    ev += [(e['date'], e['lat'], e['lon'], 0, 'COOLR') for e in (coolr or []) if e.get('lat') is not None]
+    ev += [(e['date'], e['lat'], e['lon'], ACC_KM[e.get('acc') or 'exact'], 'COOLR') for e in (coolr or [])
+           if e.get('lat') is not None and (e.get('acc') or 'exact') in ACC_KM]
     return sorted(set(ev))
 
 
