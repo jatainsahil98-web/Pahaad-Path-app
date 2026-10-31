@@ -100,7 +100,7 @@ The frontend is done; all further work goes into this same app (no rewrite, no s
 3. **Background trip alerts on a real device:** save a trip on Android, allow notifications, confirm the WorkManager
    check (every 3 h) fires and the notification opens the app. Fix anything found in `android/.../WatchWorker.java`.
 4. **Road reports API hosting:** deploy `server/` (Dockerfile ready) on an India-region host, set the app's API
-   address (`API_DEFAULT` in `src/features2.js`), create officer tokens (`python -m pahaadpath_api add-officer`).
+   address (`API_DEFAULT` in `src/features2.js`), create officer tokens (`PYTHONPATH=python:server python -m pahaadpath_api add-officer --name ... --role district_officer`).
 5. **Control room uses v6:** show the v6 day score next to the rain-threshold score per stretch (data is in the pack).
 6. **PWD alternative routes:** PWD publishes "alternative routes in case of frequent road closures"
    (PDF on pwd.uk.gov.in/srmd-reports/); parse it and suggest the alternative when a stretch is closed.
