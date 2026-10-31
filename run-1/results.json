@@ -1,0 +1,2395 @@
+{
+ "steps": [
+  {
+   "name": "fresh install, first open with real network",
+   "t": "2026-10-31T09:28:46.481Z",
+   "state": {
+    "src": "live",
+    "lang": "en",
+    "from": "delhi",
+    "to": "mussoorie",
+    "view": "trip",
+    "tab": "route",
+    "scn": "live",
+    "err": "",
+    "srcmsg": "Live rainfall forecast, 13:21 IST (from the PahaadPath data pack)",
+    "online": true,
+    "outbox": 0,
+    "modal": false,
+    "overflowX": 0,
+    "vw": 412,
+    "ua": "Mozilla/5.0 (Linux; Android 14; sdk_gphone64_x86_64 Build/UE1A.230829.050; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/113.0.5672.136 Mobile Safari/537.36"
+   },
+   "pack": {
+    "ts": 1793435400000,
+    "made": 1793433084000,
+    "keys": 75,
+    "daily": true,
+    "alerts": 10,
+    "closures": null
+   },
+   "via": "pack",
+   "shot": "01_first_open_en.png"
+  },
+  {
+   "name": "plan Dehradun to Badrinath by typing",
+   "t": "2026-10-31T09:28:57.572Z",
+   "state": {
+    "src": "live",
+    "lang": "en",
+    "from": "dehradun",
+    "to": "badrinath",
+    "view": "trip",
+    "tab": "route",
+    "scn": "live",
+    "err": "",
+    "srcmsg": "Live rainfall forecast, 13:21 IST (from the PahaadPath data pack)",
+    "online": true,
+    "outbox": 0,
+    "modal": false,
+    "overflowX": 0,
+    "vw": 412,
+    "ua": "Mozilla/5.0 (Linux; Android 14; sdk_gphone64_x86_64 Build/UE1A.230829.050; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/113.0.5672.136 Mobile Safari/537.36"
+   },
+   "verdict": "ROAD\nGO\n18\nlandslide risk / 100\nRoad looks clear for this start time\nDehradun → Badrinath. Highest risk: Govindghat → Badrinath.\nDehradun → Badrinath · ~355 km · Leaving Sat 31 Oct 14:00",
+   "closures": null,
+   "keyboardUp": "mInputShown=false",
+   "shot": "02_trip_dehradun_badrinath.png"
+  },
+  {
+   "name": "language en: every tab and view",
+   "t": "2026-10-31T09:29:11.055Z",
+   "tabs": {
+    "route": {
+     "len": 1881,
+     "style": [],
+     "overflowX": 0,
+     "shot": "03_en_tab_route.png"
+    },
+    "map": {
+     "len": 289,
+     "style": [],
+     "overflowX": 0,
+     "shot": "04_en_tab_map.png"
+    },
+    "reports": {
+     "len": 1134,
+     "style": [],
+     "overflowX": 0,
+     "shot": "05_en_tab_reports.png"
+    },
+    "rules": {
+     "len": 2667,
+     "style": [],
+     "overflowX": 0,
+     "shot": "06_en_tab_rules.png"
+    },
+    "safety": {
+     "len": 2428,
+     "style": [],
+     "overflowX": 0,
+     "shot": "07_en_tab_safety.png"
+    }
+   },
+   "view_ops": {
+    "style": [],
+    "overflowX": 0,
+    "shot": "08_en_view_ops.png"
+   },
+   "view_proof": {
+    "style": [],
+    "overflowX": 0,
+    "shot": "09_en_view_proof.png"
+   },
+   "view_trip": {
+    "style": [],
+    "overflowX": 0,
+    "shot": null
+   },
+   "headerStyle": []
+  },
+  {
+   "name": "language hi: every tab and view",
+   "t": "2026-10-31T09:29:32.827Z",
+   "tabs": {
+    "route": {
+     "len": 1983,
+     "style": [],
+     "overflowX": 0,
+     "shot": "10_hi_tab_route.png",
+     "latin": [
+      [
+       "Dehradun",
+       4
+      ],
+      [
+       "kmph",
+       2
+      ],
+      [
+       "likely",
+       2
+      ],
+      [
+       "occur",
+       2
+      ],
+      [
+       "Garhwal",
+       2
+      ],
+      [
+       "Google",
+       2
+      ],
+      [
+       "Mappls",
+       2
+      ],
+      [
+       "Caine",
+       2
+      ],
+      [
+       "OSRM",
+       2
+      ],
+      [
+       "NDMA",
+       1
+      ],
+      [
+       "Thunderstorm",
+       1
+      ],
+      [
+       "accompanied",
+       1
+      ],
+      [
+       "with",
+       1
+      ],
+      [
+       "lightning",
+       1
+      ],
+      [
+       "and",
+       1
+      ],
+      [
+       "gusty",
+       1
+      ],
+      [
+       "wind",
+       1
+      ],
+      [
+       "isolated",
+       1
+      ],
+      [
+       "places",
+       1
+      ],
+      [
+       "over",
+       1
+      ],
+      [
+       "Almora",
+       1
+      ],
+      [
+       "Bageshwar",
+       1
+      ],
+      [
+       "Chamoli",
+       1
+      ],
+      [
+       "Champawat",
+       1
+      ],
+      [
+       "Nainital",
+       1
+      ],
+      [
+       "Pauri",
+       1
+      ],
+      [
+       "Pithoragarh",
+       1
+      ],
+      [
+       "Rudraprayag",
+       1
+      ],
+      [
+       "Tehri",
+       1
+      ],
+      [
+       "Uttarkashi",
+       1
+      ],
+      [
+       "next",
+       1
+      ],
+      [
+       "hours",
+       1
+      ],
+      [
+       "Dated",
+       1
+      ],
+      [
+       "Time",
+       1
+      ],
+      [
+       "Maps",
+       1
+      ],
+      [
+       "API",
+       1
+      ],
+      [
+       "TomTom",
+       1
+      ],
+      [
+       "HERE",
+       1
+      ],
+      [
+       "ODbL",
+       1
+      ],
+      [
+       "GLO",
+       1
+      ],
+      [
+       "Global",
+       1
+      ],
+      [
+       "Landslide",
+       1
+      ],
+      [
+       "Catalog",
+       1
+      ],
+      [
+       "Natural",
+       1
+      ],
+      [
+       "Earth",
+       1
+      ],
+      [
+       "Leaflet",
+       1
+      ],
+      [
+       "BSD",
+       1
+      ],
+      [
+       "Clause",
+       1
+      ],
+      [
+       "qrcode",
+       1
+      ],
+      [
+       "generator",
+       1
+      ],
+      [
+       "MIT",
+       1
+      ],
+      [
+       "SAARTHI",
+       1
+      ]
+     ]
+    },
+    "map": {
+     "len": 293,
+     "style": [],
+     "overflowX": 0,
+     "shot": "11_hi_tab_map.png",
+     "latin": [
+      [
+       "Dehradun",
+       4
+      ],
+      [
+       "OSRM",
+       3
+      ],
+      [
+       "kmph",
+       2
+      ],
+      [
+       "likely",
+       2
+      ],
+      [
+       "occur",
+       2
+      ],
+      [
+       "Garhwal",
+       2
+      ],
+      [
+       "Leaflet",
+       2
+      ],
+      [
+       "Caine",
+       2
+      ],
+      [
+       "NDMA",
+       1
+      ],
+      [
+       "Thunderstorm",
+       1
+      ],
+      [
+       "accompanied",
+       1
+      ],
+      [
+       "with",
+       1
+      ],
+      [
+       "lightning",
+       1
+      ],
+      [
+       "and",
+       1
+      ],
+      [
+       "gusty",
+       1
+      ],
+      [
+       "wind",
+       1
+      ],
+      [
+       "isolated",
+       1
+      ],
+      [
+       "places",
+       1
+      ],
+      [
+       "over",
+       1
+      ],
+      [
+       "Almora",
+       1
+      ],
+      [
+       "Bageshwar",
+       1
+      ],
+      [
+       "Chamoli",
+       1
+      ],
+      [
+       "Champawat",
+       1
+      ],
+      [
+       "Nainital",
+       1
+      ],
+      [
+       "Pauri",
+       1
+      ],
+      [
+       "Pithoragarh",
+       1
+      ],
+      [
+       "Rudraprayag",
+       1
+      ],
+      [
+       "Tehri",
+       1
+      ],
+      [
+       "Uttarkashi",
+       1
+      ],
+      [
+       "next",
+       1
+      ],
+      [
+       "hours",
+       1
+      ],
+      [
+       "Dated",
+       1
+      ],
+      [
+       "Time",
+       1
+      ],
+      [
+       "contributors",
+       1
+      ],
+      [
+       "API",
+       1
+      ],
+      [
+       "Google",
+       1
+      ],
+      [
+       "TomTom",
+       1
+      ],
+      [
+       "HERE",
+       1
+      ],
+      [
+       "Mappls",
+       1
+      ],
+      [
+       "ODbL",
+       1
+      ],
+      [
+       "GLO",
+       1
+      ],
+      [
+       "Global",
+       1
+      ],
+      [
+       "Landslide",
+       1
+      ],
+      [
+       "Catalog",
+       1
+      ],
+      [
+       "Natural",
+       1
+      ],
+      [
+       "Earth",
+       1
+      ],
+      [
+       "BSD",
+       1
+      ],
+      [
+       "Clause",
+       1
+      ],
+      [
+       "qrcode",
+       1
+      ],
+      [
+       "generator",
+       1
+      ],
+      [
+       "MIT",
+       1
+      ],
+      [
+       "SAARTHI",
+       1
+      ]
+     ]
+    },
+    "reports": {
+     "len": 1086,
+     "style": [],
+     "overflowX": 0,
+     "shot": "12_hi_tab_reports.png",
+     "latin": [
+      [
+       "Dehradun",
+       4
+      ],
+      [
+       "kmph",
+       2
+      ],
+      [
+       "likely",
+       2
+      ],
+      [
+       "occur",
+       2
+      ],
+      [
+       "Garhwal",
+       2
+      ],
+      [
+       "Caine",
+       2
+      ],
+      [
+       "OSRM",
+       2
+      ],
+      [
+       "NDMA",
+       1
+      ],
+      [
+       "Thunderstorm",
+       1
+      ],
+      [
+       "accompanied",
+       1
+      ],
+      [
+       "with",
+       1
+      ],
+      [
+       "lightning",
+       1
+      ],
+      [
+       "and",
+       1
+      ],
+      [
+       "gusty",
+       1
+      ],
+      [
+       "wind",
+       1
+      ],
+      [
+       "isolated",
+       1
+      ],
+      [
+       "places",
+       1
+      ],
+      [
+       "over",
+       1
+      ],
+      [
+       "Almora",
+       1
+      ],
+      [
+       "Bageshwar",
+       1
+      ],
+      [
+       "Chamoli",
+       1
+      ],
+      [
+       "Champawat",
+       1
+      ],
+      [
+       "Nainital",
+       1
+      ],
+      [
+       "Pauri",
+       1
+      ],
+      [
+       "Pithoragarh",
+       1
+      ],
+      [
+       "Rudraprayag",
+       1
+      ],
+      [
+       "Tehri",
+       1
+      ],
+      [
+       "Uttarkashi",
+       1
+      ],
+      [
+       "next",
+       1
+      ],
+      [
+       "hours",
+       1
+      ],
+      [
+       "Dated",
+       1
+      ],
+      [
+       "Time",
+       1
+      ],
+      [
+       "API",
+       1
+      ],
+      [
+       "Google",
+       1
+      ],
+      [
+       "TomTom",
+       1
+      ],
+      [
+       "HERE",
+       1
+      ],
+      [
+       "Mappls",
+       1
+      ],
+      [
+       "ODbL",
+       1
+      ],
+      [
+       "GLO",
+       1
+      ],
+      [
+       "Global",
+       1
+      ],
+      [
+       "Landslide",
+       1
+      ],
+      [
+       "Catalog",
+       1
+      ],
+      [
+       "Natural",
+       1
+      ],
+      [
+       "Earth",
+       1
+      ],
+      [
+       "Leaflet",
+       1
+      ],
+      [
+       "BSD",
+       1
+      ],
+      [
+       "Clause",
+       1
+      ],
+      [
+       "qrcode",
+       1
+      ],
+      [
+       "generator",
+       1
+      ],
+      [
+       "MIT",
+       1
+      ],
+      [
+       "SAARTHI",
+       1
+      ]
+     ]
+    },
+    "rules": {
+     "len": 2707,
+     "style": [],
+     "overflowX": 0,
+     "shot": "13_hi_tab_rules.png",
+     "latin": [
+      [
+       "Dehradun",
+       4
+      ],
+      [
+       "kmph",
+       2
+      ],
+      [
+       "likely",
+       2
+      ],
+      [
+       "occur",
+       2
+      ],
+      [
+       "Garhwal",
+       2
+      ],
+      [
+       "Outlook",
+       2
+      ],
+      [
+       "Traveller",
+       2
+      ],
+      [
+       "Char",
+       2
+      ],
+      [
+       "Dham",
+       2
+      ],
+      [
+       "Yatra",
+       2
+      ],
+      [
+       "rules",
+       2
+      ],
+      [
+       "All",
+       2
+      ],
+      [
+       "India",
+       2
+      ],
+      [
+       "Radio",
+       2
+      ],
+      [
+       "Caine",
+       2
+      ],
+      [
+       "OSRM",
+       2
+      ],
+      [
+       "NDMA",
+       1
+      ],
+      [
+       "Thunderstorm",
+       1
+      ],
+      [
+       "accompanied",
+       1
+      ],
+      [
+       "with",
+       1
+      ],
+      [
+       "lightning",
+       1
+      ],
+      [
+       "and",
+       1
+      ],
+      [
+       "gusty",
+       1
+      ],
+      [
+       "wind",
+       1
+      ],
+      [
+       "isolated",
+       1
+      ],
+      [
+       "places",
+       1
+      ],
+      [
+       "over",
+       1
+      ],
+      [
+       "Almora",
+       1
+      ],
+      [
+       "Bageshwar",
+       1
+      ],
+      [
+       "Chamoli",
+       1
+      ],
+      [
+       "Champawat",
+       1
+      ],
+      [
+       "Nainital",
+       1
+      ],
+      [
+       "Pauri",
+       1
+      ],
+      [
+       "Pithoragarh",
+       1
+      ],
+      [
+       "Rudraprayag",
+       1
+      ],
+      [
+       "Tehri",
+       1
+      ],
+      [
+       "Uttarkashi",
+       1
+      ],
+      [
+       "next",
+       1
+      ],
+      [
+       "hours",
+       1
+      ],
+      [
+       "Dated",
+       1
+      ],
+      [
+       "Time",
+       1
+      ],
+      [
+       "Tourist",
+       1
+      ],
+      [
+       "Care",
+       1
+      ],
+      [
+       "Uttarakhand",
+       1
+      ],
+      [
+       "official",
+       1
+      ],
+      [
+       "FAQ",
+       1
+      ],
+      [
+       "Trip",
+       1
+      ],
+      [
+       "Temples",
+       1
+      ],
+      [
+       "news",
+       1
+      ],
+      [
+       "report",
+       1
+      ],
+      [
+       "the",
+       1
+      ],
+      [
+       "yatra",
+       1
+      ],
+      [
+       "Oct",
+       1
+      ],
+      [
+       "Nov",
+       1
+      ],
+      [
+       "LiveLaw",
+       1
+      ],
+      [
+       "State",
+       1
+      ],
+      [
+       "Commission",
+       1
+      ],
+      [
+       "case",
+       1
+      ],
+      [
+       "Aug",
+       1
+      ],
+      [
+       "Daily",
+       1
+      ]
+     ]
+    },
+    "safety": {
+     "len": 2346,
+     "style": [],
+     "overflowX": 0,
+     "shot": "14_hi_tab_safety.png",
+     "latin": [
+      [
+       "Hospital",
+       6
+      ],
+      [
+       "Dehradun",
+       4
+      ],
+      [
+       "ATM",
+       4
+      ],
+      [
+       "Rudraprayag",
+       3
+      ],
+      [
+       "NDMA",
+       2
+      ],
+      [
+       "kmph",
+       2
+      ],
+      [
+       "likely",
+       2
+      ],
+      [
+       "occur",
+       2
+      ],
+      [
+       "Garhwal",
+       2
+      ],
+      [
+       "gov",
+       2
+      ],
+      [
+       "Clinic",
+       2
+      ],
+      [
+       "Indian",
+       2
+      ],
+      [
+       "Oil",
+       2
+      ],
+      [
+       "Blood",
+       2
+      ],
+      [
+       "Bank",
+       2
+      ],
+      [
+       "Rishikesh",
+       2
+      ],
+      [
+       "Centre",
+       2
+      ],
+      [
+       "Eye",
+       2
+      ],
+      [
+       "Caine",
+       2
+      ],
+      [
+       "OSRM",
+       2
+      ],
+      [
+       "Thunderstorm",
+       1
+      ],
+      [
+       "accompanied",
+       1
+      ],
+      [
+       "with",
+       1
+      ],
+      [
+       "lightning",
+       1
+      ],
+      [
+       "and",
+       1
+      ],
+      [
+       "gusty",
+       1
+      ],
+      [
+       "wind",
+       1
+      ],
+      [
+       "isolated",
+       1
+      ],
+      [
+       "places",
+       1
+      ],
+      [
+       "over",
+       1
+      ],
+      [
+       "Almora",
+       1
+      ],
+      [
+       "Bageshwar",
+       1
+      ],
+      [
+       "Chamoli",
+       1
+      ],
+      [
+       "Champawat",
+       1
+      ],
+      [
+       "Nainital",
+       1
+      ],
+      [
+       "Pauri",
+       1
+      ],
+      [
+       "Pithoragarh",
+       1
+      ],
+      [
+       "Tehri",
+       1
+      ],
+      [
+       "Uttarkashi",
+       1
+      ],
+      [
+       "next",
+       1
+      ],
+      [
+       "hours",
+       1
+      ],
+      [
+       "Dated",
+       1
+      ],
+      [
+       "Time",
+       1
+      ],
+      [
+       "usdma",
+       1
+      ],
+      [
+       "registrationandtouristcare",
+       1
+      ],
+      [
+       "SOS",
+       1
+      ],
+      [
+       "IBP",
+       1
+      ],
+      [
+       "PUMP",
+       1
+      ],
+      [
+       "Bharat",
+       1
+      ],
+      [
+       "Petroleum",
+       1
+      ],
+      [
+       "Heart",
+       1
+      ],
+      [
+       "General",
+       1
+      ],
+      [
+       "AIIMS's",
+       1
+      ],
+      [
+       "AIIMS",
+       1
+      ],
+      [
+       "Ioc",
+       1
+      ],
+      [
+       "Chaudhary",
+       1
+      ],
+      [
+       "Combined",
+       1
+      ],
+      [
+       "Srinagar",
+       1
+      ],
+      [
+       "District",
+       1
+      ],
+      [
+       "Jankalyan",
+       1
+      ]
+     ]
+    }
+   },
+   "view_ops": {
+    "style": [],
+    "overflowX": 0,
+    "shot": "15_hi_view_ops.png",
+    "latin": [
+     [
+      "Caine",
+      3
+     ],
+     [
+      "Leaflet",
+      2
+     ],
+     [
+      "OSRM",
+      2
+     ],
+     [
+      "contributors",
+      1
+     ],
+     [
+      "API",
+      1
+     ],
+     [
+      "Google",
+      1
+     ],
+     [
+      "TomTom",
+      1
+     ],
+     [
+      "HERE",
+      1
+     ],
+     [
+      "Mappls",
+      1
+     ],
+     [
+      "ODbL",
+      1
+     ],
+     [
+      "GLO",
+      1
+     ],
+     [
+      "Global",
+      1
+     ],
+     [
+      "Landslide",
+      1
+     ],
+     [
+      "Catalog",
+      1
+     ],
+     [
+      "Natural",
+      1
+     ],
+     [
+      "Earth",
+      1
+     ],
+     [
+      "BSD",
+      1
+     ],
+     [
+      "Clause",
+      1
+     ],
+     [
+      "qrcode",
+      1
+     ],
+     [
+      "generator",
+      1
+     ],
+     [
+      "MIT",
+      1
+     ],
+     [
+      "SAARTHI",
+      1
+     ]
+    ]
+   },
+   "view_proof": {
+    "style": [],
+    "overflowX": 0,
+    "shot": "16_hi_view_proof.png",
+    "latin": [
+     [
+      "demo",
+      68
+     ],
+     [
+      "Gangotri",
+      8
+     ],
+     [
+      "Caine",
+      4
+     ],
+     [
+      "OSRM",
+      4
+     ],
+     [
+      "Leaflet",
+      2
+     ],
+     [
+      "Yamunotri",
+      2
+     ],
+     [
+      "API",
+      2
+     ],
+     [
+      "contributors",
+      1
+     ],
+     [
+      "Nalupani",
+      1
+     ],
+     [
+      "Dharasu",
+      1
+     ],
+     [
+      "Matli",
+      1
+     ],
+     [
+      "Netala",
+      1
+     ],
+     [
+      "Dabrani",
+      1
+     ],
+     [
+      "Songad",
+      1
+     ],
+     [
+      "Harsil",
+      1
+     ],
+     [
+      "Junglachatti",
+      1
+     ],
+     [
+      "Kalyani",
+      1
+     ],
+     [
+      "Dharali",
+      1
+     ],
+     [
+      "All",
+      1
+     ],
+     [
+      "India",
+      1
+     ],
+     [
+      "Radio",
+      1
+     ],
+     [
+      "Aug",
+      1
+     ],
+     [
+      "Uttarakhand",
+      1
+     ],
+     [
+      "gets",
+      1
+     ],
+     [
+      "brief",
+      1
+     ],
+     [
+      "rain",
+      1
+     ],
+     [
+      "respite",
+      1
+     ],
+     [
+      "yellow",
+      1
+     ],
+     [
+      "alert",
+      1
+     ],
+     [
+      "issued",
+      1
+     ],
+     [
+      "roads",
+      1
+     ],
+     [
+      "remain",
+      1
+     ],
+     [
+      "blocked",
+      1
+     ],
+     [
+      "newsonair",
+      1
+     ],
+     [
+      "gov",
+      1
+     ],
+     [
+      "elevation",
+      1
+     ],
+     [
+      "Google",
+      1
+     ],
+     [
+      "TomTom",
+      1
+     ],
+     [
+      "HERE",
+      1
+     ],
+     [
+      "Mappls",
+      1
+     ],
+     [
+      "ODbL",
+      1
+     ],
+     [
+      "GLO",
+      1
+     ],
+     [
+      "Global",
+      1
+     ],
+     [
+      "Landslide",
+      1
+     ],
+     [
+      "Catalog",
+      1
+     ],
+     [
+      "Natural",
+      1
+     ],
+     [
+      "Earth",
+      1
+     ],
+     [
+      "BSD",
+      1
+     ],
+     [
+      "Clause",
+      1
+     ],
+     [
+      "qrcode",
+      1
+     ],
+     [
+      "generator",
+      1
+     ],
+     [
+      "MIT",
+      1
+     ],
+     [
+      "SAARTHI",
+      1
+     ]
+    ]
+   },
+   "view_trip": {
+    "style": [],
+    "overflowX": 0,
+    "shot": null
+   },
+   "headerStyle": []
+  },
+  {
+   "name": "language remembered after the app is closed",
+   "t": "2026-10-31T09:29:53.681Z",
+   "before": "hi",
+   "after": "hi",
+   "shot": "17_reopen_lang.png"
+  },
+  {
+   "name": "back to English",
+   "t": "2026-10-31T09:29:59.043Z",
+   "lang": "en"
+  },
+  {
+   "name": "where am I, location dialog answered with Approximate",
+   "t": "2026-10-31T09:30:00.227Z",
+   "dialog": [
+    "Allow PahaadPath to access this device’s location?",
+    "Precise",
+    "Approximate",
+    "While using the app",
+    "Only this time",
+    "Don’t allow"
+   ],
+   "tapped": [
+    "Approximate",
+    "While using the app"
+   ],
+   "granted": "android.permission.ACCESS_COARSE_LOCATION\n      android.permission.ACCESS_FINE_LOCATION\n        android.permission.ACCESS_FINE_LOCATION: granted=false, flags=[ USER_SENSITIVE_WHEN_GRANTED|USER_SENSITIVE_WHEN_DENIED]\n        android.permission.ACCESS_COARSE_LOCATION: granted=true, flags=[ USER_SET|USER_SENSITIVE_WHEN_GRANTED|USER_SENSITIVE_WHEN_DENIED|524288]",
+   "body": "Where am I\n\nUses GPS only, no mobile data needed.\n\nFinding your position…",
+   "shot": "18_where_dialog.png",
+   "shot2": "19_where_after_approx.png"
+  },
+  {
+   "name": "where am I again with approximate already granted",
+   "t": "2026-10-31T09:30:14.997Z",
+   "dialog": [],
+   "body": "Where am I\n\nUses GPS only, no mobile data needed.\n\nFinding your position…",
+   "shot": "20_where_approx_second.png"
+  },
+  {
+   "name": "where am I with precise location",
+   "t": "2026-10-31T09:30:24.459Z",
+   "body": "Where am I\n\nUses GPS only, no mobile data needed.\n\nOn Devprayag → Srinagar (Garhwal), about 4 km from Devprayag.\n\nLandslide risk here now: Go 7.\n\nNo Caution or Avoid stretch ahead on this trip.\n\nNext town with lodging: Srinagar (Garhwal), about 32 km ahead.\n\nNext fuel station mapped: Chamoli (Gopeshwar), about 136 km ahead.\n\nNext hospital or clinic mapped: Srinagar (Garhwal), about 32 km ahead.\n\nAbout 238 km left to Badrinath.",
+   "shot": "21_where_precise.png"
+  },
+  {
+   "name": "where am I when location is refused",
+   "t": "2026-10-31T09:30:41.912Z",
+   "dialog": [
+    "Allow PahaadPath to access this device’s location?",
+    "Precise",
+    "Approximate",
+    "While using the app",
+    "Only this time",
+    "Don’t allow"
+   ],
+   "tapped": "Don’t allow",
+   "body": "Where am I\n\nUses GPS only, no mobile data needed.\n\nNo GPS fix. Go to open sky and try again, or check that location is allowed.",
+   "shot": "22_where_denied.png"
+  },
+  {
+   "name": "where am I with location switched off in Android settings",
+   "t": "2026-10-31T09:30:58.510Z",
+   "body": "Where am I\n\nUses GPS only, no mobile data needed.\n\nLocation is switched off on this phone. Turn it on in the phone settings and try again.",
+   "shot": "23_where_location_off.png"
+  },
+  {
+   "name": "tell family: SMS with the plan",
+   "t": "2026-10-31T09:31:17.181Z",
+   "preview": "PahaadPath trip: Dehradun → Badrinath. Leaving Sat 31 Oct 15:00, expect to reach Sun 14:59. Night halt at Devprayag. Road risk: Go 18/100. I will SMS when I reach.",
+   "hrefBefore": "#",
+   "resumed": "com.google.android.apps.messaging/.main.MainActivity",
+   "smsUi": [
+    "Message list",
+    "9:31 AM",
+    "Texting with (987) 654-3210 (SMS/MMS)",
+    "Add files, location, and more",
+    "Attach from camera or gallery",
+    "PahaadPath trip: Dehradun → Badrinath. Leaving Sat 31 Oct 15:00, expect to reach Sun 14:59. Night halt at Devprayag. Road risk: Go 18/100. I will SMS when I reach.",
+    "Explore emoji",
+    "Send SMS",
+    "38 / 3",
+    "SMS",
+    "Navigate up",
+    "(987) 654-3210",
+    "Make a call",
+    "Search",
+    "More conversation options"
+   ],
+   "shot": "24_family_modal.png",
+   "shot2": "25_family_sms_app.png",
+   "style": []
+  },
+  {
+   "name": "tell family: \"I am stuck\" with location",
+   "t": "2026-10-31T09:31:36.479Z",
+   "resumed": "com.google.android.apps.messaging/.main.MainActivity",
+   "smsUi": [
+    "Message list",
+    "9:31 AM",
+    "Texting with (987) 654-3210 (SMS/MMS)",
+    "Expand attachment buttons",
+    "Stuck on the road near Devprayag. Location: https://maps.google.com/?q=30.14620,78.59860 (accuracy 5 m). I am safe for now. (PahaadPath)",
+    "Explore emoji",
+    "Send SMS",
+    "SMS",
+    "Navigate up",
+    "(987) 654-3210",
+    "Make a call",
+    "Search",
+    "More conversation options"
+   ],
+   "shot": "26_family_stuck.png"
+  },
+  {
+   "name": "tell family with no number typed",
+   "t": "2026-10-31T09:31:50.756Z",
+   "resumed": "org.pahaadpath.app/.MainActivity",
+   "toast": "Type a phone number first.",
+   "shot": "27_family_no_number.png"
+  },
+  {
+   "name": "back button with a window open",
+   "t": "2026-10-31T09:31:55.275Z",
+   "modalOpenBeforeBack": true,
+   "resumedAfterBack": "org.pahaadpath.app/.MainActivity",
+   "state": {
+    "src": "live",
+    "lang": "en",
+    "from": "dehradun",
+    "to": "badrinath",
+    "view": "trip",
+    "tab": "route",
+    "scn": "live",
+    "err": "",
+    "srcmsg": "Live rainfall forecast, 13:21 IST (from the PahaadPath data pack)",
+    "online": true,
+    "outbox": 0,
+    "modal": false,
+    "overflowX": 0,
+    "vw": 412,
+    "ua": "Mozilla/5.0 (Linux; Android 14; sdk_gphone64_x86_64 Build/UE1A.230829.050; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/113.0.5672.136 Mobile Safari/537.36"
+   },
+   "shot": "28_back_button.png"
+  },
+  {
+   "name": "back button on a tab other than the trip",
+   "t": "2026-10-31T09:31:59.936Z",
+   "resumedAfterBack": "org.pahaadpath.app/.MainActivity"
+  },
+  {
+   "name": "save trip and my trips list",
+   "t": "2026-10-31T09:32:01.660Z",
+   "saved": "[{\"from\":\"dehradun\",\"to\":\"badrinath\",\"date\":\"2026-10-31\",\"dep\":null,\"score\":18,\"level\":0}]",
+   "mytrips": "My trips\n\nSaved trips are checked again each time the forecast updates, also offline.\n\nDehradun → Badrinath\nGo 18\nSat 31 Oct 15:00 · was Go 18 when saved\nOpen\nRemove",
+   "shot": "29_my_trips.png"
+  },
+  {
+   "name": "share buttons: WhatsApp advice, share, listen, QR, copy",
+   "t": "2026-10-31T09:32:08.170Z",
+   "#adv-wa": "not on screen",
+   "#a-share": {
+    "resumed": "com.android.intentresolver/.ChooserActivity",
+    "ui": [
+     "Sharing text",
+     "PahaadPath · Dehradun → Badrinath · Sat 31 Oct 15:00&#10;ROAD: GO (landslide risk 18/100) · TRAFFIC: FREE-FLOWING&#10;Expected driving time 12 h 33 min (normal day 12 h 28 min).&#10;Via Devprayag · Karnaprayag · Joshimath.&#10;Night halt: Devprayag (18:32).&#10;Best window: 15:00 to 20:00 · Road: Go · Traffic: Free-flowing · overnight halt.&#10;Before you go: Char Dham yatra registration.&#10;Advisory only. Follow police and district notices on the road.",
+     "Copy",
+     "No recommended people to share with",
+     "Nearby Share",
+     "Messages",
+     "Chrome",
+     "Drive",
+     "Copy to clipboard",
+     "Drive"
+    ],
+    "toast": "Trip saved. It is checked again on every forecast update.",
+    "url": "https://appassets.androidplatform.net/assets/index.html",
+    "shot": "30_btn_a-share.png",
+    "speaking": "no speechSynthesis"
+   },
+   "#a-listen": {
+    "resumed": "org.pahaadpath.app/.MainActivity",
+    "ui": [],
+    "toast": "Trip saved. It is checked again on every forecast update.",
+    "url": "https://appassets.androidplatform.net/assets/index.html",
+    "shot": "31_btn_a-listen.png",
+    "speaking": "no speechSynthesis"
+   },
+   "#a-qr": {
+    "resumed": "org.pahaadpath.app/.MainActivity",
+    "ui": [
+     "PahaadPath",
+     "PahaadPath",
+     "Hill-road landslide and traffic advisory",
+     "Language",
+     "EN",
+     "हिं",
+     "Views",
+     "Plan trip",
+     "Control room",
+     "Proof",
+     "Live rainfall forecast, 13:21 IST (from the PahaadPath data pack)",
+     "WEATHER",
+     "WEATHER",
+     "TRAFFIC ASSUMPTION",
+     "TRAFFIC ASSUMPTION"
+    ],
+    "toast": "Trip saved. It is checked again on every forecast update.",
+    "url": "https://appassets.androidplatform.net/assets/index.html",
+    "shot": "32_btn_a-qr.png",
+    "speaking": "no speechSynthesis"
+   },
+   "#adv-copy": "not on screen",
+   "clip": "",
+   "navigator": {
+    "share": false,
+    "clipboard": true,
+    "speech": false,
+    "sr": true
+   }
+  },
+  {
+   "name": "share the app file (APK) from the safety tab",
+   "t": "2026-10-31T09:32:33.234Z",
+   "tab": "safety",
+   "resumed": "com.android.intentresolver/.ChooserActivity",
+   "ui": [
+    "Sharing 1 file",
+    "PahaadPath.apk",
+    "No recommended people to share with",
+    "Nearby Share",
+    "Drive",
+    "Gmail"
+   ],
+   "shot": "33_share_app_chooser.png"
+  },
+  {
+   "name": "SOS button",
+   "t": "2026-10-31T09:32:40.977Z",
+   "resumed": "org.pahaadpath.app/.MainActivity",
+   "ui": [
+    "PahaadPath",
+    "PahaadPath",
+    "Hill-road landslide and traffic advisory",
+    "Language",
+    "EN",
+    "हिं",
+    "Views",
+    "Plan trip",
+    "Control room",
+    "Proof",
+    "Live rainfall forecast, 13:21 IST (from the PahaadPath data pack)",
+    "WEATHER",
+    "WEATHER",
+    "TRAFFIC ASSUMPTION",
+    "TRAFFIC ASSUMPTION",
+    "Trip",
+    "Speak your trip",
+    "FROM",
+    "Dehradun",
+    "TO"
+   ],
+   "shot": "34_sos.png"
+  },
+  {
+   "name": "voice question (mic button)",
+   "t": "2026-10-31T09:32:47.904Z",
+   "ui": [
+    "PahaadPath",
+    "PahaadPath",
+    "Hill-road landslide and traffic advisory",
+    "Language",
+    "EN",
+    "हिं",
+    "Views",
+    "Plan trip",
+    "Control room",
+    "Proof",
+    "Live rainfall forecast, 13:21 IST (from the PahaadPath data pack)",
+    "WEATHER",
+    "WEATHER",
+    "TRAFFIC ASSUMPTION",
+    "TRAFFIC ASSUMPTION"
+   ],
+   "toast": "Trip saved. It is checked again on every forecast update.",
+   "shot": "35_mic.png",
+   "resumed": "org.pahaadpath.app/.MainActivity"
+  },
+  {
+   "name": "typed question box in English and Hinglish",
+   "t": "2026-10-31T09:33:02.001Z",
+   "dehradun to kedarnath tomorrow morning": {
+    "from": "dehradun",
+    "to": "kedarnath",
+    "date": "2026-11-01",
+    "dep": null
+   },
+   "rishikesh se joshimath kal": {
+    "from": "rishikesh",
+    "to": "joshimath",
+    "date": "2026-11-01",
+    "dep": null
+   },
+   "hindiTyped": {
+    "to": "badrinath",
+    "val": "Badrinath"
+   },
+   "shot": "36_ask_box.png"
+  },
+  {
+   "name": "downloads inside the app (proof and open data exports)",
+   "t": "2026-10-31T09:33:09.152Z",
+   "#pr-dl": {
+    "resumed": "org.pahaadpath.app/.MainActivity",
+    "ui": [
+     "PahaadPath",
+     "PahaadPath",
+     "Hill-road landslide and traffic advisory",
+     "Language",
+     "EN",
+     "हिं",
+     "Views",
+     "Plan trip",
+     "Control room",
+     "Proof"
+    ]
+   },
+   "#od-exp": {
+    "resumed": "org.pahaadpath.app/.MainActivity",
+    "ui": [
+     "PahaadPath",
+     "PahaadPath",
+     "Hill-road landslide and traffic advisory",
+     "Language",
+     "EN",
+     "हिं",
+     "Views",
+     "Plan trip",
+     "Control room",
+     "Proof"
+    ]
+   },
+   "downloadsFolder": "total 8\ndrwxrws--- 2 u0_a186 media_rw 4096 2026-10-31 09:33 PahaadPath",
+   "shot": "37_downloads.png"
+  },
+  {
+   "name": "turn the phone sideways",
+   "t": "2026-10-31T09:33:25.185Z",
+   "before": [
+    "rishikesh",
+    "badrinath",
+    "route"
+   ],
+   "landscape": [
+    "rishikesh",
+    "badrinath",
+    "route",
+    0,
+    866
+   ],
+   "shot": "38_landscape.png"
+  },
+  {
+   "name": "app killed in the background, then reopened",
+   "t": "2026-10-31T09:33:31.040Z",
+   "before": [
+    "rishikesh",
+    "badrinath",
+    "reports"
+   ],
+   "after": [
+    "rishikesh",
+    "badrinath",
+    "reports"
+   ],
+   "shot": "39_after_kill.png"
+  },
+  {
+   "name": "large text (font size 130 percent)",
+   "t": "2026-10-31T09:33:37.485Z",
+   "overflowX": 0,
+   "clipped": [],
+   "shot": "40_font_130.png"
+  },
+  {
+   "name": "dark mode phone",
+   "t": "2026-10-31T09:33:41.776Z",
+   "bg": "rgb(237, 239, 232)",
+   "shot": "41_dark.png"
+  },
+  {
+   "name": "copy link in the QR window",
+   "t": "2026-10-31T09:33:46.576Z",
+   "link": "Scan to open this trip\n\nhttps://jatainsahil98-web.github.io/Pahaad-Path-app/?from=rishikesh&to=badrinath&date=2026-11-01\n\nCopy link",
+   "toast": "Summary copied",
+   "writeText": "NotAllowedError: Write permission denied.",
+   "shot": "42_copy_link.png"
+  },
+  {
+   "name": "control room advisory: copy and WhatsApp",
+   "t": "2026-10-31T09:33:57.738Z",
+   "copyToast": "Summary copied",
+   "shot": "43_adv_copy.png",
+   "waResumed": "org.pahaadpath.app/.MainActivity",
+   "waShot": "44_adv_wa.png"
+  },
+  {
+   "name": "helpline number tap opens the dialer",
+   "t": "2026-10-31T09:34:09.993Z",
+   "href": "tel:112",
+   "resumed": "com.google.android.dialer/com.android.dialer.main.impl.MainActivity",
+   "ui": [
+    "More options",
+    "112",
+    "backspace",
+    "1,",
+    "1",
+    "2,ABC",
+    "2",
+    "ABC",
+    "3,DEF",
+    "3",
+    "DEF",
+    "4,GHI"
+   ],
+   "shot": "45_helpline.png"
+  },
+  {
+   "name": "voice input error",
+   "t": "2026-10-31T09:34:19.738Z",
+   "sr": [
+    "no end after 8 s"
+   ],
+   "ui": [
+    "Allow PahaadPath to record audio?",
+    "While using the app",
+    "Only this time",
+    "Don’t allow"
+   ]
+  },
+  {
+   "name": "file pickers: load results file, load open data file",
+   "t": "2026-10-31T09:34:29.681Z",
+   "#pr-ul": "not on screen",
+   "#od-imp": "not on screen",
+   "shot": "46_file_picker.png"
+  },
+  {
+   "name": "open a saved trip, swap from and to",
+   "t": "2026-10-31T09:34:33.747Z",
+   "savedTripButton": true,
+   "afterOpen": [
+    "dehradun",
+    "badrinath"
+   ],
+   "afterSwap": [
+    "badrinath",
+    "dehradun"
+   ]
+  },
+  {
+   "name": "shared report channel status with signal",
+   "t": "2026-10-31T09:34:36.721Z",
+   "status": "Shared channel connected · 0 reports from other phones in the last 48 hours",
+   "shot": "47_share_status_online.png"
+  },
+  {
+   "name": "date picker",
+   "t": "2026-10-31T09:34:56.912Z",
+   "ui": [
+    "2026",
+    "Sat, Oct 31",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10"
+   ],
+   "shot": "48_date_picker.png"
+  },
+  {
+   "name": "English words left on Hindi screens (in context)",
+   "t": "2026-10-31T09:35:02.609Z",
+   "proof": [
+    "9 जुलाई 2026, दर्ज बारिश और खुले डेटा (DEM ढलान, NASA घटना इतिहास) के साथ: बंद 4 में से 3 हिस्से सावधानी या उससे ऊपर थे और 1 टालें था। 3 और हिस्से भी टालें थे।",
+    "20 अगस्त 2025, सड़कें बंद\tदर्ज बारिश (रीएनालिसिस)\t0 / 5 (0%)\t0 / 5\t0 / 39\tDEM · NASA · v4",
+    "20 अगस्त 2025, सड़कें बंद\tदर्ज बारिश (रीएनालिसिस)\t0 / 5 (0%)\t0 / 5\t0 / 39\tdemo · demo · v4",
+    "20 अगस्त 2025, सड़कें बंद\t1 दिन पहले का पूर्वानुमान\t0 / 5 (0%)\t0 / 5\t0 / 39\tDEM · NASA · v4",
+    "20 अगस्त 2025, सड़कें बंद\t1 दिन पहले का पूर्वानुमान\t0 / 5 (0%)\t0 / 5\t0 / 39\tdemo · demo · v4",
+    "20 अगस्त 2025, सड़कें बंद\t2 दिन पहले का पूर्वानुमान\t0 / 5 (0%)\t0 / 5\t0 / 39\tDEM · NASA · v4",
+    "20 अगस्त 2025, सड़कें बंद\t2 दिन पहले का पूर्वानुमान\t0 / 5 (0%)\t0 / 5\t0 / 39\tdemo · demo · v4",
+    "नियंत्रण: 12 नवंबर 2025\tदर्ज बारिश (रीएनालिसिस)\t\t\t0 / 44\tDEM · NASA · v4",
+    "नियंत्रण: 12 नवंबर 2025\tदर्ज बारिश (रीएनालिसिस)\t\t\t0 / 44\tdemo · demo · v4",
+    "नियंत्रण: 12 नवंबर 2025\t1 दिन पहले का पूर्वानुमान\t\t\t0 / 44\tDEM · NASA · v4",
+    "नियंत्रण: 12 नवंबर 2025\t1 दिन पहले का पूर्वानुमान\t\t\t0 / 44\tdemo · demo · v4",
+    "नियंत्रण: 12 नवंबर 2025\t2 दिन पहले का पूर्वानुमान\t\t\t0 / 44\tDEM · NASA · v4",
+    "नियंत्रण: 12 नवंबर 2025\t2 दिन पहले का पूर्वानुमान\t\t\t0 / 44\tdemo · demo · v4",
+    "नियंत्रण: 10 दिसंबर 2025\tदर्ज बारिश (रीएनालिसिस)\t\t\t0 / 44\tDEM · NASA · v4",
+    "नियंत्रण: 10 दिसंबर 2025\tदर्ज बारिश (रीएनालिसिस)\t\t\t0 / 44\tdemo · demo · v4",
+    "नियंत्रण: 10 दिसंबर 2025\t1 दिन पहले का पूर्वानुमान\t\t\t0 / 44\tDEM · NASA · v4",
+    "नियंत्रण: 10 दिसंबर 2025\t1 दिन पहले का पूर्वानुमान\t\t\t0 / 44\tdemo · demo · v4",
+    "नियंत्रण: 10 दिसंबर 2025\t2 दिन पहले का पूर्वानुमान\t\t\t0 / 44\tDEM · NASA · v4",
+    "नियंत्रण: 10 दिसंबर 2025\t2 दिन पहले का पूर्वानुमान\t\t\t0 / 44\tdemo · demo · v4",
+    "9 जुलाई 2026, सड़कें बंद\tदर्ज बारिश (रीएनालिसिस)\t1 / 4 (25%)\t3 / 4\t3 / 40\tDEM · NASA · v4",
+    "9 जुलाई 2026, सड़कें बंद\tदर्ज बारिश (रीएनालिसिस)\t0 / 4 (0%)\t3 / 4\t2 / 40\tdemo · demo · v4",
+    "9 जुलाई 2026, सड़कें बंद\t1 दिन पहले का पूर्वानुमान\t0 / 4 (0%)\t1 / 4\t0 / 40\tDEM · NASA · v4",
+    "9 जुलाई 2026, सड़कें बंद\t1 दिन पहले का पूर्वानुमान\t0 / 4 (0%)\t0 / 4\t0 / 40\tdemo · demo · v4",
+    "9 जुलाई 2026, सड़कें बंद\t2 दिन पहले का पूर्वानुमान\t0 / 4 (0%)\t0 / 4\t0 / 40\tDEM · NASA · v4",
+    "9 जुलाई 2026, सड़कें बंद\t2 दिन पहले का पूर्वानुमान\t0 / 4 (0%)\t0 / 4\t0 / 40\tdemo · demo · v4"
+   ],
+   "ops": [
+    " Leaflet | © OpenStreetMap contributors",
+    "आधार: बारिश (Open-Meteo का पूर्वानुमान) बनाम Caine (1980) सीमा, ढलान, पुरानी घटनाएँ और सड़क रिपोर्ट।",
+    "WhatsApp पर भेजें"
+   ],
+   "rules": [
+    "स्रोत: Tourist Care Uttarakhand, official FAQ",
+    "स्रोत: Trip to Temples, news report on the 2026 yatra · Outlook Traveller, Char Dham Yatra 2026 rules",
+    "स्रोत: All India Radio, 2 Oct 2025 · All India Radio, 25 Nov 2025",
+    "स्रोत: LiveLaw · State Commission, case A/159/2022, 28 Aug 2023",
+    "स्रोत: Daily Pioneer, 8 May 2022 · Outlook Traveller, Char Dham Yatra 2026 rules"
+   ],
+   "safety": [
+    "नंबर उत्तराखंड आपदा प्रबंधन प्राधिकरण की साइट और टूरिस्ट केयर उत्तराखंड पोर्टल से। यात्रा से पहले जाँच लें। usdma.uk.gov.in · registrationandtouristcare.uk.gov.in",
+    "OpenStreetMap में हर शहर से 3 किमी के अंदर दर्ज (2026-10-31)। छोटे पहाड़ी शहर अक्सर छूट जाते हैं, इसलिए स्थानीय लोगों से भी पूछें।",
+    "बद्रीनाथ: पेट्रोल पंप 1 (Indian Oil)",
+    "चमोली (गोपेश्वर): पेट्रोल पंप 2 (INDIAN OIL FUEL STATION) · अस्पताल या क्लिनिक 7 (Dr. Kathait Eye Care Centre, Navjyoti Eye Clinic) · ATM 2",
+    "कर्णप्रयाग: अस्पताल या क्लिनिक 5 (Government Hospital, Karnaprayag, Trauma Centre)",
+    "रुद्रप्रयाग: अस्पताल या क्लिनिक 2 (District Hospital Rudraprayag, Jankalyan Hospital, Rudraprayag)",
+    "श्रीनगर (गढ़वाल): अस्पताल या क्लिनिक 2 (Chaudhary Hospital, Combined Hospital Srinagar) · ATM 1",
+    "ऋषिकेश: पेट्रोल पंप 3 (Indian Oil) · अस्पताल या क्लिनिक 7 (AIIMS's Blood Bank Rishikesh, AIIMS Blood Bank, Rishikesh)",
+    "देहरादून: पेट्रोल पंप 9 (IBP PUMP, Bharat Petroleum) · अस्पताल या क्लिनिक 75 (Heart Clinic, General Hospital) · ATM 10"
+   ],
+   "reports": [
+    "रिपोर्ट एक सार्वजनिक परीक्षण चैनल (ntfy.sh) पर जाती हैं, ताकि पहाड़ पथ चलाने वाला हर फ़ोन और कंट्रोल रूम उन्हें कुछ सेकंड में देख सके। सिर्फ़ सड़क का हिस्सा, समस्या का प्रकार और एक बेतरतीब डिवाइस कोड भेजा जाता है। असली संस्करण में प्रमाणित सर्वर होगा।"
+   ]
+  },
+  {
+   "name": "flight mode, reopen the app",
+   "t": "2026-10-31T09:35:13.322Z",
+   "state": {
+    "src": "cache",
+    "lang": "en",
+    "from": "badrinath",
+    "to": "dehradun",
+    "view": "trip",
+    "tab": "reports",
+    "scn": "live",
+    "err": "",
+    "srcmsg": "Offline. Forecast saved Sat 31 Oct 13:21 IST (2 h ago).",
+    "online": false,
+    "outbox": 0,
+    "modal": false,
+    "overflowX": 0,
+    "vw": 412,
+    "ua": "Mozilla/5.0 (Linux; Android 14; sdk_gphone64_x86_64 Build/UE1A.230829.050; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/113.0.5672.136 Mobile Safari/537.36"
+   },
+   "verdict": "ROAD\nGO\n19\nlandslide risk / 100\nRoad looks clear for this start time\nBadrinath → Dehradun. Highest risk: Badrinath → Govindghat.\nBadrinath → Dehradun · ~355 km · Leaving Sat 31 Oct 15:00",
+   "closures": null,
+   "alerts": "Official alerts for Uttarakhand\n\nFrom NDMA Sachet, saved with the forecast so they show with no signal. Issued by government agencies, not by PahaadPath.\n\nThunderstorm accompanied with lightning and gusty wind (30-40 kmph) likely to occur is likely to occur at isolated places over Almora, Bageshwar,",
+   "net": "Active default network: none",
+   "shot": "49_offline_trip.png"
+  },
+  {
+   "name": "offline: plan another trip and where am I",
+   "t": "2026-10-31T09:35:29.483Z",
+   "failShot": "50_fail.png",
+   "error": "Error: not on screen: #a-where\n    at tap (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:83:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:319:3\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:317:2"
+  },
+  {
+   "name": "offline: road report goes to the waiting queue",
+   "t": "2026-10-31T09:35:30.493Z",
+   "options": [
+    "rishikesh-devprayag|0=Totaghati (Rishikesh → Devprayag)",
+    "rishikesh-devprayag|-1=Rishikesh → Devprayag",
+    "devprayag-srinagar|-1=Devprayag → Srinagar (Garhwal)"
+   ],
+   "outbox": 1,
+   "shareStatus": "Connecting to the shared channel… · 1 report waiting for signal",
+   "panelStart": "Report the road\nWhere\nTotaghati (Rishikesh → Devprayag)\nRishikesh → Devprayag\nDevprayag → Srinagar (Garhwal)\nSirobagad (Srinagar (Garhwal) → Rudraprayag)\nSrinagar (Garhwal) → Rudraprayag\nRudraprayag → Guptkashi\nPhata to Doliya Devi (Guptkashi → Sonprayag)\nGuptkashi → Sonprayag\nMunkatia slide zone (Sonprayag → Gaurikund)\nSonprayag → Gaurikund\nWhat you see\nLandslide on road\nDebris or falling stones\nRoad washed away\nBridge damaged\nRoad is open again\nSend report\n\nA report counts for 6 hours. Two or more confirmations mark a stretch as blocked. This prototype keeps reports on this phone only.\n\nRece",
+   "posted": [],
+   "shot": "51_offline_report_queued.png"
+  },
+  {
+   "name": "offline: Hindi screens",
+   "t": "2026-10-31T09:35:33.987Z",
+   "srcmsg": "ऑफ़लाइन। पूर्वानुमान शनि 31 अक्तूबर 13:21 IST सहेजा गया (2 घंटे पहले)।",
+   "panel": "सड़क की स्थिति बताएँ\nकहाँ\nतोताघाटी (ऋषिकेश → देवप्रयाग)\nऋषिकेश → देवप्रयाग\nदेवप्रयाग → श्रीनगर (गढ़वाल)\nसिरोबगड़ (श्रीनगर (गढ़वाल) → रुद्रप्रयाग)\nश्रीनगर (गढ़वाल) → रुद्रप्रयाग\nरुद्रप्रयाग → गुप्तकाशी\nफाटा से डोलिया देवी (गुप्तकाशी → सोनप्रयाग)\nगुप्तकाशी → सोनप्रयाग\nमुनकटिया (सोनप्रयाग → गौरीकुंड)\nसोनप्रयाग → गौरीकुंड\nक्या दिख रहा है\nसड़क पर भूस्खलन\nमलबा या गिरते पत्थर\nसड़क बह गई\nपुल क्षतिग्रस्त\nरास्ता फिर खुल गया\nरिपोर्ट भेजें\n\nरिपोर्ट 6 घंटे तक मानी जाती है। दो या अधिक पुष्टि होने पर हिस्सा बं",
+   "style": [],
+   "shot": "52_offline_hi_reports.png"
+  },
+  {
+   "name": "offline: map tab with the offline map",
+   "t": "2026-10-31T09:35:37.367Z",
+   "offlineMapButton": true,
+   "shot": "53_offline_map.png"
+  },
+  {
+   "name": "offline: closure and alert cards (sample data put in the saved forecast)",
+   "t": "2026-10-31T09:35:43.367Z",
+   "src": "cache",
+   "en": {
+    "alerts": "Official alerts for Uttarakhand\n\nFrom NDMA Sachet, saved with the forecast so they show with no signal. Issued by government agencies, not by PahaadPath.\n\nTEST SAMPLE: Thunderstorm with lightning likely over Chamoli, Rudraprayag in next 3 hours.\n\nIMD Dehradun · 2 h ago\n\nAll alerts on Sachet",
+    "closures": "Roads reported closed (PWD Uttarakhand)\n\nPWD morning report of 31 Oct: 2 roads closed in districts on this trip (Chamoli 2). The report names closed roads, not the spot, so PahaadPath does not mark its own stretches closed. Most are village roads. Call 1070 or the district control room 1077 before you set out.\n\nClosed roads that name a town on your route\n\nJyotirmath Malari motor road (test sample)\n\nChamoli, state highway. Closed since 31 Oct, 07:10, expected to open 31 Oct, 18:00.\n\nMain roads closed in these districts\n\nNandprayag Ghat motor road (test sample)\n\nChamoli, district road. Closed since 31 Oct, 06:42.\n\nFull report (PDF)",
+    "shot": "54_offline_cards_en.png",
+    "style": []
+   },
+   "hi": {
+    "alerts": "उत्तराखंड के लिए आधिकारिक चेतावनियाँ\n\nNDMA सचेत से, पूर्वानुमान के साथ सहेजी गईं ताकि बिना नेटवर्क भी दिखें। ये सरकारी एजेंसियों की हैं, पहाड़ पथ की नहीं।\n\nTEST SAMPLE: Thunderstorm with lightning likely over Chamoli, Rudraprayag in next 3 hours.\n\nIMD Dehradun · 2 घंटे पहले\n\nसचेत पर सभी चेतावनियाँ",
+    "closures": "बंद सड़कें (लोक निर्माण विभाग उत्तराखंड)\n\nलोक निर्माण विभाग की 31 अक्तू॰ की सुबह की रिपोर्ट: इस यात्रा के ज़िलों (चमोली 2) में 2 सड़कें बंद। रिपोर्ट बंद सड़क का नाम बताती है, जगह नहीं, इसलिए पहाड़ पथ अपने हिस्सों को बंद नहीं दिखाता। ज़्यादातर गाँव की सड़कें हैं। निकलने से पहले 1070 या ज़िला नियंत्रण कक्ष 1077 पर फ़ोन करें।\n\nबंद सड़कें जिनके नाम में आपके रास्ते का शहर है\n\nJyotirmath Malari motor road (test sample)\n\nचमोली, राज्य मार्ग। 31 अक्तू॰, 07:10 से बंद, खुलने का अनुमान 31 अक्तू॰, 18:00।\n\nइन ज़िलों में बंद मुख्य सड़कें\n\nNandprayag Ghat motor road (test sample)\n\nचमोली, ज़िला सड़क। 31 अक्तू॰, 06:42 से बंद।\n\nपूरी रिपोर्ट (PDF)",
+    "shot": "55_offline_cards_hi.png",
+    "style": []
+   }
+  },
+  {
+   "name": "signal back: queue sends and forecast refreshes (no reopen)",
+   "t": "2026-10-31T09:35:53.024Z",
+   "log": [
+    [
+     10,
+     "live",
+     true,
+     0,
+     1,
+     "Live rainfall forecast, 13:21 IST (from the PahaadPath data pack)"
+    ],
+    [
+     20,
+     "live",
+     true,
+     0,
+     1,
+     "Live rainfall forecast, 13:21 IST (from the PahaadPath data pack)"
+    ],
+    [
+     30,
+     "live",
+     true,
+     0,
+     1,
+     "Live rainfall forecast, 13:21 IST (from the PahaadPath data pack)"
+    ],
+    [
+     40,
+     "live",
+     true,
+     0,
+     1,
+     "Live rainfall forecast, 13:21 IST (from the PahaadPath data pack)"
+    ]
+   ],
+   "posted": [
+    {
+     "url": "https://ntfy.sh/pahaadpath-uk-road-reports-v1",
+     "body": "{\"v\":1,\"dev\":\"uwzeb341\",\"rt\":1793439331182,\"k\":\"report\",\"rid\":\"u1793439331182\",\"seg\":\"rishikesh-devprayag\",\"spot\":0,\"type\":\"landslide\"}",
+     "at": 1793439353940,
+     "online": true
+    }
+   ],
+   "shot": "56_back_online.png"
+  },
+  {
+   "name": "offline: report queued, app reopened later with signal",
+   "t": "2026-10-31T09:36:33.347Z",
+   "queuedBefore": 1,
+   "guarded": true,
+   "log": [
+    [
+     5,
+     "live",
+     0,
+     0
+    ],
+    [
+     10,
+     "live",
+     0,
+     0
+    ],
+    [
+     15,
+     "live",
+     0,
+     0
+    ],
+    [
+     20,
+     "live",
+     0,
+     0
+    ],
+    [
+     25,
+     "live",
+     0,
+     0
+    ],
+    [
+     30,
+     "live",
+     0,
+     0
+    ],
+    [
+     35,
+     "live",
+     0,
+     0
+    ],
+    [
+     40,
+     "live",
+     0,
+     0
+    ],
+    [
+     45,
+     "live",
+     0,
+     0
+    ]
+   ],
+   "shot": "57_reopen_with_signal.png"
+  },
+  {
+   "name": "flight mode, phone clock 2 days later, reopen",
+   "t": "2026-10-31T09:37:39.608Z",
+   "deviceDate": "Mon Nov  2 09:37:42 UTC 2026",
+   "state": {
+    "src": "cache",
+    "lang": "en",
+    "from": "dehradun",
+    "to": "badrinath",
+    "view": "trip",
+    "tab": "reports",
+    "scn": "live",
+    "err": "",
+    "srcmsg": "Offline. Forecast saved Sat 31 Oct 13:21 IST, 2 days ago. Rain since then is not known: ask locally and check road reports.",
+    "online": false,
+    "outbox": 0,
+    "modal": false,
+    "overflowX": 0,
+    "vw": 412,
+    "ua": "Mozilla/5.0 (Linux; Android 14; sdk_gphone64_x86_64 Build/UE1A.230829.050; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/113.0.5672.136 Mobile Safari/537.36"
+   },
+   "verdict": "ROAD\nGO\n8\nlandslide risk / 100\nRoad looks clear for this start time\nDehradun → Badrinath. Highest risk: Srinagar (Garhwal) → Rudraprayag.\nDehradun → Badrinath · ~355 km · Leaving Mon 2 Nov 15:00",
+   "pills": 2,
+   "reports": 0,
+   "shot": "58_offline_2_days.png"
+  },
+  {
+   "name": "flight mode, phone clock 11 days later, reopen",
+   "t": "2026-10-31T09:37:52.959Z",
+   "deviceDate": "Wed Nov 11 09:37:56 UTC 2026",
+   "state": {
+    "src": "none",
+    "lang": "en",
+    "from": "dehradun",
+    "to": "badrinath",
+    "view": "trip",
+    "tab": "reports",
+    "scn": "live",
+    "err": "old",
+    "srcmsg": "Saved forecast is from Sat 31 Oct, more than 10 days old, so landslide risk is not shown. Ask locally and get a moment of signal to update.",
+    "online": false,
+    "outbox": 0,
+    "modal": false,
+    "overflowX": 0,
+    "vw": 412,
+    "ua": "Mozilla/5.0 (Linux; Android 14; sdk_gphone64_x86_64 Build/UE1A.230829.050; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/113.0.5672.136 Mobile Safari/537.36"
+   },
+   "verdict": "No current forecast: landslide risk not shown\n\nSaved forecast is from Sat 31 Oct, more than 10 days old, so landslide risk is not shown. Ask locally and get a moment of signal to update.",
+   "pills": 0,
+   "reports": 0,
+   "shot": "59_offline_11_days.png"
+  },
+  {
+   "name": "clock back to now, signal back",
+   "t": "2026-10-31T09:38:06.729Z",
+   "state": {
+    "src": "live",
+    "lang": "en",
+    "from": "dehradun",
+    "to": "badrinath",
+    "view": "trip",
+    "tab": "reports",
+    "scn": "live",
+    "err": "",
+    "srcmsg": "Live rainfall forecast, 13:21 IST (from the PahaadPath data pack)",
+    "online": true,
+    "outbox": 0,
+    "modal": false,
+    "overflowX": 0,
+    "vw": 412,
+    "ua": "Mozilla/5.0 (Linux; Android 14; sdk_gphone64_x86_64 Build/UE1A.230829.050; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/113.0.5672.136 Mobile Safari/537.36"
+   },
+   "date": "Sat Oct 31 09:38:24 UTC 2026"
+  }
+ ],
+ "device": {
+  "model": "sdk_gphone64_x86_64",
+  "sdk": "34",
+  "type": "userdebug",
+  "webview": "versionName=113.0.5672.136Current WebView package (name, version): (com.google.android.webview, 113.0.5672.136)",
+  "size": "Physical size: 1080x2400",
+  "density": "Physical density: 420"
+ },
+ "pkg": "versionCode=13 minSdk=21 targetSdk=34\n    versionName=5.0",
+ "perms": "runtime permissions:\n        android.permission.ACCESS_FINE_LOCATION: granted=false, flags=[ USER_SENSITIVE_WHEN_GRANTED|USER_SENSITIVE_WHEN_DENIED]\n        android.permission.ACCESS_COARSE_LOCATION: granted=false, flags=[ USER_SENSITIVE_WHEN_GRANTED|USER_SENSITIVE_WHEN_DENIED]\n        android.permission.RECORD_AUDIO: granted=false, flags=[ USER_SENSITIVE_WHEN_GRANTED|USER_SENSITIVE_WHEN_DENIED]\n\nQueries:\n  system apps queryable: false\n  queries via forceQueryable:\n  queries via package name:\n  queries via component:\n    com.google.android.settings.intelligence:\n      org.pahaadpath.app\n    org.pahaadpath.app:",
+ "wvTop": 128,
+ "wm": "Physical size: 1080x2400",
+ "outboxLeftBeforeLastOnline": 0,
+ "pageErrors": []
+}
