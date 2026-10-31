@@ -94,6 +94,8 @@ function modelRisk(e,a,c,P24,P72){
 const PACK_URL='https://raw.githubusercontent.com/jatainsahil98-web/Pahaad-Path-app/datapack/pack.json';
 const PACK_FRESH_H=6;
 const APK_URL='https://github.com/jatainsahil98-web/Pahaad-Path-app/releases/latest/download/PahaadPath.apk';
+const SITE_URL='https://jatainsahil98-web.github.io/Pahaad-Path-app/';
+const siteHosted=()=>/^https?:$/.test(location.protocol)&&location.hostname!=='appassets.androidplatform.net';
 async function fetchPack(){
   const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),10000);
   try{

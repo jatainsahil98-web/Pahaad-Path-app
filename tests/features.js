@@ -41,7 +41,7 @@ function hourly(start,end,fn){const t=[],v=[];let d=new Date(start+'T00:00:00Z')
  const tr=await p.evaluate(()=>({src:PP.st.src,scn:PP.st.scn,score:PP.last.cur.score,to:PP.st.to,msg:document.getElementById('srcmsg').textContent,date:PP.st.date}));
  ok(tr.src==='replay'&&tr.date==='2025-08-20','replay trip '+JSON.stringify(tr));console.log('trip on recorded day:',JSON.stringify(tr));
  // 3. control room on recorded day
- await p.click('[data-view="ops"]');await p.waitForSelector('#omap .leaflet-interactive');
+ await p.click('[data-view="ops"]');await p.waitForFunction(()=>PP.mapLines('omap')>40);
  const adv=await p.textContent('#adv');ok(/recorded on the day/.test(adv),'advisory basis');
  await p.click('#ops-play');await p.waitForTimeout(800);await p.click('#ops-play');
  const h=await p.evaluate(()=>PP.st.opsH);ok(h>0,'play advanced '+h);
@@ -56,7 +56,7 @@ function hourly(start,end,fn){const t=[],v=[];let d=new Date(start+'T00:00:00Z')
  // 5. matrix still sound after open data
  const m=await p.evaluate(()=>{PP.st.view='trip';PP.st.scn='monsoon';return 1;});
  await p.goto('file://'+F+'?scn=monsoon&from=delhi&to=badrinath&tab=map&tiles=0');await p.waitForFunction(()=>PP.last&&PP.last.cur);
- const mp=await p.evaluate(()=>({lines:document.querySelectorAll('#lmap path.leaflet-interactive').length,od:PP.S['rishikesh-devprayag'].kmSrc}));ok(mp.lines>3&&mp.od==='osrm','map with osrm geom '+JSON.stringify(mp));
+ const mp=await p.evaluate(()=>({lines:PP.mapLines('lmap'),canvas:!!document.querySelector('#lmap canvas'),od:PP.S['rishikesh-devprayag'].kmSrc}));ok(mp.lines>3&&mp.canvas&&mp.od==='osrm','map with osrm geom '+JSON.stringify(mp));
  // 6. sentence parsing
  const asks=await p.evaluate(()=>{const o={};for(const s of ['Delhi to Kedarnath tomorrow 6 am','dilli se mussoorie kal subah 7 baje','दिल्ली से नैनीताल परसों','Badrinath from Dehradun on saturday','haldwani to munsiyari 2 nov 5 pm']){o[s]=(()=>{const x=PP.parseAsk(s);return [x.from,x.to,x.date!=null?PP.dateStr(x.date):null,x.dep].join(' ');})();}return o;});
  console.log(JSON.stringify(asks,null,1));

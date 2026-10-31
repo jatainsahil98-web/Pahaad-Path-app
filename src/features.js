@@ -43,7 +43,7 @@ const TX={
   // safety
   sf_t:'Safety kit',sf_help:'Helplines',sf_112:'Emergency: police, fire, ambulance, disaster',sf_1070:'Uttarakhand State Emergency Operation Centre',sf_1077:'District Emergency Operation Centre (add the district code from outside)',sf_1364:'Tourist Care Uttarakhand, yatra helpline',
   sf_src:'Numbers from the Uttarakhand disaster management authority site and the Tourist Care Uttarakhand portal. Check them before you travel.',
-  sf_sos:'Send my location (SOS)',sf_sos_s:'Opens WhatsApp with your live location and this trip, so family or a control room know where you are.',sf_sos_msg:'SOS. I need help on a hill road. My location: {u} (accuracy about {a} m).',sf_noloc:'Location is not available. Call 112 and say the nearest town or kilometre stone.',
+  sf_sos:'Send my location (SOS)',sf_sos_s:'Call 112 or send your location by SMS. SMS often gets through where mobile data does not.',sf_sos_msg:'SOS. I need help on a hill road. My location: {u} (accuracy about {a} m).',sf_noloc:'Location is not available. Call 112 and say the nearest town or kilometre stone.',
   sf_halts:'Towns with lodging on this road',sf_stuck:'If a landslide blocks the road',
   sf_tips:['Stop well back from the debris. Do not try to cross a fresh slide or walk under a slope that is still moving.','Turn back to the last town with lodging if the road may stay shut for hours.','In heavy rain keep away from streams, culverts and the valley side of the road.','Tell the district control room on 1077 or call 112 with the place name or kilometre stone.','Keep fuel above half, carry water, warm clothes, a torch, medicines and some cash.'],
   sf_tipnote:'General safety advice, not an official instruction.',
@@ -92,7 +92,7 @@ const TX={
   od_flag:'बहुत अलग, हाथ वाला मान रखा',od_ok:'ठीक',
   sf_t:'सुरक्षा किट',sf_help:'हेल्पलाइन',sf_112:'आपातकाल: पुलिस, फ़ायर, एंबुलेंस, आपदा',sf_1070:'उत्तराखंड राज्य आपातकालीन संचालन केंद्र',sf_1077:'ज़िला आपातकालीन संचालन केंद्र (ज़िले के बाहर से ज़िले का कोड लगाएँ)',sf_1364:'टूरिस्ट केयर उत्तराखंड, यात्रा हेल्पलाइन',
   sf_src:'नंबर उत्तराखंड आपदा प्रबंधन प्राधिकरण की साइट और टूरिस्ट केयर उत्तराखंड पोर्टल से। यात्रा से पहले जाँच लें।',
-  sf_sos:'मेरी लोकेशन भेजें (SOS)',sf_sos_s:'WhatsApp पर आपकी लोकेशन और यह यात्रा खुलती है, ताकि परिवार या कंट्रोल रूम जान सके कि आप कहाँ हैं।',sf_sos_msg:'SOS। पहाड़ी सड़क पर मदद चाहिए। मेरी लोकेशन: {u} (लगभग {a} मीटर सटीक)।',sf_noloc:'लोकेशन नहीं मिली। 112 पर कॉल करें और पास का शहर या किलोमीटर पत्थर बताएँ।',
+  sf_sos:'मेरी लोकेशन भेजें (SOS)',sf_sos_s:'112 पर फ़ोन करें या अपनी जगह SMS से भेजें। जहाँ मोबाइल डेटा नहीं चलता, वहाँ अक्सर SMS चला जाता है।',sf_sos_msg:'SOS। पहाड़ी सड़क पर मदद चाहिए। मेरी लोकेशन: {u} (लगभग {a} मीटर सटीक)।',sf_noloc:'लोकेशन नहीं मिली। 112 पर कॉल करें और पास का शहर या किलोमीटर पत्थर बताएँ।',
   sf_halts:'इस रास्ते पर ठहरने लायक शहर',sf_stuck:'भूस्खलन से रास्ता बंद हो तो',
   sf_tips:['मलबे से काफ़ी पीछे रुकें। ताज़ा भूस्खलन पार करने या खिसकती ढलान के नीचे से चलने की कोशिश न करें।','अगर रास्ता घंटों बंद रह सकता है तो ठहरने लायक पिछले शहर लौट जाएँ।','तेज़ बारिश में नालों, पुलियों और सड़क के घाटी वाले किनारे से दूर रहें।','ज़िला कंट्रोल रूम को 1077 पर बताएँ या 112 पर जगह का नाम या किलोमीटर पत्थर बताएँ।','टंकी आधी से ऊपर रखें; पानी, गर्म कपड़े, टॉर्च, दवाएँ और कुछ नक़द साथ रखें।'],
   sf_tipnote:'आम सुरक्षा सलाह, सरकारी निर्देश नहीं।',
@@ -111,7 +111,9 @@ const cssv=n=>getComputedStyle(document.documentElement).getPropertyValue(n).tri
 const lsGet=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch(e){return d;}};
 const lsSet=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));return true;}catch(e){return false;}};
 const sleep=ms=>new Promise(r=>setTimeout(r,window.__fastSleep?1:ms)); // tests shorten the waits
-function download(name,obj){const b=new Blob([JSON.stringify(obj,null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);}
+function download(name,obj){
+  if(window.PPAndroid&&window.PPAndroid.saveFile){const w=window.PPAndroid.saveFile(name,'application/json',JSON.stringify(obj,null,1));toast(w?fill(t('dl_ok'),{f:w}):t('dl_err'));return;} // a WebView ignores <a download>
+  const b=new Blob([JSON.stringify(obj,null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);}
 function pickFile(cb){const i=document.createElement('input');i.type='file';i.accept='application/json,.json';i.onchange=()=>{const f=i.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{cb(JSON.parse(r.result));}catch(e){toast(String(e.message||e));}};r.readAsText(f);};i.click();}
 const segName=e=>pname(e.a)+' → '+pname(e.b);
 
@@ -250,7 +252,7 @@ function tilesOn(){return st.tiles==null?navigator.onLine!==false&&/^https?:/.te
 function makeMap(id,opts){
   killMap(id);
   const el=$(id);if(!el||!HAS_L)return null;
-  const map=L.map(el,Object.assign({zoomControl:true,attributionControl:true,scrollWheelZoom:false,preferCanvas:false},opts||{}));
+  const map=L.map(el,Object.assign({zoomControl:true,attributionControl:true,scrollWheelZoom:false,preferCanvas:true},opts||{}));
   const o={map,tileErr:0};LM[id]=o;
   const vec=L.layerGroup();
   BASEMAP.lakes.forEach(l=>L.polygon(l.map(p=>[p[1],p[0]]),{color:'#5B8DB8',weight:.8,fillColor:'#5B8DB8',fillOpacity:.25,interactive:false}).addTo(vec));
@@ -523,18 +525,11 @@ function renderSafety(M){
     +(stays.length?'<h4 class="sec">'+t('sf_halts')+'</h4><p>'+stays.map(id=>esc(pname(id))).join(' · ')+'</p>':'')
     +'<h4 class="sec">'+t('sf_stuck')+'</h4><ul class="ul">'+t('sf_tips').map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul><p class="note">'+t('sf_tipnote')+'</p>';
 }
-function sos(){
-  const send=txt=>{const w=window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank','noopener');if(!w){try{navigator.clipboard.writeText(txt).then(()=>toast(t('copied')),()=>toast(txt));}catch(e){toast(txt);}}};
-  const trip=summary();
-  if(!navigator.geolocation){toast(t('sf_noloc'));return;}
-  navigator.geolocation.getCurrentPosition(p=>{const u='https://maps.google.com/?q='+p.coords.latitude.toFixed(5)+','+p.coords.longitude.toFixed(5);
-    send(fill(t('sf_sos_msg'),{u,a:Math.round(p.coords.accuracy)})+'\n\n'+trip);},()=>toast(t('sf_noloc')),{enableHighAccuracy:true,timeout:10000,maximumAge:60000});
-}
 
 /* ---------- QR and links ---------- */
 function shareUrl(){
   const p=new URLSearchParams();p.set('from',st.from);p.set('to',st.to);p.set('date',st.date);if(st.dep!=null)p.set('dep',st.dep);if(st.lang==='hi')p.set('lang','hi');if(st.scn!=='live')p.set('scn',st.scn);
-  return location.origin+location.pathname+'?'+p.toString();
+  return (siteHosted()?location.origin+location.pathname:SITE_URL)+'?'+p.toString(); // the Android app and a saved file have no address another phone can open
 }
 function qrSvg(text){
   if(typeof qrcode==='undefined')return '';
@@ -543,12 +538,12 @@ function qrSvg(text){
   return '<svg class="qr" viewBox="-2 -2 '+(n+4)+' '+(n+4)+'" role="img" aria-label="QR"><rect x="-2" y="-2" width="'+(n+4)+'" height="'+(n+4)+'" fill="#fff"/><path d="'+d+'" fill="#000"/></svg>';
 }
 function showQr(){
-  const u=shareUrl(),hosted=/^https?:/.test(location.protocol);
+  const u=shareUrl(),hosted=true;
   openModal('<h3>'+t('qr_t')+'</h3>'+(hosted?qrSvg(u):'<p class="note">'+t('qr_local')+'</p>'+qrSvg(u))+'<p class="mono">'+esc(u)+'</p><div class="acts in"><button class="btn pri" id="a-copyl" type="button">'+t('copy_l')+'</button></div>');
 }
 function openModal(h){$('modal-body').innerHTML=h;$('modal').hidden=false;}
 function closeModal(){$('modal').hidden=true;$('modal-body').innerHTML='';}
-function copyText(s){try{navigator.clipboard.writeText(s).then(()=>toast(t('copied')),()=>toast(s));}catch(e){toast(s);}}
+function copyText(s){if(window.PPAndroid&&window.PPAndroid.copy){window.PPAndroid.copy(s);toast(t('copied'));return;}try{navigator.clipboard.writeText(s).then(()=>toast(t('copied')),()=>toast(s));}catch(e){toast(s);}}
 
 /* ---------- trip from a sentence (typed or spoken), English, Hindi or Hinglish ---------- */
 const ALIAS={delhi:['delhi','dilli','new delhi','नई दिल्ली','दिल्ली'],dehradun:['doon','dun'],kedarnath:['kedar','केदार'],badrinath:['badri','बद्री'],rishikesh:['rishikesh'],haridwar:['hardwar'],
@@ -635,7 +630,7 @@ document.addEventListener('click',e=>{
     resetPick();load();window.scrollTo(0,0);}
   else if(c.id==='ops-play')togglePlay();
   else if(c.id==='adv-copy')copyText($('adv').textContent);
-  else if(c.id==='adv-wa'){const w=window.open('https://wa.me/?text='+encodeURIComponent($('adv').textContent),'_blank','noopener');if(!w)copyText($('adv').textContent);}
+  else if(c.id==='adv-wa')waOpen($('adv').textContent);
   else if(c.id==='pr-run'){const ev=GT.events[+$('pr-ev').value],src=$('pr-src').value;rpRun(ev,src).then(()=>{rpMsg=t('pr_done');renderProof();},err=>{rpMsg='';rpErr=String(err.message||err);renderProof();});}
   else if(c.id==='pr-all'){(async()=>{const errs=[];for(const ev of GT.events)for(const src of Object.keys(RP_API)){try{await rpRun(ev,src);}catch(err){errs.push(String(err.message||err));}}rpMsg=t('pr_done');rpErr=errs.join(' | ');renderProof();})();}
   else if(c.id==='pr-dl')download('pahaadpath_replay_results.json',{app:'PahaadPath',groundTruth:GT,results:RP.results,series:RP.series});

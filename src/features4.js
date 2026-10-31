@@ -112,11 +112,21 @@ document.addEventListener('click',e=>{
 });
 
 /* ---------- where am I: GPS works with no mobile data, so the trip screen can say what lies ahead ---------- */
+/* GPS first; if it gives nothing (approximate location only, or no sky), the coarse network fix; a hard stop so the screen never hangs */
 function locate(ok,fail){
-  if(!navigator.geolocation){fail();return;}
-  navigator.geolocation.getCurrentPosition(p=>{const pos={lat:p.coords.latitude,lon:p.coords.longitude,acc:p.coords.accuracy};pos.near=tripNearTown(pos);ok(pos);},fail,
-    {enableHighAccuracy:true,timeout:20000,maximumAge:120000});
+  if(!navigator.geolocation){fail('none');return;}
+  if(window.PPAndroid&&window.PPAndroid.locationEnabled&&!window.PPAndroid.locationEnabled()){fail('off');return;}
+  let done=false;
+  const fin=(f,x)=>{if(done)return;done=true;clearTimeout(guard);f(x);};
+  const got=p=>{const pos={lat:p.coords.latitude,lon:p.coords.longitude,acc:p.coords.accuracy};pos.near=tripNearTown(pos);fin(ok,pos);};
+  const guard=setTimeout(()=>fin(fail,'timeout'),locGuard());
+  navigator.geolocation.getCurrentPosition(got,e=>{
+    if(done)return;
+    if(e&&e.code===1){fin(fail,'denied');return;}
+    navigator.geolocation.getCurrentPosition(got,()=>fin(fail,'nofix'),{enableHighAccuracy:false,timeout:locTry(),maximumAge:600000});
+  },{enableHighAccuracy:true,timeout:locTry(),maximumAge:120000});
 }
+const locTry=()=>window.__fastSleep?300:15000,locGuard=()=>window.__fastSleep?1500:35000; // tests shorten the waits
 function kmBetween(a,b,c,d){const kx=111.32*Math.cos(a*Math.PI/180);return Math.hypot((d-b)*kx,(c-a)*110.57);}
 function tripNearTown(pos){
   const M=st.M;if(!M||!M.cur)return null;let best=null,bd=1e9;
@@ -156,7 +166,7 @@ function whereHtml(pos){
 }
 function showWhere(){
   openModal('<h3>'+t('wh_t')+'</h3><p class="note">'+t('wh_s')+'</p><div id="wh-out"><p>'+t('wh_busy')+'</p></div>');
-  locate(pos=>{const o=$('wh-out');if(o)o.innerHTML=whereHtml(pos);},()=>{const o=$('wh-out');if(o)o.innerHTML='<p>'+esc(t('wh_err'))+'</p>';});
+  locate(pos=>{const o=$('wh-out');if(o)o.innerHTML=whereHtml(pos);},err=>{const o=$('wh-out');if(o)o.innerHTML='<p>'+esc(t(err==='off'?'loc_off':'wh_err'))+'</p>';});
 }
 
 /* ---------- fuel and cost, from the user's own mileage and price ---------- */

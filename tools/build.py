@@ -12,7 +12,7 @@ sub('/*__LEAFLET_CSS__*/',rd('vendor/leaflet-1.9.4/package/dist/leaflet.css'))
 sub('/*__LEAFLET_JS__*/',rd('vendor/leaflet-1.9.4/package/dist/leaflet.js').replace('</script','<\\/script'))
 sub('/*__QR_JS__*/',rd('vendor/qrcode-generator-1.4.4/package/qrcode.js').replace('</script','<\\/script'))
 sub('/*__FEATURES_CSS__*/',rd('src/features.css'))
-feat=rd('src/features.js')+'\n'+rd('src/features2.js')+'\n'+rd('src/features3.js')+'\n'+rd('src/features4.js')+'\n'+rd('src/features5.js')
+feat=rd('src/features.js')+'\n'+rd('src/features2.js')+'\n'+rd('src/features3.js')+'\n'+rd('src/features4.js')+'\n'+rd('src/features5.js')+'\n'+rd('src/features6.js')
 gt=json.load(open(os.path.join(R,'replay_source/gt.json'),encoding='utf-8'))
 od=json.load(open(sys.argv[1],encoding='utf-8')) if len(sys.argv)>1 and sys.argv[1] not in ('-','--no-model') else None
 rp=json.load(open(sys.argv[2],encoding='utf-8')) if len(sys.argv)>2 and not sys.argv[2].startswith('--') else None

@@ -1016,6 +1016,7 @@ svg.chart.tn{max-width:640px}
 .al p{margin:0 0 2px}
 body.norisk .rk,body.norisk #planner{display:none}
 .card.nr{border-left:4px solid var(--avd)}
+.navbox{margin:4px 0 12px}.navbox .note{margin:0 0 6px}
 
 </style>
 </head><body>
@@ -4547,13 +4548,10 @@ function summary(){
 }
 function speak(){
   const txt=summary().replace(/\n/g,'. ').replace(/PahaadPath ·|पहाड़ पथ ·/,'').replace(/→/g,st.lang==='hi'?' से ':' to ');
+  if(window.PPAndroid&&window.PPAndroid.speak&&window.PPAndroid.speak(txt,st.lang==='hi'?'hi-IN':'en-IN'))return; // the phone's own voice; a WebView has none
   try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(txt);u.lang=st.lang==='hi'?'hi-IN':'en-IN';u.rate=.95;speechSynthesis.speak(u);}catch(e){toast(txt);}
 }
-function share(){
-  const s=summary();
-  const w=window.open('https://wa.me/?text='+encodeURIComponent(s),'_blank','noopener');
-  if(!w){try{navigator.clipboard.writeText(s).then(()=>toast(t('copied')),()=>toast(s));}catch(e){toast(s);}}
-}
+function share(){shareTextOut(summary());}
 function resetPick(){st.dep=null;st.pick=null;}
 document.addEventListener('click',e=>{
   const c=e.target.closest('[data-t],[data-c],[data-go],[data-ly],[data-pickroute],[data-pre],[data-find],[data-pick-place],#swap,#b-en,#b-hi,#a-listen,#a-share,#r-send,.slot');if(!c)return;
@@ -4657,7 +4655,7 @@ const TX={
   // safety
   sf_t:'Safety kit',sf_help:'Helplines',sf_112:'Emergency: police, fire, ambulance, disaster',sf_1070:'Uttarakhand State Emergency Operation Centre',sf_1077:'District Emergency Operation Centre (add the district code from outside)',sf_1364:'Tourist Care Uttarakhand, yatra helpline',
   sf_src:'Numbers from the Uttarakhand disaster management authority site and the Tourist Care Uttarakhand portal. Check them before you travel.',
-  sf_sos:'Send my location (SOS)',sf_sos_s:'Opens WhatsApp with your live location and this trip, so family or a control room know where you are.',sf_sos_msg:'SOS. I need help on a hill road. My location: {u} (accuracy about {a} m).',sf_noloc:'Location is not available. Call 112 and say the nearest town or kilometre stone.',
+  sf_sos:'Send my location (SOS)',sf_sos_s:'Call 112 or send your location by SMS. SMS often gets through where mobile data does not.',sf_sos_msg:'SOS. I need help on a hill road. My location: {u} (accuracy about {a} m).',sf_noloc:'Location is not available. Call 112 and say the nearest town or kilometre stone.',
   sf_halts:'Towns with lodging on this road',sf_stuck:'If a landslide blocks the road',
   sf_tips:['Stop well back from the debris. Do not try to cross a fresh slide or walk under a slope that is still moving.','Turn back to the last town with lodging if the road may stay shut for hours.','In heavy rain keep away from streams, culverts and the valley side of the road.','Tell the district control room on 1077 or call 112 with the place name or kilometre stone.','Keep fuel above half, carry water, warm clothes, a torch, medicines and some cash.'],
   sf_tipnote:'General safety advice, not an official instruction.',
@@ -4706,7 +4704,7 @@ const TX={
   od_flag:'बहुत अलग, हाथ वाला मान रखा',od_ok:'ठीक',
   sf_t:'सुरक्षा किट',sf_help:'हेल्पलाइन',sf_112:'आपातकाल: पुलिस, फ़ायर, एंबुलेंस, आपदा',sf_1070:'उत्तराखंड राज्य आपातकालीन संचालन केंद्र',sf_1077:'ज़िला आपातकालीन संचालन केंद्र (ज़िले के बाहर से ज़िले का कोड लगाएँ)',sf_1364:'टूरिस्ट केयर उत्तराखंड, यात्रा हेल्पलाइन',
   sf_src:'नंबर उत्तराखंड आपदा प्रबंधन प्राधिकरण की साइट और टूरिस्ट केयर उत्तराखंड पोर्टल से। यात्रा से पहले जाँच लें।',
-  sf_sos:'मेरी लोकेशन भेजें (SOS)',sf_sos_s:'WhatsApp पर आपकी लोकेशन और यह यात्रा खुलती है, ताकि परिवार या कंट्रोल रूम जान सके कि आप कहाँ हैं।',sf_sos_msg:'SOS। पहाड़ी सड़क पर मदद चाहिए। मेरी लोकेशन: {u} (लगभग {a} मीटर सटीक)।',sf_noloc:'लोकेशन नहीं मिली। 112 पर कॉल करें और पास का शहर या किलोमीटर पत्थर बताएँ।',
+  sf_sos:'मेरी लोकेशन भेजें (SOS)',sf_sos_s:'112 पर फ़ोन करें या अपनी जगह SMS से भेजें। जहाँ मोबाइल डेटा नहीं चलता, वहाँ अक्सर SMS चला जाता है।',sf_sos_msg:'SOS। पहाड़ी सड़क पर मदद चाहिए। मेरी लोकेशन: {u} (लगभग {a} मीटर सटीक)।',sf_noloc:'लोकेशन नहीं मिली। 112 पर कॉल करें और पास का शहर या किलोमीटर पत्थर बताएँ।',
   sf_halts:'इस रास्ते पर ठहरने लायक शहर',sf_stuck:'भूस्खलन से रास्ता बंद हो तो',
   sf_tips:['मलबे से काफ़ी पीछे रुकें। ताज़ा भूस्खलन पार करने या खिसकती ढलान के नीचे से चलने की कोशिश न करें।','अगर रास्ता घंटों बंद रह सकता है तो ठहरने लायक पिछले शहर लौट जाएँ।','तेज़ बारिश में नालों, पुलियों और सड़क के घाटी वाले किनारे से दूर रहें।','ज़िला कंट्रोल रूम को 1077 पर बताएँ या 112 पर जगह का नाम या किलोमीटर पत्थर बताएँ।','टंकी आधी से ऊपर रखें; पानी, गर्म कपड़े, टॉर्च, दवाएँ और कुछ नक़द साथ रखें।'],
   sf_tipnote:'आम सुरक्षा सलाह, सरकारी निर्देश नहीं।',
@@ -4725,7 +4723,9 @@ const cssv=n=>getComputedStyle(document.documentElement).getPropertyValue(n).tri
 const lsGet=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch(e){return d;}};
 const lsSet=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));return true;}catch(e){return false;}};
 const sleep=ms=>new Promise(r=>setTimeout(r,window.__fastSleep?1:ms)); // tests shorten the waits
-function download(name,obj){const b=new Blob([JSON.stringify(obj,null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);}
+function download(name,obj){
+  if(window.PPAndroid&&window.PPAndroid.saveFile){const w=window.PPAndroid.saveFile(name,'application/json',JSON.stringify(obj,null,1));toast(w?fill(t('dl_ok'),{f:w}):t('dl_err'));return;} // a WebView ignores <a download>
+  const b=new Blob([JSON.stringify(obj,null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);}
 function pickFile(cb){const i=document.createElement('input');i.type='file';i.accept='application/json,.json';i.onchange=()=>{const f=i.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{cb(JSON.parse(r.result));}catch(e){toast(String(e.message||e));}};r.readAsText(f);};i.click();}
 const segName=e=>pname(e.a)+' → '+pname(e.b);
 
@@ -4864,7 +4864,7 @@ function tilesOn(){return st.tiles==null?navigator.onLine!==false&&/^https?:/.te
 function makeMap(id,opts){
   killMap(id);
   const el=$(id);if(!el||!HAS_L)return null;
-  const map=L.map(el,Object.assign({zoomControl:true,attributionControl:true,scrollWheelZoom:false,preferCanvas:false},opts||{}));
+  const map=L.map(el,Object.assign({zoomControl:true,attributionControl:true,scrollWheelZoom:false,preferCanvas:true},opts||{}));
   const o={map,tileErr:0};LM[id]=o;
   const vec=L.layerGroup();
   BASEMAP.lakes.forEach(l=>L.polygon(l.map(p=>[p[1],p[0]]),{color:'#5B8DB8',weight:.8,fillColor:'#5B8DB8',fillOpacity:.25,interactive:false}).addTo(vec));
@@ -5137,18 +5137,11 @@ function renderSafety(M){
     +(stays.length?'<h4 class="sec">'+t('sf_halts')+'</h4><p>'+stays.map(id=>esc(pname(id))).join(' · ')+'</p>':'')
     +'<h4 class="sec">'+t('sf_stuck')+'</h4><ul class="ul">'+t('sf_tips').map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul><p class="note">'+t('sf_tipnote')+'</p>';
 }
-function sos(){
-  const send=txt=>{const w=window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank','noopener');if(!w){try{navigator.clipboard.writeText(txt).then(()=>toast(t('copied')),()=>toast(txt));}catch(e){toast(txt);}}};
-  const trip=summary();
-  if(!navigator.geolocation){toast(t('sf_noloc'));return;}
-  navigator.geolocation.getCurrentPosition(p=>{const u='https://maps.google.com/?q='+p.coords.latitude.toFixed(5)+','+p.coords.longitude.toFixed(5);
-    send(fill(t('sf_sos_msg'),{u,a:Math.round(p.coords.accuracy)})+'\n\n'+trip);},()=>toast(t('sf_noloc')),{enableHighAccuracy:true,timeout:10000,maximumAge:60000});
-}
 
 /* ---------- QR and links ---------- */
 function shareUrl(){
   const p=new URLSearchParams();p.set('from',st.from);p.set('to',st.to);p.set('date',st.date);if(st.dep!=null)p.set('dep',st.dep);if(st.lang==='hi')p.set('lang','hi');if(st.scn!=='live')p.set('scn',st.scn);
-  return location.origin+location.pathname+'?'+p.toString();
+  return (siteHosted()?location.origin+location.pathname:SITE_URL)+'?'+p.toString(); // the Android app and a saved file have no address another phone can open
 }
 function qrSvg(text){
   if(typeof qrcode==='undefined')return '';
@@ -5157,12 +5150,12 @@ function qrSvg(text){
   return '<svg class="qr" viewBox="-2 -2 '+(n+4)+' '+(n+4)+'" role="img" aria-label="QR"><rect x="-2" y="-2" width="'+(n+4)+'" height="'+(n+4)+'" fill="#fff"/><path d="'+d+'" fill="#000"/></svg>';
 }
 function showQr(){
-  const u=shareUrl(),hosted=/^https?:/.test(location.protocol);
+  const u=shareUrl(),hosted=true;
   openModal('<h3>'+t('qr_t')+'</h3>'+(hosted?qrSvg(u):'<p class="note">'+t('qr_local')+'</p>'+qrSvg(u))+'<p class="mono">'+esc(u)+'</p><div class="acts in"><button class="btn pri" id="a-copyl" type="button">'+t('copy_l')+'</button></div>');
 }
 function openModal(h){$('modal-body').innerHTML=h;$('modal').hidden=false;}
 function closeModal(){$('modal').hidden=true;$('modal-body').innerHTML='';}
-function copyText(s){try{navigator.clipboard.writeText(s).then(()=>toast(t('copied')),()=>toast(s));}catch(e){toast(s);}}
+function copyText(s){if(window.PPAndroid&&window.PPAndroid.copy){window.PPAndroid.copy(s);toast(t('copied'));return;}try{navigator.clipboard.writeText(s).then(()=>toast(t('copied')),()=>toast(s));}catch(e){toast(s);}}
 
 /* ---------- trip from a sentence (typed or spoken), English, Hindi or Hinglish ---------- */
 const ALIAS={delhi:['delhi','dilli','new delhi','नई दिल्ली','दिल्ली'],dehradun:['doon','dun'],kedarnath:['kedar','केदार'],badrinath:['badri','बद्री'],rishikesh:['rishikesh'],haridwar:['hardwar'],
@@ -5249,7 +5242,7 @@ document.addEventListener('click',e=>{
     resetPick();load();window.scrollTo(0,0);}
   else if(c.id==='ops-play')togglePlay();
   else if(c.id==='adv-copy')copyText($('adv').textContent);
-  else if(c.id==='adv-wa'){const w=window.open('https://wa.me/?text='+encodeURIComponent($('adv').textContent),'_blank','noopener');if(!w)copyText($('adv').textContent);}
+  else if(c.id==='adv-wa')waOpen($('adv').textContent);
   else if(c.id==='pr-run'){const ev=GT.events[+$('pr-ev').value],src=$('pr-src').value;rpRun(ev,src).then(()=>{rpMsg=t('pr_done');renderProof();},err=>{rpMsg='';rpErr=String(err.message||err);renderProof();});}
   else if(c.id==='pr-all'){(async()=>{const errs=[];for(const ev of GT.events)for(const src of Object.keys(RP_API)){try{await rpRun(ev,src);}catch(err){errs.push(String(err.message||err));}}rpMsg=t('pr_done');rpErr=errs.join(' | ');renderProof();})();}
   else if(c.id==='pr-dl')download('pahaadpath_replay_results.json',{app:'PahaadPath',groundTruth:GT,results:RP.results,series:RP.series});
@@ -5551,6 +5544,8 @@ function modelRisk(e,a,c,P24,P72){
 const PACK_URL='https://raw.githubusercontent.com/jatainsahil98-web/Pahaad-Path-app/datapack/pack.json';
 const PACK_FRESH_H=6;
 const APK_URL='https://github.com/jatainsahil98-web/Pahaad-Path-app/releases/latest/download/PahaadPath.apk';
+const SITE_URL='https://jatainsahil98-web.github.io/Pahaad-Path-app/';
+const siteHosted=()=>/^https?:$/.test(location.protocol)&&location.hostname!=='appassets.androidplatform.net';
 async function fetchPack(){
   const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),10000);
   try{
@@ -5728,11 +5723,21 @@ document.addEventListener('click',e=>{
 });
 
 /* ---------- where am I: GPS works with no mobile data, so the trip screen can say what lies ahead ---------- */
+/* GPS first; if it gives nothing (approximate location only, or no sky), the coarse network fix; a hard stop so the screen never hangs */
 function locate(ok,fail){
-  if(!navigator.geolocation){fail();return;}
-  navigator.geolocation.getCurrentPosition(p=>{const pos={lat:p.coords.latitude,lon:p.coords.longitude,acc:p.coords.accuracy};pos.near=tripNearTown(pos);ok(pos);},fail,
-    {enableHighAccuracy:true,timeout:20000,maximumAge:120000});
+  if(!navigator.geolocation){fail('none');return;}
+  if(window.PPAndroid&&window.PPAndroid.locationEnabled&&!window.PPAndroid.locationEnabled()){fail('off');return;}
+  let done=false;
+  const fin=(f,x)=>{if(done)return;done=true;clearTimeout(guard);f(x);};
+  const got=p=>{const pos={lat:p.coords.latitude,lon:p.coords.longitude,acc:p.coords.accuracy};pos.near=tripNearTown(pos);fin(ok,pos);};
+  const guard=setTimeout(()=>fin(fail,'timeout'),locGuard());
+  navigator.geolocation.getCurrentPosition(got,e=>{
+    if(done)return;
+    if(e&&e.code===1){fin(fail,'denied');return;}
+    navigator.geolocation.getCurrentPosition(got,()=>fin(fail,'nofix'),{enableHighAccuracy:false,timeout:locTry(),maximumAge:600000});
+  },{enableHighAccuracy:true,timeout:locTry(),maximumAge:120000});
 }
+const locTry=()=>window.__fastSleep?300:15000,locGuard=()=>window.__fastSleep?1500:35000; // tests shorten the waits
 function kmBetween(a,b,c,d){const kx=111.32*Math.cos(a*Math.PI/180);return Math.hypot((d-b)*kx,(c-a)*110.57);}
 function tripNearTown(pos){
   const M=st.M;if(!M||!M.cur)return null;let best=null,bd=1e9;
@@ -5772,7 +5777,7 @@ function whereHtml(pos){
 }
 function showWhere(){
   openModal('<h3>'+t('wh_t')+'</h3><p class="note">'+t('wh_s')+'</p><div id="wh-out"><p>'+t('wh_busy')+'</p></div>');
-  locate(pos=>{const o=$('wh-out');if(o)o.innerHTML=whereHtml(pos);},()=>{const o=$('wh-out');if(o)o.innerHTML='<p>'+esc(t('wh_err'))+'</p>';});
+  locate(pos=>{const o=$('wh-out');if(o)o.innerHTML=whereHtml(pos);},err=>{const o=$('wh-out');if(o)o.innerHTML='<p>'+esc(t(err==='off'?'loc_off':'wh_err'))+'</p>';});
 }
 
 /* ---------- fuel and cost, from the user's own mileage and price ---------- */
@@ -5935,9 +5940,159 @@ render=function(){
   const h=st.view==='trip'?closuresHtml(st.M):'';box.innerHTML=h;box.hidden=!h;
 };
 
+/* ================= v8: stabilise. SOS by SMS and 112, back button, trip kept across restarts, location that never hangs,
+   native share, copy, files and speech inside the Android app, and hand-off to Google Maps or Mappls on the safer route ================= */
+Object.assign(T.en,{
+  sos_t:'SOS',sos_s:'Call 112 first if anyone is hurt. SMS often gets through where mobile data does not.',
+  sos_call:'Call 112',sos_sms:'SMS my location',sos_wa:'WhatsApp',sos_to:'Send SMS to',
+  sos_wait:'Finding your position…',sos_got:'Location found (about {m} m).',sos_none:'No location yet. The SMS will name the nearest town on your trip.',
+  sos_msg0:'SOS. I need help on a hill road near {p}. No GPS fix yet.',sos_trip:' Trip: {r}.',
+  loc_off:'Location is switched off on this phone. Turn it on in the phone settings and try again.',
+  no_app:'No app on this phone can open this.',wa_none:'WhatsApp is not installed. The message is copied; paste it in any app.',
+  dl_ok:'Saved: {f}',dl_err:'Could not save the file.',
+  nav_t:'Navigate on this route',nav_s:'Opens your navigation app with towns on this route as stops, so it does not switch to a riskier road. Via {v}.',
+  nav_g:'Google Maps',nav_m:'Mappls',nav_off:'No mobile data now. Navigation apps need a map of this area downloaded beforehand.',
+  mic_err:'Voice input did not work. Type the trip instead.'
+});
+Object.assign(T.hi,{
+  sos_t:'SOS',sos_s:'किसी को चोट लगी हो तो पहले 112 पर फ़ोन करें। जहाँ मोबाइल डेटा नहीं चलता, वहाँ अक्सर SMS चला जाता है।',
+  sos_call:'112 पर फ़ोन करें',sos_sms:'मेरी जगह SMS करें',sos_wa:'WhatsApp',sos_to:'SMS इस नंबर पर',
+  sos_wait:'आपकी जगह ढूँढ रहे हैं…',sos_got:'जगह मिल गई (लगभग {m} मीटर सटीक)।',sos_none:'अभी जगह नहीं मिली। SMS में यात्रा का सबसे पास का शहर लिखा जाएगा।',
+  sos_msg0:'SOS। {p} के पास पहाड़ी सड़क पर मदद चाहिए। अभी GPS से जगह नहीं मिली।',sos_trip:' यात्रा: {r}।',
+  loc_off:'इस फ़ोन में लोकेशन बंद है। फ़ोन की सेटिंग में इसे चालू करके फिर कोशिश करें।',
+  no_app:'इस फ़ोन में इसे खोलने वाला कोई ऐप नहीं है।',wa_none:'WhatsApp इंस्टॉल नहीं है। संदेश कॉपी हो गया है; किसी भी ऐप में चिपकाएँ।',
+  dl_ok:'सहेजा गया: {f}',dl_err:'फ़ाइल सहेजी नहीं जा सकी।',
+  nav_t:'इसी रास्ते पर नेविगेशन',nav_s:'आपका नेविगेशन ऐप इस रास्ते के शहरों को पड़ाव बनाकर खुलता है, ताकि वह ज़्यादा जोखिम वाली सड़क पर न जाए। {v} होकर।',
+  nav_g:'Google Maps',nav_m:'Mappls',nav_off:'अभी मोबाइल डेटा नहीं है। नेविगेशन ऐप के लिए इस इलाक़े का नक्शा पहले से डाउनलोड होना चाहिए।',
+  mic_err:'आवाज़ से नहीं हो पाया। यात्रा लिखकर बताएँ।'
+});
+
+/* ---------- Android bridge (absent on the website) ---------- */
+const AND=window.PPAndroid||null;
+const andHas=m=>!!(AND&&typeof AND[m]==='function');
+window.ppNoApp=()=>toast(t('no_app'));
+
+/* WhatsApp: the app itself inside Android (wa.me would open a browser), wa.me on the web; copy the text when neither works */
+function waOpen(text){
+  if(andHas('openWhatsApp')){if(!AND.openWhatsApp(text)){copyText(text);toast(t('wa_none'));}return;}
+  const w=window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank','noopener');if(!w)copyText(text);
+}
+/* the phone's own share sheet: Android app, or the browser's Web Share; WhatsApp link otherwise */
+function shareTextOut(text){
+  if(andHas('shareText')){AND.shareText(text);return;}
+  if(navigator.share){navigator.share({text}).catch(()=>{});return;}
+  waOpen(text);
+}
+
+/* ---------- SOS: call 112, or SMS the position from the phone itself; WhatsApp only as an extra ---------- */
+let sosPos=null,sosBusy=false;
+function sosBody(){
+  const M=st.M,trip=M&&M.cur?fill(t('sos_trip'),{r:titleOf(M)}):'';
+  if(sosPos&&sosPos.lat!=null)return fill(t('sf_sos_msg'),{u:'https://maps.google.com/?q='+sosPos.lat.toFixed(5)+','+sosPos.lon.toFixed(5),a:Math.round(sosPos.acc)})+trip;
+  const near=M&&M.cur?pname(M.trip.from):'';
+  return fill(t('sos_msg0'),{p:near})+trip;
+}
+function sosStatus(){return sosBusy?t('sos_wait'):sosPos&&sosPos.lat!=null?fill(t('sos_got'),{m:Math.round(sosPos.acc)}):t('sos_none');}
+function sosPaint(){const a=$('sos-st'),b=$('sos-prev');if(a)a.textContent=sosStatus();if(b)b.textContent=sosBody();}
+function sos(){
+  sosPos=null;sosBusy=true;
+  openModal('<h3>'+t('sos_t')+'</h3><p class="note">'+t('sos_s')+'</p>'
+    +'<div class="acts in"><a class="btn pri sos" id="sos-call" href="tel:112">'+t('sos_call')+'</a></div>'
+    +'<label class="lbl" for="fm-num">'+t('sos_to')+'</label><input id="fm-num" class="inp" type="tel" inputmode="tel" autocomplete="tel" value="'+esc(lsGet('pp_fam',''))+'">'
+    +'<p class="note" id="sos-st" role="status">'+esc(sosStatus())+'</p><p class="mono" id="sos-prev">'+esc(sosBody())+'</p>'
+    +'<div class="acts in"><a class="btn pri" id="sos-sms" href="#">'+t('sos_sms')+'</a><button class="btn" id="sos-wa" type="button">'+t('sos_wa')+'</button></div>');
+  locate(p=>{sosBusy=false;sosPos=p;sosPaint();},err=>{sosBusy=false;sosPos=null;sosPaint();if(err==='off')toast(t('loc_off'));});
+
+}
+document.addEventListener('click',e=>{
+  const c=e.target.closest('#sos-sms,#sos-wa');if(!c)return;
+  if(c.id==='sos-sms'){const num=famNum();if(!num){e.preventDefault();toast(t('fm_need'));return;}c.href=smsHref(num,sosBody());}
+  else waOpen(sosBody());
+});
+
+/* ---------- back button: close a window, then go back to the trip, then to the route tab; only then leave the app ---------- */
+function goBack(){
+  if(!$('modal').hidden){closeModal();return true;}
+  if(st.view!=='trip'){st.view='trip';render();window.scrollTo(0,0);return true;}
+  if(st.tab!=='route'){st.tab='route';render();return true;}
+  return false;
+}
+/* the website gets the same behaviour from the browser's back button */
+if(!AND&&window.history&&history.pushState){
+  try{history.replaceState({pp:0},'');history.pushState({pp:1},'');}catch(e){}
+  window.addEventListener('popstate',()=>{if(goBack()){try{history.pushState({pp:1},'');}catch(e){}}else history.back();});
+}
+
+/* ---------- keep the trip when the phone closes the app in the background ---------- */
+const LAST_KEYS=['from','to','dep','tab','view','pick'];
+function saveLast(){
+  if(st.src==='replay'||String(st.scn).startsWith('rp:'))return;
+  if(!N[st.from]||!N[st.to]||N[st.from].virtual||N[st.to].virtual)return;
+  const o={date:st.dateIdx};LAST_KEYS.forEach(k=>{o[k]=st[k];});lsSet('pp_last',o);
+}
+(function restoreLast(){
+  if(['from','to','date','view','tab','dep','pick'].some(k=>q.get(k)!=null))return; // a shared link wins
+  const o=lsGet('pp_last',null);if(!o||typeof o!=='object')return;
+  if(N[o.from]&&N[o.to]&&o.from!==o.to){st.from=o.from;st.to=o.to;}
+  if(['route','map','reports','rules','safety'].includes(o.tab))st.tab=o.tab;
+  if(['trip','ops','proof'].includes(o.view))st.view=o.view;
+  if(o.dep==null||(o.dep>=0&&o.dep<24))st.dep=o.dep==null?null:+o.dep;
+  if(['fast','safe','alt'].includes(o.pick))st.pick=o.pick;
+  if(+o.date>0){st.dateIdx=+o.date;st.dateInit=1;} // clampDate() still keeps it between today and the last forecast day
+})();
+const renderBase8=render;
+render=function(){renderBase8();saveLast();navBox();};
+
+/* ---------- hand-off to a navigation app, keeping PahaadPath's route ---------- */
+const ll5=n=>n.lat.toFixed(5)+','+n.lon.toFixed(5);
+function navStops(M){
+  const ids=M.cur.nodes.filter(id=>{const n=NODE(id);return n&&n.lat!=null;});
+  if(ids.length<2)return null;
+  const from=NODE(ids[0]),to=NODE(ids.at(-1)),mid=ids.slice(1,-1).filter(id=>!NODE(id).virtual);
+  const via=[];if(mid.length){const k=Math.min(3,mid.length);for(let i=1;i<=k;i++)via.push(NODE(mid.at(Math.round(i*(mid.length+1)/(k+1))-1)));}
+  return {from,to,via:via.filter((v,i,a)=>a.indexOf(v)===i)};
+}
+function googleNavUrl(s){
+  return 'https://www.google.com/maps/dir/?api=1&origin='+ll5(s.from)+'&destination='+ll5(s.to)
+    +(s.via.length?'&waypoints='+encodeURIComponent(s.via.map(ll5).join('|')):'')+'&travelmode=driving';
+}
+function mapplsNavUrl(s){
+  return 'https://mappls.com/direction?places='+[s.from,...s.via,s.to].map(n=>encodeURIComponent(ll5(n)+','+n.en)).join(';');
+}
+function navBox(){
+  let box=$('navbox');
+  const M=st.M,show=st.view==='trip'&&st.tab==='route'&&M&&M.cur&&st.src!=='replay';
+  const s=show?navStops(M):null;
+  if(!s){if(box)box.hidden=true;return;}
+  if(!box){box=document.createElement('div');box.id='navbox';box.className='navbox';$('acts').after(box);}
+  box.hidden=false;
+  box.innerHTML='<p class="note"><b>'+t('nav_t')+'.</b> '+esc(fill(t('nav_s'),{v:s.via.length?s.via.map(n=>nm(n)).join(', '):pname(M.trip.to)}))+'</p>'
+    +'<div class="acts in"><a class="btn" id="nav-g" href="'+esc(googleNavUrl(s))+'" target="_blank" rel="noopener">'+t('nav_g')+'</a>'
+    +'<a class="btn" id="nav-m" href="'+esc(mapplsNavUrl(s))+'" target="_blank" rel="noopener">'+t('nav_m')+'</a></div>';
+}
+document.addEventListener('click',e=>{if(e.target.closest('#nav-g,#nav-m')&&navigator.onLine===false)toast(t('nav_off'));});
+
+/* ---------- speech inside the Android app: the phone's own recogniser and voice (the WebView has neither) ---------- */
+const nativeListen=andHas('listen')&&(!andHas('canListen')||AND.canListen());
+function onSpeech(alts,err){
+  $('b-mic').classList.remove('on');
+  if(!alts||!alts.length){if(err!=null)toast(t('mic_err'));return;}
+  const best=alts.find(x=>{const a=parseAsk(x);return a.from||a.to;})||alts[0];
+  $('in-ask').value=best;applyAsk(best);
+}
+if(nativeListen){
+  $('b-mic').removeEventListener('click',listen);
+  $('b-mic').addEventListener('click',()=>{$('b-mic').classList.add('on');toast(t('ask_listen'));AND.listen(st.lang==='hi'?'hi-IN':'en-IN');});
+}
+const renderFormBase8=renderForm;
+renderForm=function(){renderFormBase8();if(nativeListen)$('b-mic').hidden=false;};
+
+/* test hook: how many stretches a Leaflet map draws (the canvas renderer leaves no SVG paths to count) */
+function mapLines(id){const o=LM[id];if(!o)return 0;let n=0;o.map.eachLayer(l=>{if(l instanceof L.Polyline&&l.options.interactive!==false)n++;});return n;}
+
 window.PP={S,N,EDGES,ADJ,VN,PLACES,HOURS_FROM_DELHI,CAINE,segScore,evalEdge,routeSearch,routePlans,labelPlans,simulate,slotsFor,bestWindow,rulesFor,
   st,ctx,lvl,tlvl,phaseOf,calInfo,CAL,dayOf,dI,dateStr,setTrafficProvider,addVirtual,dropVirtual,nearestNode,compute,render,matchPlace,commitPlace,load,clampDate,hav,
-  fetchLive,parseAsk,setThr:x=>{THR=x;},shPoll,tuneData,sharedReports,applyAsk,opsData,applyOpenData,get OD(){return OD;},get RP(){return RP;},get last(){return st.M;},modelCheck,get MODEL(){return MODEL;}};
+  fetchLive,parseAsk,setThr:x=>{THR=x;},shPoll,tuneData,sharedReports,applyAsk,opsData,applyOpenData,get OD(){return OD;},get RP(){return RP;},get last(){return st.M;},modelCheck,get MODEL(){return MODEL;},back:goBack,onSpeech,mapLines,googleNavUrl,mapplsNavUrl,navStops,shareUrl,locate};
 loadUser();load();
 
 })();

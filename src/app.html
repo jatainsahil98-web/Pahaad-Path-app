@@ -1460,13 +1460,10 @@ function summary(){
 }
 function speak(){
   const txt=summary().replace(/\n/g,'. ').replace(/PahaadPath ·|पहाड़ पथ ·/,'').replace(/→/g,st.lang==='hi'?' से ':' to ');
+  if(window.PPAndroid&&window.PPAndroid.speak&&window.PPAndroid.speak(txt,st.lang==='hi'?'hi-IN':'en-IN'))return; // the phone's own voice; a WebView has none
   try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(txt);u.lang=st.lang==='hi'?'hi-IN':'en-IN';u.rate=.95;speechSynthesis.speak(u);}catch(e){toast(txt);}
 }
-function share(){
-  const s=summary();
-  const w=window.open('https://wa.me/?text='+encodeURIComponent(s),'_blank','noopener');
-  if(!w){try{navigator.clipboard.writeText(s).then(()=>toast(t('copied')),()=>toast(s));}catch(e){toast(s);}}
-}
+function share(){shareTextOut(summary());}
 function resetPick(){st.dep=null;st.pick=null;}
 document.addEventListener('click',e=>{
   const c=e.target.closest('[data-t],[data-c],[data-go],[data-ly],[data-pickroute],[data-pre],[data-find],[data-pick-place],#swap,#b-en,#b-hi,#a-listen,#a-share,#r-send,.slot');if(!c)return;
@@ -1528,7 +1525,7 @@ $('tday').addEventListener('change',e=>{st.tday=e.target.value;render();});
 /*__FEATURES_JS__*/
 window.PP={S,N,EDGES,ADJ,VN,PLACES,HOURS_FROM_DELHI,CAINE,segScore,evalEdge,routeSearch,routePlans,labelPlans,simulate,slotsFor,bestWindow,rulesFor,
   st,ctx,lvl,tlvl,phaseOf,calInfo,CAL,dayOf,dI,dateStr,setTrafficProvider,addVirtual,dropVirtual,nearestNode,compute,render,matchPlace,commitPlace,load,clampDate,hav,
-  fetchLive,parseAsk,setThr:x=>{THR=x;},shPoll,tuneData,sharedReports,applyAsk,opsData,applyOpenData,get OD(){return OD;},get RP(){return RP;},get last(){return st.M;},modelCheck,get MODEL(){return MODEL;}};
+  fetchLive,parseAsk,setThr:x=>{THR=x;},shPoll,tuneData,sharedReports,applyAsk,opsData,applyOpenData,get OD(){return OD;},get RP(){return RP;},get last(){return st.M;},modelCheck,get MODEL(){return MODEL;},back:goBack,onSpeech,mapLines,googleNavUrl,mapplsNavUrl,navStops,shareUrl,locate};
 loadUser();load();
 
 })();
