@@ -12,9 +12,11 @@ const fails=[];const ok=(c,m)=>{if(!c)fails.push(m);};
  await p.goto('file://'+F+'?scn=monsoon&tiles=0&from=dehradun&to=badrinath');
  await p.waitForFunction(()=>PP.last&&PP.last.cur);await p.waitForTimeout(400);
 
- // 1. engine: no adopted thresholds in this build, so every stretch uses Caine (1980)
- const eng=await p.evaluate(()=>{const e=PP.EDGES.find(x=>!x.plain);const f=PP.edThr(e);return [f(6),f(24),f(72)].map((v,i)=>Math.abs(v-PP.CAINE([6,24,72][i]))<1e-9);});
- ok(eng.every(Boolean),'Caine when nothing adopted '+eng);
+ // 1. engine: Caine (1980) unless the backtest adopted fitted thresholds (data/model/thresholds.json), then the stretch's zone curve
+ const fs=require('fs'),path=require('path');let TH=null;try{TH=JSON.parse(fs.readFileSync(path.join(__dirname,'..','data','model','thresholds.json'),'utf8')).adopted;}catch(e){}
+ const eng=await p.evaluate(()=>PP.EDGES.filter(x=>!x.plain&&!x.virtual).map(e=>{const f=PP.edThr(e);return{susc:e.susc,v:[6,24,72].map(d=>f(d)),c:[6,24,72].map(d=>PP.CAINE(d))};}));
+ const want=(x,d)=>{if(!TH)return x.c[[6,24,72].indexOf(d)];const z=(TH.zones&&TH.zones[String(x.susc)])||TH.pooled;return z.alpha*Math.pow(d,z.gamma);};
+ ok(eng.every(x=>[6,24,72].every((d,i)=>Math.abs(x.v[i]-want(x,d))<1e-6*Math.max(1,want(x,d)))),'engine thresholds match '+(TH?'the adopted fit':'Caine'));
 
  // 2. saving a trip hands it to the background check with the hill stretches of the chosen road
  await p.evaluate(()=>document.getElementById('a-save').click());await p.waitForTimeout(300);
