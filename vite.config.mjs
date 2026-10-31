@@ -40,6 +40,10 @@ function bakedData(demo) {
   out.BACKTEST = demo ? null : bt;
   const th = has('data/model/thresholds.json') ? json('data/model/thresholds.json') : null;
   out.THRESH = !demo && th && th.adopted ? { level: th.adopted.level, pooled: th.adopted.pooled, zones: th.adopted.zones } : null;
+  // GSI NLSM susceptibility per stretch and GSI landslide points near the roads; `use` when the backtest kept the GSI class
+  const gsi = has('data/gsi_uttarakhand.json') ? json('data/gsi_uttarakhand.json') : null;
+  out.GSI = gsi ? { use: !!(th && th.susc === 'gsi'), st: Object.fromEntries(Object.entries(gsi.stretches).map(([k, v]) =>
+    [k, { cls: v.cls, high100: v.high100, ls1k: v.ls1k, mean: v.mean }])), pts: gsi.points.map(p => [p[0], p[1], p[2]]) } : null;
   out.STOPS = has('data/osm_stops.json') ? json('data/osm_stops.json') : null;
   return out;
 }
@@ -56,6 +60,7 @@ const SLOTS = [
   ['/*__STOPS__*/null', 'STOPS'],
   ['/*__BACKTEST__*/null', 'BACKTEST'],
   ['/*__THRESH__*/null', 'THRESH'],
+  ['/*__GSI__*/null', 'GSI'],
 ];
 
 function ppApp(demo) {

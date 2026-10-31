@@ -35,9 +35,11 @@ jobs:
       - name: Closure inventory from the truth branch
         run: |
           mkdir -p data/truth
-          git fetch -q origin truth && git show FETCH_HEAD:inventory.json > data/truth/inventory.json
+          git fetch -q origin truth
+          for f in $(git ls-tree --name-only FETCH_HEAD | grep -E '^inventory(_[0-9]{4})?\.json$'); do git show FETCH_HEAD:$f > data/truth/$f; done
+          cd python && python -c "from pahaadpath.inventory import merge_files; merge_files('../data/truth', '../data/truth/merged.json')"
       - name: Backtest and fit
-        run: cd python && python -u -m pahaadpath backtest --inventory ../data/truth/inventory.json | tee -a "$GITHUB_STEP_SUMMARY"
+        run: cd python && python -u -m pahaadpath backtest --inventory ../data/truth/merged.json | tee -a "$GITHUB_STEP_SUMMARY"
       - uses: actions/cache/save@v4
         if: always()
         with:

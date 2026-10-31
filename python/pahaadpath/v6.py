@@ -12,6 +12,8 @@ is positive; days a stretch was already closed are left out). Inputs, in groups 
   history   log PWD closures on the stretch, counted only on days outside the fold being scored
   cold      0 C crossings in the last 72 h (freeze-thaw loosens rock on high stretches)
   quake     earthquakes of magnitude 3.5 or more in the last 7 days, weighted by size and distance (USGS)
+  gsi       GSI landslide susceptibility along the road (mean class, share with High within 100 m) and GSI-mapped
+            landslides within 1 km (data/gsi_uttarakhand.json)
 
 Groups are added one at a time (forward selection) and kept only when the score on held-out folds (one season, or one
 month when there is one season) improves by MIN_GAIN. The Caution and Avoid cut-offs are set on the training folds so
@@ -40,6 +42,7 @@ GROUPS = {
     'history': ['log_closures'],
     'cold': ['freeze_thaw'],
     'quake': ['quake'],
+    'gsi': ['gsi_mean', 'gsi_high100', 'log_gsi_ls1k'],
 }
 BASE = ('rain', 'static')
 MIN_GAIN = 0.01
@@ -108,6 +111,7 @@ def day_features(link, vars_, i0, n_closures, quakes=None, t0_utc=None):
     tt = [x for x in t[max(0, e - 72):e] if x is not None]
     ft = sum(1 for a, b in zip(tt, tt[1:]) if (a > 0) != (b > 0))
     lat, lon = (float(x) for x in k.split(','))
+    g = link.get('gsi')
     return {
         'log_p24': math.log1p(_sum(p, e - 24, e)), 'log_p72': math.log1p(_sum(p, e - 72, e)),
         'log_a7': math.log1p(_sum(p, e - 240, e - 72)), 'log_a30': math.log1p(_sum(p, e - 720, e - 240)),
@@ -119,6 +123,8 @@ def day_features(link, vars_, i0, n_closures, quakes=None, t0_utc=None):
         'log_closures': math.log1p(n_closures),
         'freeze_thaw': float(ft),
         'quake': quake_load(quakes, lat, lon, t0_utc + e * 3600) if t0_utc is not None else 0.0,
+        'gsi_mean': (g.get('mean') or 1.5) if g else 1.5, 'gsi_high100': g.get('high100', 0) if g else 0.0,
+        'log_gsi_ls1k': math.log1p(g.get('ls1k', 0)) if g else 0.0,
     }
 
 
@@ -215,8 +221,10 @@ def run(inv, net, vars_, start, mode='relaxed', quakes=None, log=print):
     first, last = min(r['date'] for r in inv['reports']), max(r['date'] for r in inv['reports'])
     days = []
     d = max(dt.date.fromisoformat(first), dt.date.fromisoformat(start) + dt.timedelta(days=LEAD_DAYS))
+    covered = {r['date'] for r in inv['reports']}  # only days PWD reported on
     while d.isoformat() <= last:
-        days.append(d.isoformat())
+        if d.isoformat() in covered:
+            days.append(d.isoformat())
         d += dt.timedelta(days=1)
     lab = {k: v for k, v in labels(inv, net, mode).items() if k[1] in set(days)}
     skip = closed_days(inv, net, mode)

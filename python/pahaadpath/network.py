@@ -1,4 +1,6 @@
-"""Road network parsed from src/app/core.js, with open data (OSRM shape, DEM slope) and NASA catalog incident history."""
+"""Road network parsed from src/app/core.js, with open data (OSRM shape, DEM slope), NASA catalog incident history and
+GSI landslide susceptibility and inventory (data/gsi_uttarakhand.json, read from the National Geoscience Data Repository)."""
+import os
 import math
 from decimal import ROUND_HALF_UP, Decimal
 import re
@@ -55,7 +57,8 @@ def loc_key(lat, lon):
 
 
 class Network:
-    def __init__(self, app_html=None, open_data=None, catalog=None):
+    def __init__(self, app_html=None, open_data=None, catalog=None, susc='slope'):
+        """susc: 'slope' (DEM slope class) or 'gsi' (GSI NLSM class along the road) for the engine's susceptibility"""
         with open(app_html or path('src', 'app', 'core.js'), encoding='utf-8') as f:
             src = f.read()
         self.places = {}
@@ -94,6 +97,9 @@ class Network:
             l['susc'] = slope_class(sl['p75']) if sl else l['susc0']
             l['events'] = [e for e in cat if dist_to_line(e['lat'], e['lon'], l['geom']) <= max(HIST_KM, e['acc'])]
             l['hist'] = hist_class(len(l['events'])) if cat else l['hist0']
+            l['gsi'] = GSI.get(l['id'])
+            if susc == 'gsi' and l['gsi'] and l['gsi'].get('cls'):
+                l['susc'] = l['gsi']['cls']
 
     def hill(self):
         return [l for l in self.links.values() if not l['plain']]
@@ -104,6 +110,16 @@ class Network:
             if l['key'] not in out:
                 out.append(l['key'])
         return out
+
+
+def _gsi():
+    p = path('data', 'gsi_uttarakhand.json')
+    if not os.path.exists(p):
+        return {}
+    return read_json('data', 'gsi_uttarakhand.json').get('stretches', {})
+
+
+GSI = _gsi()
 
 
 def load_catalog(p=None):

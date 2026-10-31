@@ -3,7 +3,9 @@ name: closure inventory
 # roads to the closure inventory (python/pahaadpath/inventory.py). Results go to the `truth` branch, with history:
 #   inventory.json  state (every report read, closures still open, closures that ended)
 #   closures.csv    one row per closure, for the threshold calibration and the backtest
-# Run by hand with years "2025 2026" and a larger max to backfill earlier seasons.
+# Run by hand with one past year (e.g. "2025") and a larger max to backfill that season into its own file,
+# inventory_<year>.json / closures_<year>.csv: reports must be read oldest first, so a past season cannot join the
+# current file once newer reports are in it. The backtest merges every season.
 on:
   schedule:
     - cron: '43 5,12 * * *'
@@ -45,14 +47,18 @@ jobs:
           REBUILD: ${{ inputs.rebuild && '--rebuild' || '' }}
         run: |
           cd python
-          python -u -m pahaadpath inventory --state ../truth/inventory.json --csv ../truth/closures.csv --max "$MAX" --budget-min 50 $REBUILD ${YEARS:+--years $YEARS} | tee -a "$GITHUB_STEP_SUMMARY"
+          THIS=$(TZ=Asia/Kolkata date +%Y)
+          SUF=''
+          if [ -n "$YEARS" ] && [ "$(echo $YEARS | wc -w)" = 1 ] && [ "$YEARS" != "$THIS" ]; then SUF="_$YEARS"; fi
+          echo "SUF=$SUF" >> "$GITHUB_ENV"
+          python -u -m pahaadpath inventory --state ../truth/inventory$SUF.json --csv ../truth/closures$SUF.csv --max "$MAX" --budget-min 50 $REBUILD ${YEARS:+--years $YEARS} | tee -a "$GITHUB_STEP_SUMMARY"
       - name: Publish on the truth branch
         if: always()
         run: |
           cd truth
           git config user.name 'github-actions[bot]'
           git config user.email '41898299+github-actions[bot]@users.noreply.github.com'
-          git add inventory.json closures.csv
+          git add inventory*.json closures*.csv
           git diff --cached --quiet && { echo 'no new reports'; exit 0; }
           git commit -qm "Closure inventory $(date -u +%Y-%m-%dT%H:%MZ)"
           git push -q origin HEAD:truth

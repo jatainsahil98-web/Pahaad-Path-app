@@ -172,8 +172,10 @@ def run(inv, net, rain, start, mode='relaxed', log=print):
     first, last = season(inv)
     days = []
     d = dt.date.fromisoformat(max(first, (dt.date.fromisoformat(start) + dt.timedelta(days=3)).isoformat()))
+    covered = {r['date'] for r in inv['reports']}  # only days PWD reported on (seasons have gaps between them)
     while d.isoformat() <= last:
-        days.append(d.isoformat())
+        if d.isoformat() in covered:
+            days.append(d.isoformat())
         d += dt.timedelta(days=1)
     lab = {k: v for k, v in labels(inv, net, mode).items() if k[1] in set(days)}
     skip = closed_days(inv, net, mode)

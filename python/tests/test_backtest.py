@@ -57,7 +57,7 @@ class BacktestTest(unittest.TestCase):
         a, b = self.a, self.b
         ep = lambda i, l, c, opened: {'id': i, 'n': 'road', 'd': None, 'ty': 'NH', 'ag': 'PWD', 'near': [l['a'], l['b']], 'links': [l['id']],
                                       'c': c, 'first': c[:10] + ' morning', 'last': c[:10] + ' evening', 'opened': opened}
-        return {'reports': [{'date': '2026-08-01'}, {'date': '2026-08-20'}],
+        return {'reports': [{'date': '2026-08-%02d' % d} for d in range(1, 21)],
                 'done': [ep(1, a, '2026-08-10T06:00', '2026-08-12 morning'), ep(2, b, '2026-08-15T06:00', '2026-08-16 morning')], 'open': {}}
 
     def rain(self, wet_link, wet_day_index):
@@ -124,3 +124,14 @@ class Risk24Test(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class MergeTest(unittest.TestCase):
+    def test_past_season_open_closures_end_at_its_last_report(self):
+        from pahaadpath.inventory import merge
+        a = {'reports': [{'date': '2025-07-01', 'slot': 'morning', 'url': 'a', 'closed': 1}], 'open': {'1': {'id': 1}}, 'done': []}
+        b = {'reports': [{'date': '2026-07-01', 'slot': 'evening', 'url': 'b', 'closed': 1}], 'open': {'2': {'id': 2}}, 'done': [{'id': 3}]}
+        m = merge([b, a])
+        self.assertEqual([r['date'] for r in m['reports']], ['2025-07-01', '2026-07-01'])
+        self.assertEqual(list(m['open']), ['2'])
+        self.assertIn({'id': 1, 'opened': '2025-07-01 morning'}, m['done'])

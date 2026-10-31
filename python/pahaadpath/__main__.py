@@ -124,14 +124,20 @@ def main(argv=None):
         r = run(inv, net, rain, start, mode=a.mode)
         quakes = v6.fetch_quakes((dt.date.fromisoformat(start) - dt.timedelta(days=8)).isoformat(), last)
         r6 = v6.run(inv, net, vars_, start, mode=a.mode, quakes=quakes)
+        # GSI susceptibility class in place of the DEM slope class: kept when the engine does no worse with it
+        rg = run(inv, Network(susc='gsi'), rain, start, mode=a.mode, log=lambda *x: None)
+        ts, tg = r['caine']['caution']['tss'], rg['caine']['caution']['tss']
+        susc = 'gsi' if ts is not None and tg is not None and tg >= ts else 'slope'
         bt = summary(r)
+        bt['susc'] = {'used': susc, 'tss_slope': ts, 'tss_gsi': tg, 'pod_gsi': rg['caine']['caution']['pod'], 'far_gsi': rg['caine']['caution']['far']}
         bt['v6'] = v6.summary(r6)
         write_json(bt, 'data', 'model', 'backtest.json', indent=1)
-        write_json({'adopted': r['adopted'], 'fit': r['fit']['thresholds'] if r.get('fit') else None,
+        write_json({'adopted': r['adopted'], 'fit': r['fit']['thresholds'] if r.get('fit') else None, 'susc': susc,
                     'note': 'adopted is what the app and the data pack use; null keeps Caine (1980)'}, 'data', 'model', 'thresholds.json', indent=1)
         if r6.get('model'):
             write_json(dict(r6['model'], adopted=r6['adopted']), 'data', 'model', 'model_v6.json', indent=1)
-        md = report_md(r) + '\n' + v6.report_md(r6)
+        md = report_md(r) + '\nSusceptibility class: TSS at Caution %s with the DEM slope class, %s with the GSI NLSM class; the engine uses the %s class.\n\n' % (
+            ts, tg, 'GSI' if susc == 'gsi' else 'slope') + v6.report_md(r6)
         with open(path('data', 'model', 'BACKTEST.md'), 'w', encoding='utf-8') as f:
             f.write(md)
         print(md)

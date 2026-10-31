@@ -129,6 +129,14 @@ function drawOn(paths){
     setTimeout(()=>{el.style.strokeDasharray='';el.style.transition='';},at+d+60);
     at+=d;});
 }
+/* GSI-mapped landslides within 1 km of the route's hill stretches (dark = active), cached per stretch */
+const GSI_NEAR=new Map();
+function gsiNear(rows){
+  const out=[];rows.forEach(r=>{const s=r.seg;if(s.plain||s.virtual)return;
+    if(!GSI_NEAR.has(s.id)){const g=geomOf(s);GSI_NEAR.set(s.id,GSI.pts.filter(p=>distToLine(p[0],p[1],g)<=1));}
+    GSI_NEAR.get(s.id).forEach(p=>out.push(p));});
+  return out;
+}
 function drawBg(M){
   if(st.view!=='trip'||!HAS_L||!M||!M.cur)return;
   if(!bgEnsure())return;
@@ -148,6 +156,7 @@ function drawBg(M){
     const line=L.polyline(ll,Object.assign({color:col,weight:6,opacity:1,lineCap:'round',className:'pp-route'},opt)).addTo(g).bindPopup(stretchPopup(r));
     paths.push({layer:casing,len:s.km||1},{layer:line,len:s.km||1});
   });
+  if(!tl&&GSI&&GSI.pts)gsiNear(cur.rows).forEach(p=>{L.circleMarker([p[0],p[1]],{radius:3,weight:1,color:cssv('--surface'),fillColor:p[2]?'#8a4b16':'#b98b5e',fillOpacity:.85,interactive:false}).addTo(g);});
   if(!tl)cur.rows.forEach(r=>{const s=r.seg;if(s.virtual)return;s.spots.forEach(sp=>{const p=along(geomOf(s),sp.f);
     L.marker([p.lat,p.lon],{icon:divIcon(TRI,'',[18,16]),keyboard:false}).bindTooltip(esc(nm(sp))).addTo(g);});});
   cur.halts.forEach(h=>{const n=NODE(h.node);if(!n)return;

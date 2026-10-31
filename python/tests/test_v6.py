@@ -39,7 +39,8 @@ class V6Test(unittest.TestCase):
                     done.append({'id': len(done), 'n': 'road', 'd': None, 'ty': 'NH', 'ag': 'PWD', 'near': [l['a'], l['b']], 'links': [l['id']],
                                  'c': day + 'T21:00', 'first': day + ' evening', 'last': day + ' evening', 'opened': day + ' evening'})
         last = (dt.date.fromisoformat(first) + dt.timedelta(days=n_days - 1)).isoformat()
-        cls.inv = {'reports': [{'date': first}, {'date': last}], 'done': done, 'open': {}}
+        days = [(dt.date.fromisoformat(first) + dt.timedelta(days=i)).isoformat() for i in range(n_days)]
+        cls.inv = {'reports': [{'date': d} for d in days], 'done': done, 'open': {}}
         cls.net, cls.vars, cls.start = net, vars_, start
         cls.r = v6.run(cls.inv, net, vars_, start, mode='strict', quakes=[], log=lambda *a: None)
 

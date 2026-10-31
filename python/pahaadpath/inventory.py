@@ -113,6 +113,42 @@ def update(state, places, links, years=None, max_reports=60, log=print, save=Non
     return state
 
 
+def merge(states):
+    """one inventory from several seasons (inventory.json and inventory_<year>.json): reports and closures side by side;
+    closures still open at the end of a past season count as ended at its last report"""
+    out = empty()
+    for s in sorted(states, key=lambda s: s['reports'][0]['date'] if s['reports'] else ''):
+        if not s['reports']:
+            continue
+        out['reports'] += s['reports']
+        out['done'] += s['done']
+        last = s['reports'][-1]
+        newest = s is max(states, key=lambda x: x['reports'][-1]['date'] if x['reports'] else '')
+        for rid, ep in s['open'].items():
+            if newest:
+                out['open'][rid] = ep
+            else:
+                out['done'].append(dict(ep, opened=tag(last['date'], last['slot'])))
+    return out
+
+
+def merge_files(folder, dest):
+    import glob
+    import json
+    import os
+    states = []
+    for p in sorted(glob.glob(os.path.join(folder, 'inventory*.json'))):
+        if os.path.basename(p) == os.path.basename(dest):
+            continue
+        with open(p, encoding='utf-8') as f:
+            states.append(json.load(f))
+    m = merge(states)
+    with open(dest, 'w', encoding='utf-8') as f:
+        json.dump(m, f, ensure_ascii=False)
+    print('merged %d season files: %d reports, %d closures' % (len(states), len(m['reports']), len(m['done']) + len(m['open'])))
+    return m
+
+
 def to_csv(state):
     """one row per closure (ended or still open), for the calibration and for reading in a spreadsheet"""
     import csv

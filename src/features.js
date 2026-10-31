@@ -5,7 +5,7 @@ const TX={
   qr_b:'QR',qr_t:'Scan to open this trip',qr_local:'This copy is opened from a file, so a QR code would not work on another phone. Host the folder (for example on GitHub Pages) and the QR code will carry the trip link.',copy_l:'Copy link',
   tabs_safety:'Safety',
   map_tiles:'Street map (online)',map_off:'Offline map',map_note_od:'Road shapes from OpenStreetMap via OSRM where fetched; other roads are straight links between towns.',map_note:'Roads are straight links between towns. Offline layers: Natural Earth rivers, roads and state lines. With a connection the street map comes from OpenStreetMap.',
-  pp_km:'km',pp_src_osrm:'distance from OSRM',pp_src_hand:'distance hand-entered',pp_sl_dem:'slope from DEM',pp_sl_demo:'slope demo value',
+  pp_km:'km',pp_src_osrm:'distance from OSRM',pp_src_hand:'distance hand-entered',pp_sl_dem:'slope from DEM',pp_sl_gsi:'GSI landslide susceptibility',gsi_line:'GSI: {h}% of the road has High susceptibility within 100 m, {n} mapped landslides within 1 km',gsi_pts:'GSI-mapped landslide',pp_sl_demo:'slope demo value',
   // control room
   ops_t:'Control room',ops_s:'For the disaster management authority, police and tour operators: every hill stretch, the next 72 hours. Decision support only.',
   ops_at:'Showing',ops_play:'Play',ops_pause:'Pause',ops_now:'Now',
@@ -58,7 +58,7 @@ const TX={
   qr_b:'QR',qr_t:'यह यात्रा खोलने के लिए स्कैन करें',qr_local:'यह कॉपी फ़ाइल से खुली है, इसलिए दूसरे फ़ोन पर QR काम नहीं करेगा। फ़ोल्डर को होस्ट करें (जैसे GitHub Pages पर), फिर QR में यात्रा का लिंक होगा।',copy_l:'लिंक कॉपी करें',
   tabs_safety:'सुरक्षा',
   map_tiles:'सड़क नक्शा (ऑनलाइन)',map_off:'ऑफ़लाइन नक्शा',map_note_od:'जहाँ लिया गया, वहाँ सड़क का आकार OSRM से OpenStreetMap का है; बाक़ी सड़कें शहरों के बीच सीधी रेखाएँ हैं।',map_note:'सड़कें शहरों के बीच सीधी रेखाएँ हैं। ऑफ़लाइन परतें: Natural Earth की नदियाँ, सड़कें और राज्य सीमाएँ। नेटवर्क हो तो सड़क नक्शा OpenStreetMap से आता है।',
-  pp_km:'किमी',pp_src_osrm:'दूरी OSRM से',pp_src_hand:'दूरी हाथ से दर्ज',pp_sl_dem:'ढलान DEM से',pp_sl_demo:'ढलान नमूना मान',
+  pp_km:'किमी',pp_src_osrm:'दूरी OSRM से',pp_src_hand:'दूरी हाथ से दर्ज',pp_sl_dem:'ढलान DEM से',pp_sl_gsi:'GSI भूस्खलन संवेदनशीलता',gsi_line:'GSI: सड़क के {h}% हिस्से के 100 मी भीतर उच्च संवेदनशीलता, 1 किमी में {n} दर्ज भूस्खलन',gsi_pts:'GSI द्वारा दर्ज भूस्खलन',pp_sl_demo:'ढलान नमूना मान',
   ops_t:'कंट्रोल रूम',ops_s:'आपदा प्रबंधन प्राधिकरण, पुलिस और टूर ऑपरेटरों के लिए: हर पहाड़ी हिस्सा, अगले 72 घंटे। सिर्फ़ फ़ैसले में मदद के लिए।',
   ops_at:'समय',ops_play:'चलाएँ',ops_pause:'रोकें',ops_now:'अभी',
   k_avd:'टालें',k_cau:'सावधानी',k_go:'चलें',k_rep:'सड़क रिपोर्ट',k_worst:'सबसे ज़्यादा जोखिम',k_of:'{n} पहाड़ी हिस्सों में से',
@@ -121,6 +121,10 @@ const segName=e=>pname(e.a)+' → '+pname(e.b);
 const OD_BAKED=/*__OPEN_DATA__*/null;
 /* NASA Global Landslide Catalog (2007 to 2017), events in and around Uttarakhand located to 10 km or better: [lat, lon, accuracy km, year, deaths] */
 const GLC=/*__GLC__*/null;
+/* GSI landslide susceptibility (NLSM 1:50,000) along each hill road and GSI-mapped landslides near the roads, read from the
+   National Geoscience Data Repository (data/gsi_uttarakhand.json). use = the backtest found the engine no worse with the GSI
+   class than with the DEM slope class, so the GSI class drives the engine; otherwise it is shown but slope drives it. */
+const GSI=/*__GSI__*/null;
 /* Slope class from the 75th percentile side slope. Cut-offs near the terciles of the 44 hill stretches (30.7 and 36.9 degrees on the real data run),
    rounded to 31 and 37, give classes of 15, 16 and 13 stretches. The earlier 22 and 30 put 32 of 44 in the top class, so slope stopped telling roads apart. */
 const SL_CUT=[31,37],slopeClass=d=>d<SL_CUT[0]?1:d<SL_CUT[1]?2:3;
@@ -143,7 +147,8 @@ function applyOpenData(){
     const k=st.useOD&&OD.km[e.id];
     e.km=k&&k.ok?Math.round(k.km):e.km0;e.h0=e.km/e.v;e.kmSrc=k&&k.ok?'osrm':'hand';
     const sl=st.useOD&&!e.plain&&OD.slope[e.id];
-    if(!e.plain){e.susc=sl?slopeClass(sl.p75):e.susc0;e.slSrc=sl?'dem':'demo';const hh=st.useOD&&OD.hist[e.id];e.hist=hh?hh.cls:e.hist0;e.hiSrc=hh?'nasa':'demo';}
+    if(!e.plain){e.susc=sl?slopeClass(sl.p75):e.susc0;e.slSrc=sl?'dem':'demo';e.gsi=GSI&&GSI.st[e.id]||null;
+      if(GSI&&GSI.use&&e.gsi&&e.gsi.cls){e.susc=e.gsi.cls;e.slSrc='gsi';}const hh=st.useOD&&OD.hist[e.id];e.hist=hh?hh.cls:e.hist0;e.hiSrc=hh?'nasa':'demo';}
   });
   deriveOffsets();
 }
@@ -276,7 +281,7 @@ const TRI='<svg viewBox="0 0 20 18" width="18" height="16"><path d="M10 1l9 16H1
 function stretchPopup(r){
   const s=r.seg,slope=['',t('low'),t('med'),t('high')][s.susc];
   return '<b>'+esc(pname(r.from)+' → '+pname(r.to))+'</b><br>'
-    +(s.plain?esc(t('plains_note')):esc(t(LV[lvl(r.score)])+' '+r.score+'/100 · '+t('rain')+' '+Math.round(r.P24)+'/'+Math.round(edThr(s)(24))+' mm · '+t('slope')+' '+slope+' ('+t(s.slSrc==='dem'?'pp_sl_dem':'pp_sl_demo')+')'))
+    +(s.plain?esc(t('plains_note')):esc(t(LV[lvl(r.score)])+' '+r.score+'/100 · '+t('rain')+' '+Math.round(r.P24)+'/'+Math.round(edThr(s)(24))+' mm · '+t('slope')+' '+slope+' ('+t(s.slSrc==='gsi'?'pp_sl_gsi':s.slSrc==='dem'?'pp_sl_dem':'pp_sl_demo')+')'+(s.gsi?' · '+fill(t('gsi_line'),{h:Math.round(s.gsi.high100*100),n:s.gsi.ls1k}):'')))
     +'<br>'+esc(clock(msOf(r.start))+t('rng')+clock(msOf(r.end))+' · '+t('trf')+' ×'+r.x.toFixed(1)+' · '+s.km+' '+t('km')+' ('+t(s.kmSrc==='osrm'?'pp_src_osrm':'pp_src_hand')+')');
 }
 /* trip map: replaces the schematic SVG map; falls back to it if Leaflet is missing */
@@ -474,7 +479,7 @@ function renderProof(){
       +'<div id="pmap" class="lmap"></div>'
       +(ev.control?'':'<div class="acts in"><button class="btn" type="button" data-rpplan="'+ev.date+'">'+t('pr_plan')+'</button></div>')
       +'<div class="wrap"><table class="tb"><tr>'+cols.map(c=>'<th>'+esc(c)+'</th>').join('')+'</tr>'
-      +rows.map(r=>{const e=S[r.id];return '<tr><td>'+esc(e?segName(e):r.id)+'</td><td>'+esc((closed[r.id]||[]).join('; '))+'</td><td>'+r.score+'</td><td><span class="pill l'+r.band+'">'+t(LV[r.band])+'</span></td><td>'+String(r.hour).padStart(2,'0')+':00</td><td>'+r.P6+'</td><td>'+r.P24+'</td><td>'+r.P72+'</td><td>'+r.ratio+'</td><td>'+r.susc+(r.slSrc==='dem'?' DEM':' demo')+'</td></tr>';}).join('')+'</table></div>'
+      +rows.map(r=>{const e=S[r.id];return '<tr><td>'+esc(e?segName(e):r.id)+'</td><td>'+esc((closed[r.id]||[]).join('; '))+'</td><td>'+r.score+'</td><td><span class="pill l'+r.band+'">'+t(LV[r.band])+'</span></td><td>'+String(r.hour).padStart(2,'0')+':00</td><td>'+r.P6+'</td><td>'+r.P24+'</td><td>'+r.P72+'</td><td>'+r.ratio+'</td><td>'+r.susc+(r.slSrc==='gsi'?' GSI':r.slSrc==='dem'?' DEM':' demo')+'</td></tr>';}).join('')+'</table></div>'
       +'<p class="note">'+t('pr_src_l')+': '+esc(ev.sources.join('; '))+'</p></div>';
   }
   h+=btCard();
