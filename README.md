@@ -8,7 +8,7 @@ Advisory only. It is not an official warning. Follow police, BRO and district ad
 
 ## What it does
 
-It runs on today's data. On opening it fetches the live hourly rain forecast for every road stretch (Open-Meteo, past 3 days and next 16), refreshes it every hour and again when a lost connection returns, and keeps the last forecast for up to 36 hours offline. Road distances and shapes come from OpenStreetMap through OSRM, slope from the Copernicus DEM, incident history from the NASA landslide catalog, and road reports are shared between phones as they are made. Demo weather is only used when there is no connection and nothing saved, and the screen says so.
+It runs on today's data. On opening it fetches the live hourly rain forecast for every road stretch (Open-Meteo, past 3 days and next 16), refreshes it every hour and again when a lost connection returns, and keeps the last forecast for up to 36 hours offline. Road distances and shapes come from OpenStreetMap through OSRM, slope from the Copernicus DEM, incident history from the NASA landslide catalog, and road reports are shared between phones as they are made. With no connection and nothing saved it shows no landslide risk and says so, rather than showing made-up weather.
 
 - **Plan trip:** any source, destination and date from today up to 14 days ahead. Fastest and lower-risk roads, landslide risk per stretch at the hour you reach it, long-weekend traffic, best departure window, night halts, entry rules with sources, road profile, safety kit with helplines and SOS, trip from a typed or spoken sentence.
 - **Control room:** all 44 hill stretches over 72 hours, animated map, advisory draft in English or Hindi, expected jams, road reports shared across phones.
