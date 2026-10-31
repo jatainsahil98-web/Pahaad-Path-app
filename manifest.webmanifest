@@ -1,0 +1,17 @@
+{
+ "name": "PahaadPath",
+ "short_name": "PahaadPath",
+ "description": "Hill-road landslide, traffic and entry-rule advisory for Uttarakhand",
+ "start_url": "./",
+ "display": "standalone",
+ "background_color": "#EDEFE8",
+ "theme_color": "#1D3F31",
+ "icons": [
+  {
+   "src": "icon.svg",
+   "sizes": "any",
+   "type": "image/svg+xml",
+   "purpose": "any maskable"
+  }
+ ]
+}

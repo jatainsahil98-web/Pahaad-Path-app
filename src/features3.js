@@ -1,0 +1,158 @@
+/* ================= v5: trained risk model with rain memory, daily data pack, offline use for days, report outbox, share the app ================= */
+Object.assign(T.en,{
+  mem_note:'Very heavy rain here {w}: debris may still block the road. Ask locally and check road reports.',mem_1:'yesterday',mem_n:'{n} days ago',
+  via_pack:' (from the PahaadPath data pack)',
+  age_ok:'Offline. Forecast saved {w} ({a} ago).',age_old:'Offline. Forecast saved {w}, {a} ago. Rain since then is not known: ask locally and check road reports.',
+  age_h:'{n} h',age_d:'{n} days',
+  en_t:'Risk engine',en_v5:'Trained model v5 (experimental)',en_v4:'Rain threshold v4 (Caine 1980)',
+  en_s:'v5 was fitted on {n} landslide days in the NASA catalog (2007 to 2017) with 30 days of rain at each road. Checked year by year it did not catch more landslide days than v4 at the same number of warnings, so v4 is the default.',
+  ob_n:'{n} reports waiting for signal',ob_1:'1 report waiting for signal',
+  app_apk:'Android app (APK file)',
+  app_t:'Share the app with no internet',app_s:'Saves this whole app as one file. Send it by WhatsApp, Bluetooth or a memory card; it opens in any phone browser and works offline.',app_b:'Save or share the app file',app_done:'App file ready'
+});
+Object.assign(T.hi,{
+  mem_note:'यहाँ {w} बहुत भारी बारिश हुई: मलबा अब भी सड़क रोक सकता है। स्थानीय लोगों से पूछें और सड़क रिपोर्ट देखें।',mem_1:'कल',mem_n:'{n} दिन पहले',
+  via_pack:' (पहाड़ पथ डेटा पैक से)',
+  age_ok:'ऑफ़लाइन। पूर्वानुमान {w} सहेजा गया ({a} पहले)।',age_old:'ऑफ़लाइन। पूर्वानुमान {w} सहेजा गया, {a} पहले। उसके बाद की बारिश पता नहीं: स्थानीय लोगों से पूछें और सड़क रिपोर्ट देखें।',
+  age_h:'{n} घंटे',age_d:'{n} दिन',
+  en_t:'जोखिम इंजन',en_v5:'प्रशिक्षित मॉडल v5 (प्रयोग)',en_v4:'बारिश सीमा v4 (Caine 1980)',
+  en_s:'v5 को NASA सूची के {n} भूस्खलन दिनों (2007 से 2017) और हर सड़क पर 30 दिन की बारिश से बनाया गया। यह दिनों को क्रम देता है; यह संभावना नहीं है।',
+  ob_n:'{n} रिपोर्ट नेटवर्क का इंतज़ार कर रही हैं',ob_1:'1 रिपोर्ट नेटवर्क का इंतज़ार कर रही है',
+  app_apk:'एंड्रॉयड ऐप (APK फ़ाइल)',
+  app_t:'बिना इंटरनेट ऐप साझा करें',app_s:'पूरा ऐप एक फ़ाइल में सहेजता है। WhatsApp, ब्लूटूथ या मेमोरी कार्ड से भेजें; यह किसी भी फ़ोन ब्राउज़र में खुलता है और ऑफ़लाइन चलता है।',app_b:'ऐप फ़ाइल सहेजें या भेजें',app_done:'ऐप फ़ाइल तैयार'
+});
+
+/* ---------- trained model (python/pahaadpath/model.py writes data/model/model_v5.json; tools/build.py bakes it in) ---------- */
+const MODEL=/*__MODEL__*/null;
+/* daily rain for the 30 days before each replayed closure day (ERA5), so the Proof tab can use the model's rain memory */
+const RP_DAILY=/*__RP_DAILY__*/null;
+const CACHE_MAX_H=10*24; // a saved forecast is used offline for up to 10 days, with its age on screen
+/* v4 stays the default: on the 2007 to 2017 check (data/model/REPORT.md) the trained model did not beat it at the same alarm rate */
+st.engine=MODEL?lsGet('pp_engine','v4'):'v4';
+function modelOn(){return !!MODEL&&st.engine==='v5';}
+/* must match features() in python/pahaadpath/dataset.py and score() in model.py */
+function modelFeatures(r1,r3,a7,a30,slope,n){return[Math.log1p(r1),Math.log1p(r3),Math.log1p(a7),Math.log1p(a30),((slope==null?34:slope)-34)/5,Math.log1p(n)];}
+function modelLogit(x){let z=MODEL.intercept;for(let i=0;i<x.length;i++)z+=MODEL.coef[i]*x[i];return z;}
+function modelScore(z){
+  const b=MODEL.bands;let s;
+  if(z<b.zc)s=34*Math.min(1,Math.max(0,(z-b.z0)/(b.zc-b.z0)));
+  else if(z<b.za)s=35+29*(z-b.zc)/(b.za-b.zc);
+  else s=65+35*Math.min(1,(z-b.za)/b.zspan);
+  return Math.floor(s+.5);
+}
+function modelCheck(){
+  if(!MODEL)return null;const bad=[];
+  (MODEL.checks||[]).forEach(c=>{const s=modelScore(modelLogit(modelFeatures.apply(null,c.in)));if(s!==c.score)bad.push([c.in,c.score,s]);});
+  return{n:(MODEL.checks||[]).length,bad};
+}
+function setDaily(byKey,day0){
+  if(!byKey){st.daily=null;st.dday0=null;return;}
+  const out={};EDGES.forEach(e=>{out[e.id]=byKey[locKey(e)]||null;});
+  st.daily=out;st.dday0=typeof day0==='number'?day0:parseDate(day0);
+}
+function setReplayDaily(date){const r=RP_DAILY&&RP_DAILY[date];if(r)setDaily(r.by,r.start);else setDaily(null);}
+function dsum(arr,from,to){let t=0;for(let j=Math.max(0,from);j<=to&&j<arr.length;j++)t+=arr[j]||0;return t;}
+/* rain memory: the latest of the last MEM days whose own rain put the stretch at Avoid (debris and wet slopes linger) */
+function memDays(e,arr,i){
+  const n=MODEL.hist[e.id]||0,sl=slopeOf(e),M=MODEL.memory_days||0;
+  for(let k=1;k<=M;k++){const j=i-k;if(j<0||j>=arr.length)continue;
+    const z=modelLogit(modelFeatures(arr[j]||0,dsum(arr,j-2,j),dsum(arr,j-9,j-3),dsum(arr,j-30,j-10),sl,n));
+    if(modelScore(z)>=65)return k;}
+  return 0;
+}
+/* rain memory for the v4 engine: a note only (the band is not raised), because on the 2007 to 2017 check raising it added
+   about as many false warnings as caught landslide days. Same daily-rain test as the Python check: v4 at Avoid on that day's rain. */
+const MEM_NOTE_DAYS=7;
+function memNote(e,a,c){
+  const arr=c.daily&&c.daily[e.id];if(e.plain||!arr||c.dday0==null)return 0;
+  const i=dayOf(c.hour0+a*3600e3)-c.dday0;let m=MEMO.get(arr);if(!m){m={};MEMO.set(arr,m);}
+  const k='v4|'+e.id+'|'+i+'|'+odVer;if(m[k]!=null)return m[k];
+  const pred=.6*[0,.15,.55,1][e.susc]+.4*Math.min(e.hist/5,1);let out=0;
+  for(let d=1;d<=MEM_NOTE_DAYS;d++){const j=i-d;if(j<0||j>=arr.length)continue;
+    const trig=Math.min(Math.max((arr[j]||0)/CAINE(24),dsum(arr,j-2,j)/CAINE(72)),1.5)/1.5;
+    if(Math.round(100*Math.min(1,trig*(.35+.65*pred)+.08*pred))>=65){out=d;break;}}
+  return m[k]=out;
+}
+function memWhen(n){return n===1?t('mem_1'):fill(t('mem_n'),{n});}
+function slopeOf(e){const s=st.useOD&&OD.slope[e.id];return s?s.p75:null;}
+const MEMO=new WeakMap();
+function modelRisk(e,a,c,P24,P72){
+  const arr=c.daily&&c.daily[e.id],D=dayOf(c.hour0+a*3600e3);
+  let a7=0,a30=0,mem=0;
+  if(arr&&c.dday0!=null){
+    const i=D-c.dday0;let m=MEMO.get(arr);if(!m){m={};MEMO.set(arr,m);}
+    const k=e.id+'|'+i+'|'+odVer;
+    if(!m[k])m[k]=[dsum(arr,i-9,i-3),dsum(arr,i-30,i-10),memDays(e,arr,i)];
+    [a7,a30,mem]=m[k];
+  }
+  let s=modelScore(modelLogit(modelFeatures(P24,P72,a7,a30,slopeOf(e),MODEL.hist[e.id]||0)));
+  if(mem)s=Math.max(s,35);
+  return{base:s/100,mem};
+}
+
+/* ---------- weather: the data pack first (one small file), then Open-Meteo directly ---------- */
+const PACK_URL='https://raw.githubusercontent.com/jatainsahil98-web/Pahaad-Path-app/datapack/pack.json';
+const PACK_FRESH_H=6;
+const APK_URL='https://github.com/jatainsahil98-web/Pahaad-Path-app/releases/latest/download/PahaadPath.apk';
+async function fetchPack(){
+  const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),10000);
+  try{
+    const res=await fetch(PACK_URL,{signal:ctl.signal,cache:'no-store'});if(!res.ok)throw new Error('pack '+res.status);
+    const p=await res.json();if(p.v!==1)throw new Error('pack version');
+    const h0=Date.parse(p.hour0+':00+05:30'),shift=Math.round((st.hour0-h0)/3600e3);
+    if(!(shift>=0&&shift<=PACK_FRESH_H))throw new Error('pack too old');
+    const by={},daily={};
+    Object.keys(p.hourly).forEach(k=>{const a=p.hourly[k].map(v=>v/10);by[k]=a.slice(shift).concat(new Array(shift).fill(0));});
+    Object.keys(p.daily).forEach(k=>{daily[k]=p.daily[k].map(v=>v/10);});
+    if(!EDGES.every(e=>e.virtual||by[locKey(e)]))throw new Error('pack places');
+    const made=Date.parse(p.made);
+    return{by,daily,day0:p.day0,ts:st.hour0,made:made>0&&made<=Date.now()?made:h0,via:'pack',alerts:Array.isArray(p.alerts)?p.alerts:null,closures:p.closures&&Array.isArray(p.closures.roads)?p.closures:null}; // made: when the pack's forecast was fetched, shown as its age
+  }finally{clearTimeout(to);}
+}
+async function fetchDaily(){
+  const list=[...new Set(EDGES.filter(e=>!e.virtual).map(locKey))];
+  const url='https://api.open-meteo.com/v1/forecast?latitude='+list.map(k=>k.split(',')[0]).join(',')+'&longitude='+list.map(k=>k.split(',')[1]).join(',')+'&daily=precipitation_sum&past_days=31&forecast_days=16&timezone=Asia%2FKolkata';
+  const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),12000);
+  try{
+    const res=await fetch(url,{signal:ctl.signal});if(!res.ok)throw new Error('http '+res.status);
+    let js=await res.json();if(!Array.isArray(js))js=[js];if(js.length!==list.length)throw new Error('shape');
+    const by={};list.forEach((k,i)=>{by[k]=js[i].daily.precipitation_sum.map(v=>v==null?0:Math.round(v*10)/10);});
+    return{by,day0:js[0].daily.time[0]};
+  }finally{clearTimeout(to);}
+}
+async function fetchWeather(){
+  try{return await fetchPack();}catch(e){}
+  const by=await fetchLive();
+  let d=null;try{d=await fetchDaily();}catch(e){} // without it the model runs without rain memory
+  return{by,daily:d&&d.by,day0:d&&d.day0,ts:st.hour0,via:'api'};
+}
+function viaMsg(){return st.via==='pack'?t('via_pack'):'';}
+function ageText(ms){const h=Math.max(0,Math.round((Date.now()-ms)/3600e3));return h<48?fill(t('age_h'),{n:h}):fill(t('age_d'),{n:Math.round(h/24)});}
+function cacheMsg(){const ts=st.cacheMade||st.cacheTs||st.nowMs,old=Date.now()-ts>36*3600e3;
+  return fill(t(old?'age_old':'age_ok'),{w:fmtDate(dayOf(ts))+' '+clock(ts)+' IST',a:ageText(ts)});}
+
+/* ---------- engine choice, shown in the footer ---------- */
+function engineHtml(){
+  if(!MODEL)return '';
+  return '<div class="card"><b>'+t('en_t')+'</b><br><label class="chk"><input type="radio" name="eng" value="v5"'+(st.engine==='v5'?' checked':'')+'> '+t('en_v5')+'</label>'
+    +'<label class="chk"><input type="radio" name="eng" value="v4"'+(st.engine==='v4'?' checked':'')+'> '+t('en_v4')+'</label>'
+    +'<p class="note">'+esc(fill(t('en_s'),{n:MODEL.data.positives}))+'</p></div>';
+}
+document.addEventListener('change',e=>{if(e.target.name==='eng'){st.engine=e.target.value;lsSet('pp_engine',st.engine);opsCache=null;render();}});
+
+/* ---------- share the app itself: one file that works with no signal ---------- */
+function shareAppHtml(){
+  return '<div class="card"><b>'+t('app_t')+'</b><p class="note">'+t('app_s')+'</p><button class="btn pri" id="a-app" type="button">'+t('app_b')+'</button>'
+    +(window.PPAndroid?'':' <a class="btn" href="'+APK_URL+'" rel="noopener">'+t('app_apk')+'</a>')+'</div>';
+}
+async function shareApp(){
+  if(window.PPAndroid){window.PPAndroid.shareApp();return;} // inside the Android app: share the APK itself
+  const blob=new Blob([PRISTINE],{type:'text/html'}),name='PahaadPath.html';
+  try{
+    const f=new File([blob],name,{type:'text/html'});
+    if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:'PahaadPath'});return;}
+  }catch(e){if(e&&e.name==='AbortError')return;}
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();
+  setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},4000);toast(t('app_done'));
+}
+document.addEventListener('click',e=>{if(e.target.closest('#a-app'))shareApp();});

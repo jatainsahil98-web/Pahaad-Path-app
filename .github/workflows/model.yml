@@ -1,0 +1,49 @@
+name: train risk model
+# Downloads historical rain (this needs a network that can reach Open-Meteo), trains the v5 model and commits the
+# rain tables, model and validation report back to the branch. Downloads are cached, so a rerun only retrains.
+on:
+  push:
+    paths: ['python/pahaadpath/**', '.github/workflows/model.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: model-${{ github.ref }}
+jobs:
+  train:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/cache/restore@v4
+        with:
+          path: data/cache
+          key: openmeteo-${{ github.run_id }}
+          restore-keys: openmeteo-
+      - name: Download rain (skipped when the tables are already in the repo)
+        run: |
+          if [ ! -f data/train/era5_daily_2007_2017.json ] || [ ! -f data/train/era5_daily_external.json ]; then
+            cd python && python -u -m pahaadpath fetch-train
+          fi
+      - uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: data/cache
+          key: openmeteo-${{ github.run_id }}
+      - name: Train and validate
+        run: cd python && python -u -m pahaadpath train | tee -a $GITHUB_STEP_SUMMARY
+      - name: Commit results
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898299+github-actions[bot]@users.noreply.github.com'
+          git add data/train data/model
+          git diff --cached --quiet && exit 0
+          # a newer push will run its own training; never overwrite its results with this older commit's
+          git fetch -q origin "${GITHUB_REF_NAME}"
+          if [ "$(git rev-parse FETCH_HEAD)" != "${GITHUB_SHA}" ]; then echo 'Branch moved on since this run started; not committing.'; exit 0; fi
+          git commit -m "Model data and v5 training results from CI run ${{ github.run_id }}"
+          for i in 1 2 3 4; do git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0; sleep $((i*5)); done
+          exit 1

@@ -1,0 +1,102 @@
+ch0vkj0vks0
+P.M.G.S.Y.
+S. No. Name of Road KM
+No
+Road
+Closed at
+Expected
+Time of
+Open
+Time Lapsed Status Initial Cost
+(₹ Lacs)
+Restoration
+Cost (₹ Lacs)
+Division District Road
+Type
+1 starting from its junction with NH -74 near
+kashipur connecting Ramnager Dhumakot
+Thalisain Tripalisain Pabo and Terminating at
+NH 119 near Bubakhal National Highway [5719]
+137 , 179
+2026-08-19
+08:06
+2026-08-19
+09:06
+2 hours 26
+mins
+Closed 0.25 0.25 NH Div Dhumakot Pauri NH
+2 starting from its junction with NH -74 near
+Sitarganj connecting Khatima -Tanakpur and
+terminating at Pithoragarh national Highway :
+Tanakpur Pithoragarh [10249]
+292 , 295 ,
+2026-08-18
+07:18
+2026-08-19
+14:02
+1 days 6 hours
+43 mins
+Closed 0.00 -0.02 BRO Pithoragarh NH
+3 Nyu Sobla Tedang motor road [10072] 2 , 5 ,
+2026-08-19
+07:11
+2026-08-19
+10:11
+3 hours 22
+mins
+Closed 0.00 -0.02 BRO Pithoragarh SH
+4 Tawaghat Sobla motor road [10070] 1 , 2 ,
+2026-08-19
+07:10
+2026-08-19
+10:10
+3 hours 22
+mins
+Closed 0.00 0.00 BRO Pithoragarh SH
+State PWD SRMD Report 19-08-2026 (Morning)
+S. No. Name of Road KM
+No
+Road
+Closed at
+Expected
+Time of
+Open
+Time Lapsed Status Initial Cost
+(₹ Lacs)
+Restoration
+Cost (₹ Lacs)
+Division District Road
+Type
+16 Swatantrta Sangram Senani Shaheed Budhi
+Singh Panwar Lisa factory Gopeshwar
+Dewerkhadora motor road [5956]
+3 2026-08-15
+08:27
+2026-08-20
+14:27
+5 days 6 hours Closed 25.00 200.00 PD Gopeshwar Chamoli MDR
+17 Naraya Lorli Astad Mangroli Chakrata motor
+road [4130]
+1 , 3 ,
+2026-08-19
+10:31
+2026-08-19
+12:31
+2 hours Closed 4.81 9.40 TD Sahiya Dehradun VR
+140 Didihat Adichaura PWD Road to Sinni motor
+road [9217]
+6 , 7
+2026-08-18
+07:11
+2026-08-19
+17:11
+1 days 9 hours
+59 mins
+Closed 3.37 161.00 PMGSY Pithoragarh VR
+141 Jakhol Liwadi motor road [8760] 4 2026-08-17
+15:30
+2026-08-19
+05:30
+1 days 19 hours
+3 mins
+Closed 0.20 1.00 PMGSY VR

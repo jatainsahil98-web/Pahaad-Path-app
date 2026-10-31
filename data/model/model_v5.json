@@ -1,0 +1,583 @@
+{
+ "intercept": -13.77582676948772,
+ "coef": [
+  0.1043073720741832,
+  0.9216637156764912,
+  0.3754081126634822,
+  0.06098428453207165,
+  -0.033598554250286225,
+  1.36944483573097
+ ],
+ "bands": {
+  "z0": -7.235261584261731,
+  "zc": -5.027453754031412,
+  "za": -4.152091893183935,
+  "zspan": 1.5640568916591038
+ },
+ "version": 5,
+ "features": [
+  "log_r1",
+  "log_r3",
+  "log_a7",
+  "log_a30",
+  "slope",
+  "log_hist"
+ ],
+ "trained": "2026-10-31",
+ "data": {
+  "rain": "ERA5 reanalysis via archive-api.open-meteo.com (CC BY 4.0), daily precipitation_sum, IST days",
+  "labels": "NASA Global Landslide Catalog 2007 to 2017, events located to 10 km or better within their accuracy circle (at least 3 km) of a hill road",
+  "years": [
+   2007,
+   2008,
+   2009,
+   2010,
+   2011,
+   2012,
+   2013,
+   2014,
+   2015,
+   2016,
+   2017
+  ],
+  "stretch_days": 58766,
+  "positives": 147,
+  "season": "1 June to 30 September"
+ },
+ "hist": {
+  "mohand-dehradun": 2,
+  "dehradun-mussoorie": 4,
+  "mussoorie-dhanaulti": 4,
+  "dhanaulti-chamba": 0,
+  "chamba-tehri": 0,
+  "vikasnagar-chakrata": 1,
+  "dehradun-purola": 6,
+  "purola-barkot": 1,
+  "barkot-janki": 2,
+  "rishikesh-chamba": 2,
+  "chamba-uttarkashi": 9,
+  "uttarkashi-bhatwari": 15,
+  "bhatwari-harsil": 8,
+  "harsil-gangotri": 1,
+  "rishikesh-devprayag": 4,
+  "devprayag-srinagar": 1,
+  "srinagar-rudraprayag": 8,
+  "rudraprayag-karnaprayag": 7,
+  "karnaprayag-chamoli": 8,
+  "chamoli-joshimath": 5,
+  "joshimath-govindghat": 6,
+  "govindghat-badrinath": 5,
+  "joshimath-auli": 2,
+  "rudraprayag-guptkashi": 5,
+  "guptkashi-sonprayag": 1,
+  "sonprayag-gaurikund": 3,
+  "srinagar-pauri": 0,
+  "pauri-kotdwar": 0,
+  "kotdwar-lansdowne": 0,
+  "karnaprayag-gwaldam": 2,
+  "gwaldam-kausani": 0,
+  "kathgodam-bhimtal": 2,
+  "bhimtal-nainital": 6,
+  "kathgodam-nainital": 6,
+  "kathgodam-bhowali": 2,
+  "bhowali-nainital": 6,
+  "bhowali-kainchi": 4,
+  "kainchi-almora": 5,
+  "almora-ranikhet": 3,
+  "ranikhet-ramnagar": 0,
+  "almora-kausani": 3,
+  "kausani-bageshwar": 1,
+  "almora-pithoragarh": 8,
+  "pithoragarh-munsiyari": 8
+ },
+ "cv": {
+  "years": [
+   2009,
+   2010,
+   2011,
+   2012,
+   2013,
+   2014,
+   2015,
+   2016
+  ],
+  "positives": 147,
+  "ordinary_days": 42515,
+  "per_year": [
+   {
+    "year": 2009,
+    "positives": 2,
+    "days": 5364,
+    "v5_avoid": 1,
+    "v5_caution_up": 2,
+    "v4_avoid": 0,
+    "v4_caution_up": 1
+   },
+   {
+    "year": 2010,
+    "positives": 42,
+    "days": 5287,
+    "v5_avoid": 9,
+    "v5_caution_up": 27,
+    "v4_avoid": 5,
+    "v4_caution_up": 24
+   },
+   {
+    "year": 2011,
+    "positives": 10,
+    "days": 5348,
+    "v5_avoid": 0,
+    "v5_caution_up": 2,
+    "v4_avoid": 0,
+    "v4_caution_up": 0
+   },
+   {
+    "year": 2012,
+    "positives": 11,
+    "days": 5346,
+    "v5_avoid": 0,
+    "v5_caution_up": 2,
+    "v4_avoid": 0,
+    "v4_caution_up": 0
+   },
+   {
+    "year": 2013,
+    "positives": 46,
+    "days": 5285,
+    "v5_avoid": 6,
+    "v5_caution_up": 18,
+    "v4_avoid": 3,
+    "v4_caution_up": 9
+   },
+   {
+    "year": 2014,
+    "positives": 7,
+    "days": 5354,
+    "v5_avoid": 0,
+    "v5_caution_up": 4,
+    "v4_avoid": 0,
+    "v4_caution_up": 2
+   },
+   {
+    "year": 2015,
+    "positives": 18,
+    "days": 5332,
+    "v5_avoid": 1,
+    "v5_caution_up": 6,
+    "v4_avoid": 0,
+    "v4_caution_up": 1
+   },
+   {
+    "year": 2016,
+    "positives": 11,
+    "days": 5346,
+    "v5_avoid": 2,
+    "v5_caution_up": 6,
+    "v4_avoid": 4,
+    "v4_caution_up": 6
+   }
+  ],
+  "auc": {
+   "v5": 0.8062202935978579,
+   "v4": 0.8154040070691336
+  },
+  "v5": {
+   "avoid_hit": 0.1292517006802721,
+   "caution_hit": 0.4557823129251701,
+   "avoid_false": 0.026061390097612606,
+   "caution_false": 0.10142302716688227
+  },
+  "v4": {
+   "avoid_hit": 0.08163265306122448,
+   "caution_hit": 0.2925170068027211,
+   "avoid_false": 0.005809714218511113,
+   "caution_false": 0.041608843937433845
+  },
+  "memory": [
+   {
+    "days": 0,
+    "caution_hit": 0.4557823129251701,
+    "caution_false": 0.10142302716688227
+   },
+   {
+    "days": 3,
+    "caution_hit": 0.4557823129251701,
+    "caution_false": 0.1073973891567682
+   },
+   {
+    "days": 5,
+    "caution_hit": 0.47619047619047616,
+    "caution_false": 0.11381865224038575
+   },
+   {
+    "days": 7,
+    "caution_hit": 0.5034013605442177,
+    "caution_false": 0.11953428201811125
+   }
+  ],
+  "memory_days": 7,
+  "same_alarm_rate": [
+   {
+    "band": "Caution",
+    "rate": 0.041608843937433845,
+    "v5_hit": 0.1836734693877551,
+    "v4_hit": 0.2925170068027211
+   },
+   {
+    "band": "Avoid",
+    "rate": 0.005809714218511113,
+    "v5_hit": 0.027210884353741496,
+    "v4_hit": 0.08163265306122448
+   }
+  ]
+ },
+ "memory_days": 7,
+ "checks": [
+  {
+   "in": [
+    3.9,
+    85.7,
+    285.8,
+    564.9,
+    35.2,
+    8
+   ],
+   "score": 69
+  },
+  {
+   "in": [
+    25.5,
+    162.1,
+    44.5,
+    400.8,
+    36.7,
+    8
+   ],
+   "score": 70
+  },
+  {
+   "in": [
+    73.0,
+    151.7,
+    147.3,
+    549.6,
+    9.8,
+    2
+   ],
+   "score": 44
+  },
+  {
+   "in": [
+    106.0,
+    179.4,
+    226.9,
+    745.0,
+    31.9,
+    4
+   ],
+   "score": 72
+  },
+  {
+   "in": [
+    76.9,
+    181.2,
+    156.8,
+    655.0,
+    37.9,
+    4
+   ],
+   "score": 67
+  },
+  {
+   "in": [
+    106.0,
+    179.4,
+    226.9,
+    745.0,
+    35.6,
+    6
+   ],
+   "score": 82
+  },
+  {
+   "in": [
+    0,
+    0.1,
+    5.6,
+    28.6,
+    9.8,
+    2
+   ],
+   "score": 0
+  },
+  {
+   "in": [
+    5.5,
+    9.6,
+    53.2,
+    220.9,
+    30.7,
+    2
+   ],
+   "score": 0
+  },
+  {
+   "in": [
+    0.3,
+    11.3,
+    63.2,
+    261.5,
+    39.4,
+    1
+   ],
+   "score": 0
+  },
+  {
+   "in": [
+    0.2,
+    0.2,
+    0.1,
+    15.2,
+    35,
+    1
+   ],
+   "score": 0
+  },
+  {
+   "in": [
+    14.6,
+    83.8,
+    371.5,
+    489.8,
+    36.9,
+    1
+   ],
+   "score": 21
+  },
+  {
+   "in": [
+    46.0,
+    66.2,
+    298.5,
+    450.5,
+    27.8,
+    3
+   ],
+   "score": 34
+  },
+  {
+   "in": [
+    1.3,
+    4.4,
+    145.8,
+    101.0,
+    28.8,
+    2
+   ],
+   "score": 0
+  },
+  {
+   "in": [
+    1.2,
+    12.0,
+    39.4,
+    176.2,
+    39.4,
+    5
+   ],
+   "score": 0
+  },
+  {
+   "in": [
+    13.3,
+    115.1,
+    351.6,
+    389.1,
+    41.3,
+    8
+   ],
+   "score": 78
+  },
+  {
+   "in": [
+    46.0,
+    100.1,
+    26.3,
+    132.0,
+    30.7,
+    0
+   ],
+   "score": 0
+  },
+  {
+   "in": [
+    7.0,
+    24.0,
+    78.1,
+    115.1,
+    35,
+    5
+   ],
+   "score": 16
+  },
+  {
+   "in": [
+    2.6,
+    29.1,
+    130.9,
+    181.7,
+    28.6,
+    0
+   ],
+   "score": 0
+  },
+  {
+   "in": [
+    3.0,
+    4.6,
+    13.1,
+    32.5,
+    37.1,
+    5
+   ],
+   "score": 0
+  },
+  {
+   "in": [
+    21.2,
+    56.8,
+    132.5,
+    503.3,
+    36.3,
+    2
+   ],
+   "score": 19
+  }
+ ],
+ "note": "Scores rank stretch-days by how much they look like days with a reported landslide. The catalog only has landslides that made the news, so this is not a probability.",
+ "external": {
+  "events": [
+   {
+    "date": "2025-08-20",
+    "control": false,
+    "closed": [
+     "barkot-janki",
+     "bhatwari-harsil",
+     "chamba-uttarkashi",
+     "harsil-gangotri",
+     "uttarkashi-bhatwari"
+    ],
+    "v5": {
+     "named": 5,
+     "avoid": 0,
+     "caution_up": 2,
+     "other_avoid": 0
+    },
+    "v5_no_memory": {
+     "named": 5,
+     "avoid": 0,
+     "caution_up": 2,
+     "other_avoid": 0
+    },
+    "v4": {
+     "named": 5,
+     "avoid": 0,
+     "caution_up": 0,
+     "other_avoid": 0
+    }
+   },
+   {
+    "date": "2026-07-09",
+    "control": false,
+    "closed": [
+     "barkot-janki",
+     "chamba-uttarkashi",
+     "sonprayag-gaurikund",
+     "srinagar-rudraprayag"
+    ],
+    "v5": {
+     "named": 4,
+     "avoid": 1,
+     "caution_up": 2,
+     "other_avoid": 1
+    },
+    "v5_no_memory": {
+     "named": 4,
+     "avoid": 1,
+     "caution_up": 2,
+     "other_avoid": 1
+    },
+    "v4": {
+     "named": 4,
+     "avoid": 0,
+     "caution_up": 1,
+     "other_avoid": 0
+    }
+   },
+   {
+    "date": "2025-11-12",
+    "control": true,
+    "closed": [],
+    "v5": {
+     "named": 0,
+     "avoid": 0,
+     "caution_up": 0,
+     "other_avoid": 0
+    },
+    "v5_no_memory": {
+     "named": 0,
+     "avoid": 0,
+     "caution_up": 0,
+     "other_avoid": 0
+    },
+    "v4": {
+     "named": 0,
+     "avoid": 0,
+     "caution_up": 0,
+     "other_avoid": 0
+    }
+   },
+   {
+    "date": "2025-12-10",
+    "control": true,
+    "closed": [],
+    "v5": {
+     "named": 0,
+     "avoid": 0,
+     "caution_up": 0,
+     "other_avoid": 0
+    },
+    "v5_no_memory": {
+     "named": 0,
+     "avoid": 0,
+     "caution_up": 0,
+     "other_avoid": 0
+    },
+    "v4": {
+     "named": 0,
+     "avoid": 0,
+     "caution_up": 0,
+     "other_avoid": 0
+    }
+   }
+  ],
+  "season2025": {
+   "v5": [
+    4953,
+    353,
+    62
+   ],
+   "v5_no_memory": [
+    4987,
+    319,
+    62
+   ],
+   "v4": [
+    5306,
+    61,
+    1
+   ],
+   "days": 122
+  }
+ }
+}

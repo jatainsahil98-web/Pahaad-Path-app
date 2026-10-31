@@ -1,0 +1,29 @@
+{"note":"Closures named in news reports, mapped by hand to PahaadPath road links. Edit the link field if a place is mapped to the wrong stretch.",
+"events":[
+ {"id":"2025-08-20","date":"2025-08-20","label":"20 Aug 2025 closure day","control":false,
+  "sources":["All India Radio, 20 Aug 2025 13:22: Uttarakhand gets brief rain respite, yellow alert issued as 150 roads remain blocked (newsonair.gov.in)"],
+  "closures":[
+   {"place":"Nalupani (Gangotri NH)","link":"chamba-uttarkashi","conf":"high"},
+   {"place":"Dharasu (Gangotri NH)","link":"chamba-uttarkashi","conf":"high"},
+   {"place":"Matli (Gangotri NH)","link":"chamba-uttarkashi","conf":"high"},
+   {"place":"Netala (Gangotri NH)","link":"uttarkashi-bhatwari","conf":"high"},
+   {"place":"Dabrani (Gangotri NH)","link":"bhatwari-harsil","conf":"high"},
+   {"place":"Songad (Gangotri NH)","link":"bhatwari-harsil","conf":"high"},
+   {"place":"Harsil (Gangotri NH)","link":"bhatwari-harsil","conf":"medium"},
+   {"place":"Dharali (Gangotri NH)","link":"harsil-gangotri","conf":"high"},
+   {"place":"Junglachatti (Yamunotri NH)","link":"barkot-janki","conf":"high"},
+   {"place":"Kalyani (Yamunotri NH)","link":"barkot-janki","conf":"low: may be on the Dharasu to Barkot section, which is not on our map"}
+  ]},
+ {"id":"2026-07-09","date":"2026-07-09","label":"9 Jul 2026 closure day","control":false,
+  "sources":["Amar Ujala, 9 Jul 2026 14:19: Badrinath and Gangotri highways blocked (amarujala.com)","ETV Bharat Hindi, 9 Jul 2026 15:36: 195 roads closed (etvbharat.com)","ETV Bharat English, 9 Jul 2026 00:10: 71 roads closed, SDRF post on Munkatiya (etvbharat.com)"],
+  "closures":[
+   {"place":"Pharasu slide zone (Badrinath NH)","link":"srinagar-rudraprayag","conf":"medium: Amar Ujala names Chamoli; Pharasu lies near Srinagar"},
+   {"place":"Nalupani (Gangotri NH)","link":"chamba-uttarkashi","conf":"high"},
+   {"place":"Dharasu ghat (Gangotri NH)","link":"chamba-uttarkashi","conf":"high"},
+   {"place":"Nagun (Rishikesh to Gangotri NH 34)","link":"chamba-uttarkashi","conf":"high"},
+   {"place":"Syanachatti (Yamunotri NH, intermittent, reopened by afternoon)","link":"barkot-janki","conf":"high"},
+   {"place":"Munkatiya (Sonprayag to Gaurikund, landslide reported by SDRF)","link":"sonprayag-gaurikund","conf":"medium: route affected, closure not stated"}
+  ]},
+ {"id":"2025-11-12","date":"2025-11-12","label":"Control: 12 Nov 2025 (dry season)","control":true,"sources":["Dry-season control day, no closures assumed"],"closures":[]},
+ {"id":"2025-12-10","date":"2025-12-10","label":"Control: 10 Dec 2025 (dry season)","control":true,"sources":["Dry-season control day, no closures assumed"],"closures":[]}
+]}

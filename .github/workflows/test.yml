@@ -1,0 +1,26 @@
+name: build and test
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Python pipeline tests (engine parity with the app, sync server)
+        run: npm run test:py
+      - run: npm install
+      - run: npx playwright install --with-deps chromium
+      - run: npm run vendor
+      - run: npm run build
+      - name: Built app matches the published copy
+        run: cmp dist/PahaadPath.html index.html && cmp dist/PahaadPath.html PahaadPath.html
+      - run: npm test

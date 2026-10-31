@@ -1,0 +1,35 @@
+name: data pack
+# Every 3 hours: fetch the rain forecast for every road stretch and publish it as one small file on the datapack branch.
+# Phones download it in a moment of signal: https://raw.githubusercontent.com/jatainsahil98-web/Pahaad-Path-app/datapack/pack.json
+on:
+  schedule:
+    - cron: '17 */3 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]  # only main publishes the pack phones use
+    paths: ['python/pahaadpath/pack.py', 'python/pahaadpath/alerts.py', 'python/pahaadpath/closures.py', 'python/pahaadpath/openmeteo.py', 'python/pahaadpath/network.py', '.github/workflows/pack.yml']
+permissions:
+  contents: write
+concurrency:
+  group: datapack
+jobs:
+  pack:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: pdftotext, to read the PWD road closure report
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils || echo 'no pdftotext, so the pack goes out without closures'
+      - run: cd python && python -u -m pahaadpath pack --out ../dist/pack/pack.json
+      - name: Publish on the datapack branch (one commit, replaced each time)
+        run: |
+          cd dist/pack
+          git init -q -b datapack
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898299+github-actions[bot]@users.noreply.github.com'
+          git add pack.json
+          git commit -qm "Data pack $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push -qf "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" datapack

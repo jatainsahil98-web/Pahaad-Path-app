@@ -1,0 +1,41 @@
+name: open data
+# Run by hand: roadside stops (fuel, hospitals, ATMs, mechanics) near each town from OpenStreetMap, committed to the
+# branch it runs on as data/osm_stops.json and baked into the app by the next build. Also prints the NDMA Sachet alerts
+# for Uttarakhand and the roads closed in PWD's latest road closure report as the data pack will carry them.
+# The app build bakes this file in, so rebuild index.html after it changes (CI checks the copies match); for that reason a
+# push only runs it on branches other than main.
+on:
+  workflow_dispatch:
+  push:
+    branches-ignore: [main]
+    paths: ['.github/workflows/opendata.yml', 'python/pahaadpath/stops.py', 'python/pahaadpath/alerts.py', 'python/pahaadpath/closures.py']
+permissions:
+  contents: write
+jobs:
+  opendata:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: cd python && python -u -m pahaadpath stops --out ../data/osm_stops.json
+      - name: Sachet alerts as the data pack will carry them (look only)
+        continue-on-error: true
+        run: cd python && python -u -c "import json; from pahaadpath.alerts import fetch_alerts; print(json.dumps(fetch_alerts(), ensure_ascii=False, indent=1))"
+      - name: PWD road closures as the data pack will carry them (look only; out of season it reads the last report of the season)
+        continue-on-error: true
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
+          cd python && python -u -m pahaadpath closures | tail -30
+          python -u -m pahaadpath closures --at 2026-09-30T20:00+05:30 | tail -30
+      - name: Commit the stops file to this branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898299+github-actions[bot]@users.noreply.github.com'
+          git add data/osm_stops.json
+          git diff --cached --quiet && echo 'no change' && exit 0
+          git commit -qm "OpenStreetMap stops near each town ($(date -u +%Y-%m-%d))"
+          # other workflows (model training) may push to the same branch meanwhile
+          for i in 1 2 3 4; do git pull -q --rebase origin "${GITHUB_REF_NAME}" && git push -q origin "HEAD:${GITHUB_REF_NAME}" && exit 0; sleep $((i*5)); done; exit 1

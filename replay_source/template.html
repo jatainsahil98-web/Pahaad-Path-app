@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PahaadPath closure replay</title>
+<style>
+:root{--bg:#EDEFE8;--surface:#FBFCF9;--ink:#14221C;--muted:#56675E;--line:#D3D9CF;--go:#2E7D4F;--cau:#B7791F;--avo:#B4342D}
+@media (prefers-color-scheme:dark){:root{--bg:#0D1814;--surface:#14231D;--ink:#E6EDE8;--muted:#97AB9F;--line:#263830;--go:#5FBF86;--cau:#E0A84A;--avo:#E8706A}}
+body{background:var(--bg);color:var(--ink);font:14px/1.5 system-ui,sans-serif;margin:0;padding:16px}
+main{max-width:980px;margin:auto}
+h1{font-size:22px;margin:0 0 4px}h2{font-size:16px;margin:24px 0 8px}
+p,li{color:var(--ink)}.muted{color:var(--muted)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:12px 0}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+select,button{font:inherit;padding:6px 10px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink);min-height:36px}
+button{cursor:pointer;background:var(--ink);color:var(--bg);border:0}
+.wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{border-bottom:1px solid var(--line);padding:4px 6px;text-align:left;white-space:nowrap}
+th{font-weight:600;color:var(--muted)}
+.b0{color:var(--go)}.b1{color:var(--cau)}.b2{color:var(--avo);font-weight:700}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px}
+.kpi div{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.kpi b{display:block;font-size:20px}
+#err{color:var(--avo)}
+</style></head><body><main>
+<h1>PahaadPath closure replay</h1>
+<p class="muted">Runs the prototype's own landslide engine (copied unchanged from PahaadPath_prototype.html) on recorded Open-Meteo rain for days when hill roads closed, then compares Avoid stretches with closures named in the news. Needs an internet connection. No fresh reports are used, so only rain, slope class and incident history drive the score. Slope and incident values are still the demo placeholders.</p>
+<div class="card">
+ <div class="row">
+  <label>Day <select id="ev"></select></label>
+  <label>Rain source <select id="src">
+   <option value="archive">Recorded rain (reanalysis, no lead time)</option>
+   <option value="prev1">Forecast issued 1 day before</option>
+   <option value="prev2">Forecast issued 2 days before</option>
+  </select></label>
+  <button id="go">Run replay</button>
+  <button id="all">Run every day and source</button>
+  <button id="dl">Download results (JSON)</button>
+ </div>
+ <p id="status" class="muted"></p><p id="err"></p>
+</div>
+<div id="out"></div>
+<h2>How to read the numbers</h2>
+<ul>
+ <li><b>Hit rate</b>: stretches with a named closure that the engine scored Avoid (65 or more) at any hour from 00:00 to 23:00 IST on that day, divided by all stretches with a named closure.</li>
+ <li><b>Avoid with no named closure</b>: news counts (about 150 roads on 20 Aug 2025, 195 on 9 Jul 2026) include many link roads that are not named and not on our map. So these flags are an upper bound on false alarms, not a false-alarm ratio.</li>
+ <li><b>Control days</b> are dry-season days. Any Avoid there is a false alarm.</li>
+ <li>Recorded rain is a gridded reanalysis at each link's midpoint. It shows whether the threshold logic would have fired with good rain data. The "issued 1 or 2 days before" sources test real lead time.</li>
+</ul>
+<script>
+/*__ENGINE__*/
+const GT=/*__GT__*/;
+const API={archive:{host:'https://archive-api.open-meteo.com/v1/archive',v:'precipitation'},
+ prev1:{host:'https://previous-runs-api.open-meteo.com/v1/forecast',v:'precipitation_previous_day1'},
+ prev2:{host:'https://previous-runs-api.open-meteo.com/v1/forecast',v:'precipitation_previous_day2'}};
+const HILL=EDGES.filter(e=>!e.plain);
+const key=e=>e.cLat.toFixed(2)+','+e.cLon.toFixed(2);
+const $=id=>document.getElementById(id);
+const ALL={};
+GT.events.forEach((ev,i)=>{const o=document.createElement('option');o.value=i;o.textContent=ev.label;$('ev').appendChild(o);});
+function addDays(s,n){const d=new Date(s+'T00:00:00Z');d.setUTCDate(d.getUTCDate()+n);return d.toISOString().slice(0,10);}
+async function fetchRain(date,src){
+  const a=API[src],keys=[...new Set(HILL.map(key))];
+  const url=a.host+'?latitude='+keys.map(k=>k.split(',')[0]).join(',')+'&longitude='+keys.map(k=>k.split(',')[1]).join(',')+
+    '&hourly='+a.v+'&start_date='+addDays(date,-3)+'&end_date='+date+'&timezone=Asia%2FKolkata';
+  const res=await fetch(url);if(!res.ok)throw new Error('Open-Meteo answered '+res.status+' for '+src+' '+date+': '+(await res.text()).slice(0,200));
+  let js=await res.json();if(!Array.isArray(js))js=[js];
+  if(js.length!==keys.length)throw new Error('unexpected reply shape');
+  const by={};let nulls=0,total=0;
+  keys.forEach((k,i)=>{
+    const h=js[i].hourly,t0=h.time.indexOf(date+'T00:00');if(t0<0)throw new Error('day not in reply');
+    const arr=new Array(SERIES_LEN).fill(0);
+    for(let j=-PAST;j<24;j++){const v=h[a.v][t0+j];total++;if(v==null)nulls++;arr[j+PAST]=v==null?0:v;}
+    by[k]=arr;
+  });
+  return {by,nulls,total,url};
+}
+function score(date,by){
+  const series={};EDGES.forEach(e=>{series[e.id]=e.plain?new Array(SERIES_LEN).fill(0):by[key(e)];});
+  const nowMs=Date.parse(date+'T00:00:00+05:30');
+  const c={series,reports:[],nowMs,hour0:nowMs};
+  return HILL.map(e=>{
+    let best=null;
+    for(let a=0;a<=23;a++){const r=segScore(e,a,c);if(!best||r.score>best.score)best=Object.assign({hour:a},r);}
+    return {id:e.id,a:N[e.a].en,b:N[e.b].en,km:e.km,susc:e.susc,hist:e.hist,score:best.score,band:lvl(best.score),hour:best.hour,
+      P6:+best.P6.toFixed(1),P24:+best.P24.toFixed(1),P72:+best.P72.toFixed(1),ratio:+best.ratio.toFixed(2)};
+  });
+}
+function metrics(ev,rows){
+  const closed=new Set(ev.closures.map(c=>c.link));
+  const named=rows.filter(r=>closed.has(r.id)),others=rows.filter(r=>!closed.has(r.id));
+  const hit=named.filter(r=>r.band===2).length,hitC=named.filter(r=>r.band>=1).length;
+  return {named:named.length,hit,hitCaution:hitC,hitRate:named.length?hit/named.length:null,hitRateCaution:named.length?hitC/named.length:null,
+    avoidTotal:rows.filter(r=>r.band===2).length,avoidUnnamed:others.filter(r=>r.band===2).length,cautionUnnamed:others.filter(r=>r.band===1).length,links:rows.length};
+}
+const pct=x=>x==null?'n/a':Math.round(100*x)+'%';
+function render(ev,src,res){
+  const m=res.metrics,closed={};ev.closures.forEach(c=>{(closed[c.link]=closed[c.link]||[]).push(c.place);});
+  const rows=res.rows.slice().sort((x,y)=>(closed[y.id]?1:0)-(closed[x.id]?1:0)||y.score-x.score);
+  const BN=['Go','Caution','Avoid'];
+  let h='<h2>'+ev.label+': '+$('src').options[[...$('src').options].findIndex(o=>o.value===src)].text+'</h2>';
+  h+='<div class="kpi">'+(ev.control?'':'<div>Hit rate (Avoid)<b>'+m.hit+' of '+m.named+' ('+pct(m.hitRate)+')</b></div><div>Caution or worse on named closures<b>'+m.hitCaution+' of '+m.named+'</b></div>')+
+   '<div>Avoid'+(ev.control?' (false alarms)':' with no named closure')+'<b>'+(ev.control?m.avoidTotal:m.avoidUnnamed)+' of '+(m.links-m.named)+'</b></div><div>Rain values missing<b>'+res.nulls+' of '+res.total+'</b></div></div>';
+  h+='<div class="card wrap"><table><tr><th>Stretch</th><th>Named closure</th><th>Peak score</th><th>Band</th><th>At (IST)</th><th>6 h mm</th><th>24 h mm</th><th>72 h mm</th><th>Rain ÷ trigger</th><th>Slope, incidents (demo)</th></tr>';
+  rows.forEach(r=>{h+='<tr><td>'+r.a+' to '+r.b+'</td><td>'+(closed[r.id]?closed[r.id].join('; '):'')+'</td><td>'+r.score+'</td><td class="b'+r.band+'">'+BN[r.band]+'</td><td>'+String(r.hour).padStart(2,'0')+':00</td><td>'+r.P6+'</td><td>'+r.P24+'</td><td>'+r.P72+'</td><td>'+r.ratio+'</td><td>'+r.susc+', '+r.hist+'</td></tr>';});
+  h+='</table></div><p class="muted">Sources for the closures: '+ev.sources.join('; ')+'</p>';
+  return h;
+}
+async function run(i,src){
+  const ev=GT.events[i];
+  $('status').textContent='Fetching rain for '+ev.label+' ('+src+')...';
+  const r=await fetchRain(ev.date,src),rows=score(ev.date,r.by);
+  const res={event:ev.id,date:ev.date,source:src,url:r.url,nulls:r.nulls,total:r.total,rows,metrics:metrics(ev,rows),ranAt:new Date().toISOString()};
+  ALL[ev.id+'/'+src]=res;return res;
+}
+$('go').onclick=async()=>{$('err').textContent='';try{const i=+$('ev').value,src=$('src').value,res=await run(i,src);$('out').innerHTML=render(GT.events[i],src,res);$('status').textContent='Done.';}catch(e){$('err').textContent=String(e.message||e);$('status').textContent='';}};
+$('all').onclick=async()=>{$('err').textContent='';let h='',errs=[];
+  for(let i=0;i<GT.events.length;i++)for(const src of Object.keys(API)){try{const res=await run(i,src);h+=render(GT.events[i],src,res);}catch(e){errs.push(String(e.message||e));}}
+  $('out').innerHTML=h;$('status').textContent='Done.';$('err').textContent=errs.join(' | ');};
+$('dl').onclick=()=>{const b=new Blob([JSON.stringify({engine:'PahaadPath_prototype.html',groundTruth:GT,results:ALL},null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='pahaadpath_replay_results.json';a.click();};
+window.REPLAY={run,score,metrics,fetchRain,GT,ALL};
+</script></main></body></html>
