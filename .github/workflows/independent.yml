@@ -1,0 +1,58 @@
+name: independent check
+# Scores the rain-threshold engine and model v6 on other years' dated landslides (NASA Global Landslide Catalog 2007 to
+# 2017 and NASA COOLR 2018 onwards), which neither was fitted on: the held-out-year test the single season of PWD
+# reports cannot give. Writes data/model/independent.json (Proof tab) and INDEPENDENT.md, and rebuilds the app.
+on:
+  workflow_run:
+    workflows: ['backtest']
+    types: [completed]
+  schedule:
+    - cron: '17 21 1 * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: independent
+jobs:
+  independent:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: actions/cache/restore@v4
+        with:
+          path: data/cache
+          key: openmeteo-ind-${{ github.run_id }}
+          restore-keys: |
+            openmeteo-ind-
+            openmeteo-
+      - name: Score other years
+        run: cd python && python -u -m pahaadpath independent | tee -a "$GITHUB_STEP_SUMMARY"
+      - uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: data/cache
+          key: openmeteo-ind-${{ github.run_id }}
+      - name: Rebuild the app with the results
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898299+github-actions[bot]@users.noreply.github.com'
+          git pull -q --rebase --autostash origin main
+          npm ci || npm install
+          npm run build && npm run site
+      - name: Commit to main
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898299+github-actions[bot]@users.noreply.github.com'
+          git add data/model/independent.json data/model/INDEPENDENT.md data/coolr_uttarakhand.json index.html PahaadPath.html sw.js manifest.webmanifest
+          git diff --cached --quiet && { echo 'no change'; exit 0; }
+          git commit -qm "Check on other years ($(date -u +%Y-%m-%d))"
+          for i in 1 2 3 4; do git pull -q --rebase origin main && git push -q origin HEAD:main && exit 0; sleep $((i*5)); done; exit 1

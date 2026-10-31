@@ -38,8 +38,11 @@ function bakedData(demo) {
   out.RP_DAILY = ext ? Object.fromEntries(Object.entries(ext.days).map(([d, v]) => [d, { start: v.start, by: v.by }])) : null;
   const bt = has('data/model/backtest.json') ? json('data/model/backtest.json') : null;
   out.BACKTEST = demo ? null : bt;
+  out.INDEP = !demo && has('data/model/independent.json') ? json('data/model/independent.json') : null;
   const th = has('data/model/thresholds.json') ? json('data/model/thresholds.json') : null;
-  out.THRESH = !demo && th && th.adopted ? { level: th.adopted.level, pooled: th.adopted.pooled, zones: th.adopted.zones } : null;
+  // with model v6 adopted the trip screen plans with v6 (data pack); without it the engine falls back to Caine, not the fitted curves
+  const v6on = has('data/model/model_v6.json') && json('data/model/model_v6.json').adopted;
+  out.THRESH = !demo && !v6on && th && th.adopted ? { level: th.adopted.level, pooled: th.adopted.pooled, zones: th.adopted.zones } : null;
   // GSI NLSM susceptibility per stretch and GSI landslide points near the roads; `use` when the backtest kept the GSI class
   const gsi = has('data/gsi_uttarakhand.json') ? json('data/gsi_uttarakhand.json') : null;
   out.GSI = gsi ? { use: !!(th && th.susc === 'gsi'), st: Object.fromEntries(Object.entries(gsi.stretches).map(([k, v]) =>
@@ -60,6 +63,7 @@ const SLOTS = [
   ['/*__STOPS__*/null', 'STOPS'],
   ['/*__BACKTEST__*/null', 'BACKTEST'],
   ['/*__THRESH__*/null', 'THRESH'],
+  ['/*__INDEP__*/null', 'INDEP'],
   ['/*__GSI__*/null', 'GSI'],
 ];
 

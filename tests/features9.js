@@ -14,6 +14,8 @@ const fails=[];const ok=(c,m)=>{if(!c)fails.push(m);};
 
  // 1. engine: Caine (1980) unless the backtest adopted fitted thresholds (data/model/thresholds.json), then the stretch's zone curve
  const fs=require('fs'),path=require('path');let TH=null;try{TH=JSON.parse(fs.readFileSync(path.join(__dirname,'..','data','model','thresholds.json'),'utf8')).adopted;}catch(e){}
+ let V6ON=false;try{V6ON=!!JSON.parse(fs.readFileSync(path.join(__dirname,'..','data','model','model_v6.json'),'utf8')).adopted;}catch(e){}
+ if(V6ON)TH=null; // v6 plans the trip; the rain-threshold fallback stays on Caine
  const eng=await p.evaluate(()=>PP.EDGES.filter(x=>!x.plain&&!x.virtual).map(e=>{const f=PP.edThr(e);return{susc:e.susc,v:[6,24,72].map(d=>f(d)),c:[6,24,72].map(d=>PP.CAINE(d))};}));
  const want=(x,d)=>{if(!TH)return x.c[[6,24,72].indexOf(d)];const z=(TH.zones&&TH.zones[String(x.susc)])||TH.pooled;return z.alpha*Math.pow(d,z.gamma);};
  ok(eng.every(x=>[6,24,72].every((d,i)=>Math.abs(x.v[i]-want(x,d))<1e-6*Math.max(1,want(x,d)))),'engine thresholds match '+(TH?'the adopted fit':'Caine'));
@@ -50,6 +52,16 @@ const fails=[];const ok=(c,m)=>{if(!c)fails.push(m);};
    PP.st.r24={by,model:'v6: test'};const src=PP.st.src;PP.render();const off=document.getElementById('v6line').hidden;
    PP.st.src='live';PP.render();const el=document.getElementById('v6line');const out={off,on:!el.hidden,txt:el.innerText};PP.st.src=src;PP.st.r24=null;PP.render();return out;});
  ok(v6.off&&v6.on&&/Avoid 71/.test(v6.txt),'v6 line '+JSON.stringify(v6));
+ // 7. trip screen plans with model v6 day scores when the data pack carries them (live forecasts only)
+ const t6=await p.evaluate(()=>{const S=PP.st,keep={src:S.src,v6:S.v6};const d=new Date(Date.now()+5.5*3600e3).toISOString().slice(0,10);
+   const by={};PP.EDGES.forEach(e=>{if(!e.plain&&!e.virtual)by[e.id]=[12,12,12,12,12,12,12,12];});
+   const id=PP.last.cur.rows.find(r=>!r.seg.plain&&!r.seg.virtual).seg.id;by[id]=[88,88,88,88,88,88,88,88];
+   S.v6={by,day0:d,model:'v6: test'};S.src='live';PP.render();
+   const rows=PP.last.cur.rows.filter(r=>!r.seg.plain&&!r.seg.virtual).map(r=>[r.seg.id,r.score]);const why=document.getElementById('verdict').innerText;
+   S.src=keep.src;S.v6=keep.v6;PP.render();return{rows,id,why};});
+ const hit=t6.rows.find(r=>r[0]===t6.id),rest=t6.rows.filter(r=>r[0]!==t6.id);
+ ok(hit&&hit[1]>=88&&rest.every(r=>r[1]>=12&&r[1]<35),'v6 drives the trip scores '+JSON.stringify(t6.rows.slice(0,5)));
+ ok(/checked against PWD closures/.test(t6.why),'verdict says v6 set the score');
  ok(!errs.length,'page errors '+errs.join(' | '));
  await b.close();
  if(fails.length){console.error('FAIL\n'+fails.join('\n'));process.exit(1);}

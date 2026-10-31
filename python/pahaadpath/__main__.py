@@ -9,9 +9,11 @@
   closures      roads closed in the latest PWD road closure report, as the data pack carries them (needs internet, pdftotext)
   inventory     add every PWD report not yet read to the closure inventory (needs internet, pdftotext)
   backtest      score the engine against the closure inventory, fit thresholds, write data/model/ (needs internet)
+  independent   score the engine and model v6 on other years' dated landslides (NASA GLC and COOLR) (needs internet)
 """
 import argparse
 import json
+import os
 import sys
 
 from . import path, read_json, write_json
@@ -45,6 +47,7 @@ def main(argv=None):
     k = sub.add_parser('backtest')
     k.add_argument('--inventory', default='data/truth/inventory.json')
     k.add_argument('--mode', choices=['relaxed', 'strict'], default='relaxed')
+    sub.add_parser('independent')
     a = ap.parse_args(argv)
 
     from .network import Network
@@ -139,6 +142,22 @@ def main(argv=None):
         md = report_md(r) + '\nSusceptibility class: TSS at Caution %s with the DEM slope class, %s with the GSI NLSM class; the engine uses the %s class.\n\n' % (
             ts, tg, 'GSI' if susc == 'gsi' else 'slope') + v6.report_md(r6)
         with open(path('data', 'model', 'BACKTEST.md'), 'w', encoding='utf-8') as f:
+            f.write(md)
+        print(md)
+    elif a.cmd == 'independent':
+        from . import independent
+        from .openmeteo import archive_hourly_vars
+        th = read_json('data', 'model', 'thresholds.json') if os.path.exists(path('data', 'model', 'thresholds.json')) else {}
+        m6p = path('data', 'model', 'model_v6.json')
+        m6 = None
+        if os.path.exists(m6p):
+            with open(m6p, encoding='utf-8') as f:
+                m6 = json.load(f)
+        coolr = independent.fetch_coolr()
+        r = independent.run(Network(susc=th.get('susc') or 'slope'), Network(), m6, archive_hourly_vars, coolr)
+        write_json(independent.summary(r), 'data', 'model', 'independent.json', indent=1)
+        md = independent.report_md(r)
+        with open(path('data', 'model', 'INDEPENDENT.md'), 'w', encoding='utf-8') as f:
             f.write(md)
         print(md)
     elif a.cmd == 'closures':

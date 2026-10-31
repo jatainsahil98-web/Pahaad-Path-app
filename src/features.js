@@ -463,7 +463,7 @@ function renderProof(){
   const psec=['season','replay','method','all'].includes(PSEC)?PSEC:'season'; // all: every section at once (tests, printing)
   let h='<div class="ops-h"><h2>'+t('pr_t2')+'</h2><p class="sub">'+t('pr_s2')+'</p></div>'
    +'<div class="seg" role="tablist">'+['season','replay','method'].map(k=>'<button type="button" role="tab" data-psec="'+k+'" aria-selected="'+(psec===k)+'">'+t('ps_'+k)+'</button>').join('')+'</div>'
-   +'<div class="psec" data-psec-body="season"'+(psec==='season'||psec==='all'?'':' hidden')+'>'+btCard()+'</div>'
+   +'<div class="psec" data-psec-body="season"'+(psec==='season'||psec==='all'?'':' hidden')+'>'+btCard()+indepCard()+'</div>'
    +'<div class="psec" data-psec-body="replay"'+(psec==='replay'||psec==='all'?'':' hidden')+'><p class="sub psub">'+t('pr_s')+'</p>'
    +(RP_BAKED?'<div class="card"><h3>'+t('pr_learn')+'</h3><ul class="ul">'+[1,2,3,4].map(i=>'<li>'+t('pr_l'+i)+'</li>').join('')+'</ul></div>':'')
    +'<div class="card"><div class="row"><label class="fld"><span>'+t('pr_day')+'</span><select id="pr-ev">'+evs.map((e,i)=>'<option value="'+i+'"'+(ev&&ev.id===e.id?' selected':'')+'>'+esc(rpEvLabel(e))+'</option>').join('')+'</select></label>'

@@ -6,8 +6,8 @@ Object.assign(T.en,{
   bt_cau:'At Caution',bt_avo:'At Avoid',bt_ci:'95% range',bt_none:'Not run yet: the backtest runs after the closure collector.',
   bt_kept:'Fitted thresholds are not used: they did not beat Caine by more than its 95% range on held-out days.',
   bt_adopt:'Fitted thresholds are in use: they beat Caine on held-out days by more than its 95% range.',
-  bt_v6:'Model v6',bt_was:'Current engine:',bt_right:'Caution warnings that were right',bt_v6use:'in use for alerts',bt_prec:'Precision',
-  bt_v6k:'Model v6 uses: {g}. It is used for the data pack and phone alerts only when it beats Caine by more than its 95% range on held-out days.',
+  v6_why:'{r} mm rain in 24 h. GSI landslide susceptibility {s}. Model checked against PWD closures (rain, soil moisture, past closures).',in_t:'Checked on other years',in_s:'Monsoons {y}: {n} stretch-days with a landslide reported near the road (NASA Global Landslide Catalog and COOLR). Neither method was fitted on these years.',in_c:'Caught at Caution',in_cf:'Days at Caution',in_a:'Caught at Avoid',in_af:'Days at Avoid',in_10:'Caught when 1 day in 10 is flagged',in_eng:'Rain threshold (Caine, GSI)',in_note:'These catalogues list only landslides that reached the news or a volunteer, so a day without one is not known to be safe. Compare how many reported landslides each method caught, best at the same share of days flagged.',bt_v6:'Model v6',bt_was:'Current engine:',bt_right:'Caution warnings that were right',bt_v6use:'in use',bt_prec:'Precision',
+  bt_v6k:'Model v6 uses: {g}. It plans the trip screen and sends the phone alerts because it beat Caine by more than its 95% range on held-out days. With no data pack (in replays or when offline over 10 days) the app falls back to the Caine threshold.',bt_fitv6:'The fitted thresholds also beat Caine, but model v6 does far better, so v6 is used.',
   g_rain:'rain',g_static:'slope and past landslides',g_peak:'cloudburst intensity',g_soil:'soil moisture',g_season:'92-day rain',g_history:'past PWD closures',g_cold:'freeze-thaw',g_quake:'earthquakes',
   mem_note:'Very heavy rain here {w}: debris may still block the road. Ask locally and check road reports.',mem_1:'yesterday',mem_n:'{n} days ago',
   via_pack:' (from the PahaadPath data pack)',
@@ -26,8 +26,8 @@ Object.assign(T.hi,{
   bt_cau:'सावधानी पर',bt_avo:'बचें पर',bt_ci:'95% दायरा',bt_none:'अभी नहीं चला: बंदी संग्रह के बाद यह जाँच चलती है।',
   bt_kept:'निकाली गई सीमा उपयोग में नहीं: अलग रखे दिनों पर यह Caine से उसके 95% दायरे से अधिक बेहतर नहीं रही।',
   bt_adopt:'निकाली गई सीमा उपयोग में है: अलग रखे दिनों पर यह Caine से उसके 95% दायरे से अधिक बेहतर रही।',
-  bt_v6:'मॉडल v6',bt_was:'मौजूदा इंजन:',bt_right:'सही निकलीं सावधानी चेतावनियाँ',bt_v6use:'चेतावनियों में उपयोग',bt_prec:'सटीकता',
-  bt_v6k:'मॉडल v6 इनका उपयोग करता है: {g}। अलग रखे दिनों पर Caine से उसके 95% दायरे से अधिक बेहतर होने पर ही यह डेटा पैक और फ़ोन चेतावनियों में लगता है।',
+  v6_why:'24 घंटे में {r} मिमी बारिश। GSI भूस्खलन संवेदनशीलता {s}। PWD बंदियों से जाँचा मॉडल (बारिश, मिट्टी की नमी, पुरानी बंदियाँ)।',in_t:'दूसरे वर्षों पर जाँच',in_s:'मानसून {y}: सड़क के पास दर्ज भूस्खलन वाले {n} हिस्सा-दिन (NASA Global Landslide Catalog और COOLR)। दोनों में से कोई भी तरीका इन वर्षों पर नहीं बना।',in_c:'सावधानी पर पकड़े',in_cf:'सावधानी वाले दिन',in_a:'बचें पर पकड़े',in_af:'बचें वाले दिन',in_10:'10 में 1 दिन चेताने पर पकड़े',in_eng:'बारिश सीमा (Caine, GSI)',in_note:'इन सूचियों में केवल वे भूस्खलन हैं जो ख़बरों या स्वयंसेवकों तक पहुँचे, इसलिए बिना भूस्खलन वाला दिन सुरक्षित माना नहीं जा सकता। देखें कि हर तरीके ने कितने दर्ज भूस्खलन पकड़े, ख़ासकर बराबर दिनों पर चेतावनी देने पर।',bt_v6:'मॉडल v6',bt_was:'मौजूदा इंजन:',bt_right:'सही निकलीं सावधानी चेतावनियाँ',bt_v6use:'उपयोग में',bt_prec:'सटीकता',
+  bt_v6k:'मॉडल v6 इनका उपयोग करता है: {g}। अलग रखे दिनों पर यह Caine से उसके 95% दायरे से अधिक बेहतर रहा, इसलिए यात्रा योजना और फ़ोन चेतावनियाँ इसी से बनती हैं। डेटा पैक न हो (रीप्ले में या 10 दिन से अधिक ऑफ़लाइन) तो ऐप Caine सीमा पर लौट आता है।',bt_fitv6:'निकाली गई सीमा भी Caine से बेहतर रही, पर मॉडल v6 कहीं बेहतर है, इसलिए v6 उपयोग में है।',
   g_rain:'बारिश',g_static:'ढलान और पुराने भूस्खलन',g_peak:'बादल फटने जैसी तीव्रता',g_soil:'मिट्टी की नमी',g_season:'92 दिन की बारिश',g_history:'PWD की पुरानी बंदियाँ',g_cold:'जमना-पिघलना',g_quake:'भूकंप',
   mem_note:'यहाँ {w} बहुत भारी बारिश हुई: मलबा अब भी सड़क रोक सकता है। स्थानीय लोगों से पूछें और सड़क रिपोर्ट देखें।',mem_1:'कल',mem_n:'{n} दिन पहले',
   via_pack:' (पहाड़ पथ डेटा पैक से)',
@@ -46,11 +46,21 @@ const MODEL=/*__MODEL__*/null;
    thresholds the engine uses, null unless the backtest adopted them (data/model/thresholds.json) */
 const BACKTEST=/*__BACKTEST__*/null;
 const THRESH=/*__THRESH__*/null;
+/* the engine and model v6 on other years' dated landslides (NASA catalogues), data/model/independent.json */
+const INDEP=/*__INDEP__*/null;
 /* daily rain for the 30 days before each replayed closure day (ERA5), so the Proof tab can use the model's rain memory */
 const RP_DAILY=/*__RP_DAILY__*/null;
 const CACHE_MAX_H=10*24; // a saved forecast is used offline for up to 10 days, with its age on screen
 /* v4 stays the default: on the 2007 to 2017 check (data/model/REPORT.md) the trained model did not beat it at the same alarm rate */
 st.engine=MODEL?lsGet('pp_engine','v4'):'v4';
+/* model v6 day score (0-100) for a hill stretch driven at hour a, or null: the data pack carries today and 7 days ahead */
+function v6Day(seg,a,c){
+  const V=c&&c.v6;if(!V||seg.plain||seg.virtual)return null;
+  const row=V.by[seg.id];if(!row)return null;
+  const d0=parseDate(V.day0);if(d0==null)return null;
+  const i=dayOf(c.hour0+a*3600e3)-d0;
+  return i>=0&&i<row.length&&row[i]!=null?row[i]:null;
+}
 function modelOn(){return !!MODEL&&st.engine==='v5';}
 /* must match features() in python/pahaadpath/dataset.py and score() in model.py */
 function modelFeatures(r1,r3,a7,a30,slope,n){return[Math.log1p(r1),Math.log1p(r3),Math.log1p(a7),Math.log1p(a30),((slope==null?34:slope)-34)/5,Math.log1p(n)];}
@@ -130,7 +140,7 @@ async function fetchPack(){
     Object.keys(p.daily).forEach(k=>{daily[k]=p.daily[k].map(v=>v/10);});
     if(!EDGES.every(e=>e.virtual||by[locKey(e)]))throw new Error('pack places');
     const made=Date.parse(p.made);
-    return{by,daily,day0:p.day0,ts:st.hour0,made:made>0&&made<=Date.now()?made:h0,via:'pack',alerts:Array.isArray(p.alerts)?p.alerts:null,r24:p.risk24&&/^v6/.test(p.risk24_model||'')?{by:p.risk24,model:p.risk24_model,made:made>0?made:h0}:null,closures:p.closures&&Array.isArray(p.closures.roads)?p.closures:null}; // made: when the pack's forecast was fetched, shown as its age
+    return{by,daily,day0:p.day0,ts:st.hour0,made:made>0&&made<=Date.now()?made:h0,via:'pack',alerts:Array.isArray(p.alerts)?p.alerts:null,v6:p.v6&&p.v6.by&&p.v6.day0?{by:p.v6.by,day0:p.v6.day0,model:p.v6.model}:null,r24:p.risk24&&/^v6/.test(p.risk24_model||'')?{by:p.risk24,model:p.risk24_model,made:made>0?made:h0}:null,closures:p.closures&&Array.isArray(p.closures.roads)?p.closures:null}; // made: when the pack's forecast was fetched, shown as its age
   }finally{clearTimeout(to);}
 }
 async function fetchDaily(){
@@ -182,6 +192,14 @@ async function shareApp(){
 document.addEventListener('click',e=>{if(e.target.closest('#a-app'))shareApp();});
 
 /* ---------- Proof: the season backtest (data/model/backtest.json) ---------- */
+function indepCard(){
+  const I=INDEP;if(!I||!I.engine)return '';
+  const p=v=>v==null?'—':Math.round(v*100)+'%';
+  const row=(name,m)=>m?'<tr><th>'+esc(name)+'</th><td>'+p(m.caution.pod)+'</td><td>'+p(m.caution.alarm_rate)+'</td><td>'+p(m.avoid.pod)+'</td><td>'+p(m.avoid.alarm_rate)+'</td><td>'+p(m.pod_at_10pct)+'</td></tr>':'';
+  return '<div class="card"><h3>'+t('in_t')+'</h3><p class="sub">'+esc(fill(t('in_s'),{y:(I.seasons||[]).join(', '),n:I.events}))+'</p>'
+    +'<div class="wrap"><table class="tb"><tr><th></th><th>'+t('in_c')+'</th><th>'+t('in_cf')+'</th><th>'+t('in_a')+'</th><th>'+t('in_af')+'</th><th>'+t('in_10')+'</th></tr>'
+    +row(t('in_eng'),I.engine)+row(t('bt_v6'),I.v6)+'</table></div><p class="note">'+t('in_note')+'</p></div>';
+}
 function btCard(){
   const B=BACKTEST;
   if(!B||!B.caine)return '<div class="card"><h3>'+t('bt_t')+'</h3><p class="note">'+t('bt_none')+'</p></div>';
@@ -198,9 +216,9 @@ function btCard(){
     +(V6&&B.v6.adopted?'':'<div class="kp"><small>'+t('bt_lead')+'</small><b>'+(c.lead_median_h==null?'—':Math.round(c.lead_median_h)+' h')+'</b><em>&nbsp;</em></div>')+'</div>'
     +'<div class="wrap"><table class="tb"><tr><th></th><th colspan="3">'+t('bt_cau')+'</th><th colspan="3">'+t('bt_avo')+'</th></tr>'
     +'<tr><th></th>'+[0,1].map(()=>'<th>'+t('bt_pod')+'</th><th>'+t('bt_far')+'</th><th>TSS</th>').join('')+'</tr>'
-    +col(t('bt_caine'),c,!B.adopted)+(B.fit?col(fill(t('bt_fit'),{l:B.fit.level}),B.fit.metrics,B.adopted):'')
+    +col(t('bt_caine'),c,!B.adopted&&!(V6&&B.v6.adopted))+(B.fit?col(fill(t('bt_fit'),{l:B.fit.level}),B.fit.metrics,B.adopted&&!(V6&&B.v6.adopted)):'')
     +(V6?col(t('bt_v6'),V6.v6,false).replace('</th>',(B.v6.adopted?' <span class="pill l0">'+t('bt_v6use')+'</span>':'')+'</th>'):'')+'</table></div>'
-    +'<p class="note">'+esc(B.fit?t(B.adopted?'bt_adopt':'bt_kept'):(B.note||''))+'</p>'
+    +'<p class="note">'+esc(B.fit?t(B.adopted?(V6&&B.v6.adopted?'bt_fitv6':'bt_adopt'):'bt_kept'):(B.note||''))+'</p>'
     +(V6?'<p class="note">'+esc(fill(t('bt_v6k'),{g:(V6.chosen||[]).map(g=>t('g_'+g)).join(', ')}))+'</p>':'')+'</div>';
   return h;
 }

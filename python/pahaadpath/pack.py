@@ -21,6 +21,9 @@ def adopted_thresholds():
         return json.load(f).get('adopted')
 
 
+V6_DAYS = 8  # today and 7 days ahead
+
+
 def adopted_v6():
     """model v6 (data/model/model_v6.json) when the backtest adopted it, else None"""
     import json
@@ -73,7 +76,7 @@ def build_pack(net, log=print):
         try:
             from . import v6
             from .openmeteo import forecast_vars
-            vars_, start = forecast_vars(net.keys(hill_only=True), log=log)
+            vars_, start = forecast_vars(net.keys(hill_only=True), forecast_days=V6_DAYS, log=log)
             i0 = 92 * 24
             quakes = v6.fetch_quakes((dt.date.today() - dt.timedelta(days=8)).isoformat(), (dt.date.today() + dt.timedelta(days=1)).isoformat(), log=log)
             s0, s1 = v6.score_now(m6, net, vars_, start, i0, quakes), v6.score_now(m6, net, vars_, start, i0 + 24, quakes)
@@ -82,6 +85,10 @@ def build_pack(net, log=print):
                     best = max((s0[lid], 0), (s1[lid], 24), key=lambda x: x[0][0])
                     pk['risk24'][lid] = [best[0][0], best[0][1], best[1]]
             pk['risk24_model'] = 'v6: ' + ' + '.join(m6['groups'])
+            # v6 day score for each hill stretch, today and the next days: the trip screen plans with these
+            days = [v6.score_now(m6, net, vars_, start, i0 + 24 * k, quakes) for k in range(V6_DAYS)]
+            pk['v6'] = {'day0': (dt.date.fromisoformat(start) + dt.timedelta(days=92)).isoformat(),
+                        'model': pk['risk24_model'], 'by': {lid: [d[lid][0] for d in days] for lid in days[0]}}
         except Exception as e:  # noqa: BLE001 - keep the v4 risk rather than no pack
             log('v6 not scored (%s); risk24 stays on the rain threshold' % e)  # link id -> [score 0-100, band 0-2, hours from hour0 of the peak]
     pk['risk24_source'] = 'PahaadPath engine, rain only (no road reports), next 24 h; thresholds: %s' % (

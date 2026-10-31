@@ -244,8 +244,9 @@ function segScore(seg,a,c){ // a = arrival time, hours from start of current hou
   const f=edThr(seg),ratio=Math.max(P6/f(6),P24/f(24),P72/f(72))/THR;
   const trig=Math.min(ratio,1.5)/1.5;
   const pred=.6*[0,.15,.55,1][seg.susc]+.4*Math.min(seg.hist/5,1);
-  const v5=modelOn()?modelRisk(seg,a,c,P24,P72):null; // trained model (features3.js) when baked in and chosen
-  const base=v5?v5.base:trig*(.35+.65*pred)+.08*pred;
+  const v6=v6Day(seg,a,c); // model v6 (checked against PWD closures) for the day the stretch is driven, from the data pack
+  const v5=v6==null&&modelOn()?modelRisk(seg,a,c,P24,P72):null; // trained model (features3.js) when baked in and chosen
+  const base=v6!=null?v6/100:v5?v5.base:trig*(.35+.65*pred)+.08*pred;
   const rw=repWeight(c.reports,seg.id,a,c.nowMs);
   let score=Math.round(100*Math.min(1,base+.4*rw));
   const blocked=rw>=.9;if(blocked)score=Math.max(score,85);
@@ -358,7 +359,8 @@ function addVirtual(vid,name,lat,lon){
 }
 
 /* ---------- route search and trip simulation ---------- */
-function ctx(){return{series:st.series,daily:st.daily,dday0:st.dday0,reports:st.reports.concat(st.user,sharedReports()),nowMs:st.nowMs,hour0:st.hour0};}
+function ctx(){return{series:st.series,daily:st.daily,dday0:st.dday0,reports:st.reports.concat(st.user,sharedReports()),nowMs:st.nowMs,hour0:st.hour0,
+  v6:(st.src==='live'||st.src==='cache')&&st.v6?st.v6:null};} // v6 day scores from the data pack apply to real forecasts only
 function evalEdge(e,rev,start,c){
   const dir=(e.up!==rev)?'up':'dn';
   let tr=traffic(e,dir,c.hour0+(start+e.h0/2)*3600e3);
@@ -733,15 +735,15 @@ async function load(pre){
   if(st.scn==='live'){
     setClock(false);
     try{
-      const w=pre||await fetchWeather();st.series=seriesFromKeys(w.by);st.src='live';st.via=w.via;st.dataTs=w.ts;st.made=w.made||null;setDaily(w.daily,w.day0);if(w.alerts)st.alerts=w.alerts;if(w.closures)st.closures=w.closures;st.r24=w.r24||null;
-      try{localStorage.setItem('pp_cache2',JSON.stringify({ts:w.ts,made:w.made,by:w.by,daily:w.daily,day0:w.day0,alerts:st.alerts||null,closures:st.closures||null}));}catch(e){}
+      const w=pre||await fetchWeather();st.series=seriesFromKeys(w.by);st.src='live';st.via=w.via;st.dataTs=w.ts;st.made=w.made||null;setDaily(w.daily,w.day0);if(w.alerts)st.alerts=w.alerts;if(w.closures)st.closures=w.closures;st.r24=w.r24||null;st.v6=w.v6||null;
+      try{localStorage.setItem('pp_cache2',JSON.stringify({ts:w.ts,made:w.made,by:w.by,daily:w.daily,day0:w.day0,alerts:st.alerts||null,closures:st.closures||null,v6:st.v6||null}));}catch(e){}
     }catch(e){
       let c=null;try{c=JSON.parse(localStorage.getItem('pp_cache2')||'null');}catch(_){}
       /* offline: keep using the last forecast while it still covers the coming days; the header says how old it is */
       if(c&&c.by&&Date.now()-c.ts<CACHE_MAX_H*3600e3&&EDGES.every(e=>c.by[locKey(e)])){
         const shift=Math.round((st.hour0-c.ts)/3600e3),by={};
         Object.keys(c.by).forEach(k=>{by[k]=shift>0?c.by[k].slice(shift).concat(new Array(shift).fill(0)):c.by[k];});
-        st.series=seriesFromKeys(by);st.src='cache';st.cacheTs=c.ts;st.cacheMade=c.made||null;st.alerts=c.alerts||null;st.closures=c.closures||null;setDaily(c.daily,c.day0);
+        st.series=seriesFromKeys(by);st.src='cache';st.cacheTs=c.ts;st.cacheMade=c.made||null;st.alerts=c.alerts||null;st.closures=c.closures||null;st.v6=c.v6||null;setDaily(c.daily,c.day0);
       }else{
         /* nothing usable saved: say so, and plan roads, time and halts without a landslide score (never demo rain on a real trip) */
         st.src='none';st.err=c&&c.ts?'old':'none';st.cacheTs=c&&c.ts||null;st.cacheMade=c&&c.made||null;
@@ -881,6 +883,7 @@ function whyText(cur){
   const rp=nRep?(st.lang==='hi'?' '+t('rep')+': '+nRep+'।':' '+nRep+' '+t(nRep===1?'rep1':'rep')+'.'):'';
   const day=w.day>1?(st.lang==='hi'?' (दिन '+w.day+')':' (day '+w.day+')'):'';
   const mem=w.mem?' '+fill(t('mem_note'),{w:memWhen(w.mem)}):''; // heavy rain in the last days: debris may still be on the road
+  if(v6Day(seg,w.start||0,ctx())!=null)return route+day+': '+fill(t('v6_why'),{r:rain,s:slope})+rp+mem; // model v6 set the score
   if(st.lang==='hi')return route+day+': '+rain+' '+t('mm24')+' ('+t('vs')+' '+lim+' मिमी)। '+t('slope')+': '+slope+'।'+rp+mem;
   return route+day+': '+rain+' '+t('mm24')+' '+t('vs')+' '+lim+' mm trigger. '+t('slope')+': '+slope+'.'+rp+mem;
 }
