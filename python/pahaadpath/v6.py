@@ -328,7 +328,7 @@ def report_md(r):
         L.append('| %s | %s | %s | %s |' % (' + '.join(s['groups']), f(s['tss_caution']), p(s['precision_caution']), 'yes' if s['kept'] else 'no'))
     ci = r['caine']['ci_tss_caution']
     L += ['', 'v6 is %s: its TSS %s %s the top of the current engine\'s 95%% range (%s).' % (
-        'in use for the data pack and phone alerts' if r['adopted'] else 'not used',
+        'past the season check (it is used only if it also passes the check on other years, INDEPENDENT.md)' if r['adopted'] else 'not used',
         f(r['v6']['caution']['tss']), 'is above' if r['adopted'] else 'is not above', ci and '%s to %s' % (f(ci[0]), f(ci[1])))]
     if r.get('quakes') is None:
         L.append('Earthquakes were not read this run, so that group was not tried.')
