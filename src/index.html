@@ -7,8 +7,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 </head><body>
 
-<div class="app" id="app">
-  <header class="mast">
+<div class="app shell" id="app">
+  <!-- the route map fills the screen behind everything on the trip view (src/shell.js) -->
+  <div class="bgmap" id="bgmap" role="region" aria-label="Route map"></div>
+
+  <header class="mast topbar">
     <div class="mast-row">
       <svg class="logo" viewBox="0 0 40 40" aria-hidden="true">
         <rect width="40" height="40" rx="8" fill="#F2B705"/>
@@ -17,24 +20,27 @@
         <path d="M8 36 Q20 28 32 36" fill="none" stroke="#F2B705" stroke-width="2.4" stroke-dasharray="4 3"/>
       </svg>
       <div class="brand"><b>PahaadPath</b><span id="tag"></span></div>
+      <button class="qsum" id="qsum" type="button" aria-controls="search" aria-expanded="false"></button>
       <div class="spacer"></div>
       <div class="lang" role="group" aria-label="Language">
         <button id="b-en" aria-pressed="true" type="button">EN</button>
         <button id="b-hi" aria-pressed="false" type="button" lang="hi">हिं</button>
       </div>
     </div>
-    <nav class="views" id="views" aria-label="Views"></nav>
+    <button class="srcchip" id="srcchip" type="button" aria-controls="conds" aria-expanded="false"><span class="dot" id="dot"></span><span id="srcmsg"></span></button>
   </header>
   <div class="stripe"></div>
-  <div class="src">
-    <div class="msg"><span class="dot" id="dot"></span><span id="srcmsg"></span></div>
+
+  <!-- forecast and traffic settings, opened from the status line -->
+  <div class="src conds" id="conds" hidden>
     <label class="sel"><span id="lw"></span>
       <select id="scn"><option value="monsoon"></option><option value="clear"></option><option value="live"></option></select></label>
     <label class="sel"><span id="lt"></span>
       <select id="tday"><option value="cal"></option><option value="normal"></option><option value="weekend"></option><option value="leve"></option><option value="lstart"></option><option value="lend"></option></select></label>
   </div>
 
-  <div id="v-trip">
+  <!-- trip search: slides down from the summary in the top bar -->
+  <div class="search" id="search">
   <section class="trip" id="trip" aria-label="Trip">
     <div class="ask" id="ask">
       <input id="in-ask" type="text" autocomplete="off" spellcheck="false" enterkeyhint="go">
@@ -53,21 +59,39 @@
     <p class="pmsg" id="pmsg" hidden></p>
     <div class="presets" id="presets"></div>
     <datalist id="places"></datalist>
+    <button class="btn pri go" id="search-go" type="button"></button>
   </section>
+  </div>
+  <div class="scrim" id="scrim" hidden></div>
 
-  <section class="routes" id="routes"></section>
-  <section id="verdict"></section>
-  <section class="trf" id="traffic"></section>
-  <div class="acts" id="acts"></div>
-  <section class="card" id="planner"></section>
+  <!-- quick actions over the map -->
+  <div class="fabs fabs-top" id="fabs-top">
+    <button class="fab" id="fab-layer" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg></button>
+    <button class="fab" id="fab-fit" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+  </div>
+  <div class="fabs" id="fabs">
+    <button class="fab" id="fab-where" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="7"/></svg></button>
+    <button class="fab sosfab" id="fab-sos" type="button">SOS</button>
+  </div>
 
-  <div class="tabs" role="tablist" id="tabs"></div>
-  <section class="panel" id="panel"></section>
+  <!-- results: a sheet over the map that drags between peek, half and full (a side panel on wide screens) -->
+  <div id="v-trip" class="sheet" data-snap="half">
+    <div class="grab" id="grab" role="button" tabindex="0"><span class="handle"></span></div>
+    <div class="sheet-in" id="sheet-in">
+      <section id="verdict"></section>
+      <section class="routes" id="routes"></section>
+      <section class="trf" id="traffic"></section>
+      <div class="acts" id="acts"></div>
+      <section class="card" id="planner"></section>
+      <div class="tabs" role="tablist" id="tabs"></div>
+      <section class="panel" id="panel"></section>
+      <footer class="foot" id="foot"></footer>
+    </div>
   </div>
   <section id="v-ops" class="wide-view" hidden></section>
   <section id="v-proof" class="wide-view" hidden></section>
 
-  <footer class="foot" id="foot"></footer>
+  <nav class="views bnav" id="views" aria-label="Views"></nav>
 </div>
 <div class="modal" id="modal" hidden><div class="modal-in" role="dialog" aria-modal="true"><button class="x" id="modal-x" type="button" aria-label="Close">×</button><div id="modal-body"></div></div></div>
 <div class="toast" id="toast" hidden></div>

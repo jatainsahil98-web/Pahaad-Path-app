@@ -67,7 +67,7 @@ const istHour=ms=>new Date(Math.floor((ms+5.5*3600e3)/3600e3)*3600e3).toISOStrin
   // 4. share the app: the file handed on is the whole app as delivered
   const [dl]=await Promise.all([p.waitForEvent('download',{timeout:8000}),p.click('#a-app')]);
   const fp=await dl.path(),html=fs.readFileSync(fp,'utf8'),orig=fs.readFileSync(F,'utf8');
-  ok(html.startsWith('<!DOCTYPE html>')&&html.length>orig.length*.95&&html.includes('<div class="app" id="app">'),'shared app file '+html.length+' vs '+orig.length);
+  ok(html.startsWith('<!DOCTYPE html>')&&html.length>orig.length*.95&&/<div class="app[^"]*" id="app">/.test(html),'shared app file '+html.length+' vs '+orig.length);
   // the file handed on runs as the app by itself (opened from disk, no network)
   const cp=path.join(os.tmpdir(),'pp-shared-'+Date.now()+'.html');fs.writeFileSync(cp,html);
   const p2=await ctx.newPage();const e2=[];p2.on('pageerror',e=>e2.push(String(e)));

@@ -78,7 +78,7 @@ const fails=[];const ok=(c,m)=>{if(!c)fails.push(m);};
  await open('?scn=monsoon&tiles=0&from=delhi&to=mussoorie');
  await p.click('#a-share');await p.click('#a-listen');
  await p.click('#a-qr');await p.click('#a-copyl');await p.keyboard.press('Escape');
- await p.evaluate(()=>{PP.st.lang='hi';PP.render();});await p.click('#b-mic');
+ await p.evaluate(()=>{PP.st.lang='hi';PP.render();});await p.click('#qsum');await p.click('#b-mic');
  await p.waitForFunction(()=>PP.st.from==='rishikesh'&&PP.st.to==='joshimath');
  await p.evaluate(()=>{PP.st.lang='en';PP.st.view='ops';PP.render();});await p.click('#adv-wa');
  await p.waitForTimeout(100);

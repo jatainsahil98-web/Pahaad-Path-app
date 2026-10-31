@@ -2,5 +2,6 @@
 import 'leaflet/dist/leaflet.css';
 import './app.css';
 import './features.css';
+import './shell.css';
 import './globals.js';
 import 'virtual:pp-app';

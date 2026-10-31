@@ -3,5 +3,6 @@
     <style name="AppTheme" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:statusBarColor">#1D3F31</item>
         <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:isLightTheme">true</item>
     </style>
 </resources>
