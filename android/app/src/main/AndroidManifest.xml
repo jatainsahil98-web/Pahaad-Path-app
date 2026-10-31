@@ -4,6 +4,13 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- voice entry: the phone's own speech recogniser, asked for only when the mic button is tapped -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <queries>
+        <!-- Android 11+ hides other apps unless declared: needed to find the speech recogniser and text-to-speech voices -->
+        <intent><action android:name="android.speech.RecognitionService" /></intent>
+        <intent><action android:name="android.intent.action.TTS_SERVICE" /></intent>
+    </queries>
     <application
         android:label="PahaadPath"
         android:icon="@drawable/icon"
