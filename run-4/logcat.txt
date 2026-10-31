@@ -1,0 +1,211 @@
+10-31 17:55:09.548 W/A       ( 1763): 	at org.chromium.net.impl.CronetUrlRequest.onError(:com.google.android.gms.dynamite_cronetdynamite@231818047@23.18.18 (190800-0):5)
+10-31 17:55:09.548 W/A       ( 1763): 	at org.chromium.net.impl.CronetUrlRequest.onError(:com.google.android.gms.dynamite_cronetdynamite@231818047@23.18.18 (190800-0):5)
+10-31 17:55:09.664 W/A       ( 1763): 	at org.chromium.net.impl.CronetUrlRequest.onError(:com.google.android.gms.dynamite_cronetdynamite@231818047@23.18.18 (190800-0):5)
+10-31 17:55:09.664 W/A       ( 1763): 	at org.chromium.net.impl.CronetUrlRequest.onError(:com.google.android.gms.dynamite_cronetdynamite@231818047@23.18.18 (190800-0):5)
+10-31 17:55:09.929 W/A       ( 1763): 	at org.chromium.net.impl.CronetUrlRequest.onError(:com.google.android.gms.dynamite_cronetdynamite@231818047@23.18.18 (190800-0):5)
+10-31 17:55:09.930 W/A       ( 1763): 	at org.chromium.net.impl.CronetUrlRequest.onError(:com.google.android.gms.dynamite_cronetdynamite@231818047@23.18.18 (190800-0):5)
+10-31 17:55:10.036 W/A       ( 1763): 	at org.chromium.net.impl.CronetUrlRequest.onError(:com.google.android.gms.dynamite_cronetdynamite@231818047@23.18.18 (190800-0):5)
+10-31 17:55:10.036 W/A       ( 1763): 	at org.chromium.net.impl.CronetUrlRequest.onError(:com.google.android.gms.dynamite_cronetdynamite@231818047@23.18.18 (190800-0):5)
+10-31 17:55:10.110 W/A       ( 1763): 	at org.chromium.net.impl.CronetUrlRequest.onError(:com.google.android.gms.dynamite_cronetdynamite@231818047@23.18.18 (190800-0):5)
+10-31 17:55:10.110 W/A       ( 1763): 	at org.chromium.net.impl.CronetUrlRequest.onError(:com.google.android.gms.dynamite_cronetdynamite@231818047@23.18.18 (190800-0):5)
+10-31 17:55:10.114 E/A       ( 1763): 	at org.chromium.net.impl.ab.run(PG:1)
+10-31 17:55:10.114 E/A       ( 1763): Caused by: org.chromium.net.impl.ce: Exception in CronetUrlRequest: net::ERR_NAME_NOT_RESOLVED, ErrorCode=1, InternalErrorCode=-105, Retryable=false
+10-31 17:55:10.114 E/A       ( 1763): 	at org.chromium.net.impl.CronetUrlRequest.onError(PG:4)
+10-31 17:55:10.254 W/A       ( 1763): 	at org.chromium.net.impl.CronetUrlRequest.onError(:com.google.android.gms.dynamite_cronetdynamite@231818047@23.18.18 (190800-0):5)
+10-31 17:55:10.379 W/A       ( 1763): 	at org.chromium.net.impl.CronetUrlRequest.onError(:com.google.android.gms.dynamite_cronetdynamite@231818047@23.18.18 (190800-0):5)
+10-31 17:55:11.550 W/JobServiceContext(  520): Sending onNetworkChanged for a job that isn't started. JobStatus{e37efab #u0a134/83 com.google.android.webview/org.chromium.android_webview.services.AwVariationsSeedFetcher u=0 s=10134 NET CHARGING READY}
+10-31 17:55:15.253 W/.pahaadpath.app( 4279): Unexpected CPU variant for x86: x86_64.
+10-31 17:55:15.253 W/.pahaadpath.app( 4279): Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, tremont, kabylake, default
+10-31 17:55:15.255 E/.pahaadpath.app( 4279): Not starting debugger since process cannot load the jdwp agent.
+10-31 17:55:15.875 W/.pahaadpath.app( 4279): Entry not found
+10-31 17:55:16.190 E/chromium( 4279): [ERROR:simple_version_upgrade.cc(152)] Failed to write a new fake index.
+10-31 17:55:16.194 E/chromium( 4279): [ERROR:simple_file_enumerator.cc(21)] opendir /data/user/0/org.pahaadpath.app/cache/WebView/Default/HTTP Cache/Code Cache/js: No such file or directory (2)
+10-31 17:55:16.194 E/chromium( 4279): [ERROR:simple_index_file.cc(614)] Could not reconstruct index from disk
+10-31 17:55:16.707 W/iew:webview_apk( 4399): Unexpected CPU variant for x86: x86_64.
+10-31 17:55:16.707 W/iew:webview_apk( 4399): Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, tremont, kabylake, default
+10-31 17:55:16.708 E/iew:webview_apk( 4399): Not starting debugger since process cannot load the jdwp agent.
+10-31 17:55:16.900 W/InputManager-JNI(  520): Input channel object 'c1c8625 Splash Screen org.pahaadpath.app (client)' was disposed without first being removed with the input manager!
+10-31 17:55:16.975 W/iew:webview_apk( 4399): Entry not found
+10-31 17:55:17.435 W/cr_AWNetworkFetcherTask( 4399): 	at org.chromium.android_webview.nonembedded.NetworkFetcherTask.download(chromium-TrichromeWebViewGoogle6432.apk-stable-567263637:48)
+10-31 17:55:17.706 E/WebViewAssetLoader( 4279): Error opening asset path: icon.svg
+10-31 17:55:17.706 E/WebViewAssetLoader( 4279): java.io.FileNotFoundException: icon.svg
+10-31 17:55:17.706 E/WebViewAssetLoader( 4279): 	at android.content.res.AssetManager.nativeOpenAsset(Native Method)
+10-31 17:55:17.706 E/WebViewAssetLoader( 4279): 	at android.content.res.AssetManager.open(AssetManager.java:904)
+10-31 17:55:17.706 E/WebViewAssetLoader( 4279): 	at androidx.webkit.internal.AssetHelper.openAsset(AssetHelper.java:122)
+10-31 17:55:17.706 E/WebViewAssetLoader( 4279): 	at androidx.webkit.WebViewAssetLoader$AssetsPathHandler.handle(WebViewAssetLoader.java:189)
+10-31 17:55:17.706 E/WebViewAssetLoader( 4279): 	at androidx.webkit.WebViewAssetLoader.shouldInterceptRequest(WebViewAssetLoader.java:571)
+10-31 17:55:17.706 E/WebViewAssetLoader( 4279): 	at org.pahaadpath.app.MainActivity$1.shouldInterceptRequest(MainActivity.java:85)
+10-31 17:55:17.706 E/WebViewAssetLoader( 4279): 	at I9.a(chromium-TrichromeWebViewGoogle6432.apk-stable-567263637:79)
+10-31 17:55:17.706 E/WebViewAssetLoader( 4279): 	at org.chromium.android_webview.AwContentsBackgroundThreadClient.shouldInterceptRequestFromNative(chromium-TrichromeWebViewGoogle6432.apk-stable-567263637:15)
+10-31 17:55:32.637 W/InputDispatcher(  520): Not sending touch gesture to e14c854 ActivityRecordInputSink org.pahaadpath.app/.MainActivity because it has config NO_INPUT_CHANNEL
+10-31 17:55:36.795 W/android.webview( 5257): Unexpected CPU variant for x86: x86_64.
+10-31 17:55:36.795 W/android.webview( 5257): Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, tremont, kabylake, default
+10-31 17:55:36.797 E/android.webview( 5257): Not starting debugger since process cannot load the jdwp agent.
+10-31 17:55:36.898 W/android.webview( 5257): Entry not found
+10-31 17:55:37.935 W/InputDispatcher(  520): Not sending touch gesture to e14c854 ActivityRecordInputSink org.pahaadpath.app/.MainActivity because it has config NO_INPUT_CHANNEL
+10-31 17:55:50.339 E/FrameTracker( 4279): force finish cuj, time out: J<IME_INSETS_ANIMATION::0@0@org.pahaadpath.app>
+10-31 17:55:54.730 W/ActivityTaskManager(  520): Force removing ActivityRecord{80cc8f2 u0 org.pahaadpath.app/.MainActivity t8 f}}: app died, no saved state
+10-31 17:55:54.745 W/InputManager-JNI(  520): Input channel object 'c55b32a org.pahaadpath.app/org.pahaadpath.app.MainActivity (client)' was disposed without first being removed with the input manager!
+10-31 17:55:54.775 W/WindowManager(  520): Failed to deliver inset control state change to w=Window{c55b32a u0 org.pahaadpath.app/org.pahaadpath.app.MainActivity EXITING}
+10-31 17:55:55.004 W/WindowManager(  520): Exception thrown during dispatchAppVisibility Window{c55b32a u0 org.pahaadpath.app/org.pahaadpath.app.MainActivity EXITING}
+10-31 17:55:55.475 W/.pahaadpath.app( 5970): Unexpected CPU variant for x86: x86_64.
+10-31 17:55:55.475 W/.pahaadpath.app( 5970): Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, tremont, kabylake, default
+10-31 17:55:55.477 E/.pahaadpath.app( 5970): Not starting debugger since process cannot load the jdwp agent.
+10-31 17:55:55.961 W/.pahaadpath.app( 5970): Entry not found
+10-31 17:55:56.187 E/chromium( 5970): [ERROR:simple_version_upgrade.cc(152)] Failed to write a new fake index.
+10-31 17:55:56.187 E/chromium( 5970): [ERROR:simple_version_upgrade.cc(152)] Failed to write a new fake index.
+10-31 17:55:56.566 W/InputManager-JNI(  520): Input channel object '5dd2a37 Splash Screen org.pahaadpath.app (client)' was disposed without first being removed with the input manager!
+10-31 17:55:56.974 E/WebViewAssetLoader( 5970): Error opening asset path: icon.svg
+10-31 17:55:56.974 E/WebViewAssetLoader( 5970): java.io.FileNotFoundException: icon.svg
+10-31 17:55:56.974 E/WebViewAssetLoader( 5970): 	at android.content.res.AssetManager.nativeOpenAsset(Native Method)
+10-31 17:55:56.974 E/WebViewAssetLoader( 5970): 	at android.content.res.AssetManager.open(AssetManager.java:904)
+10-31 17:55:56.974 E/WebViewAssetLoader( 5970): 	at androidx.webkit.internal.AssetHelper.openAsset(AssetHelper.java:122)
+10-31 17:55:56.974 E/WebViewAssetLoader( 5970): 	at androidx.webkit.WebViewAssetLoader$AssetsPathHandler.handle(WebViewAssetLoader.java:189)
+10-31 17:55:56.974 E/WebViewAssetLoader( 5970): 	at androidx.webkit.WebViewAssetLoader.shouldInterceptRequest(WebViewAssetLoader.java:571)
+10-31 17:55:56.974 E/WebViewAssetLoader( 5970): 	at org.pahaadpath.app.MainActivity$1.shouldInterceptRequest(MainActivity.java:85)
+10-31 17:55:56.974 E/WebViewAssetLoader( 5970): 	at I9.a(chromium-TrichromeWebViewGoogle6432.apk-stable-567263637:79)
+10-31 17:55:56.974 E/WebViewAssetLoader( 5970): 	at org.chromium.android_webview.AwContentsBackgroundThreadClient.shouldInterceptRequestFromNative(chromium-TrichromeWebViewGoogle6432.apk-stable-567263637:15)
+10-31 17:56:05.595 W/InputManager-JNI(  520): Input channel object '6f1c6e4 org.pahaadpath.app/org.pahaadpath.app.MainActivity (client)' was disposed without first being removed with the input manager!
+10-31 17:56:05.610 W/ActivityTaskManager(  520): Force removing ActivityRecord{46db29d u0 org.pahaadpath.app/.MainActivity t9 f}}: app died, no saved state
+10-31 17:56:06.479 W/.pahaadpath.app( 6165): Unexpected CPU variant for x86: x86_64.
+10-31 17:56:06.479 W/.pahaadpath.app( 6165): Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, tremont, kabylake, default
+10-31 17:56:06.480 E/.pahaadpath.app( 6165): Not starting debugger since process cannot load the jdwp agent.
+10-31 17:56:06.671 W/.pahaadpath.app( 6165): Entry not found
+10-31 17:56:06.965 E/chromium( 6165): [ERROR:simple_version_upgrade.cc(152)] Failed to write a new fake index.
+10-31 17:56:06.967 E/chromium( 6165): [ERROR:simple_version_upgrade.cc(152)] Failed to write a new fake index.
+10-31 17:56:07.377 W/InputManager-JNI(  520): Input channel object 'ead7c87 Splash Screen org.pahaadpath.app (client)' was disposed without first being removed with the input manager!
+10-31 17:56:07.875 E/WebViewAssetLoader( 6165): Error opening asset path: icon.svg
+10-31 17:56:07.875 E/WebViewAssetLoader( 6165): java.io.FileNotFoundException: icon.svg
+10-31 17:56:07.875 E/WebViewAssetLoader( 6165): 	at android.content.res.AssetManager.nativeOpenAsset(Native Method)
+10-31 17:56:07.875 E/WebViewAssetLoader( 6165): 	at android.content.res.AssetManager.open(AssetManager.java:904)
+10-31 17:56:07.875 E/WebViewAssetLoader( 6165): 	at androidx.webkit.internal.AssetHelper.openAsset(AssetHelper.java:122)
+10-31 17:56:07.875 E/WebViewAssetLoader( 6165): 	at androidx.webkit.WebViewAssetLoader$AssetsPathHandler.handle(WebViewAssetLoader.java:189)
+10-31 17:56:07.875 E/WebViewAssetLoader( 6165): 	at androidx.webkit.WebViewAssetLoader.shouldInterceptRequest(WebViewAssetLoader.java:571)
+10-31 17:56:07.875 E/WebViewAssetLoader( 6165): 	at org.pahaadpath.app.MainActivity$1.shouldInterceptRequest(MainActivity.java:85)
+10-31 17:56:07.875 E/WebViewAssetLoader( 6165): 	at I9.a(chromium-TrichromeWebViewGoogle6432.apk-stable-567263637:79)
+10-31 17:56:07.875 E/WebViewAssetLoader( 6165): 	at org.chromium.android_webview.AwContentsBackgroundThreadClient.shouldInterceptRequestFromNative(chromium-TrichromeWebViewGoogle6432.apk-stable-567263637:15)
+10-31 17:56:13.873 W/ActivityTaskManager(  520): Force removing ActivityRecord{9f762fa u0 org.pahaadpath.app/.MainActivity t10}: app died, no saved state
+10-31 17:56:13.971 W/WindowManager(  520): Failed to deliver inset control state change to w=Window{e92acc3 u0 org.pahaadpath.app/org.pahaadpath.app.MainActivity}
+10-31 17:56:13.973 W/InputManager-JNI(  520): Input channel object 'e92acc3 org.pahaadpath.app/org.pahaadpath.app.MainActivity (client)' was disposed without first being removed with the input manager!
+10-31 17:56:14.067 W/WindowManager(  520): removeAppToken: Attempted to remove non-existing token: Token{3aebaa1 ActivityRecord{9f762fa u0 org.pahaadpath.app/.MainActivity t10 f} isExiting}}
+10-31 17:56:14.157 W/WindowManager(  520): Exception thrown during dispatchAppVisibility Window{e92acc3 u0 org.pahaadpath.app/org.pahaadpath.app.MainActivity EXITING}
+10-31 17:56:14.765 W/.pahaadpath.app( 6393): Unexpected CPU variant for x86: x86_64.
+10-31 17:56:14.765 W/.pahaadpath.app( 6393): Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, tremont, kabylake, default
+10-31 17:56:14.766 E/.pahaadpath.app( 6393): Not starting debugger since process cannot load the jdwp agent.
+10-31 17:56:15.134 W/.pahaadpath.app( 6393): Entry not found
+10-31 17:56:15.266 E/chromium( 6393): [ERROR:simple_version_upgrade.cc(152)] Failed to write a new fake index.
+10-31 17:56:15.267 E/chromium( 6393): [ERROR:simple_version_upgrade.cc(152)] Failed to write a new fake index.
+10-31 17:56:15.765 W/InputManager-JNI(  520): Input channel object '639598b Splash Screen org.pahaadpath.app (client)' was disposed without first being removed with the input manager!
+10-31 17:56:16.238 E/WebViewAssetLoader( 6393): Error opening asset path: icon.svg
+10-31 17:56:16.238 E/WebViewAssetLoader( 6393): java.io.FileNotFoundException: icon.svg
+10-31 17:56:16.238 E/WebViewAssetLoader( 6393): 	at android.content.res.AssetManager.nativeOpenAsset(Native Method)
+10-31 17:56:16.238 E/WebViewAssetLoader( 6393): 	at android.content.res.AssetManager.open(AssetManager.java:904)
+10-31 17:56:16.238 E/WebViewAssetLoader( 6393): 	at androidx.webkit.internal.AssetHelper.openAsset(AssetHelper.java:122)
+10-31 17:56:16.238 E/WebViewAssetLoader( 6393): 	at androidx.webkit.WebViewAssetLoader$AssetsPathHandler.handle(WebViewAssetLoader.java:189)
+10-31 17:56:16.238 E/WebViewAssetLoader( 6393): 	at androidx.webkit.WebViewAssetLoader.shouldInterceptRequest(WebViewAssetLoader.java:571)
+10-31 17:56:16.238 E/WebViewAssetLoader( 6393): 	at org.pahaadpath.app.MainActivity$1.shouldInterceptRequest(MainActivity.java:85)
+10-31 17:56:16.238 E/WebViewAssetLoader( 6393): 	at I9.a(chromium-TrichromeWebViewGoogle6432.apk-stable-567263637:79)
+10-31 17:56:16.238 E/WebViewAssetLoader( 6393): 	at org.chromium.android_webview.AwContentsBackgroundThreadClient.shouldInterceptRequestFromNative(chromium-TrichromeWebViewGoogle6432.apk-stable-567263637:15)
+10-31 17:56:23.007 W/ActivityTaskManager(  520): Force removing ActivityRecord{c0e1f49 u0 org.pahaadpath.app/.MainActivity t11 f}}: app died, no saved state
+10-31 17:56:23.052 W/InputManager-JNI(  520): Input channel object '9a16134 org.pahaadpath.app/org.pahaadpath.app.MainActivity (client)' was disposed without first being removed with the input manager!
+10-31 17:56:23.063 W/WindowManager(  520): Failed to deliver inset control state change to w=Window{9a16134 u0 org.pahaadpath.app/org.pahaadpath.app.MainActivity EXITING}
+10-31 17:56:23.271 W/WindowManager(  520): Exception thrown during dispatchAppVisibility Window{9a16134 u0 org.pahaadpath.app/org.pahaadpath.app.MainActivity EXITING}
+10-31 17:56:23.679 W/.pahaadpath.app( 6660): Unexpected CPU variant for x86: x86_64.
+10-31 17:56:23.679 W/.pahaadpath.app( 6660): Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, tremont, kabylake, default
+10-31 17:56:23.681 E/.pahaadpath.app( 6660): Not starting debugger since process cannot load the jdwp agent.
+10-31 17:56:24.120 W/.pahaadpath.app( 6660): Entry not found
+10-31 17:56:24.390 E/chromium( 6660): [ERROR:simple_file_enumerator.cc(21)] opendir /data/user/0/org.pahaadpath.app/cache/WebView/Default/HTTP Cache/Code Cache/js: No such file or directory (2)
+10-31 17:56:24.390 E/chromium( 6660): [ERROR:simple_index_file.cc(614)] Could not reconstruct index from disk
+10-31 17:56:24.390 E/chromium( 6660): [ERROR:simple_file_enumerator.cc(21)] opendir /data/user/0/org.pahaadpath.app/cache/WebView/Default/HTTP Cache/Code Cache/wasm: No such file or directory (2)
+10-31 17:56:24.390 E/chromium( 6660): [ERROR:simple_index_file.cc(614)] Could not reconstruct index from disk
+10-31 17:56:24.791 W/InputManager-JNI(  520): Input channel object 'ea70ab2 Splash Screen org.pahaadpath.app (client)' was disposed without first being removed with the input manager!
+10-31 17:56:25.365 E/WebViewAssetLoader( 6660): Error opening asset path: icon.svg
+10-31 17:56:25.365 E/WebViewAssetLoader( 6660): java.io.FileNotFoundException: icon.svg
+10-31 17:56:25.365 E/WebViewAssetLoader( 6660): 	at android.content.res.AssetManager.nativeOpenAsset(Native Method)
+10-31 17:56:25.365 E/WebViewAssetLoader( 6660): 	at android.content.res.AssetManager.open(AssetManager.java:904)
+10-31 17:56:25.365 E/WebViewAssetLoader( 6660): 	at androidx.webkit.internal.AssetHelper.openAsset(AssetHelper.java:122)
+10-31 17:56:25.365 E/WebViewAssetLoader( 6660): 	at androidx.webkit.WebViewAssetLoader$AssetsPathHandler.handle(WebViewAssetLoader.java:189)
+10-31 17:56:25.365 E/WebViewAssetLoader( 6660): 	at androidx.webkit.WebViewAssetLoader.shouldInterceptRequest(WebViewAssetLoader.java:571)
+10-31 17:56:25.365 E/WebViewAssetLoader( 6660): 	at org.pahaadpath.app.MainActivity$1.shouldInterceptRequest(MainActivity.java:85)
+10-31 17:56:25.365 E/WebViewAssetLoader( 6660): 	at I9.a(chromium-TrichromeWebViewGoogle6432.apk-stable-567263637:79)
+10-31 17:56:25.365 E/WebViewAssetLoader( 6660): 	at org.chromium.android_webview.AwContentsBackgroundThreadClient.shouldInterceptRequestFromNative(chromium-TrichromeWebViewGoogle6432.apk-stable-567263637:15)
+10-31 17:56:30.757 W/ActivityTaskManager(  520): Force removing ActivityRecord{e3a6249 u0 org.pahaadpath.app/.MainActivity t12 f}}: app died, no saved state
+10-31 17:56:30.797 W/InputManager-JNI(  520): Input channel object 'b960fe1 org.pahaadpath.app/org.pahaadpath.app.MainActivity (client)' was disposed without first being removed with the input manager!
+10-31 17:56:30.921 W/WindowManager(  520): Exception thrown during dispatchAppVisibility Window{b960fe1 u0 org.pahaadpath.app/org.pahaadpath.app.MainActivity EXITING}
+10-31 17:56:31.552 W/.pahaadpath.app( 6812): Unexpected CPU variant for x86: x86_64.
+10-31 17:56:31.552 W/.pahaadpath.app( 6812): Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, tremont, kabylake, default
+10-31 17:56:31.657 E/.pahaadpath.app( 6812): Not starting debugger since process cannot load the jdwp agent.
+10-31 17:56:31.778 W/.pahaadpath.app( 6812): Entry not found
+10-31 17:56:31.866 E/chromium( 6812): [ERROR:simple_version_upgrade.cc(152)] Failed to write a new fake index.
+10-31 17:56:31.866 E/chromium( 6812): [ERROR:simple_file_enumerator.cc(21)] opendir /data/user/0/org.pahaadpath.app/cache/WebView/Default/HTTP Cache/Code Cache/wasm: No such file or directory (2)
+10-31 17:56:31.866 E/chromium( 6812): [ERROR:simple_index_file.cc(614)] Could not reconstruct index from disk
+10-31 17:56:32.177 W/InputManager-JNI(  520): Input channel object 'e3d35e8 Splash Screen org.pahaadpath.app (client)' was disposed without first being removed with the input manager!
+10-31 17:56:34.628 E/WebViewAssetLoader( 6812): Error opening asset path: icon.svg
+10-31 17:56:34.628 E/WebViewAssetLoader( 6812): java.io.FileNotFoundException: icon.svg
+10-31 17:56:34.628 E/WebViewAssetLoader( 6812): 	at android.content.res.AssetManager.nativeOpenAsset(Native Method)
+10-31 17:56:34.628 E/WebViewAssetLoader( 6812): 	at android.content.res.AssetManager.open(AssetManager.java:904)
+10-31 17:56:34.628 E/WebViewAssetLoader( 6812): 	at androidx.webkit.internal.AssetHelper.openAsset(AssetHelper.java:122)
+10-31 17:56:34.628 E/WebViewAssetLoader( 6812): 	at androidx.webkit.WebViewAssetLoader$AssetsPathHandler.handle(WebViewAssetLoader.java:189)
+10-31 17:56:34.628 E/WebViewAssetLoader( 6812): 	at androidx.webkit.WebViewAssetLoader.shouldInterceptRequest(WebViewAssetLoader.java:571)
+10-31 17:56:34.628 E/WebViewAssetLoader( 6812): 	at org.pahaadpath.app.MainActivity$1.shouldInterceptRequest(MainActivity.java:85)
+10-31 17:56:34.628 E/WebViewAssetLoader( 6812): 	at I9.a(chromium-TrichromeWebViewGoogle6432.apk-stable-567263637:79)
+10-31 17:56:34.628 E/WebViewAssetLoader( 6812): 	at org.chromium.android_webview.AwContentsBackgroundThreadClient.shouldInterceptRequestFromNative(chromium-TrichromeWebViewGoogle6432.apk-stable-567263637:15)
+10-31 17:56:50.956 E/FrameTracker( 6812): force finish cuj, time out: J<IME_INSETS_ANIMATION::0@0@org.pahaadpath.app>
+10-31 17:56:52.659 E/FrameTracker( 6812): force finish cuj, time out: J<IME_INSETS_ANIMATION::1@0@org.pahaadpath.app>
+10-31 17:57:20.551 W/ActivityTaskManager(  520): Force removing ActivityRecord{4b5c6ef u0 org.pahaadpath.app/.MainActivity t13 f}}: app died, no saved state
+10-31 17:57:20.566 W/InputManager-JNI(  520): Input channel object '84d21dd org.pahaadpath.app/org.pahaadpath.app.MainActivity (client)' was disposed without first being removed with the input manager!
+10-31 17:57:20.586 W/WindowManager(  520): Failed to deliver inset control state change to w=Window{84d21dd u0 org.pahaadpath.app/org.pahaadpath.app.MainActivity EXITING}
+10-31 17:57:20.746 W/WindowManager(  520): Failed to deliver inset control state change to w=Window{84d21dd u0 org.pahaadpath.app/org.pahaadpath.app.MainActivity EXITING}
+10-31 17:57:20.751 W/WindowManager(  520): Exception thrown during dispatchAppVisibility Window{84d21dd u0 org.pahaadpath.app/org.pahaadpath.app.MainActivity EXITING}
+10-31 17:57:21.226 W/.pahaadpath.app( 7425): Unexpected CPU variant for x86: x86_64.
+10-31 17:57:21.226 W/.pahaadpath.app( 7425): Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, tremont, kabylake, default
+10-31 17:57:21.229 E/.pahaadpath.app( 7425): Not starting debugger since process cannot load the jdwp agent.
+10-31 17:57:21.404 W/.pahaadpath.app( 7425): Entry not found
+10-31 17:57:21.502 E/chromium( 7425): [ERROR:simple_version_upgrade.cc(152)] Failed to write a new fake index.
+10-31 17:57:21.502 E/chromium( 7425): [ERROR:simple_version_upgrade.cc(152)] Failed to write a new fake index.
+10-31 17:57:22.006 W/InputManager-JNI(  520): Input channel object 'ca55460 Splash Screen org.pahaadpath.app (client)' was disposed without first being removed with the input manager!
+10-31 17:57:22.201 E/WebViewAssetLoader( 7425): Error opening asset path: icon.svg
+10-31 17:57:22.201 E/WebViewAssetLoader( 7425): java.io.FileNotFoundException: icon.svg
+10-31 17:57:22.201 E/WebViewAssetLoader( 7425): 	at android.content.res.AssetManager.nativeOpenAsset(Native Method)
+10-31 17:57:22.201 E/WebViewAssetLoader( 7425): 	at android.content.res.AssetManager.open(AssetManager.java:904)
+10-31 17:57:22.201 E/WebViewAssetLoader( 7425): 	at androidx.webkit.internal.AssetHelper.openAsset(AssetHelper.java:122)
+10-31 17:57:22.201 E/WebViewAssetLoader( 7425): 	at androidx.webkit.WebViewAssetLoader$AssetsPathHandler.handle(WebViewAssetLoader.java:189)
+10-31 17:57:22.201 E/WebViewAssetLoader( 7425): 	at androidx.webkit.WebViewAssetLoader.shouldInterceptRequest(WebViewAssetLoader.java:571)
+10-31 17:57:22.201 E/WebViewAssetLoader( 7425): 	at org.pahaadpath.app.MainActivity$1.shouldInterceptRequest(MainActivity.java:85)
+10-31 17:57:22.201 E/WebViewAssetLoader( 7425): 	at I9.a(chromium-TrichromeWebViewGoogle6432.apk-stable-567263637:79)
+10-31 17:57:22.201 E/WebViewAssetLoader( 7425): 	at org.chromium.android_webview.AwContentsBackgroundThreadClient.shouldInterceptRequestFromNative(chromium-TrichromeWebViewGoogle6432.apk-stable-567263637:15)
+10-31 17:57:49.869 W/ChooserPreview( 7739): Could not read content://org.pahaadpath.app.files/share/PahaadPath.apk stream types. If a preview is desired, call Intent#setClipData() to ensure that the sharesheet is given permission.
+10-31 17:57:49.870 W/ChooserPreview( 7739): Could not read content://org.pahaadpath.app.files/share/PahaadPath.apk metadata. If a preview is desired, call Intent#setClipData() to ensure that the sharesheet is given permission.
+10-31 17:58:04.702 W/InputDispatcher(  520): Not sending touch gesture to 38d4ec7 ActivityRecordInputSink org.pahaadpath.app/.MainActivity because it has config NO_INPUT_CHANNEL
+10-31 17:58:11.767 W/InputDispatcher(  520): Not sending touch gesture to 38d4ec7 ActivityRecordInputSink org.pahaadpath.app/.MainActivity because it has config NO_INPUT_CHANNEL
+10-31 17:58:14.502 W/InputDispatcher(  520): Not sending touch gesture to 38d4ec7 ActivityRecordInputSink org.pahaadpath.app/.MainActivity because it has config NO_INPUT_CHANNEL
+10-31 17:58:28.875 W/UsageStatsService(  520): Unexpected activity event reported! (org.pahaadpath.app/org.pahaadpath.app.MainActivity event : 23 instanceId : 116522642)
+10-31 17:58:28.888 W/InputManager-JNI(  520): Input channel object 'ced83ac org.pahaadpath.app/org.pahaadpath.app.MainActivity (client)' was disposed without first being removed with the input manager!
+10-31 17:58:29.959 W/.pahaadpath.app( 8069): Unexpected CPU variant for x86: x86_64.
+10-31 17:58:29.959 W/.pahaadpath.app( 8069): Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, tremont, kabylake, default
+10-31 17:58:29.967 E/.pahaadpath.app( 8069): Not starting debugger since process cannot load the jdwp agent.
+10-31 17:58:30.050 W/.pahaadpath.app( 8069): Entry not found
+10-31 17:58:30.637 W/InputManager-JNI(  520): Input channel object '696c017 Splash Screen org.pahaadpath.app (client)' was disposed without first being removed with the input manager!
+10-31 17:58:30.942 E/WebViewAssetLoader( 8069): Error opening asset path: icon.svg
+10-31 17:58:30.942 E/WebViewAssetLoader( 8069): java.io.FileNotFoundException: icon.svg
+10-31 17:58:30.942 E/WebViewAssetLoader( 8069): 	at android.content.res.AssetManager.nativeOpenAsset(Native Method)
+10-31 17:58:30.942 E/WebViewAssetLoader( 8069): 	at android.content.res.AssetManager.open(AssetManager.java:904)
+10-31 17:58:30.942 E/WebViewAssetLoader( 8069): 	at androidx.webkit.internal.AssetHelper.openAsset(AssetHelper.java:122)
+10-31 17:58:30.942 E/WebViewAssetLoader( 8069): 	at androidx.webkit.WebViewAssetLoader$AssetsPathHandler.handle(WebViewAssetLoader.java:189)
+10-31 17:58:30.942 E/WebViewAssetLoader( 8069): 	at androidx.webkit.WebViewAssetLoader.shouldInterceptRequest(WebViewAssetLoader.java:571)
+10-31 17:58:30.942 E/WebViewAssetLoader( 8069): 	at org.pahaadpath.app.MainActivity$1.shouldInterceptRequest(MainActivity.java:85)
+10-31 17:58:30.942 E/WebViewAssetLoader( 8069): 	at I9.a(chromium-TrichromeWebViewGoogle6432.apk-stable-567263637:79)
+10-31 17:58:30.942 E/WebViewAssetLoader( 8069): 	at org.chromium.android_webview.AwContentsBackgroundThreadClient.shouldInterceptRequestFromNative(chromium-TrichromeWebViewGoogle6432.apk-stable-567263637:15)
+10-31 17:58:31.560 W/ActivityTaskManager(  520): Activity top resumed state loss timeout for ActivityRecord{6155cf4 u0 org.pahaadpath.app/.MainActivity t16}
+10-31 17:58:31.560 W/ActivityTaskManager(  520): Activity pause timeout for ActivityRecord{6155cf4 u0 org.pahaadpath.app/.MainActivity t16}
+10-31 17:58:35.324 W/ActivityTaskManager(  520): Force removing ActivityRecord{6155cf4 u0 org.pahaadpath.app/.MainActivity t16 f}}: app died, no saved state
+10-31 17:58:35.329 W/InputManager-JNI(  520): Input channel object 'Letterbox_fullWindow_ActivityRecord{6155cf4 u0 org.pahaadpath.app/.MainActivity t16} (client)' was disposed without first being removed with the input manager!
+10-31 17:58:35.650 W/InputManager-JNI(  520): Input channel object '8c5108e org.pahaadpath.app/org.pahaadpath.app.MainActivity (client)' was disposed without first being removed with the input manager!
+11-02 18:03:04.095 W/YouTubeMusic( 1756): 	at org.chromium.net.impl.CronetUrlRequest.onError(PG:6)
+11-02 18:03:04.196 W/chromium( 1814): [1102/180304.196298:WARNING:dns_config_service_android.cc(81)] Failed to read DnsConfig.
+11-02 18:03:04.357 W/chromium( 2943): [WARNING:dns_config_service_android.cc(115)] Failed to read DnsConfig.
+11-02 18:03:07.456 W/YouTubeMusic( 1756): 	at org.chromium.net.impl.CronetUrlRequest.onError(PG:6)
+11-02 18:03:14.700 W/YouTubeMusic( 1756): 	at org.chromium.net.impl.CronetUrlRequest.onError(PG:6)
+11-02 18:03:23.925 W/YouTubeMusic( 1756): 	at org.chromium.net.impl.CronetUrlRequest.onError(PG:6)
+11-11 18:04:11.059 W/YouTubeMusic( 1756): 	at org.chromium.net.impl.CronetUrlRequest.onError(PG:6)
+11-11 18:04:11.332 W/chromium( 2943): [WARNING:media_drm_origin_id_manager.cc(243)] Failed to provision origin ID
