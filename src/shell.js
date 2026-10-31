@@ -3,12 +3,12 @@
    wide screens), quick actions float over the map, and the views live in a bottom bar. Every id the rest of the app
    renders into is unchanged; this file only places them and adds the map, the sheet and the motion. ================= */
 Object.assign(T.en,{
-  sh_go:'Show route',sh_edit:'Change trip',sh_layer:'Risk or traffic colours',sh_fit:'Show the whole route',sh_where:'Where am I on this trip?',
+  v6_line:'Next 24 h, model checked against PWD closures. Worst: {s}',sh_go:'Show route',sh_edit:'Change trip',sh_layer:'Risk or traffic colours',sh_fit:'Show the whole route',sh_where:'Where am I on this trip?',
   sh_sos:'SOS',sh_sheet:'Drag to see more or less',sh_conds:'Forecast and traffic settings',sh_map:'Route map',
   nav_trip:'Plan',nav_ops:'Control room',nav_proof:'Proof'
 });
 Object.assign(T.hi,{
-  sh_go:'रास्ता दिखाएँ',sh_edit:'यात्रा बदलें',sh_layer:'जोखिम या ट्रैफ़िक के रंग',sh_fit:'पूरा रास्ता दिखाएँ',sh_where:'इस यात्रा में मैं कहाँ हूँ?',
+  v6_line:'अगले 24 घंटे, PWD बंदियों से जाँचा मॉडल। सबसे जोखिम: {s}',sh_go:'रास्ता दिखाएँ',sh_edit:'यात्रा बदलें',sh_layer:'जोखिम या ट्रैफ़िक के रंग',sh_fit:'पूरा रास्ता दिखाएँ',sh_where:'इस यात्रा में मैं कहाँ हूँ?',
   sh_sos:'SOS',sh_sheet:'और या कम देखने के लिए खींचें',sh_conds:'पूर्वानुमान और ट्रैफ़िक की सेटिंग',sh_map:'रास्ते का नक्शा',
   nav_trip:'योजना',nav_ops:'कंट्रोल रूम',nav_proof:'प्रमाण'
 });
@@ -244,6 +244,14 @@ function kstatsHtml(M){
   return tile('drive',fmtH(cur.totalH))+tile('dist','~'+Math.round(cur.totalKm)+' '+t('km'))
     +tile('halt',cur.halts.length?pname(cur.halts[0].node):t('k_none'),cur.halts.length?when(msOf(cur.halts[0].arr)):'')+tile('leave',leave);
 }
+/* model v6 (checked against PWD closures, run in CI on the data pack): worst stretch of this route in the next 24 h */
+function v6Html(M){
+  const R=st.r24;if(!R||st.src!=='live'||!M||!M.cur)return '';
+  let w=null;M.cur.rows.forEach(r=>{const x=R.by[r.seg.id];if(x&&(!w||x[0]>w.x[0]))w={x,seg:r.seg};});
+  if(!w)return '';
+  const b=w.x[1];
+  return '<div class="v6 l'+b+'"><b>'+t(LV[b])+' '+w.x[0]+'</b><span>'+esc(fill(t('v6_line'),{s:segName(w.seg)}))+'</span></div>';
+}
 function secPaint(){
   const tabs=$('tabs'),sh=$('v-trip');if(!tabs||!st.M||!st.M.cur){if(sh)sh.dataset.sec='none';return;}
   const now=secNow();sh.dataset.sec=now;
@@ -256,6 +264,8 @@ function secPaint(){
   if(!$('over-wrap')){const w=document.createElement('div');w.id='over-wrap';w.className='over-wrap';$('routes').before(w);w.append($('routes'),$('traffic'));}
   let k=$('kstats');if(!k){k=document.createElement('div');k.id='kstats';k.className='kstats';$('verdict').after(k);}
   const kh=kstatsHtml(st.M);if(k.innerHTML!==kh)k.innerHTML=kh;
+  let v=$('v6line');if(!v){v=document.createElement('div');v.id='v6line';k.after(v);}
+  const vh=v6Html(st.M);if(v.innerHTML!==vh)v.innerHTML=vh;v.hidden=!vh;
 }
 const renderBase11=render;
 render=function(){renderBase11();secPaint();};

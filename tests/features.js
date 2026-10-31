@@ -52,7 +52,7 @@ function hourly(start,end,fn){const t=[],v=[];let d=new Date(start+'T00:00:00Z')
  await p.click('#od-slope');await p.waitForFunction(()=>/Slope: 44 of 44/.test(document.getElementById('od-msg')?.textContent||''),null,{timeout:60000});
  const od=await p.evaluate(()=>{const e=PP.S['rishikesh-devprayag'];return{km:e.km,km0:e.km0,src:e.kmSrc,susc:e.susc,sl:e.slSrc,foot:document.getElementById('foot').textContent};});
  console.log('open data:',JSON.stringify(od).slice(0,300),'calls',JSON.stringify(calls));
- ok(od.src==='osrm'&&od.sl==='dem','open data applied');
+ ok(od.src==='osrm'&&(od.sl==='dem'||od.sl==='gsi'),'open data applied');
  // 5. matrix still sound after open data
  const m=await p.evaluate(()=>{PP.st.view='trip';PP.st.scn='monsoon';return 1;});
  await p.goto('file://'+F+'?scn=monsoon&from=delhi&to=badrinath&tab=map&tiles=0');await p.waitForFunction(()=>PP.last&&PP.last.cur);

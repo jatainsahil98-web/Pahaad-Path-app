@@ -42,6 +42,12 @@ const fails=[];const ok=(c,m)=>{if(!c)fails.push(m);};
  // 5. GSI: every hill stretch carries the GSI rating, and mapped landslides are found along a hill route
  const g=await p.evaluate(()=>({n:PP.EDGES.filter(e=>!e.plain&&!e.virtual&&e.gsi&&e.gsi.cls).length,hill:PP.EDGES.filter(e=>!e.plain&&!e.virtual).length,near:(PP.gsiNear(PP.last.cur.rows)||[]).length}));
  ok(g.n===g.hill&&g.near>50,'GSI data '+JSON.stringify(g));
+ // 6. model v6 risk from the data pack: the route's worst stretch for the next 24 h, only on live forecasts
+ await p.evaluate(()=>document.querySelector('[data-view="trip"]').click());await p.waitForTimeout(300);
+ const v6=await p.evaluate(()=>{const by={};PP.EDGES.forEach(e=>{if(!e.plain)by[e.id]=[10,0,0];});const id=PP.last.cur.rows.find(r=>!r.seg.plain).seg.id;by[id]=[71,2,6];
+   PP.st.r24={by,model:'v6: test'};const src=PP.st.src;PP.render();const off=document.getElementById('v6line').hidden;
+   PP.st.src='live';PP.render();const el=document.getElementById('v6line');const out={off,on:!el.hidden,txt:el.innerText};PP.st.src=src;PP.st.r24=null;PP.render();return out;});
+ ok(v6.off&&v6.on&&/Avoid 71/.test(v6.txt),'v6 line '+JSON.stringify(v6));
  ok(!errs.length,'page errors '+errs.join(' | '));
  await b.close();
  if(fails.length){console.error('FAIL\n'+fails.join('\n'));process.exit(1);}

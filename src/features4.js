@@ -263,8 +263,9 @@ render=function(){
   const acts=$('acts');
   if(st.view==='trip'&&st.M&&st.M.cur&&acts&&acts.innerHTML&&st.src!=='replay'){
     const sv=mtSaved();
-    acts.insertAdjacentHTML('beforeend','<button class="btn" id="a-fam" type="button">'+t('fm_b')+'</button>'
-      +'<button class="btn'+(sv?' on':'')+'" id="a-save" type="button" aria-pressed="'+sv+'">'+(sv?'★ '+t('mt_saved'):'☆ '+t('mt_save'))+'</button>');
+    const ic=d=>'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+d+'</svg>';
+    acts.insertAdjacentHTML('beforeend','<button class="btn" id="a-fam" type="button">'+ic('<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>')+t('fm_b')+'</button>'
+      +'<button class="btn'+(sv?' on':'')+'" id="a-save" type="button" aria-pressed="'+sv+'">'+ic('<path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"'+(sv?' fill="currentColor"':'')+'/>')+t(sv?'mt_saved':'mt_save')+'</button>');
   }
 };
 document.addEventListener('click',e=>{

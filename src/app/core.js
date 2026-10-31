@@ -733,7 +733,7 @@ async function load(pre){
   if(st.scn==='live'){
     setClock(false);
     try{
-      const w=pre||await fetchWeather();st.series=seriesFromKeys(w.by);st.src='live';st.via=w.via;st.dataTs=w.ts;st.made=w.made||null;setDaily(w.daily,w.day0);if(w.alerts)st.alerts=w.alerts;if(w.closures)st.closures=w.closures;
+      const w=pre||await fetchWeather();st.series=seriesFromKeys(w.by);st.src='live';st.via=w.via;st.dataTs=w.ts;st.made=w.made||null;setDaily(w.daily,w.day0);if(w.alerts)st.alerts=w.alerts;if(w.closures)st.closures=w.closures;st.r24=w.r24||null;
       try{localStorage.setItem('pp_cache2',JSON.stringify({ts:w.ts,made:w.made,by:w.by,daily:w.daily,day0:w.day0,alerts:st.alerts||null,closures:st.closures||null}));}catch(e){}
     }catch(e){
       let c=null;try{c=JSON.parse(localStorage.getItem('pp_cache2')||'null');}catch(_){}

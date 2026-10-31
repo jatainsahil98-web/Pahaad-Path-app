@@ -1,5 +1,5 @@
 // Offline cache: the app is one file, so cache it and serve it when there is no signal. Weather and map tiles stay network-first.
-const C='pp-b276381c19'; // install skips the HTTP cache so a new release never caches the old page
+const C='pp-92e22c7097'; // install skips the HTTP cache so a new release never caches the old page
 self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(['./','index.html','manifest.webmanifest','icon.svg','icon-192.png','icon-512.png'].map(u=>new Request(u,{cache:'reload'})))).then(()=>self.skipWaiting()));});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==C).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});
 self.addEventListener('fetch',e=>{const u=new URL(e.request.url);if(u.origin!==location.origin)return;
