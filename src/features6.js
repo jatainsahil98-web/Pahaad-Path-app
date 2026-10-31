@@ -93,7 +93,7 @@ function saveLast(){
   const o=lsGet('pp_last',null);if(!o||typeof o!=='object')return;
   if(N[o.from]&&N[o.to]&&o.from!==o.to){st.from=o.from;st.to=o.to;}
   if(['route','map','reports','rules','safety'].includes(o.tab))st.tab=o.tab;
-  if(['trip','ops','proof'].includes(o.view))st.view=o.view;
+  if(['trip','ops','proof','transport'].includes(o.view))st.view=o.view;
   if(o.dep==null||(o.dep>=0&&o.dep<24))st.dep=o.dep==null?null:+o.dep;
   if(['fast','safe','alt'].includes(o.pick))st.pick=o.pick;
   if(+o.date>0){st.dateIdx=+o.date;st.dateInit=1;} // clampDate() still keeps it between today and the last forecast day

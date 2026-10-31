@@ -35,7 +35,7 @@ const fails=[];const ok=(c,m)=>{if(!c)fails.push(m);};
  ok(await p.evaluate(()=>{const c=window.__watch;return c[c.length-1][0].length===1;}),'still one watched trip');
 
  // 3. Proof tab: the backtest card
- await p.evaluate(()=>document.querySelector('[data-view="proof"]').click());await p.waitForTimeout(400);
+ await p.evaluate(()=>{PP.st.view='proof';PP.render();});await p.waitForTimeout(400);
  const pr=await p.evaluate(()=>document.getElementById('v-proof').textContent);
  ok(/Checked against every PWD closure/.test(pr),'backtest card on Proof');
 
@@ -69,6 +69,15 @@ const fails=[];const ok=(c,m)=>{if(!c)fails.push(m);};
    const h=document.querySelector('#v-ops .v6h'),cells=[...document.querySelectorAll('#v-ops .gc.v6')].map(x=>x.textContent);
    const out={title:h&&h.title,n:cells.length,first:cells[0]};S.src=keep.src;S.v6=keep.v6;S.v6t=keep.v6t;S.view=keep.view;PP.render();return out;});
  ok(oc.n>=40&&oc.first==='70'&&/trial/.test(oc.title||''),'Control room v6 column '+JSON.stringify(oc));
+ // 9. Transport (v2) replaces Proof in the bottom bar: services for the trip, official booking links only
+ const tr=await p.evaluate(()=>{PP.st.view='trip';PP.render();const nav=[...document.querySelectorAll('#views button')].map(b=>b.dataset.view);
+   document.querySelector('[data-view="transport"]').click();
+   const el=document.getElementById('v-transport');return{nav,vis:el&&!el.hidden,h:[...el.querySelectorAll('h3')].map(x=>x.textContent),
+     links:[...el.querySelectorAll('a')].map(a=>new URL(a.href).host)};});
+ ok(JSON.stringify(tr.nav)==='["trip","ops","transport"]','bottom bar '+JSON.stringify(tr.nav));
+ ok(tr.vis&&tr.h.some(x=>/Train to/.test(x))&&tr.h.some(x=>/Roadways/.test(x))&&tr.h.some(x=>/How to choose/.test(x)),'transport cards '+JSON.stringify(tr.h));
+ ok(tr.links.length>=3&&tr.links.every(h=>/(irctc\.co\.in|uk\.gov\.in|gmou\.org|redbus\.in)$/.test(h)),'transport links '+JSON.stringify(tr.links));
+ await p.evaluate(()=>{PP.st.view='trip';PP.render();});
  ok(!errs.length,'page errors '+errs.join(' | '));
  await b.close();
  if(fails.length){console.error('FAIL\n'+fails.join('\n'));process.exit(1);}

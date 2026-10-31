@@ -132,3 +132,10 @@ body.norisk .rk,body.norisk #planner{display:none}
 .sheet[data-sec]:not([data-sec="over"]) #alerts,.sheet[data-sec]:not([data-sec="over"]) #mytrips{display:none}
 /* 2.0 Phase 7: each grid button sits in a cell (table semantics), the wrapper takes no space in the layout */
 .gcw{display:contents}
+/* Transport (v2) */
+.tr-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;align-items:start}
+.tr-grid .card{margin:0}
+.card.tr h3{margin-bottom:4px}.card.tr p{margin:0 0 10px;color:var(--ink)}
+.card.tr-warn{border-left:4px solid var(--cau)}.card.tr-warn.l2{border-left-color:var(--avd)}
+.card.tr .acts a.btn{text-decoration:none}
+@media (max-width:899px){.tr-grid{padding-inline:16px}.tr-grid .card{margin:0}}

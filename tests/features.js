@@ -46,7 +46,7 @@ function hourly(start,end,fn){const t=[],v=[];let d=new Date(start+'T00:00:00Z')
  await p.click('#ops-play');await p.waitForTimeout(800);await p.click('#ops-play');
  const h=await p.evaluate(()=>PP.st.opsH);ok(h>0,'play advanced '+h);
  // 4. open data builder (sleep shortened)
- await p.click('[data-view="proof"]');
+ await p.evaluate(()=>{PP.st.view='proof';PP.render();});
  await p.evaluate(()=>{window.__fastSleep=true;});
  await p.click('#od-roads');await p.waitForFunction(()=>/Roads: 75 of 75/.test(document.getElementById('od-msg')?.textContent||''),null,{timeout:150000});
  await p.click('#od-slope');await p.waitForFunction(()=>/Slope: 44 of 44/.test(document.getElementById('od-msg')?.textContent||''),null,{timeout:60000});

@@ -12,7 +12,7 @@
 }
 html,body{height:100%}
 body{overflow:hidden;overscroll-behavior:none}
-body[data-pp-view="ops"],body[data-pp-view="proof"]{overflow:auto}
+body[data-pp-view="ops"],body[data-pp-view="proof"],body[data-pp-view="transport"]{overflow:auto}
 .app.shell{max-width:none;min-height:100%;height:100%;display:block;position:relative;background:var(--bg)}
 .app.shell .mast{padding:0}
 .app.shell .mast.topbar{background:var(--topbar-bg);padding:calc(8px + env(safe-area-inset-top,0px)) 12px 8px}
@@ -117,8 +117,8 @@ body[data-snap="full"] .fabs{opacity:0;pointer-events:none}
 .bnav button[aria-pressed="true"]{color:var(--ink)}
 .bnav button[aria-pressed="true"] svg{background:color-mix(in srgb,var(--signal) 55%,transparent)}
 
-body[data-pp-view="ops"] .qsum,body[data-pp-view="proof"] .qsum{display:none}
-body[data-pp-view="ops"] .topbar .brand,body[data-pp-view="proof"] .topbar .brand{display:flex;flex:1}
+body[data-pp-view="ops"] .qsum,body[data-pp-view="proof"] .qsum,body[data-pp-view="transport"] .qsum{display:none}
+body[data-pp-view="ops"] .topbar .brand,body[data-pp-view="proof"] .topbar .brand,body[data-pp-view="transport"] .topbar .brand{display:flex;flex:1}
 
 /* ---------- control room and proof: full pages between the bars ---------- */
 .app.shell .wide-view{padding:calc(96px + env(safe-area-inset-top,0px)) 0 calc(var(--bnav-h) + 24px);max-width:1180px;margin-inline:auto;animation:pp-in .25s var(--ease)}
@@ -151,8 +151,8 @@ body[data-pp-view="ops"] .topbar .brand,body[data-pp-view="proof"] .topbar .bran
   .bgmap .leaflet-bottom.leaflet-right{bottom:0}
   .conds{left:16px;right:auto;width:calc(var(--panel-w) - 32px);top:88px}
   .app.shell .wide-view{padding-top:24px;margin-left:var(--panel-w);max-width:none;padding-inline:8px}
-  body[data-pp-view="ops"] .search,body[data-pp-view="proof"] .search{display:none}
-  body[data-pp-view="ops"] .bgmap,body[data-pp-view="proof"] .bgmap{display:none}
+  body[data-pp-view="ops"] .search,body[data-pp-view="proof"] .search,body[data-pp-view="transport"] .search{display:none}
+  body[data-pp-view="ops"] .bgmap,body[data-pp-view="proof"] .bgmap,body[data-pp-view="transport"] .bgmap{display:none}
   .modal{align-items:center;padding:16px}
   .modal-in{border-radius:16px}
 }
@@ -222,8 +222,8 @@ body[data-pp-view="ops"] .topbar .brand,body[data-pp-view="proof"] .topbar .bran
   .kt b{grid-column:3;margin:0;text-align:right;font-size:16px}
   .kt em{display:none}
   .scrim{right:auto;width:var(--panel-w)}
-  body[data-pp-view="ops"] .qsum,body[data-pp-view="proof"] .qsum{display:none}
-  body[data-pp-view="ops"] .topbar .brand,body[data-pp-view="proof"] .topbar .brand{display:flex}
+  body[data-pp-view="ops"] .qsum,body[data-pp-view="proof"] .qsum,body[data-pp-view="transport"] .qsum{display:none}
+  body[data-pp-view="ops"] .topbar .brand,body[data-pp-view="proof"] .topbar .brand,body[data-pp-view="transport"] .topbar .brand{display:flex}
 }
 /* Galaxy Tab landscape and other large screens: a wider panel, bigger type for arm's-length reading */
 @media (min-width: 1200px){
@@ -256,13 +256,13 @@ body[data-pp-view="ops"] .topbar .brand,body[data-pp-view="proof"] .topbar .bran
 @media (min-width: 900px){
   :root{--rail-w:92px}
   /* full-width bar on top, the view switcher becomes a rail on the left, content gets the rest of the screen */
-  body[data-pp-view="ops"] .topbar,body[data-pp-view="proof"] .topbar{width:auto;right:0}
-  body[data-pp-view="ops"] .bnav,body[data-pp-view="proof"] .bnav{top:var(--topbar-h,72px);bottom:0;height:auto;width:var(--rail-w);flex-direction:column;justify-content:flex-start;
+  body[data-pp-view="ops"] .topbar,body[data-pp-view="proof"] .topbar,body[data-pp-view="transport"] .topbar{width:auto;right:0}
+  body[data-pp-view="ops"] .bnav,body[data-pp-view="proof"] .bnav,body[data-pp-view="transport"] .bnav{top:var(--topbar-h,72px);bottom:0;height:auto;width:var(--rail-w);flex-direction:column;justify-content:flex-start;
     gap:6px;padding:14px 0 0;border-top:0;border-right:1px solid var(--line);box-shadow:none}
-  body[data-pp-view="ops"] .bnav button,body[data-pp-view="proof"] .bnav button{flex:none;padding:10px 4px}
-  body[data-pp-view="ops"] .app.shell .wide-view,body[data-pp-view="proof"] .app.shell .wide-view{
+  body[data-pp-view="ops"] .bnav button,body[data-pp-view="proof"] .bnav button,body[data-pp-view="transport"] .bnav button{flex:none;padding:10px 4px}
+  body[data-pp-view="ops"] .app.shell .wide-view,body[data-pp-view="proof"] .app.shell .wide-view,body[data-pp-view="transport"] .app.shell .wide-view{
     margin-left:var(--rail-w);padding:calc(var(--topbar-h,72px) + 20px) 28px 32px;max-width:1500px}
-  body[data-pp-view="ops"] .toast,body[data-pp-view="proof"] .toast{bottom:24px}
+  body[data-pp-view="ops"] .toast,body[data-pp-view="proof"] .toast,body[data-pp-view="transport"] .toast{bottom:24px}
   /* proof: replay controls side by side with the scoreboard on very wide screens */
   .seg{top:calc(var(--topbar-h,72px) + 8px)}
 }

@@ -16,7 +16,7 @@ const R = path.dirname(new URL(import.meta.url).pathname);
 const rd = p => fs.readFileSync(path.join(R, p), 'utf8');
 const json = p => JSON.parse(fs.readFileSync(path.resolve(R, p), 'utf8'));
 const has = p => fs.existsSync(path.join(R, p));
-const FEATURES = ['features.js', 'features2.js', 'features3.js', 'features4.js', 'features5.js', 'features6.js', 'shell.js'];
+const FEATURES = ['features.js', 'features2.js', 'features3.js', 'features4.js', 'features5.js', 'features6.js', 'shell.js', 'features7.js'];
 
 /* the data the app has baked in; null where a build leaves it out */
 function bakedData(demo) {

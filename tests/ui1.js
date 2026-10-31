@@ -32,7 +32,7 @@ const fails=[];const ok=(c,m)=>{if(!c)fails.push(m);};
  ok(f.lang==='hi'&&parseFloat(f.lh)/parseFloat(f.fs)>=1.59,'Hindi line height '+JSON.stringify(f));
 
  // 2. wide: one rail on the left on every view, trip panel beside it, map behind the rest
- for(const v of ['trip','ops','proof']){
+ for(const v of ['trip','ops','transport']){
    if(v!=='trip'){await A.p.click('#views [data-view="'+v+'"]');await A.p.waitForTimeout(300);}
    const r=await A.p.evaluate(()=>{const g=id=>document.getElementById(id).getBoundingClientRect();
      const n=g('views'),s=g('v-trip'),t=document.querySelector('.topbar').getBoundingClientRect(),bt=[...document.querySelectorAll('#views button')].map(x=>x.getBoundingClientRect());

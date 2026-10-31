@@ -676,7 +676,7 @@ const q=new URLSearchParams(location.search);
 try{if(localStorage.getItem('pp_lang')==='hi')st.lang='hi';}catch(e){} // the phone remembers the language picked last time
 if(q.get('lang')==='hi')st.lang='hi';else if(q.get('lang')==='en')st.lang='en';
 if(['monsoon','clear','live'].includes(q.get('scn'))||/^rp:\d{4}-\d{2}-\d{2}$/.test(q.get('scn')||''))st.scn=q.get('scn');
-if(['trip','ops','proof'].includes(q.get('view')))st.view=q.get('view');
+if(['trip','ops','proof','transport'].includes(q.get('view')))st.view=q.get('view');
 if(q.get('tiles')==='0')st.tiles=false;
 if(['cal','normal','weekend','leve','lstart','lend'].includes(q.get('tday')))st.tday=q.get('tday');
 if(N[q.get('from')])st.from=q.get('from');
@@ -913,7 +913,7 @@ function render(){
   $('dot').className='dot'+(st.src==='live'?' live':'');
   $('srcmsg').textContent=st.src==='none'?(st.err==='old'?fill(t('m_old'),{w:fmtDate(dayOf(st.cacheMade||st.cacheTs))}):t('m_none')):st.err==='fail'?t('m_fail'):st.err==='rpfail'?t('m_rpfail'):st.src==='sim'?t('m_sim')+clock(st.nowMs)+' IST':st.src==='live'?t('m_live')+clock(st.made||st.nowMs)+' IST'+viaMsg():st.src==='replay'?fill(t('m_rp'),{d:fmtDate(dayOf(st.nowMs))+' '+new Date(st.nowMs+IST).getUTCFullYear()}):cacheMsg();
   $('foot').innerHTML=footHtml();
-  if(st.view!=='trip'){if(st.view==='ops')renderOps();else renderProof();return;}
+  if(st.view!=='trip'){if(st.view==='ops')renderOps();else if(st.view==='transport')renderTransport();else renderProof();return;}
   renderForm();
   const M=compute();st.M=M;
   if(M.trip.err||!M.plans||!M.plans.length){

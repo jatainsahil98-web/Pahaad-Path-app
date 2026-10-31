@@ -20,13 +20,16 @@ const calm=()=>window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const NAV_IC={
   trip:'<path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/>',
   ops:'<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4M7 12l3-3 3 2 4-4"/>',
-  proof:'<path d="M9 12l2 2 4-4"/><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6l8-3z"/>'
+  proof:'<path d="M9 12l2 2 4-4"/><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6l8-3z"/>',
+  transport:'<rect x="4" y="3" width="16" height="14" rx="3"/><path d="M4 11h16M8 21l1-4M16 21l-1-4"/><circle cx="8" cy="14" r="1"/><circle cx="16" cy="14" r="1"/>'
 };
 renderViews=function(){
-  $('views').innerHTML=['trip','ops','proof'].map(v=>'<button type="button" data-view="'+v+'" aria-pressed="'+(st.view===v)+'">'
+  $('views').innerHTML=['trip','ops','transport'].map( // Proof left the bar in v2; it stays reachable with ?view=proof
+v=>'<button type="button" data-view="'+v+'" aria-pressed="'+(st.view===v)+'">'
     +'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+NAV_IC[v]+'</svg>'
     +'<span>'+t('nav_'+v)+'</span></button>').join('');
   $('v-trip').hidden=st.view!=='trip';$('v-ops').hidden=st.view!=='ops';$('v-proof').hidden=st.view!=='proof';
+  if($('v-transport'))$('v-transport').hidden=st.view!=='transport';
   $('app').classList.toggle('wide',st.view!=='trip');
   document.body.dataset.ppView=st.view; // not data-view: the app's click handler treats any [data-view] as a view button
   if(st.view!=='ops')stopPlay();

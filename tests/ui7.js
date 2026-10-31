@@ -58,7 +58,7 @@ const FAKE=()=>{ // plays window.__say: [[text, isFinal], ...] then ends
  ok(af.to==='mussoorie'&&af.h==='समझा','Android final words plan the trip, Hindi bar '+JSON.stringify(af));
 
  // 4. axe on every view
- for(const [view,lang,dark,w,h] of [['trip','en',false,412,915],['trip','hi',true,412,915],['trip','en',true,1280,800],['ops','en',false,1280,800],['ops','hi',true,412,915],['proof','en',false,412,915],['proof','hi',true,1280,800]]){
+ for(const [view,lang,dark,w,h] of [['trip','en',false,412,915],['trip','hi',true,412,915],['trip','en',true,1280,800],['ops','en',false,1280,800],['ops','hi',true,412,915],['proof','en',false,412,915],['proof','hi',true,1280,800],['transport','en',false,412,915],['transport','hi',true,1280,800]]){
    const c=await b.newContext({viewport:{width:w,height:h},colorScheme:dark?'dark':'light'});await c.route(/^https?:\/\//,r=>r.abort());
    const q=await c.newPage();await q.goto('file://'+F+'?scn=monsoon&from=dehradun&to=badrinath&psec=all&view='+view+(lang==='hi'?'&lang=hi':''));
    await q.waitForFunction(()=>window.PP&&PP.st.series);await q.waitForTimeout(1500);

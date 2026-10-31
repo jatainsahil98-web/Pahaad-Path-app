@@ -43,7 +43,7 @@ async function mock(ctx){
  await pa.click('[data-t="route"]');await pa.waitForFunction(()=>document.querySelector('#pf svg'),null,{timeout:8000});
  const pf=await pa.textContent('#pf');ok(/Highest point/.test(pf),'profile '+pf.slice(0,80));
  // NASA catalog history (baked in) + tuning on B
- await pb.click('[data-view="proof"]');
+ await pb.evaluate(()=>{PP.st.view='proof';PP.render();});
  await pb.waitForFunction(()=>/Incident history: 44 of 44/.test(document.getElementById('od-msg')?.textContent||''),null,{timeout:30000});
  const hist=await pb.evaluate(()=>({pts:PP.OD.events.length,src:PP.S['rishikesh-devprayag'].hiSrc,top:Object.entries(PP.OD.hist).sort((a,b)=>b[1].n-a[1].n)[0]}));
  ok(hist.pts>100&&hist.src==='nasa'&&hist.top[1].n>0,'hist '+JSON.stringify(hist));console.log('nasa:',JSON.stringify(hist));
