@@ -6,6 +6,9 @@ Object.assign(T.en,{
   bt_cau:'At Caution',bt_avo:'At Avoid',bt_ci:'95% range',bt_none:'Not run yet: the backtest runs after the closure collector.',
   bt_kept:'Fitted thresholds are not used: they did not beat Caine by more than its 95% range on held-out days.',
   bt_adopt:'Fitted thresholds are in use: they beat Caine on held-out days by more than its 95% range.',
+  bt_v6:'Model v6',bt_v6use:'in use for alerts',bt_prec:'Precision',
+  bt_v6k:'Model v6 uses: {g}. It is used for the data pack and phone alerts only when it beats Caine by more than its 95% range on held-out days.',
+  g_rain:'rain',g_static:'slope and past landslides',g_peak:'cloudburst intensity',g_soil:'soil moisture',g_season:'92-day rain',g_history:'past PWD closures',g_cold:'freeze-thaw',g_quake:'earthquakes',
   mem_note:'Very heavy rain here {w}: debris may still block the road. Ask locally and check road reports.',mem_1:'yesterday',mem_n:'{n} days ago',
   via_pack:' (from the PahaadPath data pack)',
   age_ok:'Offline. Forecast saved {w} ({a} ago).',age_old:'Offline. Forecast saved {w}, {a} ago. Rain since then is not known: ask locally and check road reports.',
@@ -23,6 +26,9 @@ Object.assign(T.hi,{
   bt_cau:'सावधानी पर',bt_avo:'बचें पर',bt_ci:'95% दायरा',bt_none:'अभी नहीं चला: बंदी संग्रह के बाद यह जाँच चलती है।',
   bt_kept:'निकाली गई सीमा उपयोग में नहीं: अलग रखे दिनों पर यह Caine से उसके 95% दायरे से अधिक बेहतर नहीं रही।',
   bt_adopt:'निकाली गई सीमा उपयोग में है: अलग रखे दिनों पर यह Caine से उसके 95% दायरे से अधिक बेहतर रही।',
+  bt_v6:'मॉडल v6',bt_v6use:'चेतावनियों में उपयोग',bt_prec:'सटीकता',
+  bt_v6k:'मॉडल v6 इनका उपयोग करता है: {g}। अलग रखे दिनों पर Caine से उसके 95% दायरे से अधिक बेहतर होने पर ही यह डेटा पैक और फ़ोन चेतावनियों में लगता है।',
+  g_rain:'बारिश',g_static:'ढलान और पुराने भूस्खलन',g_peak:'बादल फटने जैसी तीव्रता',g_soil:'मिट्टी की नमी',g_season:'92 दिन की बारिश',g_history:'PWD की पुरानी बंदियाँ',g_cold:'जमना-पिघलना',g_quake:'भूकंप',
   mem_note:'यहाँ {w} बहुत भारी बारिश हुई: मलबा अब भी सड़क रोक सकता है। स्थानीय लोगों से पूछें और सड़क रिपोर्ट देखें।',mem_1:'कल',mem_n:'{n} दिन पहले',
   via_pack:' (पहाड़ पथ डेटा पैक से)',
   age_ok:'ऑफ़लाइन। पूर्वानुमान {w} सहेजा गया ({a} पहले)।',age_old:'ऑफ़लाइन। पूर्वानुमान {w} सहेजा गया, {a} पहले। उसके बाद की बारिश पता नहीं: स्थानीय लोगों से पूछें और सड़क रिपोर्ट देखें।',
@@ -182,14 +188,16 @@ function btCard(){
   const p=v=>v==null?'—':Math.round(v*100)+'%',f2=v=>v==null?'—':v.toFixed(2);
   const col=(name,m,on)=>'<tr><th>'+esc(name)+(on?' <span class="pill l0">'+t('bt_use')+'</span>':'')+'</th>'
     +['caution','avoid'].map(k=>'<td>'+p(m[k].pod)+'</td><td>'+p(m[k].far)+'</td><td>'+f2(m[k].tss)+'</td>').join('')+'</tr>';
-  const c=B.caine,ci=c.ci_tss_caution;
+  const c=B.caine,ci=c.ci_tss_caution,V6=B.v6&&B.v6.v6?B.v6:null;
   let h='<div class="card"><h3>'+t('bt_t')+'</h3><p class="sub">'+esc(fill(t('bt_s'),{a:B.season?B.season[0]:'',b:B.season?B.season[1]:'',c:B.closures,r:B.reports}))+'</p>'
     +'<div class="kpis"><div class="kp l1"><small>'+t('bt_pod')+'</small><b>'+p(c.caution.pod)+'</b><em>'+t('bt_cau')+'</em></div>'
     +'<div class="kp"><small>'+t('bt_tss')+'</small><b>'+f2(c.caution.tss)+'</b><em>'+(ci?t('bt_ci')+' '+f2(ci[0])+t('rng')+f2(ci[1]):'&nbsp;')+'</em></div>'
     +'<div class="kp"><small>'+t('bt_lead')+'</small><b>'+(c.lead_median_h==null?'—':Math.round(c.lead_median_h)+' h')+'</b><em>&nbsp;</em></div></div>'
     +'<div class="wrap"><table class="tb"><tr><th></th><th colspan="3">'+t('bt_cau')+'</th><th colspan="3">'+t('bt_avo')+'</th></tr>'
     +'<tr><th></th>'+[0,1].map(()=>'<th>'+t('bt_pod')+'</th><th>'+t('bt_far')+'</th><th>TSS</th>').join('')+'</tr>'
-    +col(t('bt_caine'),c,!B.adopted)+(B.fit?col(fill(t('bt_fit'),{l:B.fit.level}),B.fit.metrics,B.adopted):'')+'</table></div>'
-    +'<p class="note">'+esc(B.fit?t(B.adopted?'bt_adopt':'bt_kept'):(B.note||''))+'</p></div>';
+    +col(t('bt_caine'),c,!B.adopted)+(B.fit?col(fill(t('bt_fit'),{l:B.fit.level}),B.fit.metrics,B.adopted):'')
+    +(V6?col(t('bt_v6'),V6.v6,false).replace('</th>',(B.v6.adopted?' <span class="pill l0">'+t('bt_v6use')+'</span>':'')+'</th>'):'')+'</table></div>'
+    +'<p class="note">'+esc(B.fit?t(B.adopted?'bt_adopt':'bt_kept'):(B.note||''))+'</p>'
+    +(V6?'<p class="note">'+esc(fill(t('bt_v6k'),{g:(V6.chosen||[]).map(g=>t('g_'+g)).join(', ')}))+'</p>':'')+'</div>';
   return h;
 }

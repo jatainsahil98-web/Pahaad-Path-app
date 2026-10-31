@@ -21,6 +21,19 @@ def adopted_thresholds():
         return json.load(f).get('adopted')
 
 
+def adopted_v6():
+    """model v6 (data/model/model_v6.json) when the backtest adopted it, else None"""
+    import json
+    import os
+    from . import path
+    p = path('data', 'model', 'model_v6.json')
+    if not os.path.exists(p):
+        return None
+    with open(p, encoding='utf-8') as f:
+        m = json.load(f)
+    return m if m.get('adopted') else None
+
+
 def risk24(net, hourly, th=None, hours=24):
     """worst rain-only score on every hill stretch over the next `hours` from hour0, with the hour it peaks: what the
     phone's background check compares for watched trips without running the engine"""
@@ -54,7 +67,23 @@ def build_pack(net, log=print):
         'daily': {k: tenths(daily[k]) for k in keys},
     }
     th = adopted_thresholds()
-    pk['risk24'] = risk24(net, hourly, th)  # link id -> [score 0-100, band 0-2, hours from hour0 of the peak]
+    pk['risk24'] = risk24(net, hourly, th)
+    m6 = adopted_v6()
+    if m6:  # v6 beat the current engine on held-out closures: its day score (today or tomorrow, worse of the two) leads
+        try:
+            from . import v6
+            from .openmeteo import forecast_vars
+            vars_, start = forecast_vars(net.keys(hill_only=True), log=log)
+            i0 = 92 * 24
+            quakes = v6.fetch_quakes((dt.date.today() - dt.timedelta(days=8)).isoformat(), (dt.date.today() + dt.timedelta(days=1)).isoformat(), log=log)
+            s0, s1 = v6.score_now(m6, net, vars_, start, i0, quakes), v6.score_now(m6, net, vars_, start, i0 + 24, quakes)
+            for lid in pk['risk24']:
+                if lid in s0:
+                    best = max((s0[lid], 0), (s1[lid], 24), key=lambda x: x[0][0])
+                    pk['risk24'][lid] = [best[0][0], best[0][1], best[1]]
+            pk['risk24_model'] = 'v6: ' + ' + '.join(m6['groups'])
+        except Exception as e:  # noqa: BLE001 - keep the v4 risk rather than no pack
+            log('v6 not scored (%s); risk24 stays on the rain threshold' % e)  # link id -> [score 0-100, band 0-2, hours from hour0 of the peak]
     pk['risk24_source'] = 'PahaadPath engine, rain only (no road reports), next 24 h; thresholds: %s' % (
         'fitted to PWD closures, %d%% level' % th['level'] if th else 'Caine (1980)')
     if alerts is not None:  # absent when the feed could not be read, so the app keeps the alerts it already has

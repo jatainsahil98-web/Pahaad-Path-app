@@ -16,7 +16,7 @@ concurrency:
 jobs:
   backtest:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
         with:
@@ -51,6 +51,7 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898299+github-actions[bot]@users.noreply.github.com'
+          [ -f data/model/model_v6.json ] && git add data/model/model_v6.json || true
           git add data/model/backtest.json data/model/thresholds.json data/model/BACKTEST.md index.html PahaadPath.html sw.js manifest.webmanifest
           git diff --cached --quiet && { echo 'no change'; exit 0; }
           git commit -qm "Backtest against PWD closures ($(date -u +%Y-%m-%d))"

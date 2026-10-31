@@ -110,19 +110,28 @@ def main(argv=None):
         print('inventory: %d reports, %d closures ended, %d still open' % (len(state['reports']), len(state['done']), len(state['open'])))
     elif a.cmd == 'backtest':
         import datetime as dt
+        from . import v6
         from .backtest import report_md, run, season, summary
-        from .openmeteo import archive_hourly
+        from .openmeteo import archive_hourly_vars
         net = Network()
         with open(a.inventory, encoding='utf-8') as f:
             inv = json.load(f)
         first, last = season(inv)
-        start = (dt.date.fromisoformat(first) - dt.timedelta(days=4)).isoformat()  # 72 h of rain before the first day
-        rain = archive_hourly(net.keys(), start, last)
+        last = min(last, (dt.date.today() - dt.timedelta(days=6)).isoformat())  # ERA5 runs about 5 days behind
+        start = (dt.date.fromisoformat(first) - dt.timedelta(days=v6.LEAD_DAYS + 1)).isoformat()  # history v6 needs
+        vars_ = archive_hourly_vars(net.keys(), start, last)
+        rain = vars_['precipitation']
         r = run(inv, net, rain, start, mode=a.mode)
-        write_json(summary(r), 'data', 'model', 'backtest.json', indent=1)
+        quakes = v6.fetch_quakes((dt.date.fromisoformat(start) - dt.timedelta(days=8)).isoformat(), last)
+        r6 = v6.run(inv, net, vars_, start, mode=a.mode, quakes=quakes)
+        bt = summary(r)
+        bt['v6'] = v6.summary(r6)
+        write_json(bt, 'data', 'model', 'backtest.json', indent=1)
         write_json({'adopted': r['adopted'], 'fit': r['fit']['thresholds'] if r.get('fit') else None,
                     'note': 'adopted is what the app and the data pack use; null keeps Caine (1980)'}, 'data', 'model', 'thresholds.json', indent=1)
-        md = report_md(r)
+        if r6.get('model'):
+            write_json(dict(r6['model'], adopted=r6['adopted']), 'data', 'model', 'model_v6.json', indent=1)
+        md = report_md(r) + '\n' + v6.report_md(r6)
         with open(path('data', 'model', 'BACKTEST.md'), 'w', encoding='utf-8') as f:
             f.write(md)
         print(md)

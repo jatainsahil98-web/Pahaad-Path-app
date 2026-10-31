@@ -124,6 +124,46 @@ def archive_hourly(keys, start, end, batch=10, log=print):
     return out
 
 
+HOURLY_VARS = ('precipitation', 'soil_moisture_0_to_7cm', 'soil_moisture_7_to_28cm', 'soil_moisture_28_to_100cm', 'temperature_2m')
+
+
+def archive_hourly_vars(keys, start, end, variables=HOURLY_VARS, batch=10, log=print):
+    """{variable: {key: hourly list}} from the ERA5 reanalysis, 00:00 IST on start to 23:00 IST on end (model v6 inputs)"""
+    days = (_d(end) - _d(start)).days + 1
+    out = {v: {} for v in variables}
+    for i in range(0, len(keys), batch):
+        ks = keys[i:i + batch]
+        la, lo = _latlon(ks)
+        q = urllib.parse.urlencode({'latitude': la, 'longitude': lo, 'start_date': start, 'end_date': end,
+                                    'hourly': ','.join(variables), 'timezone': TZ})
+        js = _as_list(get_json(ARCHIVE + '?' + q, weight(len(ks), days, len(variables)), log=log))
+        if len(js) != len(ks):
+            raise RuntimeError('reply has %d locations, asked for %d' % (len(js), len(ks)))
+        for k, j in zip(ks, js):
+            h = j['hourly']
+            if not h['time'][0].startswith(start) or len(h['time']) != days * 24:
+                raise RuntimeError('unexpected hours in reply for %s' % k)
+            for v in variables:
+                out[v][k] = [None if x is None else round(x, 3) for x in h[v]]
+    return out
+
+
+def forecast_vars(keys, variables=HOURLY_VARS, past_days=92, forecast_days=3, batch=25, log=print):
+    """{variable: {key: hourly list}} from 00:00 IST `past_days` ago to the end of the forecast, and that start date"""
+    out, start = {v: {} for v in variables}, None
+    for i in range(0, len(keys), batch):
+        ks = keys[i:i + batch]
+        la, lo = _latlon(ks)
+        q = urllib.parse.urlencode({'latitude': la, 'longitude': lo, 'hourly': ','.join(variables), 'past_days': past_days,
+                                    'forecast_days': forecast_days, 'timezone': TZ})
+        js = _as_list(_fresh(FORECAST + '?' + q, weight(len(ks), past_days + forecast_days, len(variables)), log))
+        for k, j in zip(ks, js):
+            start = start or j['hourly']['time'][0][:10]
+            for v in variables:
+                out[v][k] = [None if x is None else round(x, 3) for x in j['hourly'][v]]
+    return out, start
+
+
 def forecast(keys, past_hours=72, forecast_days=16, past_days_daily=31, batch=25, log=print):
     """Hourly rain from the current hour back `past_hours` and ahead `forecast_days`, plus daily totals for the past
     `past_days_daily` days and the forecast days. Returns (hour0 ISO string in IST, {key: hourly}, day0, {key: daily})."""
