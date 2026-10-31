@@ -122,7 +122,7 @@ def run(net_engine, net_v6, m6, fetch_vars, coolr, log=print, first_year=None, l
         lab = labs[y]
         skip = {(lid, (dt.date.fromisoformat(d) + dt.timedelta(days=k)).isoformat()) for lid, d in lab for k in (-1, 1)} - lab
         start = (dt.date(y, 6, 1) - dt.timedelta(days=v6.LEAD_DAYS + 1)).isoformat()
-        vars_ = fetch_vars(net_v6.keys(), start, '%d-09-30' % y)
+        vars_ = fetch_vars(net_v6.keys(hill_only=True), start, '%d-09-30' % y)
         days = days_of(y)
         rc = score_rows(net_engine, vars_['precipitation'], start, days)
         r6 = []
