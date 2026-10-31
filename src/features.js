@@ -276,7 +276,7 @@ const TRI='<svg viewBox="0 0 20 18" width="18" height="16"><path d="M10 1l9 16H1
 function stretchPopup(r){
   const s=r.seg,slope=['',t('low'),t('med'),t('high')][s.susc];
   return '<b>'+esc(pname(r.from)+' → '+pname(r.to))+'</b><br>'
-    +(s.plain?esc(t('plains_note')):esc(t(LV[lvl(r.score)])+' '+r.score+'/100 · '+t('rain')+' '+Math.round(r.P24)+'/'+Math.round(CAINE(24))+' mm · '+t('slope')+' '+slope+' ('+t(s.slSrc==='dem'?'pp_sl_dem':'pp_sl_demo')+')'))
+    +(s.plain?esc(t('plains_note')):esc(t(LV[lvl(r.score)])+' '+r.score+'/100 · '+t('rain')+' '+Math.round(r.P24)+'/'+Math.round(edThr(s)(24))+' mm · '+t('slope')+' '+slope+' ('+t(s.slSrc==='dem'?'pp_sl_dem':'pp_sl_demo')+')'))
     +'<br>'+esc(clock(msOf(r.start))+t('rng')+clock(msOf(r.end))+' · '+t('trf')+' ×'+r.x.toFixed(1)+' · '+s.km+' '+t('km')+' ('+t(s.kmSrc==='osrm'?'pp_src_osrm':'pp_src_hand')+')');
 }
 /* trip map: replaces the schematic SVG map; falls back to it if Leaflet is missing */
@@ -373,7 +373,7 @@ function opsHour(h){
   let n=[0,0,0],worst=null;
   D.rows.forEach(r=>{const s=r.sc[h],l=lvl(s);n[l]++;if(!worst||s>worst.s)worst={r,s};
     if(o&&o.lines[r.e.id]){o.lines[r.e.id].setStyle({color:cssv('--'+LV[l])});const x=r.rr[h];
-      o.lines[r.e.id].setPopupContent('<b>'+esc(segName(r.e))+'</b><br>'+esc(hourLabel(h)+' · '+t(LV[l])+' '+s+'/100 · '+t('rain')+' '+Math.round(x.P24)+'/'+Math.round(CAINE(24))+' mm'+(x.rw?' · '+t('rep'):'')));}});
+      o.lines[r.e.id].setPopupContent('<b>'+esc(segName(r.e))+'</b><br>'+esc(hourLabel(h)+' · '+t(LV[l])+' '+s+'/100 · '+t('rain')+' '+Math.round(x.P24)+'/'+Math.round(edThr(r.e)(24))+' mm'+(x.rw?' · '+t('rep'):'')));}});
   const reps=ctx().reports.filter(r=>r.type!=='clear').length,k=$('ops-k');
   if(k)k.innerHTML='<div class="kp l2"><small>'+t('k_avd')+'</small><b>'+n[2]+'</b><em>'+fill(t('k_of'),{n:D.rows.length})+'</em></div><div class="kp l1"><small>'+t('k_cau')+'</small><b>'+n[1]+'</b><em>'+fill(t('k_of'),{n:D.rows.length})+'</em></div><div class="kp l0"><small>'+t('k_go')+'</small><b>'+n[0]+'</b><em>'+fill(t('k_of'),{n:D.rows.length})+'</em></div>'
     +'<div class="kp"><small>'+t('k_rep')+'</small><b>'+reps+'</b><em>&nbsp;</em></div><div class="kp wide"><small>'+t('k_worst')+'</small><b class="sm">'+esc(worst?segName(worst.r.e):'')+'</b><em>'+(worst?esc(t(LV[lvl(worst.s)])+' '+worst.s):'')+'</em></div>';
@@ -477,6 +477,7 @@ function renderProof(){
       +rows.map(r=>{const e=S[r.id];return '<tr><td>'+esc(e?segName(e):r.id)+'</td><td>'+esc((closed[r.id]||[]).join('; '))+'</td><td>'+r.score+'</td><td><span class="pill l'+r.band+'">'+t(LV[r.band])+'</span></td><td>'+String(r.hour).padStart(2,'0')+':00</td><td>'+r.P6+'</td><td>'+r.P24+'</td><td>'+r.P72+'</td><td>'+r.ratio+'</td><td>'+r.susc+(r.slSrc==='dem'?' DEM':' demo')+'</td></tr>';}).join('')+'</table></div>'
       +'<p class="note">'+t('pr_src_l')+': '+esc(ev.sources.join('; '))+'</p></div>';
   }
+  h+=btCard();
   h+=tuneCard();
   h+='<div class="card"><h3>'+t('pr_read')+'</h3><ul class="ul"><li>'+t('pr_r1')+'</li><li>'+t('pr_r2')+'</li><li>'+t('pr_r3')+'</li><li>'+t('pr_r4')+'</li></ul></div>';
   h+=odCard();

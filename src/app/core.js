@@ -183,6 +183,12 @@ deriveOffsets();
 /* Caine (1980) global rainfall intensity-duration threshold I = 14.82 * D^-0.39 (mm/h, D in hours),
    expressed as accumulated depth: depth = I*D = 14.82 * D^0.61 */
 const CAINE=d=>14.82*Math.pow(d,0.61);
+/* rainfall threshold for a stretch: per-zone curves fitted to PWD closures (python/pahaadpath/calibrate.py) when the backtest
+   adopted them (they beat Caine on held-out days), Caine otherwise. THRESH is baked in by features3.js. */
+function edThr(seg){
+  const th=THRESH;if(!th)return CAINE;
+  const z=(th.zones&&th.zones[String(seg.susc)])||th.pooled;return d=>z.alpha*Math.pow(d,z.gamma);
+}
 let THR=1; // threshold multiplier: 1 = Caine as published; the Proof tab varies it to show sensitivity
 const IST=5.5*3600e3;
 const PAST=72,FUT=384,SERIES_LEN=PAST+FUT; // 3 days of past rain and up to 16 days of forecast, hourly
@@ -235,7 +241,7 @@ function segScore(seg,a,c){ // a = arrival time, hours from start of current hou
   if(seg.plain)return{score:0,ratio:0,P6:0,P24:0,P72:0,rw:0,blocked:false};
   const s=c.series[seg.id];
   const P6=sumRain(s,a-6,a),P24=sumRain(s,a-24,a),P72=sumRain(s,a-72,a);
-  const ratio=Math.max(P6/CAINE(6),P24/CAINE(24),P72/CAINE(72))/THR;
+  const f=edThr(seg),ratio=Math.max(P6/f(6),P24/f(24),P72/f(72))/THR;
   const trig=Math.min(ratio,1.5)/1.5;
   const pred=.6*[0,.15,.55,1][seg.susc]+.4*Math.min(seg.hist/5,1);
   const v5=modelOn()?modelRisk(seg,a,c,P24,P72):null; // trained model (features3.js) when baked in and chosen
@@ -868,7 +874,7 @@ function titleOf(M){return pname(M.trip.from)+' → '+pname(M.trip.to);}
 function whyText(cur){
   const w=cur.worst;if(!w)return t('hl_pl');
   const seg=w.seg,route=pname(w.from)+' → '+pname(w.to);
-  const rain=Math.round(w.P24),lim=Math.round(CAINE(24));
+  const rain=Math.round(w.P24),lim=Math.round(edThr(seg)(24));
   const slope=['',t('low'),t('med'),t('high')][seg.susc];
   const nRep=ctx().reports.filter(x=>x.seg===seg.id&&x.type!=='clear').length;
   if(w.blocked)return route+': '+t('blocked')+(st.lang==='hi'?'। '+nRep+' '+t('rep')+'।':'. '+nRep+' '+t(nRep===1?'rep1':'rep')+'.');
@@ -1040,7 +1046,7 @@ function renderTrip(M){
     }
     const seg=r.seg,l=lvl(r.score),slope=['',t('low'),t('med'),t('high')][seg.susc],tl=tlvl(r.ci);
     const nRep=ctx().reports.filter(x=>x.seg===seg.id&&x.type!=='clear').length;
-    const rain=Math.round(r.P24),lim=Math.round(CAINE(24));
+    const rain=Math.round(r.P24),lim=Math.round(edThr(seg)(24));
     const spots=seg.spots.length?'<div class="sp"><span class="warn-tri"></span>'+seg.spots.map(p=>esc(nm(p))).join(' · ')+'</div>':'';
     const pill=seg.plain?'<span class="pill pl">'+t('plains')+'</span>':'<span class="pill rk l'+l+'">'+(r.blocked?t('blocked'):t(LV[l]))+' '+r.score+'</span>';
     const rs=seg.plain?t('plains_note'):(st.src==='none'?'':t('rain')+' '+rain+'/'+lim+' mm · ')+t('slope')+' '+slope+(nRep?' · '+nRep+' '+t(nRep===1?'rep1':'rep'):'');
@@ -1221,7 +1227,7 @@ window.addEventListener('online',()=>{if(liveWanted&&st.src!=='live'){st.scn='li
 $('tday').addEventListener('change',e=>{st.tday=e.target.value;render();});
 
 /*__FEATURES_JS__*/
-window.PP={S,N,EDGES,ADJ,VN,PLACES,HOURS_FROM_DELHI,CAINE,segScore,evalEdge,routeSearch,routePlans,labelPlans,simulate,slotsFor,bestWindow,rulesFor,
+window.PP={S,N,EDGES,ADJ,VN,PLACES,HOURS_FROM_DELHI,CAINE,edThr,segScore,evalEdge,routeSearch,routePlans,labelPlans,simulate,slotsFor,bestWindow,rulesFor,
   st,ctx,lvl,tlvl,phaseOf,calInfo,CAL,dayOf,dI,dateStr,setTrafficProvider,addVirtual,dropVirtual,nearestNode,compute,render,matchPlace,commitPlace,load,clampDate,hav,
   fetchLive,parseAsk,setThr:x=>{THR=x;},shPoll,tuneData,sharedReports,applyAsk,opsData,applyOpenData,get OD(){return OD;},get RP(){return RP;},get last(){return st.M;},modelCheck,get MODEL(){return MODEL;},back:goBack,onSpeech,mapLines,googleNavUrl,mapplsNavUrl,navStops,shareUrl,locate};
 loadUser();load();

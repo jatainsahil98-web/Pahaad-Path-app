@@ -36,6 +36,10 @@ function bakedData(demo) {
   out.MODEL = model;
   const ext = model && has('data/train/era5_daily_external.json') ? json('data/train/era5_daily_external.json') : null;
   out.RP_DAILY = ext ? Object.fromEntries(Object.entries(ext.days).map(([d, v]) => [d, { start: v.start, by: v.by }])) : null;
+  const bt = has('data/model/backtest.json') ? json('data/model/backtest.json') : null;
+  out.BACKTEST = demo ? null : bt;
+  const th = has('data/model/thresholds.json') ? json('data/model/thresholds.json') : null;
+  out.THRESH = !demo && th && th.adopted ? { level: th.adopted.level, pooled: th.adopted.pooled, zones: th.adopted.zones } : null;
   out.STOPS = has('data/osm_stops.json') ? json('data/osm_stops.json') : null;
   return out;
 }
@@ -50,6 +54,8 @@ const SLOTS = [
   ['/*__MODEL__*/null', 'MODEL'],
   ['/*__RP_DAILY__*/null', 'RP_DAILY'],
   ['/*__STOPS__*/null', 'STOPS'],
+  ['/*__BACKTEST__*/null', 'BACKTEST'],
+  ['/*__THRESH__*/null', 'THRESH'],
 ];
 
 function ppApp(demo) {

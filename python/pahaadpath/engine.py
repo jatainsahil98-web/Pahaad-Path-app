@@ -26,11 +26,22 @@ def sum_rain(arr, a, b):
     return tot
 
 
-def seg_score(link, series, a, thr=1.0):
+def ed_threshold(th, link):
+    """rain depth (mm) over d hours that triggers on this stretch: a fitted ED curve E = alpha * D^gamma for its zone
+    (calibrate.py), or Caine (1980) when none is adopted"""
+    if not th:
+        return caine
+    z = th['zones'].get(str(link.get('susc'))) or th['pooled']
+    a, g = z['alpha'], z['gamma']
+    return lambda d: a * d ** g
+
+
+def seg_score(link, series, a, thr=1.0, th=None):
     if link['plain']:
         return {'score': 0, 'ratio': 0, 'P6': 0, 'P24': 0, 'P72': 0}
     p6, p24, p72 = sum_rain(series, a - 6, a), sum_rain(series, a - 24, a), sum_rain(series, a - 72, a)
-    ratio = max(p6 / caine(6), p24 / caine(24), p72 / caine(72)) / thr
+    f = ed_threshold(th, link)
+    ratio = max(p6 / f(6), p24 / f(24), p72 / f(72)) / thr
     trig = min(ratio, 1.5) / 1.5
     pred = .6 * [0, .15, .55, 1][link['susc']] + .4 * min(link['hist'] / 5, 1)
     base = trig * (.35 + .65 * pred) + .08 * pred
@@ -54,14 +65,14 @@ def series_from(rec, day):
     return out
 
 
-def score_day(net, day, rec):
+def score_day(net, day, rec, th=None):
     """Highest score of each hill stretch over the 24 hours of `day`, as the Proof tab computes it."""
     ser = series_from(rec, day)
     rows = []
     for l in net.hill():
         best = None
         for a in range(24):
-            r = seg_score(l, ser[l['key']], a)
+            r = seg_score(l, ser[l['key']], a, th=th)
             if best is None or r['score'] > best['score']:
                 best = dict(r, hour=a)
         rows.append({'id': l['id'], 'score': best['score'], 'band': band(best['score']), 'hour': best['hour'],

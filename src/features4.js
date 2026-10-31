@@ -74,7 +74,8 @@ function myTripsHtml(){
 }
 function mtSave(){
   const M=st.M;if(!M||!M.cur)return;
-  const nr=st.src==='none',x=Object.assign(mtCur(),{score:nr?null:M.cur.score,level:nr?null:M.cur.level});
+  const nr=st.src==='none',x=Object.assign(mtCur(),{score:nr?null:M.cur.score,level:nr?null:M.cur.level,
+    links:M.sel&&M.sel.path?M.sel.path.filter(l=>!l.e.plain).map(l=>l.e.id):[]});
   const k=mtKey(x),i=MY.findIndex(y=>mtKey(y)===k);
   if(i>=0)MY[i]=x;else{if(MY.length>=MT_MAX){toast(fill(t('mt_full'),{n:MT_MAX}));return;}MY.push(x);}
   lsSet('pp_trips',MY);toast(t('mt_ok'));render();
@@ -255,6 +256,7 @@ render=function(){
   let box=$('mytrips');
   if(!box){box=document.createElement('section');box.id='mytrips';box.className='card';$('routes').before(box);}
   const h=st.view==='trip'?myTripsHtml():'';box.innerHTML=h;box.hidden=!h;
+  watchSync();
   const acts=$('acts');
   if(st.view==='trip'&&st.M&&st.M.cur&&acts&&acts.innerHTML&&st.src!=='replay'){
     const sv=mtSaved();
@@ -270,3 +272,14 @@ document.addEventListener('click',e=>{
   else if(c.dataset.mtOpen!=null){const x=MY[+c.dataset.mtOpen];if(!x)return;st.from=x.from;st.to=x.to;st.date=x.date;st.dateIdx=parseDate(x.date);st.dep=x.dep;st.pick=null;st.tab='route';render();window.scrollTo(0,0);}
   else if(c.dataset.mtDel!=null){MY.splice(+c.dataset.mtDel,1);lsSet('pp_trips',MY);render();}
 });
+
+/* ---------- Android: saved trips are checked in the background (WatchWorker) for rising rain risk ---------- */
+let watchLast=null;
+function watchSync(){
+  const A=window.PPAndroid;if(!A||typeof A.setWatch!=='function')return;
+  const w=MY.filter(x=>x.links&&x.links.length).map(x=>{const d=parseDate(x.date);const a=NODE(x.from),b=NODE(x.to);
+    return{id:mtKey(x),title:a.en+' → '+b.en+' · '+x.date,hi:a.hi+' → '+b.hi+' · '+x.date,links:x.links,
+      until:d==null?0:(d+1)*864e5-IST};}); // end of the trip day, IST
+  const j=JSON.stringify(w);if(j===watchLast)return;watchLast=j;
+  try{A.setWatch(j,st.lang);}catch(e){}
+}

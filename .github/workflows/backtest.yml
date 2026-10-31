@@ -1,0 +1,57 @@
+name: backtest
+# Scores the risk engine against the closure inventory (truth branch), fits rainfall thresholds, and publishes the results
+# in the app: data/model/backtest.json (Proof tab), thresholds.json (used only when `adopted`), BACKTEST.md.
+# Runs after every closure inventory run, every Monday, and by hand.
+on:
+  workflow_run:
+    workflows: ['closure inventory']
+    types: [completed]
+  schedule:
+    - cron: '23 20 * * 1'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: backtest
+jobs:
+  backtest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: actions/cache/restore@v4
+        with:
+          path: data/cache
+          key: openmeteo-bt-${{ github.run_id }}
+          restore-keys: openmeteo-
+      - name: Closure inventory from the truth branch
+        run: |
+          mkdir -p data/truth
+          git fetch -q origin truth && git show FETCH_HEAD:inventory.json > data/truth/inventory.json
+      - name: Backtest and fit
+        run: cd python && python -u -m pahaadpath backtest --inventory ../data/truth/inventory.json | tee -a "$GITHUB_STEP_SUMMARY"
+      - uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: data/cache
+          key: openmeteo-bt-${{ github.run_id }}
+      - name: Rebuild the app with the results
+        run: |
+          npm ci || npm install
+          npm run build && npm run site
+      - name: Commit to main
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898299+github-actions[bot]@users.noreply.github.com'
+          git add data/model/backtest.json data/model/thresholds.json data/model/BACKTEST.md index.html PahaadPath.html sw.js manifest.webmanifest
+          git diff --cached --quiet && { echo 'no change'; exit 0; }
+          git commit -qm "Backtest against PWD closures ($(date -u +%Y-%m-%d))"
+          for i in 1 2 3 4; do git pull -q --rebase origin main && git push -q origin HEAD:main && exit 0; sleep $((i*5)); done; exit 1

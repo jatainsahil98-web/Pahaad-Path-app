@@ -8,12 +8,13 @@
   stops         fuel, hospitals, ATMs and mechanics near each town from OpenStreetMap (needs internet)
   closures      roads closed in the latest PWD road closure report, as the data pack carries them (needs internet, pdftotext)
   inventory     add every PWD report not yet read to the closure inventory (needs internet, pdftotext)
+  backtest      score the engine against the closure inventory, fit thresholds, write data/model/ (needs internet)
 """
 import argparse
 import json
 import sys
 
-from . import read_json, write_json
+from . import path, read_json, write_json
 
 
 def main(argv=None):
@@ -41,6 +42,9 @@ def main(argv=None):
     i.add_argument('--max', type=int, default=60, help='reports to read in this run')
     i.add_argument('--budget-min', type=float, default=None, help='stop reading after this many minutes (state is saved after every report)')
     i.add_argument('--rebuild', action='store_true', help='start again from the oldest report listed (after adding listing pages or years)')
+    k = sub.add_parser('backtest')
+    k.add_argument('--inventory', default='data/truth/inventory.json')
+    k.add_argument('--mode', choices=['relaxed', 'strict'], default='relaxed')
     a = ap.parse_args(argv)
 
     from .network import Network
@@ -104,6 +108,24 @@ def main(argv=None):
                budget_s=a.budget_min * 60 if a.budget_min else None)
         save(state)
         print('inventory: %d reports, %d closures ended, %d still open' % (len(state['reports']), len(state['done']), len(state['open'])))
+    elif a.cmd == 'backtest':
+        import datetime as dt
+        from .backtest import report_md, run, season, summary
+        from .openmeteo import archive_hourly
+        net = Network()
+        with open(a.inventory, encoding='utf-8') as f:
+            inv = json.load(f)
+        first, last = season(inv)
+        start = (dt.date.fromisoformat(first) - dt.timedelta(days=4)).isoformat()  # 72 h of rain before the first day
+        rain = archive_hourly(net.keys(), start, last)
+        r = run(inv, net, rain, start, mode=a.mode)
+        write_json(summary(r), 'data', 'model', 'backtest.json', indent=1)
+        write_json({'adopted': r['adopted'], 'fit': r['fit']['thresholds'] if r.get('fit') else None,
+                    'note': 'adopted is what the app and the data pack use; null keeps Caine (1980)'}, 'data', 'model', 'thresholds.json', indent=1)
+        md = report_md(r)
+        with open(path('data', 'model', 'BACKTEST.md'), 'w', encoding='utf-8') as f:
+            f.write(md)
+        print(md)
     elif a.cmd == 'closures':
         import datetime as dt
         from .closures import fetch_closures, pack_closures

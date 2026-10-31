@@ -103,6 +103,27 @@ def archive_daily(keys, start, end, batch=10, log=print):
     return out
 
 
+def archive_hourly(keys, start, end, batch=10, log=print):
+    """Hourly rain (mm) from the ERA5 reanalysis for each 'lat,lon' key, from 00:00 IST on start to 23:00 IST on end.
+    Same source the training and replay use, so thresholds fitted on it apply to the app's own numbers."""
+    days = (_d(end) - _d(start)).days + 1
+    out = {}
+    for i in range(0, len(keys), batch):
+        ks = keys[i:i + batch]
+        la, lo = _latlon(ks)
+        q = urllib.parse.urlencode({'latitude': la, 'longitude': lo, 'start_date': start, 'end_date': end,
+                                    'hourly': 'precipitation', 'timezone': TZ})
+        js = _as_list(get_json(ARCHIVE + '?' + q, weight(len(ks), days, 1), log=log))
+        if len(js) != len(ks):
+            raise RuntimeError('reply has %d locations, asked for %d' % (len(js), len(ks)))
+        for k, j in zip(ks, js):
+            h = j['hourly']
+            if not h['time'][0].startswith(start) or len(h['time']) != days * 24:
+                raise RuntimeError('unexpected hours in reply for %s' % k)
+            out[k] = [None if v is None else round(v, 1) for v in h['precipitation']]
+    return out
+
+
 def forecast(keys, past_hours=72, forecast_days=16, past_days_daily=31, batch=25, log=print):
     """Hourly rain from the current hour back `past_hours` and ahead `forecast_days`, plus daily totals for the past
     `past_days_daily` days and the forecast days. Returns (hour0 ISO string in IST, {key: hourly}, day0, {key: daily})."""

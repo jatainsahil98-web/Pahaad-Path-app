@@ -5,7 +5,33 @@ import datetime as dt
 
 from .alerts import fetch_alerts
 from .closures import fetch_closures, pack_closures
+from .engine import band, seg_score
 from .openmeteo import forecast
+
+
+def adopted_thresholds():
+    """the fitted thresholds the backtest adopted (data/model/thresholds.json), else None for Caine, as in the app"""
+    import json
+    import os
+    from . import path
+    p = path('data', 'model', 'thresholds.json')
+    if not os.path.exists(p):
+        return None
+    with open(p, encoding='utf-8') as f:
+        return json.load(f).get('adopted')
+
+
+def risk24(net, hourly, th=None, hours=24):
+    """worst rain-only score on every hill stretch over the next `hours` from hour0, with the hour it peaks: what the
+    phone's background check compares for watched trips without running the engine"""
+    out = {}
+    for lid, link in net.links.items():
+        if link['plain'] or link['key'] not in hourly:
+            continue
+        s = hourly[link['key']]
+        best = max(((seg_score(link, s, a, th=th)['score'], a) for a in range(hours)), key=lambda x: x[0])
+        out[lid] = [best[0], band(best[0]), best[1]]
+    return out
 
 
 def tenths(a):
@@ -27,6 +53,10 @@ def build_pack(net, log=print):
         'hourly': {k: tenths(hourly[k]) for k in keys},
         'daily': {k: tenths(daily[k]) for k in keys},
     }
+    th = adopted_thresholds()
+    pk['risk24'] = risk24(net, hourly, th)  # link id -> [score 0-100, band 0-2, hours from hour0 of the peak]
+    pk['risk24_source'] = 'PahaadPath engine, rain only (no road reports), next 24 h; thresholds: %s' % (
+        'fitted to PWD closures, %d%% level' % th['level'] if th else 'Caine (1980)')
     if alerts is not None:  # absent when the feed could not be read, so the app keeps the alerts it already has
         pk['alerts'] = alerts
         pk['alerts_source'] = 'NDMA Sachet public alert feed for Uttarakhand (public domain), last %d hours' % 48

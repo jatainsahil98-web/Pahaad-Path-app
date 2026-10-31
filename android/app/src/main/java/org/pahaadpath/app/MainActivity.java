@@ -51,7 +51,7 @@ import java.util.Locale;
  *  sharing, copying, saving files, speech in and out, and checking whether location is switched on. */
 public class MainActivity extends Activity {
     private static final String HOST = "appassets.androidplatform.net";
-    private static final int REQ_GEO = 1, REQ_MIC = 2, REQ_FILE = 3;
+    private static final int REQ_GEO = 1, REQ_MIC = 2, REQ_FILE = 3, REQ_NOTE = 4;
     private static final Charset UTF8 = Charset.forName("UTF-8");
 
     private WebView web;
@@ -411,6 +411,31 @@ public class MainActivity extends Activity {
         }
 
         /** App version, so the page and bug reports can say which build is running. */
+        /** trips to check in the background for rising rain risk (WatchWorker); asks for notification permission first */
+        @JavascriptInterface
+        public void setWatch(String json, String lang) {
+            getSharedPreferences(WatchWorker.PREFS, MODE_PRIVATE).edit().putString("lang", lang).apply();
+            WatchWorker.setWatch(MainActivity.this, json);
+            if (Build.VERSION.SDK_INT >= 33 && !json.equals("[]") && !has(Manifest.permission.POST_NOTIFICATIONS))
+                ask(new String[]{Manifest.permission.POST_NOTIFICATIONS}, REQ_NOTE);
+        }
+
+        @JavascriptInterface
+        public String getWatch() {
+            return getSharedPreferences(WatchWorker.PREFS, MODE_PRIVATE).getString("watch", "[]");
+        }
+
+        @JavascriptInterface
+        public boolean notesAllowed() {
+            return Build.VERSION.SDK_INT < 33 || has(Manifest.permission.POST_NOTIFICATIONS);
+        }
+
+        /** the data pack the background check last downloaded, "" if none */
+        @JavascriptInterface
+        public String cachedPack() {
+            return WatchWorker.cachedPack(MainActivity.this);
+        }
+
         @JavascriptInterface
         public String info() {
             try {
