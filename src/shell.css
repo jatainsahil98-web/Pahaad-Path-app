@@ -318,10 +318,19 @@ body[data-pp-view="ops"] .topbar .brand,body[data-pp-view="proof"] .topbar .bran
 .bgmap.gl .maplibregl-ctrl-attrib{font-size:9px;opacity:.8;background:color-mix(in srgb,var(--surface) 80%,transparent);color:var(--muted)}
 .bgmap.gl .maplibregl-ctrl-attrib a{color:inherit}
 .bgmap.gl .stone-ic{cursor:default}
-.maplibregl-popup-content{background:var(--surface);color:var(--ink);border-radius:12px;padding:10px 28px 10px 12px;line-height:1.45;box-shadow:0 8px 28px rgba(10,22,16,.22)}
-.maplibregl-popup-close-button{width:32px;height:32px;font-size:20px;color:var(--muted)}
-.maplibregl-popup-anchor-bottom .maplibregl-popup-tip{border-top-color:var(--surface)}
-.maplibregl-popup-anchor-top .maplibregl-popup-tip{border-bottom-color:var(--surface)}
-.maplibregl-popup-anchor-left .maplibregl-popup-tip{border-right-color:var(--surface)}
-.maplibregl-popup-anchor-right .maplibregl-popup-tip{border-left-color:var(--surface)}
+.maplibregl-popup .maplibregl-popup-content{background:var(--surface);color:var(--ink);border-radius:12px;padding:10px 28px 10px 12px;line-height:1.45;box-shadow:0 8px 28px rgba(10,22,16,.22)}
+.maplibregl-popup .maplibregl-popup-close-button{width:32px;height:32px;font-size:20px;color:var(--muted)}
+.maplibregl-popup.maplibregl-popup-anchor-bottom .maplibregl-popup-tip{border-top-color:var(--surface)}
+.maplibregl-popup.maplibregl-popup-anchor-top .maplibregl-popup-tip{border-bottom-color:var(--surface)}
+.maplibregl-popup.maplibregl-popup-anchor-left .maplibregl-popup-tip{border-right-color:var(--surface)}
+.maplibregl-popup.maplibregl-popup-anchor-right .maplibregl-popup-tip{border-left-color:var(--surface)}
 @media (min-width: 900px){.bgmap.gl .maplibregl-ctrl-bottom-left{bottom:0}}
+/* 2.0 Phase 3: the card maps (control room, proof) on MapLibre */
+.lmap.gl{overflow:hidden}
+.lmap.gl .maplibregl-ctrl-attrib{font-size:9px;opacity:.8;background:color-mix(in srgb,var(--surface) 80%,transparent);color:var(--muted)}
+.lmap.gl .maplibregl-ctrl-attrib a{color:inherit}
+.lmap.gl .maplibregl-ctrl-group{background:var(--surface);box-shadow:var(--e2)}
+.lmap.gl .maplibregl-ctrl-group button{width:36px;height:36px}
+.lmap.gl .maplibregl-ctrl-group button+button{border-top-color:var(--line)}
+:root[data-theme="dark"] .lmap.gl .maplibregl-ctrl-icon{filter:invert(1)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .lmap.gl .maplibregl-ctrl-icon{filter:invert(1)}}

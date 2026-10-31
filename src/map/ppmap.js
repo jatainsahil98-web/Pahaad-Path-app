@@ -54,6 +54,10 @@ function icon(kind, C) {
   } else if (kind === 'rep') {
     g.beginPath(); g.arc(w / 2, h / 2, 8 * s, 0, Math.PI * 2); g.fillStyle = C.avd; g.fill(); g.lineWidth = 2 * s; g.strokeStyle = '#FFFFFF'; g.stroke();
     g.fillStyle = '#FFFFFF'; g.fillRect(w / 2 - 1.1 * s, 6.5 * s, 2.2 * s, 6 * s); g.fillRect(w / 2 - 1.1 * s, 14 * s, 2.2 * s, 2.2 * s);
+  } else if (kind === 'x') { // a road the authorities closed that day (the proof replay)
+    g.beginPath(); g.arc(w / 2, h / 2, 9 * s, 0, Math.PI * 2); g.fillStyle = C.ink; g.fill(); g.lineWidth = 2 * s; g.strokeStyle = C.surface; g.stroke();
+    g.strokeStyle = C.surface; g.lineWidth = 2.4 * s; g.lineCap = 'round';
+    g.beginPath(); g.moveTo(w / 2 - 4 * s, h / 2 - 4 * s); g.lineTo(w / 2 + 4 * s, h / 2 + 4 * s); g.moveTo(w / 2 + 4 * s, h / 2 - 4 * s); g.lineTo(w / 2 - 4 * s, h / 2 + 4 * s); g.stroke();
   } else if (kind === 'halt') {
     g.beginPath(); g.arc(w / 2, h / 2, 9 * s, 0, Math.PI * 2); g.fillStyle = C.ink; g.fill(); g.lineWidth = 2 * s; g.strokeStyle = C.surface; g.stroke();
     g.beginPath(); g.arc(w / 2, h / 2, 5 * s, 0, Math.PI * 2); g.fillStyle = '#F2B705'; g.fill();
@@ -76,7 +80,7 @@ const W = (a, b) => ['interpolate', ['linear'], ['zoom'], 6, a, 12, b]; // line 
 function style(C, B) {
   const src = {};
   Object.entries(baseSources(B)).forEach(([k, v]) => { src[k] = { type: 'geojson', data: v }; });
-  ['net', 'alts', 'route', 'gsi', 'spots', 'reports', 'halts'].forEach(k => { src[k] = { type: 'geojson', data: EMPTY }; });
+  ['net', 'alts', 'route', 'gsi', 'spots', 'reports', 'halts', 'towns', 'events', 'cross'].forEach(k => { src[k] = { type: 'geojson', data: EMPTY }; });
   src['route-trf'] = { type: 'geojson', data: EMPTY, lineMetrics: true };
   const lvlColor = (a, b, c, plain) => ['case', ['get', 'plain'], plain, ['match', ['get', 'lvl'], 2, c, 1, b, a]];
   return {
@@ -88,6 +92,7 @@ function style(C, B) {
       { id: 'b-roads', type: 'line', source: 'b-roads', paint: { 'line-color': C.muted, 'line-width': W(.6, 1.4), 'line-opacity': .35 } },
       { id: 'b-borders', type: 'line', source: 'b-borders', paint: { 'line-color': C.muted, 'line-width': 1, 'line-opacity': .6, 'line-dasharray': [5, 4] } },
       { id: 'net', type: 'line', source: 'net', layout: { 'line-cap': 'round' }, paint: { 'line-color': C.muted, 'line-width': W(1.2, 2.4), 'line-opacity': .28 } },
+      { id: 'events', type: 'circle', source: 'events', paint: { 'circle-radius': 2, 'circle-color': '#6B4C9A', 'circle-opacity': .55 } },
       { id: 'alts', type: 'line', source: 'alts', layout: { 'line-cap': 'round' }, paint: { 'line-color': C.ink, 'line-width': W(2.4, 4), 'line-opacity': .35, 'line-dasharray': [2, 2.4] } },
       // the chosen route: an edge in a darker hue of each level (yellow alone is 1.6:1 on the light map), then the colour
       { id: 'route-edge', type: 'line', source: 'route', layout: { 'line-cap': 'round', 'line-join': 'round' },
@@ -101,9 +106,11 @@ function style(C, B) {
       { id: 'route-trf', type: 'line', source: 'route-trf', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': C.go, 'line-width': W(3.4, 8) } },
       { id: 'gsi', type: 'circle', source: 'gsi', minzoom: 10,
         paint: { 'circle-radius': 3.4, 'circle-color': ['case', ['get', 'active'], '#7a3b0c', '#b07a45'], 'circle-stroke-color': '#FFFFFF', 'circle-stroke-width': 1 } },
+      { id: 'towns', type: 'circle', source: 'towns', paint: { 'circle-radius': W(2.6, 5), 'circle-color': C.surface, 'circle-stroke-color': C.ink, 'circle-stroke-width': 1.2 } },
       { id: 'halts', type: 'symbol', source: 'halts', layout: { 'icon-image': 'pp-halt', 'icon-size': 1, 'icon-allow-overlap': true } },
       { id: 'spots', type: 'symbol', source: 'spots', layout: { 'icon-image': 'pp-tri', 'icon-size': .85, 'icon-allow-overlap': false, 'icon-padding': 1 } },
       { id: 'reports', type: 'symbol', source: 'reports', layout: { 'icon-image': 'pp-rep', 'icon-size': .85, 'icon-allow-overlap': true } },
+      { id: 'cross', type: 'symbol', source: 'cross', layout: { 'icon-image': 'pp-x', 'icon-size': .9, 'icon-allow-overlap': true } },
     ],
   };
 }
@@ -129,9 +136,11 @@ export function create(el, opts) {
     dragRotate: false, pitchWithRotate: false, maxPitch: 0, renderWorldCopies: false, cancelPendingTileRequestsWhileZooming: true,
   });
   map.touchZoomRotate.disableRotation();
+  if (o.scrollZoom === false) map.scrollZoom.disable(); // a map inside a scrolling page: the wheel scrolls the page
+  if (o.zoomControl) map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
   map.addControl(new maplibregl.AttributionControl({ compact: true, customAttribution: o.attribution || '' }), 'bottom-left');
   const state = { data: {}, markers: {}, loaded: false, anim: 0, trf: null };
-  const addIcons = () => { ['tri', 'rep', 'halt'].forEach(k => { const id = 'pp-' + k; if (map.hasImage(id)) map.removeImage(id); map.addImage(id, icon(k, C), { pixelRatio: 2 }); }); };
+  const addIcons = () => { ['tri', 'rep', 'halt', 'x'].forEach(k => { const id = 'pp-' + k; if (map.hasImage(id)) map.removeImage(id); map.addImage(id, icon(k, C), { pixelRatio: 2 }); }); };
   const flush = () => {
     Object.entries(state.data).forEach(([k, v]) => { const s = map.getSource(k); if (s) s.setData(v); });
     applyTrf();
@@ -146,7 +155,7 @@ export function create(el, opts) {
 
   /* popups: tapping a route stretch or a pin opens its HTML (built by the app, so it is in the right language) */
   const pop = new maplibregl.Popup({ closeButton: true, maxWidth: '300px', focusAfterOpen: false });
-  const tapLayers = ['route-line', 'spots', 'reports', 'halts'];
+  const tapLayers = ['route-line', 'spots', 'reports', 'halts', 'cross', 'towns'];
   map.on('click', e => {
     const f = map.queryRenderedFeatures(e.point, { layers: tapLayers.filter(l => map.getLayer(l)) })[0];
     if (!f || !f.properties.pop) return;
@@ -220,6 +229,8 @@ export function create(el, opts) {
     },
     resize() { map.resize(); },
     closePopup() { pop.remove(); },
+    /* open a popup from the app (a tap on a row in the control room grid) */
+    popup(lngLat, html) { pop.setLngLat(lngLat).setHTML(html).addTo(map); },
     /* new theme colours (light or dark): rebuild the style once, the data goes back in on load */
     theme(colors) {
       C = colors; state.loaded = false;
