@@ -48,7 +48,7 @@ def main(argv=None):
     k.add_argument('--inventory', default='data/truth/inventory.json')
     k.add_argument('--mode', choices=['relaxed', 'strict'], default='relaxed')
     ind = sub.add_parser('independent')
-    ind.add_argument('--first', type=int, default=2007, help='first monsoon to score')
+    ind.add_argument('--first', type=int, default=2011, help='first monsoon to score')
     ind.add_argument('--until', type=int, default=2018, help='last monsoon to score (NASA has no Uttarakhand events after 2018)')
     a = ap.parse_args(argv)
 

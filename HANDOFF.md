@@ -96,7 +96,7 @@ The frontend is done; all further work goes into this same app (no rewrite, no s
    if it wins both; otherwise the trip screen returns to Caine + GSI. Do not change what the trip screen shows until
    the owner decides.
 2. **Wider check on other years:** run the independent check on 2007 to 2013 as well
-   (`python -m pahaadpath independent --first 2007 --until 2018`), for more events than 68.
+   (`python -m pahaadpath independent --first 2011 --until 2018`), for more events than 68.
 3. **Background trip alerts on a real device:** save a trip on Android, allow notifications, confirm the WorkManager
    check (every 3 h) fires and the notification opens the app. Fix anything found in `android/.../WatchWorker.java`.
 4. **Road reports API hosting:** deploy `server/` (Dockerfile ready) on an India-region host, set the app's API
