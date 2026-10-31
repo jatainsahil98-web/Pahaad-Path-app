@@ -10,7 +10,7 @@ android {
         minSdk 21
         targetSdk 34
         versionCode((System.getenv('VERSION_CODE') ?: '1') as int)
-        versionName System.getenv('VERSION_NAME') ?: '5.0'
+        versionName System.getenv('VERSION_NAME') ?: '2.0'
     }
     signingConfigs {
         // CI signs with the team key when the ANDROID_KEYSTORE secrets are set; otherwise with a throwaway debug key

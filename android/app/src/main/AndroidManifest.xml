@@ -14,7 +14,7 @@
         <intent><action android:name="android.intent.action.TTS_SERVICE" /></intent>
     </queries>
     <application
-        android:label="PahaadPath"
+        android:label="PahaadPath v2"
         android:icon="@drawable/icon"
         android:allowBackup="true"
         android:supportsRtl="true"

@@ -66,4 +66,5 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release view android-latest >/dev/null 2>&1 || gh release create android-latest --title 'PahaadPath for Android' --notes 'Install: open PahaadPath.apk on the phone and allow installing from this source. Works offline after install. Rebuilt on every change to main.' --latest
-          gh release upload android-latest PahaadPath.apk --clobber
+          cp PahaadPath.apk PahaadPath-v2.apk
+          gh release upload android-latest PahaadPath.apk PahaadPath-v2.apk --clobber

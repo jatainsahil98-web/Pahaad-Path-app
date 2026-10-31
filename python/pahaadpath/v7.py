@@ -138,7 +138,9 @@ def ranks(scores, y, rate):
     return at_rate(rows, lab, set(), rate)
 
 
-def run(data, log=print):
+def run(data, log=print, use=None):
+    """use: a method chosen by the owner ('stack', 'logit', 'hgb'): it is used whatever the check says, and the
+    report says so (owner_choice)"""
     """data: {season: (X, y, engine, keys, source)} with source 'nasa' or 'pwd'"""
     import numpy as np
     seasons = sorted(data)
@@ -190,6 +192,10 @@ def run(data, log=print):
     out['adopted'] = bool(ok)
     kind = max(ok or list(held), key=lambda k: sum((res[k][src] or {}).get('10', 0) or 0 for src in ('nasa', 'pwd')))
     # final model on every season
+    if use:  # the owner's decision (recorded in the report), in place of the automatic rule
+        kind = use
+        out['adopted'] = True
+        out['owner_choice'] = use
     if kind == 'blend':  # deployable form not built: blends are reported, the logistic model is kept
         kind = 'logit'
         out['adopted'] = False
@@ -303,6 +309,11 @@ def report_md(o):
     for s, v in o['seasons'].items():
         L.append('| %s (%s) | %s | %s | %s | %s | %s |' % (s, v['source'].upper(), p(v.get('engine')), p(v.get('logit')), p(v.get('hgb')),
                                                          p(v.get('stack')), p(v.get('blend'))))
+    if o.get('owner_choice'):
+        L += ['', 'v7 (%s) is in use by the owner\'s decision (1 Nov 2026): it catches far more PWD closures than the engine '
+              '(the closures travellers meet), while on the NASA years it is a little behind. The automatic rule alone would '
+              'have kept the engine.' % o['owner_choice']]
+        return '\n'.join(L) + '\n'
     L += ['', 'v7 (%s) is %s.' % (o['model']['kind'], 'adopted: it catches at least as many as the engine on both kinds of ground truth'
                                     if o['adopted'] else 'not adopted: it does not beat the engine on both kinds of ground truth')]
     return '\n'.join(L) + '\n'

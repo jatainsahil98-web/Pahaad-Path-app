@@ -47,7 +47,8 @@ def main(argv=None):
     k = sub.add_parser('backtest')
     k.add_argument('--inventory', default='data/truth/inventory.json')
     k.add_argument('--mode', choices=['relaxed', 'strict'], default='relaxed')
-    sub.add_parser('v7')
+    v7p = sub.add_parser('v7')
+    v7p.add_argument('--use', choices=['stack', 'logit', 'hgb'], help='owner decision: use this method whatever the check says')
     ind = sub.add_parser('independent')
     ind.add_argument('--years', default='2007 2008 2009 2010 2011 2012 2013 2015',
                      help='monsoons to score (already-downloaded 2007 to 2012, plus the two richest later ones)')
@@ -158,7 +159,7 @@ def main(argv=None):
         inv = merge_files(path('data', 'truth'), path('data', 'truth', 'merged.json')) if osp.isdir(path('data', 'truth')) else None
         coolr = read_json('data', 'coolr_uttarakhand.json')['events'] if osp.exists(path('data', 'coolr_uttarakhand.json')) else []
         data = v7.build(Network(), Network(susc=th.get('susc') or 'slope'), archive_hourly_vars, inv, coolr)
-        o, m = v7.run(data)
+        o, m = v7.run(data, use=a.use)
         v7.save(o, m)
         write_json(o, 'data', 'model', 'v7.json', indent=1)
         md = v7.report_md(o)

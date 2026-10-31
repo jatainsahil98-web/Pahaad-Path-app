@@ -39,6 +39,8 @@ function bakedData(demo) {
   const bt = has('data/model/backtest.json') ? json('data/model/backtest.json') : null;
   out.BACKTEST = demo ? null : bt;
   out.INDEP = !demo && has('data/model/independent.json') ? json('data/model/independent.json') : null;
+  const v7 = !demo && has('data/model/v7.json') ? json('data/model/v7.json') : null;
+  out.V7 = v7 ? { check: v7.check, model: { kind: v7.model && v7.model.kind }, adopted: !!v7.adopted, owner_choice: v7.owner_choice || null } : null;
   const th = has('data/model/thresholds.json') ? json('data/model/thresholds.json') : null;
   // with model v6 adopted the trip screen plans with v6 (data pack); without it the engine falls back to Caine, not the fitted curves
   // with a v6 model trained the fallback is Caine (not the stricter fitted curves); v6 itself drives the trip screen
@@ -66,6 +68,7 @@ const SLOTS = [
   ['/*__BACKTEST__*/null', 'BACKTEST'],
   ['/*__THRESH__*/null', 'THRESH'],
   ['/*__INDEP__*/null', 'INDEP'],
+  ['/*__V7__*/null', 'V7'],
   ['/*__GSI__*/null', 'GSI'],
 ];
 

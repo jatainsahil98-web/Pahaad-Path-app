@@ -4,6 +4,10 @@ name: model v7
 # v7.json, V7.md). The data pack uses v7 only when it beats the engine on both kinds of ground truth.
 on:
   workflow_dispatch:
+    inputs:
+      use:
+        description: 'owner decision: stack, logit or hgb (empty = automatic rule)'
+        default: 'stack'
   schedule:
     - cron: '41 22 * * 0'
 permissions:
@@ -38,7 +42,9 @@ jobs:
           for f in $(git ls-tree --name-only FETCH_HEAD | grep -E '^inventory(_[0-9]{4})?\.json$'); do git show FETCH_HEAD:$f > data/truth/$f; done
       - run: pip install -q scikit-learn==1.9.1
       - name: Learn and check v7
-        run: cd python && python -u -m pahaadpath v7 | tee -a "$GITHUB_STEP_SUMMARY"
+        env:
+          USE: ${{ inputs.use || 'stack' }}
+        run: cd python && python -u -m pahaadpath v7 ${USE:+--use $USE} | tee -a "$GITHUB_STEP_SUMMARY"
       - uses: actions/cache/save@v6
         if: always()
         with:
