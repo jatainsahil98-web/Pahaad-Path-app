@@ -273,7 +273,8 @@ document.addEventListener('click',e=>{
   const c=e.target.closest('#tabs [data-sec],#tabs [data-t]');if(!c)return;
   if(c.dataset.sec){SEC=c.dataset.sec;st.tab='route';render();}
   else SEC=null; // the app's own handler sets st.tab and redraws
-  const si=$('sheet-in');if(si){const top=$('tabs').offsetTop-8;if(si.scrollTop>top)si.scrollTo({top,behavior:calm()?'auto':'smooth'});}
+  // bring the section row to the top of the panel so the section that opens is in view (on phones it sits low in the sheet)
+  const si=$('sheet-in');if(si)requestAnimationFrame(()=>{const tb=$('tabs');if(!tb)return;const top=Math.max(0,si.scrollTop+tb.getBoundingClientRect().top-si.getBoundingClientRect().top-4);si.scrollTo({top,behavior:calm()?'auto':'smooth'});});
   if(!wideScreen()&&$('v-trip').dataset.snap==='peek')setSnap('half');
 },true); // capture: runs before the app's own tab handler redraws the tab row
 /* back steps out of a section to the overview before anything else of the trip */

@@ -128,3 +128,5 @@ body.norisk .rk,body.norisk #planner{display:none}
 .gc.v6{display:flex;align-items:center;justify-content:center;cursor:default;outline:1.5px dashed color-mix(in srgb,var(--ink) 35%,transparent);outline-offset:-2px}
 .v6h{font-weight:700}
 @media (max-width:520px){.grid.v6c .gr{grid-template-columns:minmax(96px,1.4fr) repeat(12,minmax(22px,1fr)) minmax(26px,1fr)}}
+/* trip sections: official alerts and saved trips belong to the overview; other sections open on their own content */
+.sheet[data-sec]:not([data-sec="over"]) #alerts,.sheet[data-sec]:not([data-sec="over"]) #mytrips{display:none}
