@@ -1,0 +1,36 @@
+10-31 19:56:57.183 W/.pahaadpath.app( 4720): Unexpected CPU variant for x86: x86_64.
+10-31 19:56:57.183 W/.pahaadpath.app( 4720): Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, tremont, kabylake, default
+10-31 19:56:57.230 E/.pahaadpath.app( 4720): Not starting debugger since process cannot load the jdwp agent.
+10-31 19:56:58.094 W/.pahaadpath.app( 4720): Entry not found
+10-31 19:56:58.783 W/iew:webview_apk( 4800): Unexpected CPU variant for x86: x86_64.
+10-31 19:56:58.783 W/iew:webview_apk( 4800): Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, tremont, kabylake, default
+10-31 19:56:58.855 E/iew:webview_apk( 4800): Not starting debugger since process cannot load the jdwp agent.
+10-31 19:56:58.903 W/iew:webview_apk( 4800): Entry not found
+10-31 19:56:59.177 W/InputManager-JNI(  521): Input channel object '700e8c Splash Screen org.pahaadpath.app (client)' was disposed without first being removed with the input manager!
+10-31 19:56:59.729 W/cr_AWNetworkFetcherTask( 4800): 	at org.chromium.android_webview.nonembedded.NetworkFetcherTask.download(chromium-TrichromeWebViewGoogle6432.apk-stable-567263637:48)
+10-31 19:57:00.943 E/WebViewAssetLoader( 4720): Error opening asset path: icon.svg
+10-31 19:57:00.943 E/WebViewAssetLoader( 4720): java.io.FileNotFoundException: icon.svg
+10-31 19:57:00.943 E/WebViewAssetLoader( 4720): 	at android.content.res.AssetManager.nativeOpenAsset(Native Method)
+10-31 19:57:00.943 E/WebViewAssetLoader( 4720): 	at android.content.res.AssetManager.open(AssetManager.java:904)
+10-31 19:57:00.943 E/WebViewAssetLoader( 4720): 	at androidx.webkit.internal.AssetHelper.openAsset(AssetHelper.java:122)
+10-31 19:57:00.943 E/WebViewAssetLoader( 4720): 	at androidx.webkit.WebViewAssetLoader$AssetsPathHandler.handle(WebViewAssetLoader.java:189)
+10-31 19:57:00.943 E/WebViewAssetLoader( 4720): 	at androidx.webkit.WebViewAssetLoader.shouldInterceptRequest(WebViewAssetLoader.java:571)
+10-31 19:57:00.943 E/WebViewAssetLoader( 4720): 	at org.pahaadpath.app.MainActivity$1.shouldInterceptRequest(MainActivity.java:85)
+10-31 19:57:00.943 E/WebViewAssetLoader( 4720): 	at I9.a(chromium-TrichromeWebViewGoogle6432.apk-stable-567263637:79)
+10-31 19:57:00.943 E/WebViewAssetLoader( 4720): 	at org.chromium.android_webview.AwContentsBackgroundThreadClient.shouldInterceptRequestFromNative(chromium-TrichromeWebViewGoogle6432.apk-stable-567263637:15)
+10-31 19:57:18.090 W/InputDispatcher(  521): Not sending touch gesture to d5810e2 ActivityRecordInputSink org.pahaadpath.app/.MainActivity because it has config NO_INPUT_CHANNEL
+10-31 19:57:31.143 W/android.webview( 5466): Unexpected CPU variant for x86: x86_64.
+10-31 19:57:31.143 W/android.webview( 5466): Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, tremont, kabylake, default
+10-31 19:57:31.178 E/android.webview( 5466): Not starting debugger since process cannot load the jdwp agent.
+10-31 19:57:31.256 W/android.webview( 5466): Entry not found
+10-31 19:57:32.443 E/FrameTracker( 4720): force finish cuj, time out: J<IME_INSETS_ANIMATION::0@0@org.pahaadpath.app>
+10-31 19:57:36.327 E/FrameTracker( 4720): force finish cuj, time out: J<IME_INSETS_ANIMATION::1@0@org.pahaadpath.app>
+10-31 19:57:38.824 W/ActivityTaskManager(  521): Force removing ActivityRecord{a26f730 u0 org.pahaadpath.app/.MainActivity t8 f}}: app died, no saved state
+10-31 19:57:39.002 W/InputManager-JNI(  521): Input channel object 'd04f9f org.pahaadpath.app/org.pahaadpath.app.MainActivity (client)' was disposed without first being removed with the input manager!
+10-31 19:57:39.941 W/WindowManager(  521): Exception thrown during dispatchAppVisibility Window{d04f9f u0 org.pahaadpath.app/org.pahaadpath.app.MainActivity EXITING}
+10-31 20:03:15.130 W/HeterodyneSyncer( 5981): 	at org.chromium.net.impl.CronetUrlRequest.onError(:com.google.android.gms.dynamite_cronetdynamite@231818047@23.18.18 (190800-0):5)
+10-31 20:03:15.161 E/bwfc    ( 5981): 	at org.chromium.net.impl.CronetUrlRequest.onError(:com.google.android.gms.dynamite_cronetdynamite@231818047@23.18.18 (190800-0):5)
+11-02 20:04:31.537 W/chromium( 2597): [WARNING:dns_config_service_android.cc(115)] Failed to read DnsConfig.
+11-11 20:05:38.387 W/chromium( 2597): [WARNING:media_drm_origin_id_manager.cc(243)] Failed to provision origin ID
+11-11 20:05:38.600 W/A       ( 1703): 	at org.chromium.net.impl.CronetUrlRequest.onError(:com.google.android.gms.dynamite_cronetdynamite@231818047@23.18.18 (190800-0):5)
+11-11 20:05:38.600 W/A       ( 1703): 	at org.chromium.net.impl.CronetUrlRequest.onError(:com.google.android.gms.dynamite_cronetdynamite@231818047@23.18.18 (190800-0):5)

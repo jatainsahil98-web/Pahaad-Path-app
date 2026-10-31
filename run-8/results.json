@@ -1,0 +1,349 @@
+{
+ "steps": [
+  {
+   "name": "fresh install, first open with real network",
+   "t": "2026-10-31T19:56:56.482Z",
+   "state": {
+    "src": "live",
+    "lang": "en",
+    "from": "delhi",
+    "to": "mussoorie",
+    "view": "trip",
+    "tab": "route",
+    "scn": "live",
+    "err": "",
+    "srcmsg": "Live rainfall forecast, 00:23 IST (from the PahaadPath data pack)",
+    "online": true,
+    "outbox": 0,
+    "modal": false,
+    "overflowX": 0,
+    "vw": 412,
+    "ua": "Mozilla/5.0 (Linux; Android 14; sdk_gphone64_x86_64 Build/UE1A.230829.050; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/113.0.5672.136 Mobile Safari/537.36"
+   },
+   "pack": {
+    "ts": 1793475000000,
+    "made": 1793472826000,
+    "keys": 75,
+    "daily": true,
+    "alerts": 10,
+    "closures": null
+   },
+   "via": "pack",
+   "shot": "01_first_open_en.png"
+  },
+  {
+   "name": "plan Dehradun to Badrinath by typing",
+   "t": "2026-10-31T19:57:12.355Z",
+   "state": {
+    "src": "live",
+    "lang": "en",
+    "from": "delhi",
+    "to": "badrinath",
+    "view": "trip",
+    "tab": "route",
+    "scn": "live",
+    "err": "",
+    "srcmsg": "Live rainfall forecast, 00:23 IST (from the PahaadPath data pack)",
+    "online": true,
+    "outbox": 0,
+    "modal": false,
+    "overflowX": 0,
+    "vw": 412,
+    "ua": "Mozilla/5.0 (Linux; Android 14; sdk_gphone64_x86_64 Build/UE1A.230829.050; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/113.0.5672.136 Mobile Safari/537.36"
+   },
+   "verdict": "GO\n14\nlandslide risk / 100\nRoad looks clear for this start time\nDelhi NCR → Badrinath. Highest risk: Rishikesh → Devprayag.",
+   "closures": null,
+   "keyboardUp": "mInputShown=false",
+   "shot": "02_trip_dehradun_badrinath.png"
+  },
+  {
+   "name": "language en: every tab and view",
+   "t": "2026-10-31T19:57:28.499Z",
+   "failShot": "04_fail.png",
+   "error": "Error: not on screen: [data-t=\"map\"]\n    at tap (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:83:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:133:53\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:131:3"
+  },
+  {
+   "name": "language hi: every tab and view",
+   "t": "2026-10-31T19:57:34.370Z",
+   "failShot": "06_fail.png",
+   "error": "Error: not on screen: [data-t=\"map\"]\n    at tap (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:83:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:133:53\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:131:3"
+  },
+  {
+   "name": "language remembered after the app is closed",
+   "t": "2026-10-31T19:57:38.969Z",
+   "failShot": "07_fail.png",
+   "error": "Error: no WebView devtools: pid ERR Command failed: adb shell \"pidof org.pahaadpath.app\" sockets \n    at connect (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:70:9)\n    at async launch (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:75:30)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:144:37\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:143:2"
+  },
+  {
+   "name": "back to English",
+   "t": "2026-10-31T19:58:44.378Z",
+   "failShot": "08_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at tap (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:81:17)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:146:47\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:146:2"
+  },
+  {
+   "name": "where am I, location dialog answered with Approximate",
+   "t": "2026-10-31T19:58:44.822Z",
+   "failShot": "09_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:151:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:150:2"
+  },
+  {
+   "name": "where am I again with approximate already granted",
+   "t": "2026-10-31T19:58:45.374Z",
+   "failShot": "10_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at closeModal (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:95:37)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:158:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:157:2"
+  },
+  {
+   "name": "where am I with precise location",
+   "t": "2026-10-31T19:58:46.461Z",
+   "failShot": "11_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at closeModal (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:95:37)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:161:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:160:2"
+  },
+  {
+   "name": "where am I when location is refused",
+   "t": "2026-10-31T19:58:47.640Z",
+   "failShot": "12_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at closeModal (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:95:37)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:166:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:165:2"
+  },
+  {
+   "name": "where am I with location switched off in Android settings",
+   "t": "2026-10-31T19:58:48.076Z",
+   "failShot": "13_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at closeModal (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:95:37)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:171:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:170:2"
+  },
+  {
+   "name": "tell family: SMS with the plan",
+   "t": "2026-10-31T19:58:48.518Z",
+   "failShot": "14_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at closeModal (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:95:37)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:177:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:176:2"
+  },
+  {
+   "name": "tell family: \"I am stuck\" with location",
+   "t": "2026-10-31T19:58:48.947Z",
+   "failShot": "15_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at tap (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:81:17)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:185:42\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:184:2"
+  },
+  {
+   "name": "tell family with no number typed",
+   "t": "2026-10-31T19:58:49.374Z",
+   "failShot": "16_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:189:42\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:188:2"
+  },
+  {
+   "name": "back button with a window open",
+   "t": "2026-10-31T19:58:49.799Z",
+   "failShot": "17_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at tap (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:81:17)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:193:42\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:192:2"
+  },
+  {
+   "name": "back button on a tab other than the trip",
+   "t": "2026-10-31T19:58:50.225Z",
+   "failShot": "18_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:197:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:196:2"
+  },
+  {
+   "name": "save trip and my trips list",
+   "t": "2026-10-31T19:58:50.650Z",
+   "failShot": "19_fail.png",
+   "error": "Error: no WebView devtools: pid ERR Command failed: adb shell \"pidof org.pahaadpath.app\" sockets \n    at connect (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:70:9)\n    at async launch (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:75:30)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:200:3\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:199:2"
+  },
+  {
+   "name": "share buttons: WhatsApp advice, share, listen, QR, copy",
+   "t": "2026-10-31T19:59:54.233Z",
+   "failShot": "20_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:205:20\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:202:2"
+  },
+  {
+   "name": "share the app file (APK) from the safety tab",
+   "t": "2026-10-31T19:59:54.689Z",
+   "failShot": "21_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:215:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:214:2"
+  },
+  {
+   "name": "SOS button",
+   "t": "2026-10-31T19:59:55.118Z",
+   "failShot": "22_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:221:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:220:2"
+  },
+  {
+   "name": "voice question (mic button)",
+   "t": "2026-10-31T19:59:55.544Z",
+   "failShot": "23_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:225:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:224:2"
+  },
+  {
+   "name": "speech result path: partial words are a no-op, the final result plans the trip",
+   "t": "2026-10-31T19:59:55.973Z",
+   "failShot": "24_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:230:16\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:228:2"
+  },
+  {
+   "name": "typed question box in English and Hinglish",
+   "t": "2026-10-31T19:59:56.404Z",
+   "failShot": "25_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:239:10\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:236:2"
+  },
+  {
+   "name": "downloads inside the app (proof and open data exports)",
+   "t": "2026-10-31T19:59:56.835Z",
+   "failShot": "26_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:247:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:245:2"
+  },
+  {
+   "name": "turn the phone sideways",
+   "t": "2026-10-31T19:59:57.286Z",
+   "failShot": "27_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at state (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:90:17)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:253:22\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:252:2"
+  },
+  {
+   "name": "app killed in the background, then reopened",
+   "t": "2026-10-31T19:59:57.720Z",
+   "failShot": "28_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:258:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:257:2"
+  },
+  {
+   "name": "large text (font size 130 percent)",
+   "t": "2026-10-31T19:59:58.149Z",
+   "failShot": "29_fail.png",
+   "error": "Error: no WebView devtools: pid ERR Command failed: adb shell \"pidof org.pahaadpath.app\" sockets \n    at connect (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:70:9)\n    at async launch (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:75:30)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:262:45\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:261:2"
+  },
+  {
+   "name": "dark mode phone",
+   "t": "2026-10-31T20:01:02.169Z",
+   "failShot": "30_fail.png",
+   "error": "Error: no WebView devtools: pid ERR Command failed: adb shell \"pidof org.pahaadpath.app\" sockets \n    at connect (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:70:9)\n    at async launch (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:75:30)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:266:69\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:266:2"
+  },
+  {
+   "name": "copy link in the QR window",
+   "t": "2026-10-31T20:02:06.617Z",
+   "failShot": "31_fail.png",
+   "error": "Error: no WebView devtools: pid ERR Command failed: adb shell \"pidof org.pahaadpath.app\" sockets \n    at connect (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:70:9)\n    at async launch (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:75:30)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:271:3\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:270:2"
+  },
+  {
+   "name": "control room advisory: copy and WhatsApp",
+   "t": "2026-10-31T20:03:10.186Z",
+   "failShot": "32_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:277:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:276:2"
+  },
+  {
+   "name": "helpline number tap opens the dialer",
+   "t": "2026-10-31T20:03:10.589Z",
+   "failShot": "33_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:284:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:283:2"
+  },
+  {
+   "name": "voice input error",
+   "t": "2026-10-31T20:03:10.995Z",
+   "failShot": "34_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:288:20\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:287:2"
+  },
+  {
+   "name": "file pickers: load results file, load open data file",
+   "t": "2026-10-31T20:03:11.409Z",
+   "failShot": "35_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:293:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:292:2"
+  },
+  {
+   "name": "open a saved trip, swap from and to",
+   "t": "2026-10-31T20:03:11.816Z",
+   "failShot": "36_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:299:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:298:2"
+  },
+  {
+   "name": "shared report channel status with signal",
+   "t": "2026-10-31T20:03:12.228Z",
+   "failShot": "37_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:304:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:303:2"
+  },
+  {
+   "name": "date picker",
+   "t": "2026-10-31T20:03:12.634Z",
+   "failShot": "38_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:307:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:306:2"
+  },
+  {
+   "name": "English words left on Hindi screens (in context)",
+   "t": "2026-10-31T20:03:13.065Z",
+   "failShot": "39_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at tap (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:81:17)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:311:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:310:2"
+  },
+  {
+   "name": "flight mode, reopen the app",
+   "t": "2026-10-31T20:03:13.489Z",
+   "failShot": "40_fail.png",
+   "error": "Error: no WebView devtools: pid ERR Command failed: adb shell \"pidof org.pahaadpath.app\" sockets \n    at connect (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:70:9)\n    at async launch (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:75:30)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:320:36\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:319:2"
+  },
+  {
+   "name": "offline: plan another trip and where am I",
+   "t": "2026-10-31T20:04:21.190Z",
+   "failShot": "41_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:326:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:325:2"
+  },
+  {
+   "name": "offline: road report goes to the waiting queue",
+   "t": "2026-10-31T20:04:21.597Z",
+   "failShot": "42_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'c')\n    at installNtfyGuard (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:105:33)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:331:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:330:2"
+  },
+  {
+   "name": "offline: Hindi screens",
+   "t": "2026-10-31T20:04:22.007Z",
+   "failShot": "43_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at tap (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:81:17)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:338:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:337:2"
+  },
+  {
+   "name": "offline: map tab with the offline map",
+   "t": "2026-10-31T20:04:22.420Z",
+   "failShot": "44_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:342:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:341:2"
+  },
+  {
+   "name": "offline: closure and alert cards (sample data put in the saved forecast)",
+   "t": "2026-10-31T20:04:22.827Z",
+   "failShot": "45_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:347:21\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:346:2"
+  },
+  {
+   "name": "signal back: queue sends and forecast refreshes (no reopen)",
+   "t": "2026-10-31T20:04:23.229Z",
+   "failShot": "46_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'c')\n    at installNtfyGuard (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:105:33)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:364:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:363:2"
+  },
+  {
+   "name": "offline: report queued, app reopened later with signal",
+   "t": "2026-10-31T20:04:23.639Z",
+   "failShot": "47_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'c')\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:371:14\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:369:2"
+  },
+  {
+   "name": "flight mode, phone clock 2 days later, reopen",
+   "t": "2026-10-31T20:04:28.131Z",
+   "failShot": "48_fail.png",
+   "error": "Error: no WebView devtools: pid ERR Command failed: adb shell \"pidof org.pahaadpath.app\" sockets \n    at connect (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:70:9)\n    at async launch (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:75:30)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:387:62\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:386:3"
+  },
+  {
+   "name": "flight mode, phone clock 11 days later, reopen",
+   "t": "2026-10-31T20:05:35.295Z",
+   "failShot": "49_fail.png",
+   "error": "Error: no WebView devtools: pid ERR Command failed: adb shell \"pidof org.pahaadpath.app\" sockets \n    at connect (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:70:9)\n    at async launch (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:75:30)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:387:62\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:386:3"
+  },
+  {
+   "name": "clock back to now, signal back",
+   "t": "2026-10-31T20:06:42.512Z",
+   "failShot": "50_fail.png",
+   "error": "TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:393:20\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:391:2"
+  }
+ ],
+ "device": {
+  "model": "sdk_gphone64_x86_64",
+  "sdk": "34",
+  "type": "userdebug",
+  "webview": "versionName=113.0.5672.136Current WebView package (name, version): (com.google.android.webview, 113.0.5672.136)",
+  "size": "Physical size: 1080x2400",
+  "density": "Physical density: 420"
+ },
+ "pkg": "versionCode=45 minSdk=21 targetSdk=34\n    versionName=5.0",
+ "perms": "runtime permissions:\n        android.permission.POST_NOTIFICATIONS: granted=false, flags=[ USER_SENSITIVE_WHEN_GRANTED|USER_SENSITIVE_WHEN_DENIED]\n        android.permission.ACCESS_FINE_LOCATION: granted=false, flags=[ USER_SENSITIVE_WHEN_GRANTED|USER_SENSITIVE_WHEN_DENIED]\n        android.permission.ACCESS_COARSE_LOCATION: granted=false, flags=[ USER_SENSITIVE_WHEN_GRANTED|USER_SENSITIVE_WHEN_DENIED]\n        android.permission.RECORD_AUDIO: granted=false, flags=[ USER_SENSITIVE_WHEN_GRANTED|USER_SENSITIVE_WHEN_DENIED]\n\nQueries:\n  system apps queryable: false\n  queries via forceQueryable:\n  queries via package name:\n  queries via component:\n    com.google.android.settings.intelligence:\n      org.pahaadpath.app",
+ "wvTop": 0,
+ "wm": "Physical size: 1080x2400",
+ "pageErrors": []
+}
