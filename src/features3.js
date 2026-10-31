@@ -6,7 +6,7 @@ Object.assign(T.en,{
   bt_cau:'At Caution',bt_avo:'At Avoid',bt_ci:'95% range',bt_none:'Not run yet: the backtest runs after the closure collector.',
   bt_kept:'Fitted thresholds are not used: they did not beat Caine by more than its 95% range on held-out days.',
   bt_adopt:'Fitted thresholds are in use: they beat Caine on held-out days by more than its 95% range.',
-  v6_why:'{r} mm rain in 24 h. GSI landslide susceptibility {s}. Model checked against PWD closures (rain, soil moisture, past closures).',in_t:'Checked on other years',in_s:'Monsoons {y}: {n} stretch-days with a landslide reported near the road (NASA landslide catalogues). Neither method was fitted on these years.',in_c:'Caught at Caution',in_cf:'Days at Caution',in_a:'Caught at Avoid',in_af:'Days at Avoid',in_10:'Caught when 1 day in 10 is flagged',in_eng:'Rain threshold (Caine, GSI)',in_note:'These catalogues list only landslides that reached the news or a volunteer, so a day without one is not known to be safe. Compare how many reported landslides each method caught, best at the same share of days flagged.',bt_v6:'Model v6',bt_was:'Current engine:',bt_right:'Caution warnings that were right',bt_v6use:'in use',bt_prec:'Precision',
+  v6_why:'{r} mm rain in 24 h. GSI landslide susceptibility {s}. Model v7: the rain threshold corrected for soil moisture, 30-day rain and GSI, checked against PWD closures and NASA landslide records.',in_t:'Checked on other years',in_s:'Monsoons {y}: {n} stretch-days with a landslide reported near the road (NASA landslide catalogues). Neither method was fitted on these years.',in_c:'Caught at Caution',in_cf:'Days at Caution',in_a:'Caught at Avoid',in_af:'Days at Avoid',in_10:'Caught when 1 day in 10 is flagged',in_eng:'Rain threshold (Caine, GSI)',in_note:'These catalogues list only landslides that reached the news or a volunteer, so a day without one is not known to be safe. Compare how many reported landslides each method caught, best at the same share of days flagged.',bt_v6:'Model v6',bt_was:'Current engine:',bt_right:'Caution warnings that were right',bt_v6use:'in use',bt_prec:'Precision',
   bt_v6k:'Model v6 uses: {g}. It plans the trip screen and sends the phone alerts because it beat Caine by more than its 95% range on held-out days. With no data pack (in replays or when offline over 10 days) the app falls back to the Caine threshold.',bt_fitv6:'The fitted thresholds also beat Caine, but model v6 does far better, so v6 is used.',bt_fitoff:'The fitted thresholds beat Caine on this season but warn on too many days, so they are not used.',bt_v6fail:'Model v6 beat Caine on the 2026 PWD season but not on other years, so the app uses the Caine threshold with GSI susceptibility.',bt_v6wait:'Model v6 is waiting for the check on other years; until it passes, the app uses the Caine threshold with GSI susceptibility.',
   g_rain:'rain',g_static:'slope and past landslides',g_peak:'cloudburst intensity',g_soil:'soil moisture',g_season:'92-day rain',g_history:'past PWD closures',g_cold:'freeze-thaw',g_quake:'earthquakes',
   mem_note:'Very heavy rain here {w}: debris may still block the road. Ask locally and check road reports.',mem_1:'yesterday',mem_n:'{n} days ago',
@@ -26,7 +26,7 @@ Object.assign(T.hi,{
   bt_cau:'सावधानी पर',bt_avo:'बचें पर',bt_ci:'95% दायरा',bt_none:'अभी नहीं चला: बंदी संग्रह के बाद यह जाँच चलती है।',
   bt_kept:'निकाली गई सीमा उपयोग में नहीं: अलग रखे दिनों पर यह Caine से उसके 95% दायरे से अधिक बेहतर नहीं रही।',
   bt_adopt:'निकाली गई सीमा उपयोग में है: अलग रखे दिनों पर यह Caine से उसके 95% दायरे से अधिक बेहतर रही।',
-  v6_why:'24 घंटे में {r} मिमी बारिश। GSI भूस्खलन संवेदनशीलता {s}। PWD बंदियों से जाँचा मॉडल (बारिश, मिट्टी की नमी, पुरानी बंदियाँ)।',in_t:'दूसरे वर्षों पर जाँच',in_s:'मानसून {y}: सड़क के पास दर्ज भूस्खलन वाले {n} हिस्सा-दिन (NASA भूस्खलन सूचियाँ)। दोनों में से कोई भी तरीका इन वर्षों पर नहीं बना।',in_c:'सावधानी पर पकड़े',in_cf:'सावधानी वाले दिन',in_a:'बचें पर पकड़े',in_af:'बचें वाले दिन',in_10:'10 में 1 दिन चेताने पर पकड़े',in_eng:'बारिश सीमा (Caine, GSI)',in_note:'इन सूचियों में केवल वे भूस्खलन हैं जो ख़बरों या स्वयंसेवकों तक पहुँचे, इसलिए बिना भूस्खलन वाला दिन सुरक्षित माना नहीं जा सकता। देखें कि हर तरीके ने कितने दर्ज भूस्खलन पकड़े, ख़ासकर बराबर दिनों पर चेतावनी देने पर।',bt_v6:'मॉडल v6',bt_was:'मौजूदा इंजन:',bt_right:'सही निकलीं सावधानी चेतावनियाँ',bt_v6use:'उपयोग में',bt_prec:'सटीकता',
+  v6_why:'24 घंटे में {r} मिमी बारिश। GSI भूस्खलन संवेदनशीलता {s}। मॉडल v7: मिट्टी की नमी, 30 दिन की बारिश और GSI से सुधारी गई बारिश सीमा, PWD बंदियों और NASA भूस्खलन रिकॉर्ड से जाँची गई।',in_t:'दूसरे वर्षों पर जाँच',in_s:'मानसून {y}: सड़क के पास दर्ज भूस्खलन वाले {n} हिस्सा-दिन (NASA भूस्खलन सूचियाँ)। दोनों में से कोई भी तरीका इन वर्षों पर नहीं बना।',in_c:'सावधानी पर पकड़े',in_cf:'सावधानी वाले दिन',in_a:'बचें पर पकड़े',in_af:'बचें वाले दिन',in_10:'10 में 1 दिन चेताने पर पकड़े',in_eng:'बारिश सीमा (Caine, GSI)',in_note:'इन सूचियों में केवल वे भूस्खलन हैं जो ख़बरों या स्वयंसेवकों तक पहुँचे, इसलिए बिना भूस्खलन वाला दिन सुरक्षित माना नहीं जा सकता। देखें कि हर तरीके ने कितने दर्ज भूस्खलन पकड़े, ख़ासकर बराबर दिनों पर चेतावनी देने पर।',bt_v6:'मॉडल v6',bt_was:'मौजूदा इंजन:',bt_right:'सही निकलीं सावधानी चेतावनियाँ',bt_v6use:'उपयोग में',bt_prec:'सटीकता',
   bt_v6k:'मॉडल v6 इनका उपयोग करता है: {g}। अलग रखे दिनों पर यह Caine से उसके 95% दायरे से अधिक बेहतर रहा, इसलिए यात्रा योजना और फ़ोन चेतावनियाँ इसी से बनती हैं। डेटा पैक न हो (रीप्ले में या 10 दिन से अधिक ऑफ़लाइन) तो ऐप Caine सीमा पर लौट आता है।',bt_fitv6:'निकाली गई सीमा भी Caine से बेहतर रही, पर मॉडल v6 कहीं बेहतर है, इसलिए v6 उपयोग में है।',bt_fitoff:'निकाली गई सीमा इस सीज़न पर Caine से बेहतर रही पर बहुत अधिक दिनों पर चेताती है, इसलिए उपयोग में नहीं।',bt_v6fail:'मॉडल v6 2026 के PWD सीज़न पर Caine से बेहतर रहा पर दूसरे वर्षों पर नहीं, इसलिए ऐप GSI संवेदनशीलता के साथ Caine सीमा उपयोग करता है।',bt_v6wait:'मॉडल v6 दूसरे वर्षों की जाँच की प्रतीक्षा में है; पास होने तक ऐप GSI संवेदनशीलता के साथ Caine सीमा उपयोग करता है।',
   g_rain:'बारिश',g_static:'ढलान और पुराने भूस्खलन',g_peak:'बादल फटने जैसी तीव्रता',g_soil:'मिट्टी की नमी',g_season:'92 दिन की बारिश',g_history:'PWD की पुरानी बंदियाँ',g_cold:'जमना-पिघलना',g_quake:'भूकंप',
   mem_note:'यहाँ {w} बहुत भारी बारिश हुई: मलबा अब भी सड़क रोक सकता है। स्थानीय लोगों से पूछें और सड़क रिपोर्ट देखें।',mem_1:'कल',mem_n:'{n} दिन पहले',
@@ -48,6 +48,7 @@ const BACKTEST=/*__BACKTEST__*/null;
 const THRESH=/*__THRESH__*/null;
 /* the engine and model v6 on other years' dated landslides (NASA catalogues), data/model/independent.json */
 const INDEP=/*__INDEP__*/null;
+const V7=/*__V7__*/null;
 /* daily rain for the 30 days before each replayed closure day (ERA5), so the Proof tab can use the model's rain memory */
 const RP_DAILY=/*__RP_DAILY__*/null;
 const CACHE_MAX_H=10*24; // a saved forecast is used offline for up to 10 days, with its age on screen
@@ -200,6 +201,15 @@ async function shareApp(){
 document.addEventListener('click',e=>{if(e.target.closest('#a-app'))shareApp();});
 
 /* ---------- Proof: the season backtest (data/model/backtest.json) ---------- */
+/* model v7 (data/model/v7.json): learned from several monsoons; shown with how it compares with the engine */
+function v7Card(){
+  const V=V7;if(!V||!V.check)return '';
+  const p=v=>v==null?'—':Math.round(v*100)+'%',c=V.check,k=V.model&&V.model.kind||'stack',m=c[k]||{},e=c.engine||{};
+  const row=(n,x)=>'<tr><th>'+esc(n)+'</th><td>'+p((x.nasa||{})['10'])+'</td><td>'+p((x.nasa||{})['25'])+'</td><td>'+p((x.pwd||{})['10'])+'</td><td>'+p((x.pwd||{})['25'])+'</td></tr>';
+  return '<div class="card"><h3>'+t('v7_t')+(V.adopted?' <span class="pill l0">'+t('bt_v6use')+'</span>':'')+'</h3><p class="sub">'+t('v7_s')+'</p>'
+    +'<div class="wrap"><table class="tb"><tr><th></th><th>'+t('v7_n10')+'</th><th>'+t('v7_n25')+'</th><th>'+t('v7_p10')+'</th><th>'+t('v7_p25')+'</th></tr>'
+    +row(t('in_eng'),e)+row(t('v7_m'),m)+'</table></div><p class="note">'+t(V.owner_choice?'v7_owner':V.adopted?'v7_auto':'v7_off')+'</p></div>';
+}
 function indepCard(){
   const I=INDEP;if(!I||!I.engine)return '';
   const p=v=>v==null?'—':Math.round(v*100)+'%';
