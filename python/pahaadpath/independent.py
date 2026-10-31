@@ -104,12 +104,14 @@ def at_rate(rows, lab, skip, rate):
     return sum(1 for s in pos if s > cut) / len(pos)
 
 
-def run(net_engine, net_v6, m6, fetch_vars, coolr, log=print):
+def run(net_engine, net_v6, m6, fetch_vars, coolr, log=print, first_year=None, last_year=None):
     """fetch_vars(keys, start, end) -> hourly variables (openmeteo.archive_hourly_vars)"""
     from . import v6
     events = catalog_events(net_v6, coolr)
     labs = season_labels(net_v6, events)
-    years = sorted((y for y, s in labs.items() if len(s) >= MIN_EVENTS), key=lambda y: -len(labs[y]))[:MAX_SEASONS]
+    years = sorted((y for y, s in labs.items() if len(s) >= MIN_EVENTS and (first_year is None or y >= first_year)
+                    and (last_year is None or y <= last_year)), key=lambda y: -len(labs[y]))[:MAX_SEASONS]
+    log('seasons with events near the roads: %s' % {y: len(s) for y, s in sorted(labs.items())})
     years.sort()
     log('independent check: seasons %s' % ', '.join('%d (%d)' % (y, len(labs[y])) for y in years))
     rows_c, rows_6, lab_all, skip_all, per = [], [], set(), set(), []
@@ -153,7 +155,7 @@ def run(net_engine, net_v6, m6, fetch_vars, coolr, log=print):
 def report_md(r):
     p = lambda v: '-' if v is None else '%d%%' % round(v * 100)
     L = ['# Check on other years', '',
-         'Dated landslides near PahaadPath hill roads from NASA catalogues (GLC 2007 to 2017, COOLR 2018 onwards), June to September, '
+         'Dated landslides near PahaadPath hill roads from NASA catalogues (COOLR; GLC for years before 2018), June to September, '
          'scored with rain and soil moisture of each day. Neither method was fitted on these years.', '',
          'Seasons: %s. Stretch-days with a reported landslide: %d.' % (', '.join(map(str, r.get('seasons') or [])), r.get('events', 0)), '',
          '| Method | Caught at Caution | Days flagged Caution | Caught at Avoid | Days flagged Avoid | Caught when 10% of days are flagged | Caught when 25% are flagged |',

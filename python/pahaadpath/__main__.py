@@ -47,7 +47,8 @@ def main(argv=None):
     k = sub.add_parser('backtest')
     k.add_argument('--inventory', default='data/truth/inventory.json')
     k.add_argument('--mode', choices=['relaxed', 'strict'], default='relaxed')
-    sub.add_parser('independent')
+    ind = sub.add_parser('independent')
+    ind.add_argument('--last', type=int, default=5, help='monsoons before this year to score (default 5)')
     a = ap.parse_args(argv)
 
     from .network import Network
@@ -155,7 +156,9 @@ def main(argv=None):
             with open(m6p, encoding='utf-8') as f:
                 m6 = json.load(f)
         coolr = independent.fetch_coolr()
-        r = independent.run(Network(susc=th.get('susc') or 'slope'), Network(), m6, archive_hourly_vars, coolr)
+        import datetime as dt
+        y = dt.date.today().year  # this year's season trained v6, so the check stops the year before
+        r = independent.run(Network(susc=th.get('susc') or 'slope'), Network(), m6, archive_hourly_vars, coolr, first_year=y - a.last, last_year=y - 1)
         write_json(independent.summary(r), 'data', 'model', 'independent.json', indent=1)
         md = independent.report_md(r)
         with open(path('data', 'model', 'INDEPENDENT.md'), 'w', encoding='utf-8') as f:
