@@ -26,7 +26,7 @@ function hourly(start,end,fn){const t=[],v=[];let d=new Date(start+'T00:00:00Z')
   return r.abort();
  });
  await p.addInitScript(()=>{window.__sleep=1;window.__fastSleep=true;});
- await p.goto('file://'+F+'?view=proof&tiles=0');await p.waitForFunction(()=>window.PP&&PP.st.series);
+ await p.goto('file://'+F+'?view=proof&psec=all&tiles=0');await p.waitForFunction(()=>window.PP&&PP.st.series);
  // 1. run one replay
  await p.click('#pr-run');await p.waitForFunction(()=>document.querySelector('#pmap')&&localStorage.getItem('pp_proof'),null,{timeout:20000}); // baked results draw the map before the run ends
  const k1=await p.evaluate(()=>[...document.querySelectorAll('.kp b')].map(x=>x.textContent));

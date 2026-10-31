@@ -35,6 +35,13 @@ const fails=[];const ok=(c,m)=>{if(!c)fails.push(m);};
  const pr=await p.evaluate(()=>document.getElementById('v-proof').textContent);
  ok(/Checked against every PWD closure/.test(pr),'backtest card on Proof');
 
+ // 4. Proof in three sections; replay keeps its map when opened
+ for(const k of ['replay','method','season']){await p.evaluate(k=>document.querySelector('[data-psec="'+k+'"]').click(),k);await p.waitForTimeout(250);
+   const vis=await p.evaluate(()=>[...document.querySelectorAll('[data-psec-body]')].filter(x=>!x.hidden).map(x=>x.dataset.psecBody));
+   ok(JSON.stringify(vis)===JSON.stringify([k]),'proof section '+k+' '+vis);}
+ // 5. GSI: every hill stretch carries the GSI rating, and mapped landslides are found along a hill route
+ const g=await p.evaluate(()=>({n:PP.EDGES.filter(e=>!e.plain&&!e.virtual&&e.gsi&&e.gsi.cls).length,hill:PP.EDGES.filter(e=>!e.plain&&!e.virtual).length,near:(PP.gsiNear(PP.last.cur.rows)||[]).length}));
+ ok(g.n===g.hill&&g.near>50,'GSI data '+JSON.stringify(g));
  ok(!errs.length,'page errors '+errs.join(' | '));
  await b.close();
  if(fails.length){console.error('FAIL\n'+fails.join('\n'));process.exit(1);}

@@ -239,3 +239,39 @@ body[data-pp-view="ops"] .topbar .brand,body[data-pp-view="proof"] .topbar .bran
   .over-wrap #routes,.over-wrap #traffic{margin:0}
   .fabs{right:max(12px,calc(50% - 428px))}
 }
+
+/* ================= v12: Control room and Proof as full pages (side rail on wide screens), Proof in three sections ================= */
+.seg{display:flex;gap:4px;padding:4px;margin:0 0 14px;background:color-mix(in srgb,var(--ink) 6%,var(--surface));border:1px solid var(--line);border-radius:999px;
+  position:sticky;top:calc(var(--topbar-h,72px) + 6px);z-index:5;width:max-content;max-width:100%;overflow-x:auto;scrollbar-width:none}
+.seg::-webkit-scrollbar{display:none}
+.seg button{flex:none;border:0;background:none;border-radius:999px;padding:8px 16px;font:inherit;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;
+  transition:background .2s var(--ease),color .2s}
+.seg button[aria-selected="true"]{background:var(--ink);color:var(--bg)}
+.psec{animation:pp-in .22s var(--ease)}
+.psec[hidden]{display:none}
+.psub{margin:0 0 12px}
+.wide-view .card{border-radius:14px}
+.wide-view .ops-h h2{font-family:var(--display);font-stretch:75%;font-weight:800;letter-spacing:-.01em}
+
+@media (min-width: 900px){
+  :root{--rail-w:92px}
+  /* full-width bar on top, the view switcher becomes a rail on the left, content gets the rest of the screen */
+  body[data-pp-view="ops"] .topbar,body[data-pp-view="proof"] .topbar{width:auto;right:0}
+  body[data-pp-view="ops"] .bnav,body[data-pp-view="proof"] .bnav{top:var(--topbar-h,72px);bottom:0;height:auto;width:var(--rail-w);flex-direction:column;justify-content:flex-start;
+    gap:6px;padding:14px 0 0;border-top:0;border-right:1px solid var(--line);box-shadow:none}
+  body[data-pp-view="ops"] .bnav button,body[data-pp-view="proof"] .bnav button{flex:none;padding:10px 4px}
+  body[data-pp-view="ops"] .app.shell .wide-view,body[data-pp-view="proof"] .app.shell .wide-view{
+    margin-left:var(--rail-w);padding:calc(var(--topbar-h,72px) + 20px) 28px 32px;max-width:1500px}
+  body[data-pp-view="ops"] .toast,body[data-pp-view="proof"] .toast{bottom:24px}
+  /* proof: replay controls side by side with the scoreboard on very wide screens */
+  .seg{top:calc(var(--topbar-h,72px) + 8px)}
+}
+@media (min-width: 1200px){
+  .psec[data-psec-body="method"]:not([hidden]){display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start}
+  .psec[data-psec-body="method"]>.card{margin:0}
+  .psec[data-psec-body="method"]>.card:last-child{grid-column:1/-1}
+}
+@media (max-width: 899px){
+  .wide-view>.seg,.wide-view .psub{margin-inline:16px}
+  .wide-view>.seg{width:auto}
+}

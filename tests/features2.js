@@ -24,7 +24,7 @@ async function mock(ctx){
  for(const c of [A,B])await c.addInitScript(()=>{window.__shTest=1;window.__pfAuto=1;window.__fastSleep=true;});
  const errs=[];
  const pa=await A.newPage(),pb=await B.newPage();[pa,pb].forEach(p=>p.on('pageerror',e=>errs.push(String(e))));
- const q='?scn=monsoon&from=delhi&to=kedarnath&tab=reports&tiles=0';
+ const q='?scn=monsoon&from=delhi&to=kedarnath&tab=reports&tiles=0&psec=all';
  await pa.goto('file://'+F+q);await pb.goto('file://'+F+q);
  for(const p of [pa,pb])await p.waitForFunction(()=>PP.last&&PP.last.cur);
  // phone A reports a landslide on the first hill stretch it can

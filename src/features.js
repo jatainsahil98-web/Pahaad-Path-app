@@ -28,7 +28,7 @@ const TX={
   pr_board:'Scoreboard',pr_b_day:'Day',pr_b_src:'Rain',pr_b_hit:'Named closures caught (Avoid)',pr_b_cau:'Caution or worse',pr_b_fa:'Avoid elsewhere',pr_b_sl:'Slope · incidents',
   pr_hit:'Named closures caught (Avoid)',pr_cau:'Caution or worse on named closures',pr_fa:'Avoid with no named closure',pr_fac:'Avoid on a dry control day (false alarms)',pr_miss:'Rain values missing',
   pr_tbl:'Stretch,Named closure,Peak score,Band,At (IST),6 h mm,24 h mm,72 h mm,Rain ÷ trigger,Slope class',
-  pr_read:'How to read this',
+  pr_read:'How to read this',pr_t2:'How well does it work?',pr_s2:'PahaadPath checked against real road closures. The season check uses every PWD closure report; replay re-runs single closure days from the news.',ps_season:'Season check',ps_replay:'Replay a day',ps_method:'Method and data',
   pr_r1:'Caught means the stretch scored Avoid (65 or more) at some hour from 00:00 to 23:00 IST on that day.',
   pr_r2:'News counts (about 150 roads on 20 Aug 2025, 195 on 9 Jul 2026) include many small link roads that are not on our map, so Avoid elsewhere is an upper bound on false alarms, not a false alarm ratio.',
   pr_r3:'Control days are dry season days. Any Avoid there is a false alarm.',
@@ -79,7 +79,7 @@ const TX={
   pr_board:'स्कोरबोर्ड',pr_b_day:'दिन',pr_b_src:'बारिश',pr_b_hit:'पकड़ी गई बंद सड़कें (टालें)',pr_b_cau:'सावधानी या ज़्यादा',pr_b_fa:'बाक़ी जगह टालें',pr_b_sl:'ढलान · घटनाएँ',
   pr_hit:'पकड़ी गई बंद सड़कें (टालें)',pr_cau:'बंद सड़कों पर सावधानी या ज़्यादा',pr_fa:'बिना ख़बर वाली जगह पर टालें',pr_fac:'सूखे नियंत्रण दिन पर टालें (झूठी चेतावनी)',pr_miss:'बारिश के छूटे मान',
   pr_tbl:'हिस्सा,ख़बर में बंद,सबसे ऊँचा स्कोर,स्तर,समय (IST),6 घंटे मिमी,24 घंटे मिमी,72 घंटे मिमी,बारिश ÷ सीमा,ढलान वर्ग',
-  pr_read:'इसे कैसे पढ़ें',
+  pr_read:'इसे कैसे पढ़ें',pr_t2:'यह कितना सही है?',pr_s2:'PahaadPath की असली सड़क बंदियों से जाँच। सीज़न जाँच PWD की हर बंदी रिपोर्ट से होती है; रीप्ले ख़बरों में आए बंदी वाले एक-एक दिन को दोबारा चलाता है।',ps_season:'सीज़न जाँच',ps_replay:'एक दिन रीप्ले',ps_method:'तरीका और डेटा',
   pr_r1:'पकड़ी गई का मतलब है कि उस दिन 00:00 से 23:00 IST के बीच किसी घंटे हिस्से का स्कोर "टालें" (65 या ज़्यादा) रहा।',
   pr_r2:'ख़बरों की गिनती (20 अगस्त 2025 को लगभग 150, 9 जुलाई 2026 को 195 सड़कें) में बहुत सी छोटी सड़कें हैं जो हमारे नक्शे में नहीं हैं, इसलिए "बाक़ी जगह टालें" झूठी चेतावनी की ऊपरी सीमा है, अनुपात नहीं।',
   pr_r3:'नियंत्रण दिन सूखे मौसम के दिन हैं। वहाँ हर "टालें" झूठी चेतावनी है।',
@@ -454,11 +454,17 @@ async function loadReplayWeather(date){
   st.series=seriesFrom(rec,st.hour0);st.dateIdx=dayOf(st.nowMs);return true;
 }
 const pct=x=>x==null?'n/a':Math.round(100*x)+'%';
+let PSEC=(()=>{const q=new URLSearchParams(location.search).get('psec');if(q)return q;try{return sessionStorage.getItem('pp_psec')||'season';}catch(e){return 'season';}})();
+document.addEventListener('click',e=>{const b=e.target.closest('[data-psec]');if(!b)return;PSEC=b.dataset.psec;try{sessionStorage.setItem('pp_psec',PSEC);}catch(x){}renderProof();});
 function renderProof(){
   const evs=GT.events,keys=Object.keys(RP.results).sort();
   if(rpSel&&!RP.results[rpSel])rpSel=keys[0]||null;
   const R=rpSel&&RP.results[rpSel],ev=R&&evs.find(e=>e.id===R.event);
-  let h='<div class="ops-h"><h2>'+t('pr_t')+'</h2><p class="sub">'+t('pr_s')+'</p></div>'
+  const psec=['season','replay','method','all'].includes(PSEC)?PSEC:'season'; // all: every section at once (tests, printing)
+  let h='<div class="ops-h"><h2>'+t('pr_t2')+'</h2><p class="sub">'+t('pr_s2')+'</p></div>'
+   +'<div class="seg" role="tablist">'+['season','replay','method'].map(k=>'<button type="button" role="tab" data-psec="'+k+'" aria-selected="'+(psec===k)+'">'+t('ps_'+k)+'</button>').join('')+'</div>'
+   +'<div class="psec" data-psec-body="season"'+(psec==='season'||psec==='all'?'':' hidden')+'>'+btCard()+'</div>'
+   +'<div class="psec" data-psec-body="replay"'+(psec==='replay'||psec==='all'?'':' hidden')+'><p class="sub psub">'+t('pr_s')+'</p>'
    +(RP_BAKED?'<div class="card"><h3>'+t('pr_learn')+'</h3><ul class="ul">'+[1,2,3,4].map(i=>'<li>'+t('pr_l'+i)+'</li>').join('')+'</ul></div>':'')
    +'<div class="card"><div class="row"><label class="fld"><span>'+t('pr_day')+'</span><select id="pr-ev">'+evs.map((e,i)=>'<option value="'+i+'"'+(ev&&ev.id===e.id?' selected':'')+'>'+esc(rpEvLabel(e))+'</option>').join('')+'</select></label>'
    +'<label class="fld"><span>'+t('pr_src')+'</span><select id="pr-src">'+Object.keys(RP_API).map(k=>'<option value="'+k+'"'+(R&&R.source===k?' selected':'')+'>'+t('pr_'+k)+'</option>').join('')+'</select></label></div>'
@@ -482,12 +488,12 @@ function renderProof(){
       +rows.map(r=>{const e=S[r.id];return '<tr><td>'+esc(e?segName(e):r.id)+'</td><td>'+esc((closed[r.id]||[]).join('; '))+'</td><td>'+r.score+'</td><td><span class="pill l'+r.band+'">'+t(LV[r.band])+'</span></td><td>'+String(r.hour).padStart(2,'0')+':00</td><td>'+r.P6+'</td><td>'+r.P24+'</td><td>'+r.P72+'</td><td>'+r.ratio+'</td><td>'+r.susc+(r.slSrc==='gsi'?' GSI':r.slSrc==='dem'?' DEM':' demo')+'</td></tr>';}).join('')+'</table></div>'
       +'<p class="note">'+t('pr_src_l')+': '+esc(ev.sources.join('; '))+'</p></div>';
   }
-  h+=btCard();
+  h+='</div><div class="psec" data-psec-body="method"'+(psec==='method'||psec==='all'?'':' hidden')+'>';
   h+=tuneCard();
   h+='<div class="card"><h3>'+t('pr_read')+'</h3><ul class="ul"><li>'+t('pr_r1')+'</li><li>'+t('pr_r2')+'</li><li>'+t('pr_r3')+'</li><li>'+t('pr_r4')+'</li></ul></div>';
-  h+=odCard();
+  h+=odCard()+'</div>';
   $('v-proof').innerHTML=h;
-  if(R&&ev){
+  if(R&&ev&&(psec==='replay'||psec==='all')){
     const o=makeMap('pmap');
     if(o){const g=L.layerGroup().addTo(o.map),bounds=[];const closed={};ev.closures.forEach(c=>{(closed[c.link]=closed[c.link]||[]).push(c.place);});
       R.rows.forEach(r=>{const e=S[r.id];if(!e)return;const ll=geomOf(e);ll.forEach(p=>bounds.push(p));
