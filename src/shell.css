@@ -365,3 +365,21 @@ body[data-pp-view="ops"] .topbar .brand,body[data-pp-view="proof"] .topbar .bran
 @media (prefers-reduced-motion: reduce){
   .fab,.fabs .fab,.bgmap.gl,.lmap.gl{animation:none!important;transition:none!important}
 }
+
+/* ================= 2.0 Phase 6: offline UX ================= */
+.srcchip .dot.fresh{background:#4BD28A}
+.srcchip .dot.aging{background:var(--cau)}
+.srcchip .dot.old{background:#F07A6A}
+.srcchip .dot.demo{background:#B79CE8}
+.srcchip .demo-b{flex:none;font:700 9.5px/1 var(--mono,monospace);letter-spacing:.06em;padding:3px 5px;border-radius:4px;background:#B79CE8;color:#1E1433}
+html:lang(hi) .srcchip .demo-b{letter-spacing:0;font-size:11px}
+.srcchip .demo-b[hidden]{display:none}
+.obchip{display:inline-flex;align-items:center;gap:6px;margin:4px 0 0;padding:4px 10px 4px 4px;border:0;border-radius:var(--r-pill,999px);background:color-mix(in srgb,var(--head-ink) 14%,transparent);color:var(--head-ink);font-size:12px;cursor:pointer;min-height:28px}
+.obchip b{display:grid;place-items:center;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--cau);color:#1A1405;font-size:11.5px}
+.obchip.busy{padding-left:10px}
+.obchip[hidden]{display:none}
+.syncbar{position:absolute;left:0;right:0;bottom:-3px;height:3px;overflow:hidden;pointer-events:none}
+.syncbar[hidden]{display:none}
+.syncbar i{position:absolute;top:0;bottom:0;width:35%;background:var(--signal,#F2B705);border-radius:2px;animation:pp-sync 1.2s var(--ease-out,ease-out) infinite}
+@keyframes pp-sync{0%{left:-35%}100%{left:100%}}
+@media (prefers-reduced-motion: reduce){.syncbar i{animation:none;left:0;width:100%;opacity:.6}}

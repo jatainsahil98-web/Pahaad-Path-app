@@ -497,3 +497,46 @@ document.addEventListener('click',e=>{
   setTimeout(()=>{const p=bgPad();BG.gl.focus(r.seg.id,{left:p.tl[0]+20,top:p.tl[1]+40,right:p.br[0]+20,bottom:p.br[1]});},wideScreen()?0:320);
   all.forEach(x=>x.classList.toggle('picked',x===sg));
 });
+
+/* ================= 2.0 Phase 6: offline UX. The status line says how fresh the forecast is (live, saved under 12 h,
+   12 h to 3 days, older; simulated and replayed weather carry a DEMO DATA badge); a thin bar runs under the top bar
+   while a forecast is fetched (pp:sync from core.js); reports waiting for a signal show as a chip with a count
+   (pp:outbox from features2.js); and one toast says when a sync or a send finished. ================= */
+Object.assign(T.en,{ob_wait1:'1 report waiting for signal',ob_waitn:'{n} reports waiting for signal',ob_send:'Sending reports: {i} of {n}',ob_sent1:'Your report was sent',ob_sentn:'{n} reports sent',
+  sy_done:'Forecast updated, {t} IST',sy_err:'Could not update the forecast. Using the last saved one.',demo_b:'DEMO DATA',fr_live:'live',fr_fresh:'saved under 12 h ago',fr_aging:'saved 12 h to 3 days ago',fr_old:'more than 3 days old',fr_demo:'demo data, not a forecast'});
+Object.assign(T.hi,{ob_wait1:'1 रिपोर्ट सिग्नल की राह में',ob_waitn:'{n} रिपोर्ट सिग्नल की राह में',ob_send:'रिपोर्ट भेजी जा रही हैं: {n} में से {i}',ob_sent1:'आपकी रिपोर्ट भेज दी गई',ob_sentn:'{n} रिपोर्ट भेज दी गईं',
+  sy_done:'पूर्वानुमान अपडेट हुआ, {t} IST',sy_err:'पूर्वानुमान अपडेट नहीं हुआ। आख़िरी सहेजा पूर्वानुमान चल रहा है।',demo_b:'डेमो डेटा',fr_live:'लाइव',fr_fresh:'12 घंटे के भीतर सहेजा',fr_aging:'12 घंटे से 3 दिन पहले सहेजा',fr_old:'3 दिन से पुराना',fr_demo:'डेमो डेटा, पूर्वानुमान नहीं'});
+function dataAge(){
+  if(st.src==='sim'||st.src==='replay'||(st.scn&&st.scn.startsWith('rp:')))return 'demo';
+  if(st.src==='none')return 'old';
+  const ts=st.src==='live'?(st.made||st.dataTs):(st.cacheMade||st.cacheTs);
+  const h=ts?(Date.now()-ts)/3600e3:1e9;
+  if(st.src==='live'&&h<6)return 'live';
+  return h<12?'fresh':h<72?'aging':'old';
+}
+let SY={busy:false,afterOnline:false},OB={waiting:0,sending:false,sent:0,total:0,shown:0};
+function ppStatus(){
+  const a=dataAge(),c=$('srcchip');if(!c)return;
+  c.dataset.age=a;
+  $('dot').className='dot '+a+(a==='live'?' live':'');
+  const d=$('demob');d.hidden=a!=='demo';d.textContent=t('demo_b');
+  c.setAttribute('aria-label',t('sh_conds')+' · '+t('fr_'+a));
+  const ob=$('obchip');
+  if(OB.sending&&OB.total){ob.hidden=false;ob.className='obchip busy';ob.textContent=fill(t('ob_send'),{i:Math.min(OB.total,OB.sent+1),n:OB.total});}
+  else if(OB.waiting){ob.hidden=false;ob.className='obchip';ob.innerHTML='<b>'+OB.waiting+'</b>'+esc(OB.waiting===1?t('ob_wait1'):fill(t('ob_waitn'),{n:OB.waiting}));}
+  else ob.hidden=true;
+  $('syncbar').hidden=!SY.busy;
+}
+const renderBaseP6=render;
+render=function(){renderBaseP6();ppStatus();};
+window.addEventListener('online',()=>{SY.afterOnline=true;});
+window.addEventListener('pp:sync',e=>{const d=e.detail||{};
+  if(d.phase==='start'){SY.busy=true;}
+  else if(d.phase==='done'||d.phase==='error'){SY.busy=false;
+    if(SY.afterOnline){SY.afterOnline=false;toast(d.phase==='done'&&d.source!=='saved'?fill(t('sy_done'),{t:clock(d.made||Date.now())}):t('sy_err'));}}
+  ppStatus();});
+window.addEventListener('pp:outbox',e=>{const d=e.detail||{},was=OB.sending;
+  OB=Object.assign(OB,{waiting:d.waiting|0,sending:!!d.sending,sent:d.sent|0,total:d.total|0});
+  if(was&&!OB.sending&&OB.sent>0&&OB.shown!==OB.sent+'/'+OB.total){OB.shown=OB.sent+'/'+OB.total;toast(OB.sent===1?t('ob_sent1'):fill(t('ob_sentn'),{n:OB.sent}));}
+  ppStatus();});
+document.addEventListener('click',e=>{if(e.target.closest('#obchip')){st.view='trip';st.tab='reports';SEC=null;render();}});
