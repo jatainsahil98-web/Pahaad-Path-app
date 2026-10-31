@@ -285,3 +285,81 @@ goBack=function(){
   if(r&&fromTab&&st.tab==='route'){SEC='over';render();} // stepping back out of a tab lands on the overview
   return r;
 };
+
+/* ================= 2.0 Phase 2: the background trip map on MapLibre (WebGL, src/map/ppmap.js). The app builds GeoJSON
+   from the trip and hands it over; the map keeps its layers and only swaps data, so a redraw never rebuilds it. Without
+   WebGL (or with ?gl=0) the Leaflet map above stays in charge. ================= */
+const GL=!!(window.PPMap&&window.PPMap.supported());
+const cssd=(n,d)=>getComputedStyle(document.documentElement).getPropertyValue(n).trim()||d;
+let glDirty=true,glC=null;
+function glColors(){ // read once per theme change, not on every render
+  if(!glDirty&&glC)return glC;glDirty=false;
+  glC={land:cssd('--map-land',cssd('--bg','#EDEFE8')),water:cssd('--map-water','#5B8DB8'),muted:cssv('--muted'),ink:cssv('--ink'),surface:cssv('--surface'),
+    go:cssv('--go'),cau:cssv('--cau'),avd:cssv('--avd'),goEdge:cssd('--go-edge','#0F4D2F'),cauEdge:cssd('--cau-edge','#8A6400'),avdEdge:cssd('--avd-edge','#7D1F14')};
+  return glC;
+}
+if(GL){
+  const dirty=()=>{glDirty=true;if(BG.gl){BG.gl.theme(glColors());BG.key='';render();}};
+  try{window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',dirty);}catch(e){}
+  new MutationObserver(dirty).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+}
+const lnglat=g=>g.map(p=>[p[1],p[0]]);
+const pt=(lat,lon,props)=>({type:'Feature',properties:props||{},geometry:{type:'Point',coordinates:[lon,lat]}});
+const line=(ll,props)=>({type:'Feature',properties:props||{},geometry:{type:'LineString',coordinates:lnglat(ll)}});
+function glEnsure(){
+  if(BG.gl)return true;
+  const el=$('bgmap');if(!el)return false;
+  try{
+    BG.gl=window.PPMap.create(el,{colors:glColors(),basemap:BASEMAP,attribution:'Natural Earth',onload:()=>bgFit(false),onpopup:()=>{if(!wideScreen()&&$('v-trip').dataset.snap==='full')setSnap('half',true);}});
+  }catch(e){BG.gl=null;BG.glFail=true;return false;}
+  LM.bgmap={gl:BG.gl}; // PP.mapLines counts its stretches
+  if(window.PP)window.PP.glMap=()=>BG.gl&&BG.gl.map; // for the tests
+  if(window.ResizeObserver)new ResizeObserver(()=>{if(!BG.gl)return;BG.gl.resize();if(BG.needFit)bgFit(false);}).observe(el);
+  BG.gl.set('net',EDGES.filter(e=>!e.virtual).map(e=>line(geomOf(e))));
+  el.classList.add('gl');
+  return true;
+}
+function trafficStops(rows){ // fractions of the joined route's length where each stretch starts and ends, with its colour
+  const segs=rows.map(r=>{const g=pathOf(r.seg,r.rev);let d=0;for(let i=1;i<g.length;i++)d+=hav(g[i-1][0],g[i-1][1],g[i][0],g[i][1]);return {d,c:cssv('--'+LV[tlvl(r.ci)])};});
+  const tot=segs.reduce((s,x)=>s+x.d,0)||1;let at=0;
+  return segs.map(x=>{const a=at/tot;at+=x.d;return [a,at/tot,x.c];});
+}
+const drawBgLeaflet=drawBg;
+drawBg=function(M){
+  if(!GL||BG.glFail)return drawBgLeaflet(M);
+  if(st.view!=='trip'||!M||!M.cur)return;
+  if(!glEnsure())return drawBgLeaflet(M);
+  const tl=st.layer==='traffic',cur=M.cur,gl=BG.gl;
+  const ids=cur.rows.map(r=>r.seg.id+(r.rev?'r':'')).join(',');
+  const key=ids+'|'+st.layer+'|'+cur.rows.map(r=>tl?tlvl(r.ci):r.score+(r.blocked?'b':'')).join(',')+'|'+M.plans.length+'|'+st.lang+'|'+cur.halts.map(h=>h.node).join(',')+'|'+ctx().reports.length;
+  if(key===BG.key)return;
+  const fresh=ids!==BG.ids;BG.key=key;BG.ids=ids;
+  gl.mode(tl?'traffic':'risk');
+  const alts=[];M.plans.forEach(p=>{if(p===M.sel)return;p.rows.forEach(r=>alts.push(line(pathOf(r.seg,r.rev))));});
+  gl.set('alts',alts);
+  let w=180,s=90,e=-180,n=-90;
+  const route=cur.rows.map(r=>{const sg=r.seg,ll=pathOf(sg,r.rev);ll.forEach(p=>{s=Math.min(s,p[0]);n=Math.max(n,p[0]);w=Math.min(w,p[1]);e=Math.max(e,p[1]);});
+    return line(ll,{id:sg.id,lvl:sg.plain?0:lvl(r.score),plain:!!sg.plain,blocked:!tl&&!!r.blocked,len:sg.km||1,pop:stretchPopup(r)});});
+  if(fresh)gl.drawOn('route',route);else gl.set('route',route);
+  const joined=[];cur.rows.forEach(r=>{const ll=pathOf(r.seg,r.rev);(joined.length?ll.slice(1):ll).forEach(p=>joined.push(p));});
+  gl.set('route-trf',joined.length>1?[line(joined)]:[]);gl.setTraffic(trafficStops(cur.rows));
+  gl.set('gsi',GSI&&GSI.pts?gsiNear(cur.rows).map(p=>pt(p[0],p[1],{active:!!p[2]})):[]);
+  const spots=[];cur.rows.forEach(r=>{const sg=r.seg;if(sg.virtual)return;sg.spots.forEach(sp=>{const p=along(geomOf(sg),sp.f);spots.push(pt(p.lat,p.lon,{pop:'<b>'+esc(nm(sp))+'</b>'}));});});
+  gl.set('spots',spots);
+  gl.set('reports',ctx().reports.filter(x=>x.type!=='clear'&&cur.rows.some(r=>r.seg.id===x.seg)).map(x=>{const sg=S[x.seg];if(!sg)return null;
+    const f=sg.spots[x.spot]?sg.spots[x.spot].f:.5,p=along(geomOf(sg),f);return pt(p.lat,p.lon,{pop:esc(t('t_'+x.type)+' · '+ago(x.ts)+' '+t('ago'))});}).filter(Boolean));
+  gl.set('halts',cur.halts.map(h=>{const nd=NODE(h.node);return nd?pt(nd.lat,nd.lon,{pop:esc(t('sf_halts')+': '+pname(h.node))}):null;}).filter(Boolean));
+  const a=NODE(M.trip.from),b=NODE(M.trip.to),code=nd=>esc((nd.en||'').replace(/[^A-Za-z]/g,'').slice(0,3).toUpperCase());
+  gl.markers('stones',[a&&{lngLat:[a.lon,a.lat],className:'stone-ic',title:pname(M.trip.from),html:'<div class="stone"><i></i><b>'+code(a)+'</b></div>',z:1},
+    b&&{lngLat:[b.lon,b.lat],className:'stone-ic',title:pname(M.trip.to),html:'<div class="stone end"><i></i><b>'+code(b)+'</b></div>',z:2}].filter(Boolean));
+  [a,b].forEach(nd=>{if(nd){s=Math.min(s,nd.lat);n=Math.max(n,nd.lat);w=Math.min(w,nd.lon);e=Math.max(e,nd.lon);}});
+  BG.gbounds=w<=e?[[w,s],[e,n]]:null;
+  if(fresh){gl.closePopup();bgFit(false);}
+};
+const bgFitLeaflet=bgFit;
+bgFit=function(soft){
+  if(!BG.gl)return bgFitLeaflet(soft);
+  if(!BG.gbounds||st.view!=='trip')return;
+  const p=bgPad(); // extra room for the stones (34 by 42 px, drawn above their point)
+  BG.needFit=BG.gl.fit(BG.gbounds,{left:p.tl[0]+20,top:p.tl[1]+40,right:p.br[0]+20,bottom:p.br[1]},soft)===false;
+};

@@ -311,3 +311,17 @@ body[data-pp-view="ops"] .topbar .brand,body[data-pp-view="proof"] .topbar .bran
 @media (min-width: 1200px){
   :root{--panel-w:436px}
 }
+
+/* ================= 2.0 Phase 2: MapLibre background map ================= */
+.bgmap.gl{position:fixed;inset:0} /* maplibre-gl.css sets the map container to position:relative */
+.bgmap.gl .maplibregl-ctrl-bottom-left{bottom:calc(var(--sheet-h,40vh) + var(--bnav-h));transition:bottom .3s var(--ease)}
+.bgmap.gl .maplibregl-ctrl-attrib{font-size:9px;opacity:.8;background:color-mix(in srgb,var(--surface) 80%,transparent);color:var(--muted)}
+.bgmap.gl .maplibregl-ctrl-attrib a{color:inherit}
+.bgmap.gl .stone-ic{cursor:default}
+.maplibregl-popup-content{background:var(--surface);color:var(--ink);border-radius:12px;padding:10px 28px 10px 12px;line-height:1.45;box-shadow:0 8px 28px rgba(10,22,16,.22)}
+.maplibregl-popup-close-button{width:32px;height:32px;font-size:20px;color:var(--muted)}
+.maplibregl-popup-anchor-bottom .maplibregl-popup-tip{border-top-color:var(--surface)}
+.maplibregl-popup-anchor-top .maplibregl-popup-tip{border-bottom-color:var(--surface)}
+.maplibregl-popup-anchor-left .maplibregl-popup-tip{border-right-color:var(--surface)}
+.maplibregl-popup-anchor-right .maplibregl-popup-tip{border-left-color:var(--surface)}
+@media (min-width: 900px){.bgmap.gl .maplibregl-ctrl-bottom-left{bottom:0}}
