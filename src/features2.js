@@ -97,7 +97,10 @@ if(SYNC_URL)lsSet('pp_sync',SYNC_URL);
 let OUTBOX=lsGet('pp_outbox',[]);if(!Array.isArray(OUTBOX))OUTBOX=[];
 /* nothing in the outbox is dropped for age: a report made deep in a valley goes out whenever signal returns, with the time it was made
    (the report API takes signed reports up to 48 h old, the time a report can still matter) */
-function saveOutbox(){if(OUTBOX.length>200)OUTBOX=OUTBOX.slice(-200);lsSet('pp_outbox',OUTBOX);}
+function saveOutbox(){if(OUTBOX.length>200)OUTBOX=OUTBOX.slice(-200);lsSet('pp_outbox',OUTBOX);obEvent();}
+/* window event 'pp:outbox' for the UI: {waiting, sending, sent, total}, fired when the count changes and when a send starts or ends */
+let OBRUN={sending:false,sent:0,total:0};
+function obEvent(){try{window.dispatchEvent(new CustomEvent('pp:outbox',{detail:{waiting:OUTBOX.length,sending:OBRUN.sending,sent:OBRUN.sent,total:OBRUN.total}}));}catch(e){}}
 async function shPost(m){
   if(!st.share)return;
   if(API_URL){
@@ -118,22 +121,23 @@ function apiTake(js){
 let flushing=false;
 async function shFlush(){
   if(flushing||!OUTBOX.length||navigator.onLine===false)return;flushing=true;
+  OBRUN={sending:true,sent:0,total:OUTBOX.length};obEvent();
   try{
     if(API_URL){
       await apiRegister();const sent=OUTBOX.slice();
       const res=await fetch(API_URL+'/v1/sync',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({msgs:sent})});
       if(!res.ok)throw new Error(res.status);const js=await res.json();
-      OUTBOX=OUTBOX.filter(m=>sent.indexOf(m)<0);saveOutbox(); // refused messages (rate, signature) are not retried: they would be refused again
+      OBRUN.sent=sent.length;OUTBOX=OUTBOX.filter(m=>sent.indexOf(m)<0);saveOutbox(); // refused messages (rate, signature) are not retried: they would be refused again
       if(js.rejected&&Object.keys(js.rejected).length)console.warn('reports refused',js.rejected);
       apiTake(js);
     }else if(SYNC_URL){
       const res=await fetch(SYNC_URL+'/sync',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({msgs:OUTBOX})});
-      if(!res.ok)throw new Error(res.status);const js=await res.json();OUTBOX=[];saveOutbox();
+      if(!res.ok)throw new Error(res.status);const js=await res.json();OBRUN.sent=OUTBOX.length;OUTBOX=[];saveOutbox();
       let ch=false;(js.msgs||[]).forEach(m=>{if(shIngest(JSON.stringify(m)))ch=true;});SHR.status='on';if(ch)shChanged();
     }else{
-      while(OUTBOX.length){const res=await fetch(SH_URL,{method:'POST',body:JSON.stringify(OUTBOX[0])});if(!res.ok)throw new Error(res.status);OUTBOX.shift();saveOutbox();}
+      while(OUTBOX.length){const res=await fetch(SH_URL,{method:'POST',body:JSON.stringify(OUTBOX[0])});if(!res.ok)throw new Error(res.status);OUTBOX.shift();OBRUN.sent++;saveOutbox();}
     }
-  }catch(e){SHR.status='err';}finally{flushing=false;}
+  }catch(e){SHR.status='err';}finally{flushing=false;OBRUN.sending=false;obEvent();}
 }
 function shareReport(r,kind){if(kind==='report')shPost({k:'report',rid:r.id,seg:r.seg,spot:r.spot,type:r.type});else shPost({k:'confirm',rid:r.id});}
 function confirmShared(r){const c=SHR.conf[r.rid]=SHR.conf[r.rid]||{};if(Object.keys(c).some(isMe))return;c[KEY?KEY.id:DEV]=1;shPost({k:'confirm',rid:r.rid});}
