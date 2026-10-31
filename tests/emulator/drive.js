@@ -225,6 +225,14 @@ const airplane=on=>{adb('cmd connectivity airplane-mode '+(on?'enable':'disable'
   await ev(()=>{PP.st.tab='route';PP.render();scrollTo(0,0);});await tap('#b-mic');await sleep(2500);const u=uiTexts().slice(0,15);const t=await text('#toast');const s=shot('mic');adb('input keyevent 4');await sleep(800);
   if(!resumed().includes(PKG))await backToApp();await connect().catch(()=>{});return {ui:u,toast:t,shot:s,resumed:resumed()};
  });
+ await step('speech result path: partial words are a no-op, the final result plans the trip',async()=>{
+  // the Android recogniser cannot run on the emulator; this drives the same JavaScript entry points MainActivity calls
+  return await ev(()=>new Promise(res=>{
+   const before={from:PP.st.from,to:PP.st.to};
+   if(window.PP&&PP.onSpeechPartial)PP.onSpeechPartial('dehradun se');
+   PP.onSpeech(['dehradun se kedarnath kal subah'],null);
+   setTimeout(()=>res({before,after:{from:PP.st.from,to:PP.st.to,date:PP.st.date},partialDefined:!!PP.onSpeechPartial}),1500);}));
+ });
  await step('typed question box in English and Hinglish',async()=>{
   const out={};
   for(const q of ['dehradun to kedarnath tomorrow morning','rishikesh se joshimath kal']){

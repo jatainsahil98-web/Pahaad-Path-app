@@ -249,7 +249,12 @@ public class MainActivity extends Activity {
                 public void onRmsChanged(float v) {}
                 public void onBufferReceived(byte[] b) {}
                 public void onEndOfSpeech() {}
-                public void onPartialResults(Bundle b) {}
+                /** words so far, while the person is still speaking; the final result still comes through PP.onSpeech */
+                public void onPartialResults(Bundle b) {
+                    ArrayList<String> r = b.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                    if (r == null || r.isEmpty() || r.get(0) == null || r.get(0).isEmpty()) return;
+                    js("window.PP&&PP.onSpeechPartial&&PP.onSpeechPartial(" + JSONObject.quote(r.get(0)) + ")");
+                }
                 public void onEvent(int t, Bundle b) {}
             });
         }
@@ -257,6 +262,7 @@ public class MainActivity extends Activity {
         i.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         i.putExtra(RecognizerIntent.EXTRA_LANGUAGE, lang);
         i.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 5);
+        i.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
         i.putExtra("android.speech.extra.PREFER_OFFLINE", true); // the phone's offline model when installed
         recognizer.startListening(i);
     }
