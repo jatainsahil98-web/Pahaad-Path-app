@@ -8,7 +8,7 @@ State as of 31 Oct 2026.
 ```bash
 git clone https://github.com/jatainsahil98-web/Pahaad-Path-app.git
 cd Pahaad-Path-app
-npm ci                      # Node 20
+npm ci                      # Node 22
 npm run build               # dist/PahaadPath.html (single file) and dist/site/
 npm test                    # 11 Playwright suites; all must pass
 npm run dev                 # local dev server

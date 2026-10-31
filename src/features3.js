@@ -7,7 +7,7 @@ Object.assign(T.en,{
   bt_kept:'Fitted thresholds are not used: they did not beat Caine by more than its 95% range on held-out days.',
   bt_adopt:'Fitted thresholds are in use: they beat Caine on held-out days by more than its 95% range.',
   v6_why:'{r} mm rain in 24 h. GSI landslide susceptibility {s}. Model checked against PWD closures (rain, soil moisture, past closures).',in_t:'Checked on other years',in_s:'Monsoons {y}: {n} stretch-days with a landslide reported near the road (NASA landslide catalogues). Neither method was fitted on these years.',in_c:'Caught at Caution',in_cf:'Days at Caution',in_a:'Caught at Avoid',in_af:'Days at Avoid',in_10:'Caught when 1 day in 10 is flagged',in_eng:'Rain threshold (Caine, GSI)',in_note:'These catalogues list only landslides that reached the news or a volunteer, so a day without one is not known to be safe. Compare how many reported landslides each method caught, best at the same share of days flagged.',bt_v6:'Model v6',bt_was:'Current engine:',bt_right:'Caution warnings that were right',bt_v6use:'in use',bt_prec:'Precision',
-  bt_v6k:'Model v6 uses: {g}. It plans the trip screen and sends the phone alerts because it beat Caine by more than its 95% range on held-out days. With no data pack (in replays or when offline over 10 days) the app falls back to the Caine threshold.',bt_fitv6:'The fitted thresholds also beat Caine, but model v6 does far better, so v6 is used.',
+  bt_v6k:'Model v6 uses: {g}. It plans the trip screen and sends the phone alerts because it beat Caine by more than its 95% range on held-out days. With no data pack (in replays or when offline over 10 days) the app falls back to the Caine threshold.',bt_fitv6:'The fitted thresholds also beat Caine, but model v6 does far better, so v6 is used.',bt_fitoff:'The fitted thresholds beat Caine on this season but warn on too many days, so they are not used.',bt_v6fail:'Model v6 beat Caine on the 2026 PWD season but not on other years, so the app uses the Caine threshold with GSI susceptibility.',bt_v6wait:'Model v6 is waiting for the check on other years; until it passes, the app uses the Caine threshold with GSI susceptibility.',
   g_rain:'rain',g_static:'slope and past landslides',g_peak:'cloudburst intensity',g_soil:'soil moisture',g_season:'92-day rain',g_history:'past PWD closures',g_cold:'freeze-thaw',g_quake:'earthquakes',
   mem_note:'Very heavy rain here {w}: debris may still block the road. Ask locally and check road reports.',mem_1:'yesterday',mem_n:'{n} days ago',
   via_pack:' (from the PahaadPath data pack)',
@@ -27,7 +27,7 @@ Object.assign(T.hi,{
   bt_kept:'निकाली गई सीमा उपयोग में नहीं: अलग रखे दिनों पर यह Caine से उसके 95% दायरे से अधिक बेहतर नहीं रही।',
   bt_adopt:'निकाली गई सीमा उपयोग में है: अलग रखे दिनों पर यह Caine से उसके 95% दायरे से अधिक बेहतर रही।',
   v6_why:'24 घंटे में {r} मिमी बारिश। GSI भूस्खलन संवेदनशीलता {s}। PWD बंदियों से जाँचा मॉडल (बारिश, मिट्टी की नमी, पुरानी बंदियाँ)।',in_t:'दूसरे वर्षों पर जाँच',in_s:'मानसून {y}: सड़क के पास दर्ज भूस्खलन वाले {n} हिस्सा-दिन (NASA भूस्खलन सूचियाँ)। दोनों में से कोई भी तरीका इन वर्षों पर नहीं बना।',in_c:'सावधानी पर पकड़े',in_cf:'सावधानी वाले दिन',in_a:'बचें पर पकड़े',in_af:'बचें वाले दिन',in_10:'10 में 1 दिन चेताने पर पकड़े',in_eng:'बारिश सीमा (Caine, GSI)',in_note:'इन सूचियों में केवल वे भूस्खलन हैं जो ख़बरों या स्वयंसेवकों तक पहुँचे, इसलिए बिना भूस्खलन वाला दिन सुरक्षित माना नहीं जा सकता। देखें कि हर तरीके ने कितने दर्ज भूस्खलन पकड़े, ख़ासकर बराबर दिनों पर चेतावनी देने पर।',bt_v6:'मॉडल v6',bt_was:'मौजूदा इंजन:',bt_right:'सही निकलीं सावधानी चेतावनियाँ',bt_v6use:'उपयोग में',bt_prec:'सटीकता',
-  bt_v6k:'मॉडल v6 इनका उपयोग करता है: {g}। अलग रखे दिनों पर यह Caine से उसके 95% दायरे से अधिक बेहतर रहा, इसलिए यात्रा योजना और फ़ोन चेतावनियाँ इसी से बनती हैं। डेटा पैक न हो (रीप्ले में या 10 दिन से अधिक ऑफ़लाइन) तो ऐप Caine सीमा पर लौट आता है।',bt_fitv6:'निकाली गई सीमा भी Caine से बेहतर रही, पर मॉडल v6 कहीं बेहतर है, इसलिए v6 उपयोग में है।',
+  bt_v6k:'मॉडल v6 इनका उपयोग करता है: {g}। अलग रखे दिनों पर यह Caine से उसके 95% दायरे से अधिक बेहतर रहा, इसलिए यात्रा योजना और फ़ोन चेतावनियाँ इसी से बनती हैं। डेटा पैक न हो (रीप्ले में या 10 दिन से अधिक ऑफ़लाइन) तो ऐप Caine सीमा पर लौट आता है।',bt_fitv6:'निकाली गई सीमा भी Caine से बेहतर रही, पर मॉडल v6 कहीं बेहतर है, इसलिए v6 उपयोग में है।',bt_fitoff:'निकाली गई सीमा इस सीज़न पर Caine से बेहतर रही पर बहुत अधिक दिनों पर चेताती है, इसलिए उपयोग में नहीं।',bt_v6fail:'मॉडल v6 2026 के PWD सीज़न पर Caine से बेहतर रहा पर दूसरे वर्षों पर नहीं, इसलिए ऐप GSI संवेदनशीलता के साथ Caine सीमा उपयोग करता है।',bt_v6wait:'मॉडल v6 दूसरे वर्षों की जाँच की प्रतीक्षा में है; पास होने तक ऐप GSI संवेदनशीलता के साथ Caine सीमा उपयोग करता है।',
   g_rain:'बारिश',g_static:'ढलान और पुराने भूस्खलन',g_peak:'बादल फटने जैसी तीव्रता',g_soil:'मिट्टी की नमी',g_season:'92 दिन की बारिश',g_history:'PWD की पुरानी बंदियाँ',g_cold:'जमना-पिघलना',g_quake:'भूकंप',
   mem_note:'यहाँ {w} बहुत भारी बारिश हुई: मलबा अब भी सड़क रोक सकता है। स्थानीय लोगों से पूछें और सड़क रिपोर्ट देखें।',mem_1:'कल',mem_n:'{n} दिन पहले',
   via_pack:' (पहाड़ पथ डेटा पैक से)',
@@ -60,6 +60,14 @@ function v6Day(seg,a,c){
   const d0=parseDate(V.day0);if(d0==null)return null;
   const i=dayOf(c.hour0+a*3600e3)-d0;
   return i>=0&&i<row.length&&row[i]!=null?row[i]:null;
+}
+/* Control room: model v6 day score for today per stretch, whether it is in use or still on trial */
+function v6Today(id){
+  if(st.src!=='live'&&st.src!=='cache')return null;
+  const V=st.v6||st.v6t;if(!V||!V.by[id])return null;
+  const d0=parseDate(V.day0);if(d0==null)return null;
+  const i=dayOf(st.nowMs)-d0,v=V.by[id][i];
+  return v==null?null:{v,used:!!st.v6};
 }
 function modelOn(){return !!MODEL&&st.engine==='v5';}
 /* must match features() in python/pahaadpath/dataset.py and score() in model.py */
@@ -140,7 +148,7 @@ async function fetchPack(){
     Object.keys(p.daily).forEach(k=>{daily[k]=p.daily[k].map(v=>v/10);});
     if(!EDGES.every(e=>e.virtual||by[locKey(e)]))throw new Error('pack places');
     const made=Date.parse(p.made);
-    return{by,daily,day0:p.day0,ts:st.hour0,made:made>0&&made<=Date.now()?made:h0,via:'pack',alerts:Array.isArray(p.alerts)?p.alerts:null,v6:p.v6&&p.v6.by&&p.v6.day0?{by:p.v6.by,day0:p.v6.day0,model:p.v6.model}:null,r24:p.risk24&&/^v6/.test(p.risk24_model||'')?{by:p.risk24,model:p.risk24_model,made:made>0?made:h0}:null,closures:p.closures&&Array.isArray(p.closures.roads)?p.closures:null}; // made: when the pack's forecast was fetched, shown as its age
+    return{by,daily,day0:p.day0,ts:st.hour0,made:made>0&&made<=Date.now()?made:h0,via:'pack',alerts:Array.isArray(p.alerts)?p.alerts:null,v6:p.v6&&p.v6.by&&p.v6.day0?{by:p.v6.by,day0:p.v6.day0,model:p.v6.model}:null,v6t:p.v6_trial&&p.v6_trial.by&&p.v6_trial.day0?{by:p.v6_trial.by,day0:p.v6_trial.day0,model:p.v6_trial.model}:null,r24:p.risk24&&/^v6/.test(p.risk24_model||'')?{by:p.risk24,model:p.risk24_model,made:made>0?made:h0}:null,closures:p.closures&&Array.isArray(p.closures.roads)?p.closures:null}; // made: when the pack's forecast was fetched, shown as its age
   }finally{clearTimeout(to);}
 }
 async function fetchDaily(){
@@ -206,19 +214,19 @@ function btCard(){
   const p=v=>v==null?'—':Math.round(v*100)+'%',f2=v=>v==null?'—':v.toFixed(2);
   const col=(name,m,on)=>'<tr><th>'+esc(name)+(on?' <span class="pill l0">'+t('bt_use')+'</span>':'')+'</th>'
     +['caution','avoid'].map(k=>'<td>'+p(m[k].pod)+'</td><td>'+p(m[k].far)+'</td><td>'+f2(m[k].tss)+'</td>').join('')+'</tr>';
-  const c=B.caine,ci=c.ci_tss_caution,V6=B.v6&&B.v6.v6?B.v6:null;
+  const c=B.caine,ci=c.ci_tss_caution,V6=B.v6&&B.v6.v6?B.v6:null,V6USE=!!(V6&&B.v6.adopted&&INDEP&&INDEP.v6_ok),V6T=!!(B.v6&&B.v6.adopted),FITUSE=!!(B.adopted&&!V6T);
   let h='<div class="card"><h3>'+t('bt_t')+'</h3><p class="sub">'+esc(fill(t('bt_s'),{a:B.season?B.season[0]:'',b:B.season?B.season[1]:'',c:B.closures,r:B.reports}))+'</p>'
-    +(V6&&B.v6.adopted?'<div class="kpis"><div class="kp l0"><small>'+t('bt_pod')+' · v6</small><b>'+p(V6.v6.caution.pod)+'</b><em>'+t('bt_was')+' '+p(c.caution.pod)+'</em></div>'
+    +(V6USE?'<div class="kpis"><div class="kp l0"><small>'+t('bt_pod')+' · v6</small><b>'+p(V6.v6.caution.pod)+'</b><em>'+t('bt_was')+' '+p(c.caution.pod)+'</em></div>'
       +'<div class="kp l0"><small>'+t('bt_right')+' · v6</small><b>'+p(V6.v6.caution.far==null?null:1-V6.v6.caution.far)+'</b><em>'+t('bt_was')+' '+p(c.caution.far==null?null:1-c.caution.far)+'</em></div>'
       +'<div class="kp"><small>'+t('bt_tss')+' · v6</small><b>'+f2(V6.v6.caution.tss)+'</b><em>'+t('bt_was')+' '+f2(c.caution.tss)+'</em></div>'
     :'<div class="kpis"><div class="kp l1"><small>'+t('bt_pod')+'</small><b>'+p(c.caution.pod)+'</b><em>'+t('bt_cau')+'</em></div>'
     +'<div class="kp"><small>'+t('bt_tss')+'</small><b>'+f2(c.caution.tss)+'</b><em>'+(ci?t('bt_ci')+' '+f2(ci[0])+t('rng')+f2(ci[1]):'&nbsp;')+'</em></div>')
-    +(V6&&B.v6.adopted?'':'<div class="kp"><small>'+t('bt_lead')+'</small><b>'+(c.lead_median_h==null?'—':Math.round(c.lead_median_h)+' h')+'</b><em>&nbsp;</em></div>')+'</div>'
+    +(V6USE?'':'<div class="kp"><small>'+t('bt_lead')+'</small><b>'+(c.lead_median_h==null?'—':Math.round(c.lead_median_h)+' h')+'</b><em>&nbsp;</em></div>')+'</div>'
     +'<div class="wrap"><table class="tb"><tr><th></th><th colspan="3">'+t('bt_cau')+'</th><th colspan="3">'+t('bt_avo')+'</th></tr>'
     +'<tr><th></th>'+[0,1].map(()=>'<th>'+t('bt_pod')+'</th><th>'+t('bt_far')+'</th><th>TSS</th>').join('')+'</tr>'
-    +col(t('bt_caine'),c,!B.adopted&&!(V6&&B.v6.adopted))+(B.fit?col(fill(t('bt_fit'),{l:B.fit.level}),B.fit.metrics,B.adopted&&!(V6&&B.v6.adopted)):'')
-    +(V6?col(t('bt_v6'),V6.v6,false).replace('</th>',(B.v6.adopted?' <span class="pill l0">'+t('bt_v6use')+'</span>':'')+'</th>'):'')+'</table></div>'
-    +'<p class="note">'+esc(B.fit?t(B.adopted?(V6&&B.v6.adopted?'bt_fitv6':'bt_adopt'):'bt_kept'):(B.note||''))+'</p>'
-    +(V6?'<p class="note">'+esc(fill(t('bt_v6k'),{g:(V6.chosen||[]).map(g=>t('g_'+g)).join(', ')}))+'</p>':'')+'</div>';
+    +col(t('bt_caine'),c,!V6USE&&!FITUSE)+(B.fit?col(fill(t('bt_fit'),{l:B.fit.level}),B.fit.metrics,FITUSE):'')
+    +(V6?col(t('bt_v6'),V6.v6,false).replace('</th>',(V6USE?' <span class="pill l0">'+t('bt_v6use')+'</span>':'')+'</th>'):'')+'</table></div>'
+    +'<p class="note">'+esc(B.fit?t(B.adopted?(V6T?(V6USE?'bt_fitv6':'bt_fitoff'):'bt_adopt'):'bt_kept'):(B.note||''))+'</p>'
+    +(V6?'<p class="note">'+esc(V6T&&!V6USE?t(INDEP&&INDEP.v6_ok===false?'bt_v6fail':'bt_v6wait'):fill(t('bt_v6k'),{g:(V6.chosen||[]).map(g=>t('g_'+g)).join(', ')}))+'</p>':'')+'</div>';
   return h;
 }

@@ -152,6 +152,11 @@ def run(net_engine, net_v6, m6, fetch_vars, coolr, log=print, first_year=None, l
         # catch rate when both flag the same share of other days: the fair comparison on news catalogues
         out[name]['pod_at_10pct'] = at_rate(rows, lab_d, skip_all, .10)
         out[name]['pod_at_25pct'] = at_rate(rows, lab_d, skip_all, .25)
+    # v6 stays in the app only if, at the same share of days flagged, it catches at least as many reported landslides
+    if out.get('engine') and out.get('v6'):
+        e, v = out['engine'], out['v6']
+        out['v6_ok'] = all(v[k] is not None and e[k] is not None and v[k] >= e[k] for k in ('pod_at_10pct', 'pod_at_25pct'))
+        out['v6_features'] = m6.get('features')
     return out
 
 
@@ -168,11 +173,14 @@ def report_md(r):
         if m:
             L.append('| %s | %s | %s | %s | %s | %s | %s |' % (name, p(m['caution']['pod']), p(m['caution']['alarm_rate']), p(m['avoid']['pod']),
                                                              p(m['avoid']['alarm_rate']), p(m['pod_at_10pct']), p(m['pod_at_25pct'])))
+    if 'v6_ok' in r:
+        L += ['', 'Model v6 %s.' % ('catches at least as many as the engine at the same share of days flagged: it stays in use' if r['v6_ok']
+                                    else 'catches fewer than the engine at the same share of days flagged: the app uses the engine')]
     L += ['', 'News catalogues miss most landslides, so days without one are not known to be safe: compare the catch rates, '
           'especially at the same share of days flagged.']
     return '\n'.join(L) + '\n'
 
 
 def summary(r):
-    keep = ('seasons', 'events', 'per_season', 'sources', 'engine', 'v6')
+    keep = ('seasons', 'events', 'per_season', 'sources', 'engine', 'v6', 'v6_ok', 'v6_features')
     return {k: r.get(k) for k in keep}

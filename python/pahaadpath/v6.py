@@ -45,6 +45,10 @@ GROUPS = {
     'gsi': ['gsi_mean', 'gsi_high100', 'log_gsi_ls1k'],
 }
 BASE = ('rain', 'static')
+# Left out of the search: 'history' counts PWD closures of the one season online (2026), so a model leaning on it
+# scored well on 2026 but over-warned on 2014 to 2018 (data/model/INDEPENDENT.md). Only inputs that exist for
+# every year are allowed.
+EXCLUDE = ('history',)
 MIN_GAIN = 0.01
 LEAD_DAYS = 92          # hours of history each row needs before its day
 QUAKE_BOX = (27.5, 32.5, 76.5, 82.0)
@@ -239,7 +243,7 @@ def run(inv, net, vars_, start, mode='relaxed', quakes=None, log=print):
         return out
     log('v6: %d days, %d closures, %d folds' % (len(days), len(lab), len(folds(days))))
     rows = build_rows(net, vars_, start, days, quakes)
-    groups = list(GROUPS) if quakes is not None else [g for g in GROUPS if g != 'quake']
+    groups = [g for g in GROUPS if g not in EXCLUDE and (quakes is not None or g != 'quake')]
 
     def score_of(gs):
         names = [n for g in gs for n in GROUPS[g]]

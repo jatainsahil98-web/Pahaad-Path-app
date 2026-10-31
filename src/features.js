@@ -28,7 +28,7 @@ const TX={
   pr_board:'Scoreboard',pr_b_day:'Day',pr_b_src:'Rain',pr_b_hit:'Named closures caught (Avoid)',pr_b_cau:'Caution or worse',pr_b_fa:'Avoid elsewhere',pr_b_sl:'Slope · incidents',
   pr_hit:'Named closures caught (Avoid)',pr_cau:'Caution or worse on named closures',pr_fa:'Avoid with no named closure',pr_fac:'Avoid on a dry control day (false alarms)',pr_miss:'Rain values missing',
   pr_tbl:'Stretch,Named closure,Peak score,Band,At (IST),6 h mm,24 h mm,72 h mm,Rain ÷ trigger,Slope class',
-  pr_read:'How to read this',pr_t2:'How well does it work?',pr_s2:'PahaadPath checked against real road closures. The season check uses every PWD closure report; replay re-runs single closure days from the news.',ps_season:'Season check',ps_replay:'Replay a day',ps_method:'Method and data',
+  pr_read:'How to read this',v6_col_u:'Model v6, today (in use)',v6_col_t:'Model v6, today (on trial, not used for trips)',pr_t2:'How well does it work?',pr_s2:'PahaadPath checked against real road closures. The season check uses every PWD closure report; replay re-runs single closure days from the news.',ps_season:'Season check',ps_replay:'Replay a day',ps_method:'Method and data',
   pr_r1:'Caught means the stretch scored Avoid (65 or more) at some hour from 00:00 to 23:00 IST on that day.',
   pr_r2:'News counts (about 150 roads on 20 Aug 2025, 195 on 9 Jul 2026) include many small link roads that are not on our map, so Avoid elsewhere is an upper bound on false alarms, not a false alarm ratio.',
   pr_r3:'Control days are dry season days. Any Avoid there is a false alarm.',
@@ -79,7 +79,7 @@ const TX={
   pr_board:'स्कोरबोर्ड',pr_b_day:'दिन',pr_b_src:'बारिश',pr_b_hit:'पकड़ी गई बंद सड़कें (टालें)',pr_b_cau:'सावधानी या ज़्यादा',pr_b_fa:'बाक़ी जगह टालें',pr_b_sl:'ढलान · घटनाएँ',
   pr_hit:'पकड़ी गई बंद सड़कें (टालें)',pr_cau:'बंद सड़कों पर सावधानी या ज़्यादा',pr_fa:'बिना ख़बर वाली जगह पर टालें',pr_fac:'सूखे नियंत्रण दिन पर टालें (झूठी चेतावनी)',pr_miss:'बारिश के छूटे मान',
   pr_tbl:'हिस्सा,ख़बर में बंद,सबसे ऊँचा स्कोर,स्तर,समय (IST),6 घंटे मिमी,24 घंटे मिमी,72 घंटे मिमी,बारिश ÷ सीमा,ढलान वर्ग',
-  pr_read:'इसे कैसे पढ़ें',pr_t2:'यह कितना सही है?',pr_s2:'PahaadPath की असली सड़क बंदियों से जाँच। सीज़न जाँच PWD की हर बंदी रिपोर्ट से होती है; रीप्ले ख़बरों में आए बंदी वाले एक-एक दिन को दोबारा चलाता है।',ps_season:'सीज़न जाँच',ps_replay:'एक दिन रीप्ले',ps_method:'तरीका और डेटा',
+  pr_read:'इसे कैसे पढ़ें',v6_col_u:'मॉडल v6, आज (उपयोग में)',v6_col_t:'मॉडल v6, आज (परीक्षण में, यात्राओं के लिए नहीं)',pr_t2:'यह कितना सही है?',pr_s2:'PahaadPath की असली सड़क बंदियों से जाँच। सीज़न जाँच PWD की हर बंदी रिपोर्ट से होती है; रीप्ले ख़बरों में आए बंदी वाले एक-एक दिन को दोबारा चलाता है।',ps_season:'सीज़न जाँच',ps_replay:'एक दिन रीप्ले',ps_method:'तरीका और डेटा',
   pr_r1:'पकड़ी गई का मतलब है कि उस दिन 00:00 से 23:00 IST के बीच किसी घंटे हिस्से का स्कोर "टालें" (65 या ज़्यादा) रहा।',
   pr_r2:'ख़बरों की गिनती (20 अगस्त 2025 को लगभग 150, 9 जुलाई 2026 को 195 सड़कें) में बहुत सी छोटी सड़कें हैं जो हमारे नक्शे में नहीं हैं, इसलिए "बाक़ी जगह टालें" झूठी चेतावनी की ऊपरी सीमा है, अनुपात नहीं।',
   pr_r3:'नियंत्रण दिन सूखे मौसम के दिन हैं। वहाँ हर "टालें" झूठी चेतावनी है।',
@@ -346,9 +346,12 @@ function advisoryText(D){
 function renderOps(){
   const D=opsData(),h=Math.max(0,Math.min(OPS_H-1,st.opsH|0));
   const blocks=[];for(let b=0;b<OPS_H/6;b++)blocks.push(b);
-  let grid='<div class="grid" role="table"><div class="gr gh" role="row"><span class="gn" role="columnheader"></span>'+blocks.map(b=>'<span role="columnheader">'+esc(hourLabel(b*6))+'</span>').join('')+'</div>';
+  const v6c=D.rows.some(r=>v6Today(r.e.id)),v6u=v6c&&!!st.v6; // model v6 today, in use or on trial
+  let grid='<div class="grid'+(v6c?' v6c':'')+'" role="table"><div class="gr gh" role="row"><span class="gn" role="columnheader"></span>'+blocks.map(b=>'<span role="columnheader">'+esc(hourLabel(b*6))+'</span>').join('')
+    +(v6c?'<span role="columnheader" class="v6h" title="'+esc(t(v6u?'v6_col_u':'v6_col_t'))+'">v6</span>':'')+'</div>';
   D.rows.forEach(r=>{grid+='<div class="gr" role="row"><button class="gn" type="button" data-oz="'+r.e.id+'" role="rowheader">'+esc(segName(r.e))+'</button>'
-    +blocks.map(b=>{const m=Math.max(...r.sc.slice(b*6,b*6+6));return '<button type="button" class="gc l'+lvl(m)+(h>=b*6&&h<b*6+6?' on':'')+'" data-oh="'+(b*6)+'" title="'+esc(segName(r.e)+' · '+hourLabel(b*6)+' · '+m)+'">'+m+'</button>';}).join('')+'</div>';});
+    +blocks.map(b=>{const m=Math.max(...r.sc.slice(b*6,b*6+6));return '<button type="button" class="gc l'+lvl(m)+(h>=b*6&&h<b*6+6?' on':'')+'" data-oh="'+(b*6)+'" title="'+esc(segName(r.e)+' · '+hourLabel(b*6)+' · '+m)+'">'+m+'</button>';}).join('')
+    +(v6c?(x=>'<span class="gc v6 l'+(x?lvl(x.v):0)+'" title="'+esc(segName(r.e)+' · '+t(v6u?'v6_col_u':'v6_col_t'))+'">'+(x?x.v:'')+'</span>')(v6Today(r.e.id)):'')+'</div>';});
   grid+='</div>';
   const reps=ctx().reports.slice().sort((a,b)=>b.ts-a.ts);
   $('v-ops').innerHTML='<div class="ops-h"><h2>'+t('ops_t')+'</h2><p class="sub">'+t('ops_s')+'</p></div>'

@@ -735,15 +735,15 @@ async function load(pre){
   if(st.scn==='live'){
     setClock(false);
     try{
-      const w=pre||await fetchWeather();st.series=seriesFromKeys(w.by);st.src='live';st.via=w.via;st.dataTs=w.ts;st.made=w.made||null;setDaily(w.daily,w.day0);if(w.alerts)st.alerts=w.alerts;if(w.closures)st.closures=w.closures;st.r24=w.r24||null;st.v6=w.v6||null;
-      try{localStorage.setItem('pp_cache2',JSON.stringify({ts:w.ts,made:w.made,by:w.by,daily:w.daily,day0:w.day0,alerts:st.alerts||null,closures:st.closures||null,v6:st.v6||null}));}catch(e){}
+      const w=pre||await fetchWeather();st.series=seriesFromKeys(w.by);st.src='live';st.via=w.via;st.dataTs=w.ts;st.made=w.made||null;setDaily(w.daily,w.day0);if(w.alerts)st.alerts=w.alerts;if(w.closures)st.closures=w.closures;st.r24=w.r24||null;st.v6=w.v6||null;st.v6t=w.v6t||null;
+      try{localStorage.setItem('pp_cache2',JSON.stringify({ts:w.ts,made:w.made,by:w.by,daily:w.daily,day0:w.day0,alerts:st.alerts||null,closures:st.closures||null,v6:st.v6||null,v6t:st.v6t||null}));}catch(e){}
     }catch(e){
       let c=null;try{c=JSON.parse(localStorage.getItem('pp_cache2')||'null');}catch(_){}
       /* offline: keep using the last forecast while it still covers the coming days; the header says how old it is */
       if(c&&c.by&&Date.now()-c.ts<CACHE_MAX_H*3600e3&&EDGES.every(e=>c.by[locKey(e)])){
         const shift=Math.round((st.hour0-c.ts)/3600e3),by={};
         Object.keys(c.by).forEach(k=>{by[k]=shift>0?c.by[k].slice(shift).concat(new Array(shift).fill(0)):c.by[k];});
-        st.series=seriesFromKeys(by);st.src='cache';st.cacheTs=c.ts;st.cacheMade=c.made||null;st.alerts=c.alerts||null;st.closures=c.closures||null;st.v6=c.v6||null;setDaily(c.daily,c.day0);
+        st.series=seriesFromKeys(by);st.src='cache';st.cacheTs=c.ts;st.cacheMade=c.made||null;st.alerts=c.alerts||null;st.closures=c.closures||null;st.v6=c.v6||null;st.v6t=c.v6t||null;setDaily(c.daily,c.day0);
       }else{
         /* nothing usable saved: say so, and plan roads, time and halts without a landslide score (never demo rain on a real trip) */
         st.src='none';st.err=c&&c.ts?'old':'none';st.cacheTs=c&&c.ts||null;st.cacheMade=c&&c.made||null;

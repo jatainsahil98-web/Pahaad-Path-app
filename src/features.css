@@ -123,3 +123,8 @@ svg.chart.tn{max-width:640px}
 body.norisk .rk,body.norisk #planner{display:none}
 .card.nr{border-left:4px solid var(--avd)}
 .navbox{margin:4px 0 12px}.navbox .note{margin:0 0 6px}
+/* Control room: model v6 column for today */
+.grid.v6c .gr{grid-template-columns:minmax(120px,1.6fr) repeat(12,minmax(26px,1fr)) minmax(30px,1fr)}
+.gc.v6{display:flex;align-items:center;justify-content:center;cursor:default;outline:1.5px dashed color-mix(in srgb,var(--ink) 35%,transparent);outline-offset:-2px}
+.v6h{font-weight:700}
+@media (max-width:520px){.grid.v6c .gr{grid-template-columns:minmax(96px,1.4fr) repeat(12,minmax(22px,1fr)) minmax(26px,1fr)}}

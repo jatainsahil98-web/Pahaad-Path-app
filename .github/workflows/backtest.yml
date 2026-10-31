@@ -18,16 +18,16 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 120
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: main
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
-          node-version: 20
-      - uses: actions/cache/restore@v4
+          node-version: 22
+      - uses: actions/cache/restore@v6
         with:
           path: data/cache
           key: openmeteo-bt-${{ github.run_id }}
@@ -40,7 +40,7 @@ jobs:
           cd python && python -c "from pahaadpath.inventory import merge_files; merge_files('../data/truth', '../data/truth/merged.json')"
       - name: Backtest and fit
         run: cd python && python -u -m pahaadpath backtest --inventory ../data/truth/merged.json | tee -a "$GITHUB_STEP_SUMMARY"
-      - uses: actions/cache/save@v4
+      - uses: actions/cache/save@v6
         if: always()
         with:
           path: data/cache

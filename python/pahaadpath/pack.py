@@ -25,16 +25,30 @@ V6_DAYS = 8  # today and 7 days ahead
 
 
 def adopted_v6():
-    """model v6 (data/model/model_v6.json) when the backtest adopted it, else None"""
+    """model v6 when it passed both checks, else None"""
+    m, ok = load_v6()
+    return m if ok else None
+
+
+def load_v6():
+    """(model v6 or None, True when it passed both checks: the PWD season backtest and other years)"""
     import json
     import os
     from . import path
     p = path('data', 'model', 'model_v6.json')
     if not os.path.exists(p):
-        return None
+        return None, False
     with open(p, encoding='utf-8') as f:
         m = json.load(f)
-    return m if m.get('adopted') else None
+    if not m.get('adopted'):
+        return m, False
+    # and it must also hold up on other years (independent.py) for this same model
+    q = path('data', 'model', 'independent.json')
+    if not os.path.exists(q):
+        return m, False
+    with open(q, encoding='utf-8') as f:
+        ind = json.load(f)
+    return m, bool(ind.get('v6_ok') and ind.get('v6_features') == m.get('features'))
 
 
 def risk24(net, hourly, th=None, hours=24):
@@ -71,8 +85,8 @@ def build_pack(net, log=print):
     }
     th = adopted_thresholds()
     pk['risk24'] = risk24(net, hourly, th)
-    m6 = adopted_v6()
-    if m6:  # v6 beat the current engine on held-out closures: its day score (today or tomorrow, worse of the two) leads
+    m6, used = load_v6()
+    if m6:  # v6 scored every run; it leads risk24 and the trip screen only when it passed both checks (`used`)
         try:
             from . import v6
             from .openmeteo import forecast_vars
@@ -80,19 +94,22 @@ def build_pack(net, log=print):
             i0 = 92 * 24
             quakes = v6.fetch_quakes((dt.date.today() - dt.timedelta(days=8)).isoformat(), (dt.date.today() + dt.timedelta(days=1)).isoformat(), log=log)
             s0, s1 = v6.score_now(m6, net, vars_, start, i0, quakes), v6.score_now(m6, net, vars_, start, i0 + 24, quakes)
-            for lid in pk['risk24']:
+            for lid in (pk['risk24'] if used else []):
                 if lid in s0:
                     best = max((s0[lid], 0), (s1[lid], 24), key=lambda x: x[0][0])
                     pk['risk24'][lid] = [best[0][0], best[0][1], best[1]]
-            pk['risk24_model'] = 'v6: ' + ' + '.join(m6['groups'])
+            name = 'v6: ' + ' + '.join(m6['groups'])
+            if used:
+                pk['risk24_model'] = name
             # v6 day score for each hill stretch, today and the next days: the trip screen plans with these
             days = [v6.score_now(m6, net, vars_, start, i0 + 24 * k, quakes) for k in range(V6_DAYS)]
             # a day counts only when the forecast has soil moisture and rain for all of it (the last days can come back empty)
             sm = vars_['soil_moisture_0_to_7cm']
             ok = [all(all(x is not None for x in vars_['precipitation'][k][i0 + 24 * d:i0 + 24 * d + 24]) and sm[k][i0 + 24 * d] is not None
                       if len(sm[k]) > i0 + 24 * d else False for k in sm) for d in range(V6_DAYS)]
-            pk['v6'] = {'day0': (dt.date.fromisoformat(start) + dt.timedelta(days=92)).isoformat(),
-                        'model': pk['risk24_model'], 'by': {lid: [d[lid][0] if ok[k] else None for k, d in enumerate(days)] for lid in days[0]}}
+            # 'v6' when it passed both checks (the trip screen uses it); otherwise 'v6_trial', shown only in the Control room
+            pk['v6' if used else 'v6_trial'] = {'day0': (dt.date.fromisoformat(start) + dt.timedelta(days=92)).isoformat(),
+                        'model': name, 'by': {lid: [d[lid][0] if ok[k] else None for k, d in enumerate(days)] for lid in days[0]}}
         except Exception as e:  # noqa: BLE001 - keep the v4 risk rather than no pack
             log('v6 not scored (%s); risk24 stays on the rain threshold' % e)  # link id -> [score 0-100, band 0-2, hours from hour0 of the peak]
     pk['risk24_source'] = 'PahaadPath engine, rain only (no road reports), next 24 h; thresholds: %s' % (

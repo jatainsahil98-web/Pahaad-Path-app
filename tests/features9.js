@@ -62,6 +62,13 @@ const fails=[];const ok=(c,m)=>{if(!c)fails.push(m);};
  const hit=t6.rows.find(r=>r[0]===t6.id),rest=t6.rows.filter(r=>r[0]!==t6.id);
  ok(hit&&hit[1]>=88&&rest.every(r=>r[1]>=12&&r[1]<35),'v6 drives the trip scores '+JSON.stringify(t6.rows.slice(0,5)));
  ok(/checked against PWD closures/.test(t6.why),'verdict says v6 set the score');
+ // 8. Control room: model v6 column for today, labelled on trial when it is not in use
+ const oc=await p.evaluate(()=>{const S=PP.st,keep={src:S.src,v6:S.v6,v6t:S.v6t,view:S.view};const d=new Date(Date.now()+5.5*3600e3).toISOString().slice(0,10);
+   const by={};PP.EDGES.forEach(e=>{if(!e.plain&&!e.virtual)by[e.id]=[70,10,10,10,10,10,10,10];});
+   S.v6=null;S.v6t={by,day0:d,model:'v6: test'};S.src='live';S.view='ops';PP.render();
+   const h=document.querySelector('#v-ops .v6h'),cells=[...document.querySelectorAll('#v-ops .gc.v6')].map(x=>x.textContent);
+   const out={title:h&&h.title,n:cells.length,first:cells[0]};S.src=keep.src;S.v6=keep.v6;S.v6t=keep.v6t;S.view=keep.view;PP.render();return out;});
+ ok(oc.n>=40&&oc.first==='70'&&/trial/.test(oc.title||''),'Control room v6 column '+JSON.stringify(oc));
  ok(!errs.length,'page errors '+errs.join(' | '));
  await b.close();
  if(fails.length){console.error('FAIL\n'+fails.join('\n'));process.exit(1);}
