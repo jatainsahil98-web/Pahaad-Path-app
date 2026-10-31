@@ -1,0 +1,312 @@
+== fresh install, first open with real network
+  {"name":"fresh install, first open with real network","t":"2026-10-31T19:26:33.848Z","state":{"src":"live","lang":"en","from":"delhi","to":"mussoorie","view":"trip","tab":"route","scn":"live","err":"","srcmsg":"Live rainfall forecast, 00:23 IST (from the PahaadPath data pack)","online":true,"outbox":0,"modal":false,"overflowX":0,"vw":412,"ua":"Mozilla/5.0 (Linux; Android 14; sdk_gphone64_x86_64 Build/UE1A.230829.050; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/113.0.5672.136 Mobile Safari/537.36"},"pack":{"ts":1793471400000,"made":1793472826000,"keys":75,"daily":true,"alerts":10,"closures":null},"via":"pack","shot":"01_first_open_en.png"}
+== plan Dehradun to Badrinath by typing
+  {"name":"plan Dehradun to Badrinath by typing","t":"2026-10-31T19:26:51.962Z","state":{"src":"live","lang":"en","from":"delhi","to":"badrinath","view":"trip","tab":"route","scn":"live","err":"","srcmsg":"Live rainfall forecast, 00:23 IST (from the PahaadPath data pack)","online":true,"outbox":0,"modal":false,"overflowX":0,"vw":412,"ua":"Mozilla/5.0 (Linux; Android 14; sdk_gphone64_x86_64 Build/UE1A.230829.050; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/113.0.5672.136 Mobile Safari/537.36"},"verdict":"GO\n14\nlandslide risk / 100\nRoad looks clear for this start time\nDelhi NCR → Badrinath. Highest risk: Rishikesh → Devprayag.","closures":null,"keyboardUp":"mInputShown=false","shot":"02_trip_dehradun_badrinath.png"}
+== language en: every tab and view
+  ERROR Error: not on screen: [data-t="map"]
+    at tap (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:83:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:133:53
+    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:131:3
+  {"name":"language en: every tab and view","t":"2026-10-31T19:27:10.568Z","failShot":"04_fail.png","error":"Error: not on screen: [data-t=\"map\"]\n    at tap (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:83:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:133:53\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:131:3"}
+== language hi: every tab and view
+  ERROR Error: not on screen: [data-t="map"]
+    at tap (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:83:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:133:53
+    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:131:3
+  {"name":"language hi: every tab and view","t":"2026-10-31T19:27:15.241Z","failShot":"06_fail.png","error":"Error: not on screen: [data-t=\"map\"]\n    at tap (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:83:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:133:53\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:131:3"}
+== language remembered after the app is closed
+  {"name":"language remembered after the app is closed","t":"2026-10-31T19:27:19.723Z","before":"hi","after":"hi","shot":"07_reopen_lang.png"}
+== back to English
+  {"name":"back to English","t":"2026-10-31T19:27:29.737Z","lang":"en"}
+== where am I, location dialog answered with Approximate
+  ERROR Error: not on screen: #a-where
+    at tap (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:83:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:151:50
+    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:150:2
+  {"name":"where am I, location dialog answered with Approximate","t":"2026-10-31T19:27:32.161Z","failShot":"08_fail.png","error":"Error: not on screen: #a-where\n    at tap (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:83:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:151:50\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:150:2"}
+== where am I again with approximate already granted
+  ERROR Error: not on screen: #a-where
+    at tap (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:83:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:158:22
+    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:157:2
+  {"name":"where am I again with approximate already granted","t":"2026-10-31T19:27:33.465Z","failShot":"09_fail.png","error":"Error: not on screen: #a-where\n    at tap (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:83:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:158:22\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:157:2"}
+== where am I with precise location
+  ERROR Error: not on screen: #a-where
+    at tap (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:83:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:162:3
+    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:160:2
+  {"name":"where am I with precise location","t":"2026-10-31T19:27:34.330Z","failShot":"10_fail.png","error":"Error: not on screen: #a-where\n    at tap (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:83:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:162:3\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:160:2"}
+== where am I when location is refused
+  ERROR Error: not on screen: #a-where
+    at tap (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:83:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:167:3
+    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:165:2
+  {"name":"where am I when location is refused","t":"2026-10-31T19:27:46.367Z","failShot":"11_fail.png","error":"Error: not on screen: #a-where\n    at tap (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:83:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:167:3\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:165:2"}
+== where am I with location switched off in Android settings
+  connect: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+  connect: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+  connect: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+  connect: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+  connect: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+  connect: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+  ERROR Error: no WebView devtools: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+    at connect (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:70:9)
+    at async launch (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:75:30)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:171:133
+    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:170:2
+  {"name":"where am I with location switched off in Android settings","t":"2026-10-31T19:28:00.081Z","failShot":"12_fail.png","error":"Error: no WebView devtools: pid ERR Command failed: adb shell \"pidof org.pahaadpath.app\" sockets \n    at connect (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:70:9)\n    at async launch (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:75:30)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:171:133\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:170:2"}
+== tell family: SMS with the plan
+  ERROR Error: timeout 45000 ms: Runtime.evaluate
+    at Timeout._onTimeout (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:29:88)
+    at listOnTimeout (node:internal/timers:585:17)
+    at process.processTimers (node:internal/timers:521:7)
+  {"name":"tell family: SMS with the plan","t":"2026-10-31T19:30:38.610Z","failShot":"13_fail.png","error":"Error: timeout 45000 ms: Runtime.evaluate\n    at Timeout._onTimeout (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:29:88)\n    at listOnTimeout (node:internal/timers:585:17)\n    at process.processTimers (node:internal/timers:521:7)"}
+== tell family: "I am stuck" with location
+  ERROR Error: timeout 45000 ms: Runtime.evaluate
+    at Timeout._onTimeout (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:29:88)
+    at listOnTimeout (node:internal/timers:585:17)
+    at process.processTimers (node:internal/timers:521:7)
+  {"name":"tell family: \"I am stuck\" with location","t":"2026-10-31T19:31:24.466Z","failShot":"14_fail.png","error":"Error: timeout 45000 ms: Runtime.evaluate\n    at Timeout._onTimeout (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:29:88)\n    at listOnTimeout (node:internal/timers:585:17)\n    at process.processTimers (node:internal/timers:521:7)"}
+== tell family with no number typed
+  ERROR Error: timeout 45000 ms: Runtime.evaluate
+    at Timeout._onTimeout (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:29:88)
+    at listOnTimeout (node:internal/timers:585:17)
+    at process.processTimers (node:internal/timers:521:7)
+  {"name":"tell family with no number typed","t":"2026-10-31T19:32:55.324Z","failShot":"15_fail.png","error":"Error: timeout 45000 ms: Runtime.evaluate\n    at Timeout._onTimeout (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:29:88)\n    at listOnTimeout (node:internal/timers:585:17)\n    at process.processTimers (node:internal/timers:521:7)"}
+== back button with a window open
+  ERROR Error: timeout 45000 ms: Runtime.evaluate
+    at Timeout._onTimeout (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:29:88)
+    at listOnTimeout (node:internal/timers:585:17)
+    at process.processTimers (node:internal/timers:521:7)
+  {"name":"back button with a window open","t":"2026-10-31T19:34:26.225Z","failShot":"16_fail.png","error":"Error: timeout 45000 ms: Runtime.evaluate\n    at Timeout._onTimeout (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:29:88)\n    at listOnTimeout (node:internal/timers:585:17)\n    at process.processTimers (node:internal/timers:521:7)"}
+== back button on a tab other than the trip
+  ERROR Error: timeout 45000 ms: Runtime.evaluate
+    at Timeout._onTimeout (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:29:88)
+    at listOnTimeout (node:internal/timers:585:17)
+    at process.processTimers (node:internal/timers:521:7)
+  {"name":"back button on a tab other than the trip","t":"2026-10-31T19:35:57.092Z","failShot":"17_fail.png","error":"Error: timeout 45000 ms: Runtime.evaluate\n    at Timeout._onTimeout (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:29:88)\n    at listOnTimeout (node:internal/timers:585:17)\n    at process.processTimers (node:internal/timers:521:7)"}
+== save trip and my trips list
+  {"name":"save trip and my trips list","t":"2026-10-31T19:36:42.921Z","saved":"[{\"from\":\"delhi\",\"to\":\"badrinath\",\"date\":\"2026-11-01\",\"dep\":null,\"score\":14,\"level\":0,\"links\":[\"rishikesh-devprayag\",\"devprayag-srinagar\",\"srinagar-rudraprayag\",\"rudraprayag-karnaprayag\",\"karnaprayag-chamoli\",\"chamoli-joshimath\",\"joshimath-govindghat\",\"govindghat-badrinath\"]}]","mytrips":"My trips\n\nSaved trips are checked again each time the forecast updates, also offline.\n\nDelhi NCR → Badrinath\nGo 14\nSun 1 Nov 08:00 · was Go 14 when saved\nOpen\nRemove","shot":"18_my_trips.png"}
+== share buttons: WhatsApp advice, share, listen, QR, copy
+  {"name":"share buttons: WhatsApp advice, share, listen, QR, copy","t":"2026-10-31T19:36:53.180Z","#adv-wa":"not on screen","#a-share":{"resumed":"org.pahaadpath.app/.MainActivity","ui":[],"toast":"Trip saved. It is checked again on every forecast update.","url":"https://appassets.androidplatform.net/assets/index.html","shot":"19_btn_a-share.png","speaking":"no speechSynthesis"},"#a-listen":{"resumed":"org.pahaadpath.app/.MainActivity","ui":["PahaadPath","Route map","Map","Delhi NCR","DEL","Badrinath","BAD","Toggle attribution","Natural Earth","Delhi NCR Badrinath Sun 1 Nov · best time","Language","EN","हिं","Forecast and traffic settings","Trip"],"toast":"Trip saved. It is checked again on every forecast update.","url":"https://appassets.androidplatform.net/assets/index.html","shot":"20_btn_a-listen.png","speaking":"no speechSynthesis"},"#a-qr":{"resumed":"org.pahaadpath.app/.MainActivit
+== share the app file (APK) from the safety tab
+  {"name":"share the app file (APK) from the safety tab","t":"2026-10-31T19:37:12.621Z","tab":"safety","resumed":"com.android.intentresolver/.ChooserActivity","ui":["Sharing 1 file","PahaadPath.apk","No recommended people to share with","Nearby Share","Drive","Gmail"],"shot":"22_share_app_chooser.png"}
+== SOS button
+  {"name":"SOS button","t":"2026-10-31T19:37:20.723Z","resumed":"org.pahaadpath.app/.MainActivity","ui":["PahaadPath","Route map","Map","Delhi NCR","DEL","Badrinath","BAD","Toggle attribution","Natural Earth","Delhi NCR Badrinath Sun 1 Nov · best time","Language","EN","हिं","Forecast and traffic settings","Trip","Speak your trip","FROM","Delhi NCR","TO","Badrinath"],"shot":"23_sos.png"}
+== voice question (mic button)
+  {"name":"voice question (mic button)","t":"2026-10-31T19:37:27.701Z","ui":["PahaadPath","Route map","Map","Delhi NCR","DEL","Badrinath","BAD","Toggle attribution","Natural Earth","Delhi NCR Badrinath Sun 1 Nov · best time","Language","EN","हिं","Forecast and traffic settings","Trip"],"toast":"Location is switched off on this phone. Turn it on in the phone settings and try again.","shot":"24_mic.png","resumed":"org.pahaadpath.app/.MainActivity"}
+== speech result path: partial words are a no-op, the final result plans the trip
+  {"name":"speech result path: partial words are a no-op, the final result plans the trip","t":"2026-10-31T19:37:34.908Z","before":{"from":"delhi","to":"badrinath"},"after":{"from":"dehradun","to":"kedarnath","date":"2026-11-02"},"partialDefined":false}
+== typed question box in English and Hinglish
+  {"name":"typed question box in English and Hinglish","t":"2026-10-31T19:37:36.514Z","dehradun to kedarnath tomorrow morning":{"from":"dehradun","to":"kedarnath","date":"2026-11-02","dep":null},"rishikesh se joshimath kal":{"from":"dehradun","to":"kedarnath","date":"2026-11-02","dep":null},"hindiTyped":{"to":"badrinath","val":"Badrinath"},"shot":"25_ask_box.png"}
+== downloads inside the app (proof and open data exports)
+  ERROR Error: not on screen: #pr-dl
+    at tap (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:83:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:248:129
+    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:245:2
+  {"name":"downloads inside the app (proof and open data exports)","t":"2026-10-31T19:37:43.242Z","failShot":"26_fail.png","error":"Error: not on screen: #pr-dl\n    at tap (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:83:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:248:129\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:245:2"}
+== turn the phone sideways
+  {"name":"turn the phone sideways","t":"2026-10-31T19:37:46.218Z","before":["dehradun","badrinath","route"],"landscape":["dehradun","badrinath","route",0,866],"shot":"27_landscape.png"}
+== app killed in the background, then reopened
+  {"name":"app killed in the background, then reopened","t":"2026-10-31T19:37:52.245Z","before":["dehradun","badrinath","reports"],"after":["dehradun","badrinath","reports"],"shot":"28_after_kill.png"}
+== large text (font size 130 percent)
+  {"name":"large text (font size 130 percent)","t":"2026-10-31T19:37:57.593Z","overflowX":0,"clipped":[],"shot":"29_font_130.png"}
+== dark mode phone
+  connect: pid 8365 sockets 
+  connect: pid 8365 sockets 
+  connect: pid 8365 sockets 
+  connect: pid 8365 sockets 
+  connect: pid 8365 sockets 
+  connect: pid 8365 sockets 
+  ERROR Error: no WebView devtools: pid 8365 sockets 
+    at connect (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:70:9)
+    at async launch (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:75:30)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:266:69
+    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:266:2
+  {"name":"dark mode phone","t":"2026-10-31T19:38:05.938Z","failShot":"30_fail.png","error":"Error: no WebView devtools: pid 8365 sockets \n    at connect (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:70:9)\n    at async launch (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:75:30)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:266:69\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:266:2"}
+== copy link in the QR window
+  connect: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+  connect: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+  connect: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+  connect: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+  connect: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+  connect: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+  ERROR Error: no WebView devtools: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+    at connect (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:70:9)
+    at async launch (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:75:30)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:271:3
+    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:270:2
+  {"name":"copy link in the QR window","t":"2026-10-31T19:39:10.128Z","failShot":"31_fail.png","error":"Error: no WebView devtools: pid ERR Command failed: adb shell \"pidof org.pahaadpath.app\" sockets \n    at connect (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:70:9)\n    at async launch (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:75:30)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:271:3\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:270:2"}
+== control room advisory: copy and WhatsApp
+  ERROR TypeError: Cannot read properties of null (reading 'evaluate')
+    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)
+    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:277:9
+    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:276:2
+  {"name":"control room advisory: copy and WhatsApp","t":"2026-10-31T19:40:13.406Z","failShot":"32_fail.png","error":"TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:277:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:276:2"}
+== helpline number tap opens the dialer
+  ERROR TypeError: Cannot read properties of null (reading 'evaluate')
+    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)
+    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:284:9
+    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:283:2
+  {"name":"helpline number tap opens the dialer","t":"2026-10-31T19:40:13.849Z","failShot":"33_fail.png","error":"TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:284:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:283:2"}
+== voice input error
+  ERROR TypeError: Cannot read properties of null (reading 'evaluate')
+    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)
+    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:288:20
+    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:287:2
+  {"name":"voice input error","t":"2026-10-31T19:40:14.254Z","failShot":"34_fail.png","error":"TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:288:20\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:287:2"}
+== file pickers: load results file, load open data file
+  ERROR TypeError: Cannot read properties of null (reading 'evaluate')
+    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)
+    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:293:9
+    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:292:2
+  {"name":"file pickers: load results file, load open data file","t":"2026-10-31T19:40:14.663Z","failShot":"35_fail.png","error":"TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:293:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:292:2"}
+== open a saved trip, swap from and to
+  ERROR TypeError: Cannot read properties of null (reading 'evaluate')
+    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)
+    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:299:9
+    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:298:2
+  {"name":"open a saved trip, swap from and to","t":"2026-10-31T19:40:15.068Z","failShot":"36_fail.png","error":"TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:299:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:298:2"}
+== shared report channel status with signal
+  ERROR TypeError: Cannot read properties of null (reading 'evaluate')
+    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)
+    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:304:9
+    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:303:2
+  {"name":"shared report channel status with signal","t":"2026-10-31T19:40:15.484Z","failShot":"37_fail.png","error":"TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:304:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:303:2"}
+== date picker
+  ERROR TypeError: Cannot read properties of null (reading 'evaluate')
+    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)
+    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:307:9
+    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:306:2
+  {"name":"date picker","t":"2026-10-31T19:40:15.893Z","failShot":"38_fail.png","error":"TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:307:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:306:2"}
+== English words left on Hindi screens (in context)
+  ERROR TypeError: Cannot read properties of null (reading 'evaluate')
+    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)
+    at tap (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:81:17)
+    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:311:9
+    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:310:2
+  {"name":"English words left on Hindi screens (in context)","t":"2026-10-31T19:40:16.301Z","failShot":"39_fail.png","error":"TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at tap (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:81:17)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:311:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:310:2"}
+== flight mode, reopen the app
+  connect: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+  connect: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+  connect: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+  connect: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+  connect: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+  connect: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+  ERROR Error: no WebView devtools: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+    at connect (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:70:9)
+    at async launch (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:75:30)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:320:36
+    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:319:2
+  {"name":"flight mode, reopen the app","t":"2026-10-31T19:40:16.715Z","failShot":"40_fail.png","error":"Error: no WebView devtools: pid ERR Command failed: adb shell \"pidof org.pahaadpath.app\" sockets \n    at connect (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:70:9)\n    at async launch (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:75:30)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:320:36\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:319:2"}
+== offline: plan another trip and where am I
+  ERROR TypeError: Cannot read properties of null (reading 'evaluate')
+    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)
+    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:326:9
+    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:325:2
+  {"name":"offline: plan another trip and where am I","t":"2026-10-31T19:41:24.102Z","failShot":"41_fail.png","error":"TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:326:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:325:2"}
+== offline: road report goes to the waiting queue
+  ERROR TypeError: Cannot read properties of null (reading 'c')
+    at installNtfyGuard (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:105:33)
+    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:331:9
+    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:330:2
+  {"name":"offline: road report goes to the waiting queue","t":"2026-10-31T19:41:24.507Z","failShot":"42_fail.png","error":"TypeError: Cannot read properties of null (reading 'c')\n    at installNtfyGuard (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:105:33)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:331:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:330:2"}
+== offline: Hindi screens
+  ERROR TypeError: Cannot read properties of null (reading 'evaluate')
+    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)
+    at tap (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:81:17)
+    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:338:9
+    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:337:2
+  {"name":"offline: Hindi screens","t":"2026-10-31T19:41:24.913Z","failShot":"43_fail.png","error":"TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at tap (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:81:17)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:338:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:337:2"}
+== offline: map tab with the offline map
+  ERROR TypeError: Cannot read properties of null (reading 'evaluate')
+    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)
+    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:342:9
+    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:341:2
+  {"name":"offline: map tab with the offline map","t":"2026-10-31T19:41:25.320Z","failShot":"44_fail.png","error":"TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:342:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:341:2"}
+== offline: closure and alert cards (sample data put in the saved forecast)
+  ERROR TypeError: Cannot read properties of null (reading 'evaluate')
+    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)
+    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:347:21
+    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:346:2
+  {"name":"offline: closure and alert cards (sample data put in the saved forecast)","t":"2026-10-31T19:41:25.731Z","failShot":"45_fail.png","error":"TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:347:21\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:346:2"}
+== signal back: queue sends and forecast refreshes (no reopen)
+  ERROR TypeError: Cannot read properties of null (reading 'c')
+    at installNtfyGuard (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:105:33)
+    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:364:9
+    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:363:2
+  {"name":"signal back: queue sends and forecast refreshes (no reopen)","t":"2026-10-31T19:41:26.139Z","failShot":"46_fail.png","error":"TypeError: Cannot read properties of null (reading 'c')\n    at installNtfyGuard (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:105:33)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:364:9\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:363:2"}
+== offline: report queued, app reopened later with signal
+  ERROR TypeError: Cannot read properties of null (reading 'c')
+    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:371:14
+    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:369:2
+  {"name":"offline: report queued, app reopened later with signal","t":"2026-10-31T19:41:26.544Z","failShot":"47_fail.png","error":"TypeError: Cannot read properties of null (reading 'c')\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:371:14\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:369:2"}
+== flight mode, phone clock 2 days later, reopen
+  connect: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+  connect: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+  connect: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+  connect: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+  connect: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+  connect: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+  ERROR Error: no WebView devtools: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+    at connect (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:70:9)
+    at async launch (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:75:30)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:387:62
+    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:386:3
+  {"name":"flight mode, phone clock 2 days later, reopen","t":"2026-10-31T19:41:31.024Z","failShot":"48_fail.png","error":"Error: no WebView devtools: pid ERR Command failed: adb shell \"pidof org.pahaadpath.app\" sockets \n    at connect (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:70:9)\n    at async launch (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:75:30)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:387:62\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:386:3"}
+== flight mode, phone clock 11 days later, reopen
+  connect: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+  connect: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+  connect: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+  connect: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+  connect: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+  connect: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+  ERROR Error: no WebView devtools: pid ERR Command failed: adb shell "pidof org.pahaadpath.app" sockets 
+    at connect (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:70:9)
+    at async launch (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:75:30)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:387:62
+    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:386:3
+  {"name":"flight mode, phone clock 11 days later, reopen","t":"2026-10-31T19:42:38.090Z","failShot":"49_fail.png","error":"Error: no WebView devtools: pid ERR Command failed: adb shell \"pidof org.pahaadpath.app\" sockets \n    at connect (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:70:9)\n    at async launch (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:75:30)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:387:62\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:386:3"}
+== clock back to now, signal back
+  ERROR TypeError: Cannot read properties of null (reading 'evaluate')
+    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)
+    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:393:20
+    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)
+    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:391:2
+  {"name":"clock back to now, signal back","t":"2026-10-31T19:43:45.152Z","failShot":"50_fail.png","error":"TypeError: Cannot read properties of null (reading 'evaluate')\n    at ev (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:77:25)\n    at /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:393:20\n    at async step (/home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:16:23)\n    at async /home/runner/work/Pahaad-Path-app/Pahaad-Path-app/tests/emulator/drive.js:391:2"}
+done
