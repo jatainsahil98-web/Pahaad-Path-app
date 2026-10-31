@@ -6,4 +6,5 @@ import './ui/tokens.css'; // 2.0 design tokens and Hindi type rules
 import './features.css';
 import './shell.css';
 import './globals.js';
+import './map/global.js'; // 2.0: MapLibre map adapter (WebGL) as window.PPMap; Leaflet stays as the fallback
 import 'virtual:pp-app';

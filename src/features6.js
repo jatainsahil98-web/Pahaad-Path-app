@@ -146,4 +146,4 @@ const renderFormBase8=renderForm;
 renderForm=function(){renderFormBase8();if(nativeListen)$('b-mic').hidden=false;};
 
 /* test hook: how many stretches a Leaflet map draws (the canvas renderer leaves no SVG paths to count) */
-function mapLines(id){const o=LM[id];if(!o)return 0;let n=0;o.map.eachLayer(l=>{if(l instanceof L.Polyline&&l.options.interactive!==false)n++;});return n;}
+function mapLines(id){const o=LM[id];if(!o)return 0;if(o.gl)return o.gl.count();let n=0;o.map.eachLayer(l=>{if(l instanceof L.Polyline&&l.options.interactive!==false)n++;});return n;}
