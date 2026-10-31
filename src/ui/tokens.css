@@ -1,0 +1,57 @@
+/* PahaadPath 2.0 design tokens. The colour names app.css already defines (--bg, --surface, --ink, --go, --cau, --avd ...)
+   stay as they are; this file adds the rest of the system: map colours, route edges, spacing, radius, elevation, motion,
+   and the type rules for Hindi. Loaded after app.css, before shell.css. */
+:root{
+  /* type: Devanagari falls back to Noto Sans Devanagari inside the display face too (Archivo has no Devanagari) */
+  --display:'Archivo','Noto Sans Devanagari','Arial Narrow',system-ui,sans-serif;
+  --body:'Noto Sans','Noto Sans Devanagari',system-ui,-apple-system,'Segoe UI',sans-serif;
+
+  /* route edges: a darker hue of each level, so every line clears 3:1 on the light map (yellow alone is 1.6:1) */
+  --go-edge:#0F4D2F; --cau-edge:#8A6400; --avd-edge:#7D1F14;
+  /* map */
+  --map-land:#EDEFE8; --map-forest:#DCE5D3; --map-water:#9CC0DD; --map-road:#FFFFFF; --map-road-edge:#C9D0C4;
+  --map-label:#3C4A42; --map-halo:rgba(251,252,249,.9); --map-border:#8A958E;
+  /* surfaces and overlays */
+  --surface-1:#FBFCF9; --surface-2:#FFFFFF; --scrim:rgba(20,34,28,.42);
+  --hazard:repeating-linear-gradient(45deg,var(--signal) 0 8px,var(--stripe) 8px 16px);
+
+  /* spacing on a 4 px grid */
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px;
+  /* radius */
+  --r-sm:8px; --r-md:12px; --r-lg:20px; --r-pill:999px;
+  /* elevation: 1 chips and pins, 2 FABs, 3 sheet and side panel, 4 search and modals */
+  --e1:0 1px 2px rgba(10,22,16,.14);
+  --e2:0 2px 6px rgba(10,22,16,.16),0 6px 16px rgba(10,22,16,.12);
+  --e3:0 -4px 16px rgba(10,22,16,.12),4px 0 16px rgba(10,22,16,.10);
+  --e4:0 12px 32px rgba(10,22,16,.24),0 2px 6px rgba(10,22,16,.12);
+  /* motion */
+  --dur-1:120ms; --dur-2:240ms; --dur-3:420ms;
+  --ease-out:cubic-bezier(.2,.8,.2,1); --ease-spring:cubic-bezier(.3,1.3,.5,1);
+  /* touch */
+  --tap:48px; --fab:56px;
+}
+/* dark: shadows vanish on dark, so depth comes from lighter surfaces instead */
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --map-land:#0F1C17; --map-forest:#13241C; --map-water:#1E3A4F; --map-road:#2A3D34; --map-road-edge:#1A2A23;
+    --map-label:#B9C8BF; --map-halo:rgba(13,24,20,.9); --map-border:#5E7066;
+    --surface-1:#14231D; --surface-2:#1B2C25; --scrim:rgba(0,0,0,.55);
+    --e1:0 0 0 1px rgba(230,237,232,.06); --e2:0 2px 8px rgba(0,0,0,.5); --e3:0 0 0 1px rgba(230,237,232,.07); --e4:0 12px 32px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --map-land:#0F1C17; --map-forest:#13241C; --map-water:#1E3A4F; --map-road:#2A3D34; --map-road-edge:#1A2A23;
+  --map-label:#B9C8BF; --map-halo:rgba(13,24,20,.9); --map-border:#5E7066;
+  --surface-1:#14231D; --surface-2:#1B2C25; --scrim:rgba(0,0,0,.55);
+  --e1:0 0 0 1px rgba(230,237,232,.06); --e2:0 2px 8px rgba(0,0,0,.5); --e3:0 0 0 1px rgba(230,237,232,.07); --e4:0 12px 32px rgba(0,0,0,.6);
+}
+@media (prefers-reduced-motion: reduce){
+  :root{--dur-1:0ms; --dur-2:0ms; --dur-3:0ms}
+}
+
+/* Hindi: Devanagari needs more room above and below the line, never letter spacing or capitals, and the tiny 11 to 12 px
+   labels one size up (the matras get lost at that size) */
+html:lang(hi) body{line-height:1.6}
+html:lang(hi) :is(.brand b,.sign .lvl,.trf h3,.tm b,.card h3,.tabs button,h4.sec,.rule h4,.rt-h,.ro-top b,.qsum b,.v6 b,.stone b,.seg button){letter-spacing:0;text-transform:none}
+html:lang(hi) :is(.srcchip,.qsum span){font-size:12.5px}
+html:lang(hi) .bnav button span{font-size:12.5px}
