@@ -279,9 +279,49 @@ function casedLine(group,ll,color,w,extra){
 }
 function divIcon(html,cls,size){return L.divIcon({html,className:'lf-ic '+(cls||''),iconSize:size||[18,18],iconAnchor:[(size||[18,18])[0]/2,(size||[18,18])[1]/2]});}
 const TRI='<svg viewBox="0 0 20 18" width="18" height="16"><path d="M10 1l9 16H1z" fill="#F2B705" stroke="#14221C" stroke-width="1.5" stroke-linejoin="round"/></svg>';
+/* ---------- why a stretch has its colour: the top reasons in plain words, read from what the engine already worked out
+   (rain against this stretch's slide trigger, wet ground from earlier days, slope, mapped landslides, road reports).
+   It explains the score; it never changes it. ---------- */
+Object.assign(T.en,{
+  why:'Why',why_blk:'Reported blocked by travellers',why_rain:'Heavy rain: {mm} mm in {h} h, {x}× what sets off slides here',
+  why_near:'Rain close to the slide trigger: {mm} of {t} mm in {h} h',why_wet:'Ground still wet from very heavy rain {w}',
+  why_v7:'Wet weeks: soil moisture and rain of the past month',why_gsi:'Landslide-prone slope (GSI)',
+  why_ls:'{n} mapped landslides within 1 km of this road',why_ls1:'1 mapped landslide within 1 km of this road',why_rep:'{n} road reports from travellers',why_rep1:'1 road report from a traveller',
+  why_dry:'Little rain on this stretch',why_low:'Little rain and a stable slope'
+});
+Object.assign(T.hi,{
+  why:'क्यों',why_blk:'यात्रियों ने बंद बताया',why_rain:'भारी बारिश: {h} घंटे में {mm} मिमी, यहाँ भूस्खलन की सीमा का {x} गुना',
+  why_near:'भूस्खलन की सीमा के पास बारिश: {h} घंटे में {mm} मिमी, सीमा {t} मिमी',why_wet:'{w} की बहुत भारी बारिश से ज़मीन अब भी गीली',
+  why_v7:'गीले हफ़्ते: मिट्टी की नमी और पिछले महीने की बारिश',why_gsi:'भूस्खलन-संभावित ढलान (GSI)',
+  why_ls:'इस सड़क से 1 किमी के भीतर {n} दर्ज भूस्खलन',why_ls1:'इस सड़क से 1 किमी के भीतर 1 दर्ज भूस्खलन',why_rep:'यात्रियों की {n} सड़क रिपोर्ट',why_rep1:'एक यात्री की सड़क रिपोर्ट',
+  why_dry:'इस हिस्से पर कम बारिश',why_low:'कम बारिश और स्थिर ढलान'
+});
+function whyReasons(r){
+  const s=r.seg;if(!s||s.plain)return [];
+  const out=[],l=lvl(r.score),hasRain=st.src!=='none';
+  const nRep=ctx().reports.filter(x=>x.seg===s.id&&x.type!=='clear').length;
+  if(r.blocked)out.push(t('why_blk'));
+  if(hasRain){
+    const f=edThr(s),win=[[6,r.P6],[24,r.P24],[72,r.P72]].map(([h,p])=>({h,p:p||0,x:(p||0)/f(h)})).sort((a,b)=>b.x-a.x)[0];
+    if(win.x>=1)out.push(fill(t('why_rain'),{mm:Math.round(win.p),h:win.h,x:win.x>=2?Math.round(win.x):win.x.toFixed(1)}));
+    else if(win.x>=.5)out.push(fill(t('why_near'),{mm:Math.round(win.p),t:Math.round(f(win.h)),h:win.h}));
+    if(r.mem)out.push(fill(t('why_wet'),{w:memWhen(r.mem)}));
+    if(l>=1&&win.x<.5&&!r.mem&&typeof v6Day==='function'&&v6Day(s,r.start||0,ctx())!=null)out.push(t('why_v7'));
+  }
+  if(l>=1||out.length){
+    if(s.susc>=3)out.push(t('why_gsi'));
+    const ls=s.gsi&&s.gsi.ls1k||0;if(ls)out.push(ls===1?t('why_ls1'):fill(t('why_ls'),{n:ls}));
+  }
+  if(nRep&&!r.blocked)out.push(nRep===1?t('why_rep1'):fill(t('why_rep'),{n:nRep}));
+  if(!out.length&&hasRain)out.push(s.susc>=3?t('why_dry'):t('why_low'));
+  return out.slice(0,3);
+}
+/* one line: "Why: heavy rain … · landslide-prone slope"; plain text is escaped here */
+function whyLine(r,cls){const w=whyReasons(r);return w.length?'<div class="why'+(cls?' '+cls:'')+'"><b>'+t('why')+':</b> '+w.map(esc).join(' · ')+'</div>':'';}
+setTimeout(()=>{if(window.PP)window.PP.why=r=>whyReasons(r);}); // for the tests
 function stretchPopup(r){
-  const s=r.seg,slope=['',t('low'),t('med'),t('high')][s.susc];
-  return '<b>'+esc(pname(r.from)+' → '+pname(r.to))+'</b><br>'
+  const s=r.seg,slope=['',t('low'),t('med'),t('high')][s.susc],why=whyLine(r,'pop');
+  return '<b>'+esc(pname(r.from)+' → '+pname(r.to))+'</b>'+(why||'<br>')
     +(s.plain?esc(t('plains_note')):esc(t(LV[lvl(r.score)])+' '+r.score+'/100 · '+t('rain')+' '+Math.round(r.P24)+'/'+Math.round(edThr(s)(24))+' mm · '+t('slope')+' '+slope+' ('+t(s.slSrc==='gsi'?'pp_sl_gsi':s.slSrc==='dem'?'pp_sl_dem':'pp_sl_demo')+')'+(s.gsi?' · '+fill(t('gsi_line'),{h:Math.round(s.gsi.high100*100),n:s.gsi.ls1k}):'')))
     +'<br>'+esc(clock(msOf(r.start))+t('rng')+clock(msOf(r.end))+' · '+t('trf')+' ×'+r.x.toFixed(1)+' · '+s.km+' '+t('km')+' ('+t(s.kmSrc==='osrm'?'pp_src_osrm':'pp_src_hand')+')');
 }
@@ -467,7 +507,7 @@ function renderProof(){
   const R=rpSel&&RP.results[rpSel],ev=R&&evs.find(e=>e.id===R.event);
   const psec=['season','replay','method','all'].includes(PSEC)?PSEC:'season'; // all: every section at once (tests, printing)
   let h='<div class="ops-h"><h2>'+t('pr_t2')+'</h2><p class="sub">'+t('pr_s2')+'</p></div>'
-   +'<div class="seg" role="tablist">'+['season','replay','method'].map(k=>'<button type="button" role="tab" data-psec="'+k+'" aria-selected="'+(psec===k)+'">'+t('ps_'+k)+'</button>').join('')+'</div>'
+   +'<div class="psec-bar"><div class="seg" role="tablist">'+['season','replay','method'].map(k=>'<button type="button" role="tab" data-psec="'+k+'" aria-selected="'+(psec===k)+'">'+t('ps_'+k)+'</button>').join('')+'</div></div>'
    +'<div class="psec" data-psec-body="season"'+(psec==='season'||psec==='all'?'':' hidden')+'>'+v7Card()+btCard()+indepCard()+'</div>'
    +'<div class="psec" data-psec-body="replay"'+(psec==='replay'||psec==='all'?'':' hidden')+'><p class="sub psub">'+t('pr_s')+'</p>'
    +(RP_BAKED?'<div class="card"><h3>'+t('pr_learn')+'</h3><ul class="ul">'+[1,2,3,4].map(i=>'<li>'+t('pr_l'+i)+'</li>').join('')+'</ul></div>':'')

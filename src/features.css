@@ -133,9 +133,62 @@ body.norisk .rk,body.norisk #planner{display:none}
 /* 2.0 Phase 7: each grid button sits in a cell (table semantics), the wrapper takes no space in the layout */
 .gcw{display:contents}
 /* Transport (v2) */
-.tr-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;align-items:start}
-.tr-grid .card{margin:0}
-.card.tr h3{margin-bottom:4px}.card.tr p{margin:0 0 10px;color:var(--ink)}
-.card.tr-warn{border-left:4px solid var(--cau)}.card.tr-warn.l2{border-left-color:var(--avd)}
+/* ---------- Transport (2.0 polish): one column of aligned blocks, a journey strip, grouped service cards ---------- */
+.tr-page{max-width:1120px;margin:0 auto;padding:16px 16px 28px;display:flex;flex-direction:column;gap:14px}
+.tr-page .card{margin:0}
+.tr-head h2{margin:0;font-family:var(--display);font-stretch:80%;font-weight:800;font-size:24px;line-height:1.15}
+.tr-head .sub{margin:4px 0 0;color:var(--muted);font-size:14px}
+.tr-ic{width:22px;height:22px;flex:none}
+/* journey strip */
+.card.tr-jr{padding:14px 16px}
+.tr-jt{font-family:var(--body)!important;font-stretch:100%!important;font-size:13px!important;font-weight:600!important;letter-spacing:0!important;color:var(--muted);margin:0 0 12px!important}
+.tr-steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0}
+.tr-step{display:flex;align-items:flex-start;gap:12px;position:relative;padding:0 0 14px}
+.tr-step:last-child{padding-bottom:0}
+.tr-step .tr-ic{width:36px;height:36px;padding:7px;border-radius:50%;background:var(--head);color:var(--head-ink);box-shadow:0 0 0 1px var(--line);box-sizing:border-box}
+.tr-step:not(:last-child)::after{content:"";position:absolute;left:17px;top:38px;bottom:2px;width:2px;background:var(--line)}
+.tr-step span{display:flex;flex-direction:column;min-width:0;padding-top:1px}
+.tr-step b{font-size:15px}
+.tr-step small{font-size:13px;color:var(--muted);line-height:1.4}
+@media (min-width:700px){
+  .tr-steps{flex-direction:row;gap:12px}
+  .tr-step{flex:1;padding:0;flex-direction:column;gap:8px}
+  .tr-step:not(:last-child)::after{left:44px;right:-6px;top:17px;bottom:auto;width:auto;height:2px}
+}
+/* warnings: icon, text, coloured edge; same width as everything else */
+.card.tr-warn{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-left:4px solid var(--cau);background:var(--cau-bg,var(--surface))}
+.card.tr-warn p{margin:0;color:var(--ink);line-height:1.5}
+.card.tr-warn .tr-ic{color:var(--cau-tx,var(--ink));margin-top:1px}
+.card.tr-warn.l2{border-left-color:var(--avd);background:var(--avd-bg,var(--surface))}
+.card.tr-warn.l2 .tr-ic{color:var(--avd-tx,var(--avd))}
+/* sections of service cards */
+.tr-sec{display:flex;flex-direction:column;gap:10px}
+.tr-sh{margin:6px 0 0;font-family:var(--display);font-stretch:80%;font-weight:800;font-size:18px}
+.tr-grid{display:grid;grid-template-columns:1fr;gap:12px;align-items:stretch}
+@media (min-width:700px){.tr-grid{grid-template-columns:1fr 1fr}.tr-grid>.card:last-child:nth-child(odd){grid-column:1/-1}}
+.card.tr{display:grid;grid-template-columns:40px 1fr;column-gap:12px;align-content:start;padding:14px 14px 12px}
+.card.tr h3{grid-column:2;margin:0;font-size:17px;align-self:center}
+.card.tr>p,.card.tr>.acts{grid-column:1/-1}
+.card.tr>p{margin-top:10px}
+.card.tr p{margin:0 0 12px;color:var(--ink);line-height:1.5;font-size:14px}
+.card.tr .acts.in{align-self:end;margin-top:0}
+@media (min-width:700px){.card.tr{grid-template-rows:auto 1fr auto}.card.tr .acts.in{max-width:420px}}
 .card.tr .acts a.btn{text-decoration:none}
-@media (max-width:899px){.tr-grid{padding-inline:16px}.tr-grid .card{margin:0}}
+.tr-badge{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;background:var(--go-bg);color:var(--go-tx)}
+/* how to choose: one row per option with its icon */
+.card.tr-how{padding:14px 16px}
+.tr-hl{list-style:none;margin:8px 0 0;padding:0;display:grid;grid-template-columns:1fr;gap:10px}
+@media (min-width:700px){.tr-hl{grid-template-columns:1fr 1fr;column-gap:24px}}
+.tr-hl li{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.5}
+.tr-hl .tr-ic{color:var(--go-tx);margin-top:1px}
+.tr-note{display:flex;gap:8px;align-items:flex-start;margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:13px}
+.tr-note .tr-ic{width:18px;height:18px}
+.tr-empty{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:16px}
+.tr-empty .tr-ic{width:32px;height:32px;color:var(--go-tx)}
+.tr-empty p{margin:0}
+html[lang="hi"] .card.tr p,html[lang="hi"] .tr-hl li{line-height:1.65}
+/* why a stretch has its colour (whyLine): ink, not muted, so it reads as the answer */
+.seg .why{grid-column:2/-1;font-size:12.5px;line-height:1.45;color:var(--ink);margin-top:2px;min-width:0}
+.why b{font-weight:700}
+.why.pop{margin:4px 0 6px;padding:6px 8px;border-left:3px solid var(--cau-edge,var(--cau));background:color-mix(in srgb,var(--cau) 12%,transparent);border-radius:4px;font-size:13px}
+html[lang="hi"] .why{line-height:1.6}
