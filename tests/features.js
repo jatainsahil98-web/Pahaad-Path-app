@@ -48,7 +48,7 @@ function hourly(start,end,fn){const t=[],v=[];let d=new Date(start+'T00:00:00Z')
  // 4. open data builder (sleep shortened)
  await p.evaluate(()=>{PP.st.view='proof';PP.render();});
  await p.evaluate(()=>{window.__fastSleep=true;});
- await p.click('#od-roads');await p.waitForFunction(()=>/Roads: 75 of 75/.test(document.getElementById('od-msg')?.textContent||''),null,{timeout:150000});
+ await p.click('#od-roads');await p.waitForFunction(()=>/Roads: 77 of 77/.test(document.getElementById('od-msg')?.textContent||''),null,{timeout:150000});
  await p.click('#od-slope');await p.waitForFunction(()=>/Slope: 44 of 44/.test(document.getElementById('od-msg')?.textContent||''),null,{timeout:60000});
  const od=await p.evaluate(()=>{const e=PP.S['rishikesh-devprayag'];return{km:e.km,km0:e.km0,src:e.kmSrc,susc:e.susc,sl:e.slSrc,foot:document.getElementById('foot').textContent};});
  console.log('open data:',JSON.stringify(od).slice(0,300),'calls',JSON.stringify(calls));
