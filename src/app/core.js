@@ -111,6 +111,10 @@ Pl('roorkee','haridwar',33,40,1.1);Pl('haridwar','rishikesh',24,32,1.3);
 Pl('haridwar','dehradun',54,45,.9);Pl('rishikesh','dehradun',43,40,.9);
 Pl('saharanpur','mohand',42,50,.8);
 Pl('meerut','najibabad',112,50,.6);Pl('najibabad','kotdwar',27,45,.6);
+/* the foothills road between Garhwal and Kumaon (NH 34 Haridwar to Najibabad, about 60 km; NH 734 Najibabad, Nagina,
+   Dhampur to Kashipur, 108 km): without it, Dehradun, Haridwar or Roorkee to Kotdwar, Ramnagar, Haldwani or Nainital
+   went round through Meerut, Ghaziabad and Moradabad */
+Pl('haridwar','najibabad',60,48,.8);Pl('najibabad','kashipur',108,50,.7);
 Pl('ghaziabad','moradabad',140,60,.8);Pl('moradabad','kashipur',55,50,.9);Pl('kashipur','rudrapur',55,50,.6);Pl('moradabad','rudrapur',88,55,.9);
 Pl('kashipur','ramnagar',35,45,.7);Pl('rudrapur','haldwani',40,50,1);Pl('ramnagar','haldwani',62,40,.6);Pl('bareilly','rudrapur',75,55,.5);
 Pl('haldwani','kathgodam',7,30,1.2);

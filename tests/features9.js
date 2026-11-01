@@ -55,7 +55,9 @@ const fails=[];const ok=(c,m)=>{if(!c)fails.push(m);};
  // 7. trip screen plans with model v6 day scores when the data pack carries them (live forecasts only)
  const t6=await p.evaluate(()=>{const S=PP.st,keep={src:S.src,v6:S.v6};const d=new Date(Date.now()+5.5*3600e3).toISOString().slice(0,10);
    const by={};PP.EDGES.forEach(e=>{if(!e.plain&&!e.virtual)by[e.id]=[12,12,12,12,12,12,12,12];});
-   const id=PP.last.cur.rows.find(r=>!r.seg.plain&&!r.seg.virtual).seg.id;by[id]=[88,88,88,88,88,88,88,88];
+   // the last stretch into the destination, which every route must use (a high score on an earlier stretch can now send
+   // the trip by the Kotdwar road instead, which is right but would take that stretch off the route)
+   const id=PP.last.cur.rows.filter(r=>!r.seg.plain&&!r.seg.virtual).pop().seg.id;by[id]=[88,88,88,88,88,88,88,88];
    S.v6={by,day0:d,model:'v6: test'};S.src='live';PP.render();
    const rows=PP.last.cur.rows.filter(r=>!r.seg.plain&&!r.seg.virtual).map(r=>[r.seg.id,r.score]);const why=document.getElementById('verdict').innerText;
    S.src=keep.src;S.v6=keep.v6;PP.render();return{rows,id,why};});

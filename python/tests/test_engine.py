@@ -17,14 +17,15 @@ class EngineParity(unittest.TestCase):
         cls.rp = read_json('data', 'replay_results.json')
 
     def test_network(self):
-        self.assertEqual(len(self.net.links), 75)
+        self.assertEqual(len(self.net.links), 77)  # 75 plus the foothills road Haridwar, Najibabad, Kashipur (2 plains links)
         self.assertEqual(len(self.net.hill()), 44)
         self.assertEqual(max(len(l['events']) for l in self.net.hill()), 15)
 
     def test_keys_match_app(self):
-        # the replay series were keyed by the app itself, so every link's weather key must be among them
+        # the replay series were keyed by the app itself, so every hill link's weather key must be among them; plains links
+        # carry no landslide score (rain is not used for them), and links added after the replay was recorded have none
         keys = set(self.rp['series']['2025-08-20/archive']['by'])
-        self.assertEqual(sorted(l['id'] for l in self.net.links.values() if l['key'] not in keys), [])
+        self.assertEqual(sorted(l['id'] for l in self.net.hill() if l['key'] not in keys), [])
 
     def test_replay_rows_match_app(self):
         n = 0
