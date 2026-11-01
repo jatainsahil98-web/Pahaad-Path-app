@@ -1063,7 +1063,7 @@ function renderTrip(M){
     const jam=seg.jam&&r.x>=1.3?'<div class="sp">'+t('jam')+': '+seg.jam.map(p=>esc(nm(p))).join(' · ')+'</div>':'';
     h+='<div class="seg"><div class="km"><b>'+Math.round(r.kmStart)+'</b>'+t('km')+'</div>'
       +'<div class="nm">'+esc(pname(r.from)+' → '+pname(r.to))+'</div>'+pill
-      +'<div class="rs">'+rs+'</div>'+tr+jam+spots+'</div>';
+      +'<div class="rs">'+rs+'</div>'+(!seg.plain&&l>=1&&typeof whyLine==='function'?whyLine(r):'')+tr+jam+spots+'</div>';
   });
   if(M.trip.footTo)h+='<div class="seg ft"><div class="km"><b>↑</b></div><div class="nm">'+esc(fill(t('foot_l'),{km:M.trip.footTo.km,h:pname(M.trip.footTo.head),t:fmtH(M.trip.footTo.h)}))+'</div></div>';
   $('panel').innerHTML=h;

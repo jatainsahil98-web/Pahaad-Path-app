@@ -240,13 +240,15 @@ body[data-pp-view="ops"] .topbar .brand,body[data-pp-view="proof"] .topbar .bran
   .fabs{right:max(12px,calc(50% - 428px))}
 }
 
+/* the Proof page's pill tabs are .seg[role="tablist"]: plain .seg is a stretch row in the trip (app.css), which must not
+   become sticky or pill-shaped (rows piled on top of each other while scrolling) */
 /* ================= v12: Control room and Proof as full pages (side rail on wide screens), Proof in three sections ================= */
-.seg{display:flex;gap:4px;padding:4px;margin:0 0 14px;background:color-mix(in srgb,var(--ink) 6%,var(--surface));border:1px solid var(--line);border-radius:999px;
+.seg[role="tablist"]{display:flex;gap:4px;padding:4px;margin:0 0 14px;background:color-mix(in srgb,var(--ink) 6%,var(--surface));border:1px solid var(--line);border-radius:999px;
   position:sticky;top:calc(var(--topbar-h,72px) + 6px);z-index:5;width:max-content;max-width:100%;overflow-x:auto;scrollbar-width:none}
-.seg::-webkit-scrollbar{display:none}
-.seg button{flex:none;border:0;background:none;border-radius:999px;padding:8px 16px;font:inherit;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;
+.seg[role="tablist"]::-webkit-scrollbar{display:none}
+.seg[role="tablist"] button{flex:none;border:0;background:none;border-radius:999px;padding:8px 16px;font:inherit;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;
   transition:background .2s var(--ease),color .2s}
-.seg button[aria-selected="true"]{background:var(--ink);color:var(--bg)}
+.seg[role="tablist"] button[aria-selected="true"]{background:var(--ink);color:var(--bg)}
 .psec{animation:pp-in .22s var(--ease)}
 .psec[hidden]{display:none}
 .psub{margin:0 0 12px}
@@ -412,3 +414,8 @@ html:lang(hi) .vb-chip small{font-size:12.5px}
 @media (min-width:900px){.vbar{left:calc(var(--rail-w,80px) + var(--panel-w,400px) + 24px);right:24px;bottom:24px;margin:0}}
 @media (prefers-reduced-motion: reduce){.vbar.live .vb-wave i{animation:none;height:12px}}
 .vh{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+/* the pinned section tabs: a hairline and soft shadow on their lower edge, so text scrolling under them reads as going
+   underneath instead of looking cut off or overlapping */
+.sheet .tabs{box-shadow:0 1px 0 var(--line),0 8px 10px -8px rgba(10,22,16,.22)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .sheet .tabs{box-shadow:0 1px 0 var(--line),0 8px 10px -8px rgba(0,0,0,.6)}}
+:root[data-theme="dark"] .sheet .tabs{box-shadow:0 1px 0 var(--line),0 8px 10px -8px rgba(0,0,0,.6)}

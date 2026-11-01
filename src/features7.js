@@ -45,13 +45,38 @@ const TR_KUMAON=new Set(['haldwani','kathgodam','nainital','bhimtal','bhowali','
 const TR_DHAM=new Set(['kedarnath','gaurikund','badrinath','gangotri','yamunotri','janki']);
 const TR_HELI=new Set(['kedarnath','gaurikund','sonprayag','guptkashi']);
 function trLink(k,label){return '<a class="btn" href="'+TR_LINKS[k]+'" target="_blank" rel="noopener noreferrer" title="'+esc(t('tr_open'))+'">'+esc(label)+' ↗</a>';}
-function trCard(title,body,acts){return '<div class="card tr"><h3>'+esc(title)+'</h3><p>'+esc(body)+'</p>'+(acts?'<div class="acts in">'+acts+'</div>':'')+'</div>';}
+/* ---------- layout (2.0 polish): a journey strip from the planned route, then the services grouped by where they are
+   used, each card with an icon and its booking link at the bottom, then how to choose. Every text and link is kept. ---------- */
+Object.assign(T.en,{
+  tr_j:'Your journey',tr_j_tr:'Train',tr_j_to:'to {r}',tr_j_rd:'Bus or shared jeep',tr_j_ft:'On foot',tr_j_ftx:'{km} km from {h}',tr_j_heli:'or helicopter in season',
+  tr_s_book:'Buses and trains',tr_s_hill:'In the hills',tr_s_go:'Before you go'
+});
+Object.assign(T.hi,{
+  tr_j:'आपकी यात्रा',tr_j_tr:'ट्रेन',tr_j_to:'{r} तक',tr_j_rd:'बस या साझा जीप',tr_j_ft:'पैदल',tr_j_ftx:'{h} से {km} किमी',tr_j_heli:'या मौसम में हेलिकॉप्टर',
+  tr_s_book:'बसें और ट्रेन',tr_s_hill:'पहाड़ों में',tr_s_go:'जाने से पहले'
+});
+const TR_IC={
+  train:'<rect x="5" y="3" width="14" height="13" rx="3"/><path d="M5 10h14M8 16l-2 4M16 16l2 4M7 20h10"/><path d="M9 13h.01M15 13h.01"/>',
+  bus:'<path d="M3 6a2 2 0 0 1 2-2h12.5a2 2 0 0 1 1.9 1.4L21 11v5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M3 11h18M8 4v7M13 4v7"/><circle cx="7" cy="17.5" r="1.7"/><circle cx="17" cy="17.5" r="1.7"/>',
+  jeep:'<path d="M3 16v-4l2-5h9l3 5h4v4z"/><path d="M8 12V7M13 12V7"/><circle cx="7.5" cy="17" r="2"/><circle cx="16.5" cy="17" r="2"/>',
+  taxi:'<path d="M5 11l1.5-4.5h11L19 11"/><rect x="3" y="11" width="18" height="6" rx="2"/><circle cx="7.5" cy="17.5" r="1.8"/><circle cx="16.5" cy="17.5" r="1.8"/><path d="M10 4h4"/>',
+  heli:'<path d="M3 4h14M10 4v3"/><path d="M5 12a5 4.5 0 0 1 10 0v2.5H5z"/><path d="M15 12h6M7 18l-1.5 2.5M13 18l1.5 2.5M4 20.5h13"/>',
+  reg:'<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h4"/>',
+  walk:'<circle cx="13" cy="4.5" r="1.8"/><path d="M10 21l2.2-7.5 3 3V21M8 12.5l3-5 4 2.2 2 3.5M12.2 13.5L10 9"/>',
+  warn:'<path d="M12 3.5l9.5 16.5h-19z"/><path d="M12 10v4.5M12 17.2h.01"/>',
+  info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.8h.01"/>',
+  rain:'<path d="M7 15.5a4.5 4.5 0 1 1 .9-8.9A5.5 5.5 0 0 1 18.5 8a3.8 3.8 0 0 1-.7 7.5"/><path d="M9 18.5l-1 2.5M13 18.5l-1 2.5M17 18.5l-1 2.5"/>'
+};
+const trIc=k=>'<svg class="tr-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+TR_IC[k]+'</svg>';
+function trCard(title,body,acts,ic){return '<div class="card tr">'+(ic?'<span class="tr-badge">'+trIc(ic)+'</span>':'')+'<h3>'+esc(title)+'</h3><p>'+esc(body)+'</p>'+(acts?'<div class="acts in">'+acts+'</div>':'')+'</div>';}
+function trSection(title,cards){return cards.length?'<section class="tr-sec"><h2 class="tr-sh">'+esc(title)+'</h2><div class="tr-grid">'+cards.join('')+'</div></section>':'';}
+function trStep(ic,title,sub){return '<li class="tr-step">'+trIc(ic)+'<span><b>'+esc(title)+'</b>'+(sub?'<small>'+esc(sub)+'</small>':'')+'</span></li>';}
 function renderTransport(){
   let el=$('v-transport');
   if(!el){el=document.createElement('section');el.id='v-transport';el.className=$('v-ops').className;el.hidden=true;$('v-ops').after(el);}
   el.hidden=false;
   const M=st.M;
-  if(!M||!M.cur||!M.trip){el.innerHTML='<div class="ops-h"><h2>'+t('tr_t')+'</h2></div><div class="card"><p>'+t('tr_none')+'</p><div class="acts in"><button class="btn pri" type="button" data-view="trip">'+t('tr_plan')+'</button></div></div>';return;}
+  if(!M||!M.cur||!M.trip){el.innerHTML='<div class="tr-page"><div class="tr-head"><h2>'+t('tr_t')+'</h2></div><div class="card tr-empty">'+trIc('bus')+'<p>'+t('tr_none')+'</p><div class="acts in"><button class="btn pri" type="button" data-view="trip">'+t('tr_plan')+'</button></div></div></div>';return;}
   const nodes=M.cur.nodes||[M.trip.from,M.trip.to],a=M.trip.from,b=M.trip.to;
   const kumaon=nodes.filter(id=>TR_KUMAON.has(id)).length>nodes.length/2;
   // railhead: the last station along the route (closest to the hills), else the station nearest the start
@@ -60,20 +85,31 @@ function renderTransport(){
   if(!rail){const A=NODE(a);if(A){let bd=1e9;TR_RAIL.forEach(id=>{const n=NODE(id);if(!n)return;const d=Math.hypot(n.lat-A.lat,n.lon-A.lon);if(d<bd){bd=d;rail=id;}});}}
   const hub=onRoute.length?onRoute[onRoute.length-1]:a;
   const hill=nodes.some(id=>{const n=NODE(id);return n&&n.k==='h';})||M.cur.rows.some(r=>!r.seg.plain);
+  const heli=TR_HELI.has(b)||nodes.some(id=>id==='kedarnath');
   const sc=M.cur.score|0,l=lvl(sc);
-  let h='<div class="ops-h"><h2>'+t('tr_t')+'</h2><p class="sub">'+esc(fill(t('tr_for'),{a:pname(a),b:pname(b)}))+'</p></div>';
-  if(st.src!=='none'&&hill&&l>=1)h+='<div class="card tr-warn l'+l+'"><p>'+esc(fill(t('tr_risk'),{l:t(LV[l]),s:sc}))+'</p></div>';
+  let h='<div class="tr-page"><div class="tr-head"><h2>'+t('tr_t')+'</h2><p class="sub">'+esc(fill(t('tr_for'),{a:pname(a),b:pname(b)}))+'</p></div>';
+  // journey strip: train to the railhead, road to the road head, the last part on foot (or by helicopter)
+  const ft=M.trip.footTo,trainLeg=rail&&rail!==a&&rail!==b,roadEnd=ft?ft.head:b;
+  const steps=[];
+  if(trainLeg)steps.push(trStep('train',t('tr_j_tr'),fill(t('tr_j_to'),{r:pname(rail)})));
+  steps.push(trStep(hill?'jeep':'bus',t('tr_j_rd'),pname(trainLeg?rail:a)+' → '+pname(roadEnd)));
+  if(ft)steps.push(trStep('walk',t('tr_j_ft'),fill(t('tr_j_ftx'),{km:ft.km,h:pname(ft.head)})+(heli?' · '+t('tr_j_heli'):'')));
+  h+='<div class="card tr-jr"><h3 class="tr-jt">'+t('tr_j')+'</h3><ol class="tr-steps">'+steps.join('')+'</ol></div>';
+  if(st.src!=='none'&&hill&&l>=1)h+='<div class="card tr-warn l'+l+'">'+trIc('warn')+'<p>'+esc(fill(t('tr_risk'),{l:t(LV[l]),s:sc}))+'</p></div>';
   const closed=(st.closures&&Array.isArray(st.closures.roads))?st.closures.roads.some(r=>(r.links||[]).some(id=>M.cur.rows.some(x=>x.seg.id===id))):false;
-  if(closed)h+='<div class="card tr-warn l2"><p>'+esc(t('tr_closed'))+'</p></div>';
-  h+='<div class="tr-grid">';
-  if(rail&&rail!==b)h+=trCard(fill(t('tr_train'),{r:pname(rail)}),t('tr_train_s'),trLink('irctc',t('tr_train_b')));
-  else h+=trCard(fill(t('tr_train'),{r:'—'}),fill(t('tr_train_none'),{r:pname(hub)}),'');
-  h+=trCard(t('tr_utc'),t('tr_utc_s'),trLink('utc',t('tr_utc_b')));
-  if(hill)h+=kumaon?trCard(t('tr_kmou'),t('tr_kmou_s'),''):trCard(t('tr_gmou'),t('tr_gmou_s'),trLink('gmou',t('tr_gmou_b')));
-  h+=trCard(t('tr_pvt'),t('tr_pvt_s'),trLink('redbus',t('tr_pvt_b')));
-  if(hill)h+=trCard(t('tr_jeep'),fill(t('tr_jeep_s'),{h:pname(hub)}),'');
-  if(TR_HELI.has(b)||nodes.some(id=>id==='kedarnath'))h+=trCard(t('tr_heli'),t('tr_heli_s'),trLink('heli',t('tr_heli_b')));
-  if(TR_DHAM.has(b))h+=trCard(t('tr_reg'),t('tr_reg_s'),trLink('reg',t('tr_reg_b')));
-  h+='</div><div class="card"><h3>'+t('tr_how')+'</h3><ul class="ul">'+t('tr_how_l').map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul><p class="note">'+t('tr_note')+'</p></div>';
+  if(closed)h+='<div class="card tr-warn l2">'+trIc('warn')+'<p>'+esc(t('tr_closed'))+'</p></div>';
+  const book=[],hills=[],before=[];
+  if(rail&&rail!==b)book.push(trCard(fill(t('tr_train'),{r:pname(rail)}),t('tr_train_s'),trLink('irctc',t('tr_train_b')),'train'));
+  else book.push(trCard(t('tr_j_tr'),fill(t('tr_train_none'),{r:pname(hub)}),'','train'));
+  book.push(trCard(t('tr_utc'),t('tr_utc_s'),trLink('utc',t('tr_utc_b')),'bus'));
+  if(hill)book.push(kumaon?trCard(t('tr_kmou'),t('tr_kmou_s'),'','bus'):trCard(t('tr_gmou'),t('tr_gmou_s'),trLink('gmou',t('tr_gmou_b')),'bus'));
+  book.push(trCard(t('tr_pvt'),t('tr_pvt_s'),trLink('redbus',t('tr_pvt_b')),'bus'));
+  if(hill)hills.push(trCard(t('tr_jeep'),fill(t('tr_jeep_s'),{h:pname(hub)}),'','jeep'));
+  if(heli)hills.push(trCard(t('tr_heli'),t('tr_heli_s'),trLink('heli',t('tr_heli_b')),'heli'));
+  if(TR_DHAM.has(b))before.push(trCard(t('tr_reg'),t('tr_reg_s'),trLink('reg',t('tr_reg_b')),'reg'));
+  h+=trSection(t('tr_s_book'),book)+trSection(t('tr_s_hill'),hills)+trSection(t('tr_s_go'),before);
+  const HOW=['bus','jeep','taxi','train','heli','rain'];
+  h+='<div class="card tr-how"><h3>'+t('tr_how')+'</h3><ul class="tr-hl">'+t('tr_how_l').map((x,i)=>'<li>'+trIc(HOW[i]||'info')+'<span>'+esc(x)+'</span></li>').join('')+'</ul>'
+    +'<p class="note tr-note">'+trIc('info')+'<span>'+t('tr_note')+'</span></p></div></div>';
   el.innerHTML=h;
 }
