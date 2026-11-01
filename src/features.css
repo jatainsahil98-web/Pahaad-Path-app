@@ -141,8 +141,7 @@ body.norisk .rk,body.norisk #planner{display:none}
 .tr-ic{width:22px;height:22px;flex:none}
 /* journey strip */
 .card.tr-jr{padding:14px 16px}
-.tr-jt{font-size:13px!important;text-transform:uppercase;letter-spacing:.06em!important;color:var(--muted);margin:0 0 10px!important}
-html[lang="hi"] .tr-jt{text-transform:none;letter-spacing:0!important;font-size:14px!important}
+.tr-jt{font-family:var(--body)!important;font-stretch:100%!important;font-size:13px!important;font-weight:600!important;letter-spacing:0!important;color:var(--muted);margin:0 0 12px!important}
 .tr-steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0}
 .tr-step{display:flex;align-items:flex-start;gap:12px;position:relative;padding:0 0 14px}
 .tr-step:last-child{padding-bottom:0}

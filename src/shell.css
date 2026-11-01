@@ -419,3 +419,33 @@ html:lang(hi) .vb-chip small{font-size:12.5px}
 .sheet .tabs{box-shadow:0 1px 0 var(--line),0 8px 10px -8px rgba(10,22,16,.22)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .sheet .tabs{box-shadow:0 1px 0 var(--line),0 8px 10px -8px rgba(0,0,0,.6)}}
 :root[data-theme="dark"] .sheet .tabs{box-shadow:0 1px 0 var(--line),0 8px 10px -8px rgba(0,0,0,.6)}
+
+/* ================= 2.0 polish: calmer labels, comfortable tap targets, the Control room names in full, the Proof tabs
+   on a solid bar. Brand marks (the CAUTION sign, the RECOMMENDED tag, the kilometre stones) keep their capitals. ================= */
+/* small labels in sentence case, in the body face: quieter than mono capitals and easier to read in Hindi */
+.sel span,.tm small,.fld>span,.presets .mut,.kp small{font-family:var(--body);font-size:12px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--muted)}
+/* trip actions: pills with the icon beside the label, wrapping onto a second line instead of squeezing the words */
+.sheet #acts{display:flex;flex-wrap:wrap;gap:8px}
+.sheet #acts .btn{flex:0 1 auto;flex-direction:row;min-height:42px;padding:0 15px;border-radius:999px;font-size:13.5px;white-space:nowrap;gap:7px}
+.sheet #acts .btn svg{width:17px;height:17px}
+/* tap targets of at least about 40 px */
+.lang button{min-width:44px;min-height:36px;padding:6px 12px;font-size:13px}
+.srcchip{padding:7px 2px;margin-top:1px}
+.sheet .tabs button{min-height:44px}
+.presets button,.presets .chip,.presets a{min-height:40px}
+input[type="checkbox"],input[type="radio"]{width:20px;height:20px;accent-color:var(--ink);flex:none}
+/* Control room grid: stretch names in full (two lines if needed) in a column that stays put while the hours scroll */
+.gr{grid-template-columns:minmax(150px,1.8fr) repeat(12,minmax(28px,1fr))}
+.grid.v6c .gr{grid-template-columns:minmax(150px,1.8fr) repeat(12,minmax(28px,1fr)) minmax(32px,1fr)}
+.gn{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.25;font-size:12px;padding:4px 10px 4px 2px;position:sticky;left:0;z-index:1;background:var(--surface)}
+.gr.gh>span:first-child{position:sticky;left:0;z-index:1;background:var(--surface)}
+.gc{min-height:30px}
+@media (max-width:520px){
+  .gr{grid-template-columns:136px repeat(12,30px)}
+  .grid.v6c .gr{grid-template-columns:136px repeat(12,30px) 34px}
+}
+/* Proof: the section tabs sit on a solid full-width bar, so the page scrolls under them, and all three fit a phone */
+.psec-bar{position:sticky;top:calc(var(--topbar-h,72px));z-index:5;background:var(--bg);padding:8px 16px 10px;margin:4px 0 6px;box-shadow:0 1px 0 var(--line),0 8px 10px -8px rgba(10,22,16,.22)}
+.psec-bar .seg[role="tablist"]{position:static;margin:0;width:100%;max-width:max-content}
+.psec-bar .seg[role="tablist"] button{padding:9px 14px;min-height:40px;font-size:14px}
+@media (max-width:440px){.psec-bar .seg[role="tablist"]{width:100%;max-width:none}.psec-bar .seg[role="tablist"] button{flex:1 1 auto;padding:9px 8px;font-size:13px}}
