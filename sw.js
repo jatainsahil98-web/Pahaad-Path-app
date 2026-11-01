@@ -1,7 +1,7 @@
 // Offline cache: the app is one file, so cache it and serve it when there is no signal. Weather stays network-first.
 // 2.0: the offline map files (tiles/*.pmtiles) are read with Range requests. When the user saved them ("Save map for
 // offline", a separate cache that survives app updates), the worker answers each Range from that saved copy.
-const C='pp-39ab69ebfe'; // install skips the HTTP cache so a new release never caches the old page
+const C='pp-403db0d151'; // install skips the HTTP cache so a new release never caches the old page
 const TILES='pp-tiles';
 self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(['./','index.html','manifest.webmanifest','icon.svg','icon-192.png','icon-512.png'].map(u=>new Request(u,{cache:'reload'})))).then(()=>self.skipWaiting()));});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==C&&k!==TILES).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});
